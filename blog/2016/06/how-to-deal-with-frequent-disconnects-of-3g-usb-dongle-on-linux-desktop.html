@@ -37,41 +37,37 @@
         </address>
 <p>In <a href="/category/linux.html">Linux</a>.</p>
 <p>tags: <a href="/tag/hardware.html">Hardware</a> <a href="/tag/linux.html">Linux</a> </p>
-</footer><!-- /.post-info -->      <p>One of the major issues on linux desktop these days has to do with 3G USB dongles/modems. In many countries like India, a USB dongle still remains a major way to access the Internet. The latest versions of <code class="highlighter-rouge">network-manager</code> has solved most of the issues relating to the basic recognition of these modems, but one major irritant still remains on Ubuntu 16.04 and a few other distros.<!--more--></p>
+</footer><!-- /.post-info -->      <p>One of the major issues on linux desktop these days has to do with 3G USB dongles/modems. In many countries like India, a USB dongle still remains a major way to access the Internet. The latest versions of <code>network-manager</code> has solved most of the issues relating to the basic recognition of these modems, but one major irritant still remains on Ubuntu 16.04 and a few other distros.<!--more--></p>
 <p>It so happens that many a times, the connection entirely vanishes from the network-manager applet menu on the top right. For example, if you hibernate your laptop and then wake it, the menu is no longer there. However, if you manually take out the dongle and re-insert, the modem is recognized and the menu reappears. If you want to avoid that manual re-insertion and want to do a “soft reset” instead, here is what you can do:</p>
 <ol>
 <li>
-<p>Send a reset signal to your usb modem:
-    ::: {.highlighter-rouge}
-    <code>{.highlight}
-     sudo usb_modeswitch -v 12d1 -p 1496 -R</code>
-    :::</p>
+<p>Send a reset signal to your usb modem:</p>
+<div class="highlight"><pre><span></span>sudo usb_modeswitch -v 12d1 -p 1496 -R
+</pre></div>
+
+
 </li>
 <li>
-<p>Send a modeswitch signal to your usb modem:
-    ::: {.highlighter-rouge}
-    <code>{.highlight}
-     sudo usb_modeswitch -v 12d1 -p 1496 -J</code>
-    :::</p>
+<p>Send a modeswitch signal to your usb modem:</p>
+<div class="highlight"><pre><span></span>sudo usb_modeswitch -v 12d1 -p 1496 -J
+</pre></div>
+
+
 </li>
 </ol>
-<p>The parameters, <code class="highlighter-rouge">-v</code> and <code class="highlighter-rouge">-p</code> stand for vendor code and product code respectively and you can find them by running <code class="highlighter-rouge">lsusb</code> command. For example, the below entry is for vendor code <code class="highlighter-rouge">12d1</code> (Huawei) and the product code is <code class="highlighter-rouge">1496</code>.</p>
-<p>::: {.highlighter-rouge}</p>
+<p>The parameters, <code>-v</code> and <code>-p</code> stand for vendor code and product code respectively and you can find them by running <code>lsusb</code> command. For example, the below entry is for vendor code <code>12d1</code> (Huawei) and the product code is <code>1496</code>.</p>
 <div class="highlight"><pre><span></span>Bus 001 Device 004: ID 12d1:1496 Huawei Technologies Co., Ltd. Broadband stick
 </pre></div>
 
 
-<p>:::</p>
-<p>Please remember that for modeswitch signal, the parameter -J is vendor specific and works for Huawei modems only, please run <code class="highlighter-rouge">man usb-modeswitch</code> to find out your vendor specific modeswitch control parameter. For instance, its -O for Sony and -L for Cisco control parameter.</p>
-<p>Of course, once you try these commands and find that they are working, you can add them as a shortcut to your <code class="highlighter-rouge">~/.bashrc</code> file. Something like this:</p>
-<p>::: {.highlighter-rouge}</p>
+<p>Please remember that for modeswitch signal, the parameter -J is vendor specific and works for Huawei modems only, please run <code>man usb-modeswitch</code> to find out your vendor specific modeswitch control parameter. For instance, its -O for Sony and -L for Cisco control parameter.</p>
+<p>Of course, once you try these commands and find that they are working, you can add them as a shortcut to your <code>~/.bashrc</code> file. Something like this:</p>
 <div class="highlight"><pre><span></span>alias &quot;reset_huawei=sudo usb_modeswitch -v 12d1 -p 1496 -R&quot;
 alias &quot;modeswitch_huawei=sudo usb_modeswitch -v 12d1 -p 1496 -J&quot;
 </pre></div>
 
 
-<p>:::</p>
-<p>Now, all you need to do is run <code class="highlighter-rouge">reset_huawei &amp;&amp; modeswitch_huawei</code> and that’s it! No need to manually re-insert the dongle anymore.</p>
+<p>Now, all you need to do is run <code>reset_huawei &amp;&amp; modeswitch_huawei</code> and that’s it! No need to manually re-insert the dongle anymore.</p>
     </div><!-- /.entry-content -->
 
   </article>

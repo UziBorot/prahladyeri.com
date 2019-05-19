@@ -42,96 +42,186 @@
 <p><img alt="Configure Credentials" src="/uploads/old/google-apis/configuration_steps.png"></p>
 <h3>III: Write your back-end app:</h3>
 <p>The most important thing to know before building your app is to install these dependencies:</p>
-<p>::: {.highlighter-rouge}</p>
 <div class="highlight"><pre><span></span>pip install flask google-api-python-client
 </pre></div>
 
 
-<p>:::</p>
 <p>You can replace flask with django, pylons or any other framework you use, but this tutorial and code example is based on flask. The principle of accessing the drive api should still apply, so you should be able to make use of this code.</p>
 <p>The first thing to do is create a flask object and handle the home page url. It could in fact be any other url in your app, but in this example, I’ve used the home page url (/) to do the OAuth authentication on behalf of the logged in user.</p>
-<figure class="highlight">
-    app = flask.Flask(__name__)
+<div class="highlight"><pre><span></span>app = flask.Flask(__name__)
 
-    @app.route('/')
-    def index():
-        credentials = get_credentials()
-        if credentials == False:
-            return flask.redirect(flask.url_for('oauth2callback'))
-        elif credentials.access_token_expired:
-            return flask.redirect(flask.url_for('oauth2callback'))
-        else:
-            print('now calling fetch')
-            all_files = fetch("'root' in parents and mimeType = 'application/vnd.google-apps.folder'", sort='modifiedTime desc')
-            s = ""
-            for file in all_files:
-                s += "%s, %s<br>" % (file['name'],file['id'])
-            return s
+@app.route(&#39;/&#39;)
+def index():
+    credentials = get_credentials()
+    if credentials == False:
+        return flask.redirect(flask.url_for(&#39;oauth2callback&#39;))
+    elif credentials.access_token_expired:
+        return flask.redirect(flask.url_for(&#39;oauth2callback&#39;))
+    else:
+        print(&#39;now calling fetch&#39;)
+        all_files = fetch(&quot;&#39;root&#39; in parents and mimeType = &#39;application/vnd.google-apps.folder&#39;&quot;, sort=&#39;modifiedTime desc&#39;)
+        s = &quot;&quot;
+        for file in all_files:
+            s += &quot;%s, %s&lt;br&gt;&quot; % (file[&#39;name&#39;],file[&#39;id&#39;])
+        return s
+</pre></div>
 
-</figure>
 
 <p>We first check whether we have the drive access credentials for the user locally stored in a file. This is done by the <code class="highlighter-rouge">get_credentials()</code> function that checks the local access token file credentials.json (not to be confused with client_id.json we downloaded earlier which is for developer credentials). Again, we are assuming a single user scenario here. If your drive app needs to authenticate with multiple users, you’ll have to store separate credentials.json for each logged-in user in the database, and access that through a session or something.</p>
 <p>Further, if credentials aren’t found locally or have expired, we direct them to <code class="highlighter-rouge">/oauth2callback</code>, so google will authenticate them and send us the token for accessing the drive, post which, we will put that token into the local file, credentials.json and redirect the user back to this index site. Finally, if the credentials are valid, we call the <code class="highlighter-rouge">fetch()</code> function that displays the list of all root folders in that user’s drive along with their IDs. Here is the code for <code class="highlighter-rouge">oauth2callback</code>:</p>
-<figure class="highlight">
-    @app.route('/oauth2callback')
-    def oauth2callback():
-        flow = client.flow_from_clientsecrets('client_id.json',
-                scope='https://www.googleapis.com/auth/drive',
-                redirect_uri=flask.url_for('oauth2callback', _external=True)) # access drive api using developer credentials
-        flow.params['include_granted_scopes'] = 'true'
-        if 'code' not in flask.request.args:
-            auth_uri = flow.step1_get_authorize_url()
-            return flask.redirect(auth_uri)
-        else:
-            auth_code = flask.request.args.get('code')
-            credentials = flow.step2_exchange(auth_code)
-            open('credentials.json','w').write(credentials.to_json()) # write access token to credentials.json locally
-            return flask.redirect(flask.url_for('index'))
+<div class="highlight"><pre><span></span>@app.route(&#39;/oauth2callback&#39;)
+def oauth2callback():
+    flow = client.flow_from_clientsecrets(&#39;client_id.json&#39;,
+            scope=&#39;https://www.googleapis.com/auth/drive&#39;,
+            redirect_uri=flask.url_for(&#39;oauth2callback&#39;, _external=True)) # access drive api using developer credentials
+    flow.params[&#39;include_granted_scopes&#39;] = &#39;true&#39;
+    if &#39;code&#39; not in flask.request.args:
+        auth_uri = flow.step1_get_authorize_url()
+        return flask.redirect(auth_uri)
+    else:
+        auth_code = flask.request.args.get(&#39;code&#39;)
+        credentials = flow.step2_exchange(auth_code)
+        open(&#39;credentials.json&#39;,&#39;w&#39;).write(credentials.to_json()) # write access token to credentials.json locally
+        return flask.redirect(flask.url_for(&#39;index&#39;))
+</pre></div>
 
-</figure>
 
 <p>Once you have the credentials locally (in the form of <code class="highlighter-rouge">credentials.json</code>), you can just use it to access the drive API. Thus, the result of this whole exercise is that only on first page load is the user redirected to google site to authenticate themselves. Once the app has the access token (credentials.json), its no longer required, the result is displayed directly on the page from then on. If all goes well, you should be able to see a screen such as this when you test this example app for the first time:</p>
 <p><img alt="Google OAuth Screen" src="/uploads/old/google-apis/oauth_screen.png"></p>
 <p>I’ve also included the functions to download and upload files to the drive as they will be very useful:</p>
-<figure class="highlight">
-    def download_file(file_id, output_file):
-        credentials = get_credentials()
-        http = credentials.authorize(httplib2.Http())
-        service = discovery.build('drive', 'v3', http=http)
-        #file_id = '0BwwA4oUTeiV1UVNwOHItT0xfa2M'
-        request = service.files().export_media(fileId=file_id,mimeType='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
-        #request = service.files().get_media(fileId=file_id)
+<div class="highlight"><pre><span></span>def download_file(file_id, output_file):
+    credentials = get_credentials()
+    http = credentials.authorize(httplib2.Http())
+    service = discovery.build(&#39;drive&#39;, &#39;v3&#39;, http=http)
+    #file_id = &#39;0BwwA4oUTeiV1UVNwOHItT0xfa2M&#39;
+    request = service.files().export_media(fileId=file_id,mimeType=&#39;application/vnd.openxmlformats-officedocument.spreadsheetml.sheet&#39;)
+    #request = service.files().get_media(fileId=file_id)
 
-        fh = open(output_file,'wb') #io.BytesIO()
-        downloader = MediaIoBaseDownload(fh, request)
-        done = False
-        while done is False:
-            status, done = downloader.next_chunk()
-            #print ("Download %d%%." % int(status.progress() * 100))
-        fh.close()
-        #return fh
+    fh = open(output_file,&#39;wb&#39;) #io.BytesIO()
+    downloader = MediaIoBaseDownload(fh, request)
+    done = False
+    while done is False:
+        status, done = downloader.next_chunk()
+        #print (&quot;Download %d%%.&quot; % int(status.progress() * 100))
+    fh.close()
+    #return fh
 
-    def update_file(file_id, local_file):
-        credentials = get_credentials()
-        http = credentials.authorize(httplib2.Http())
-        service = discovery.build('drive', 'v3', http=http)
-        # First retrieve the file from the API.
-        file = service.files().get(fileId=file_id).execute()
-        # File's new content.
-        media_body = MediaFileUpload(local_file, resumable=True)
-        # Send the request to the API.
-        updated_file = service.files().update(
-            fileId=file_id,
-            #body=file,
-            #newRevision=True,
-            media_body=media_body).execute()
+def update_file(file_id, local_file):
+    credentials = get_credentials()
+    http = credentials.authorize(httplib2.Http())
+    service = discovery.build(&#39;drive&#39;, &#39;v3&#39;, http=http)
+    # First retrieve the file from the API.
+    file = service.files().get(fileId=file_id).execute()
+    # File&#39;s new content.
+    media_body = MediaFileUpload(local_file, resumable=True)
+    # Send the request to the API.
+    updated_file = service.files().update(
+        fileId=file_id,
+        #body=file,
+        #newRevision=True,
+        media_body=media_body).execute()
+</pre></div>
 
-</figure>
 
 <hr>
 <p>I’ll leave the more comprehensive use of these functions as an exercise to the reader who wants to develop a more fully featured app out of this. Click the below link to download the <code class="highlighter-rouge">flask_drive_example.py</code> script for this example implementation from the Github gist:</p>
 <p><a class="btn btn-md btn-success" href="https://gist.githubusercontent.com/prahladyeri/0b92b9ca837a0f5474c732876220db78"> flask_drive_example.py</a></p><p>There are <a href="/blog/2016/12/how-to-create-google-drive-app-python-flask.html#disqus_thread">comments</a>.</p>                </article>
             </aside><!-- /#featured -->
+                <section id="content" class="body">
+                    <h1>Other articles</h1>
+                    <hr />
+                    <ol id="posts-list" class="hfeed">
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="/blog/2015/07/sqlalchemy-hack-convert-dict.html" rel="bookmark"
+                           title="Permalink to Sqlalchemy Hack - How to convert a table to dict on the fly">Sqlalchemy Hack - How to convert a table to dict on the fly</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2015-07-04T18:36:00+05:30">
+                Published: Sat 04 July 2015
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="/author/prahlad-yeri.html">Prahlad Yeri</a>
+        </address>
+<p>In <a href="/category/python.html">Python</a>.</p>
+<p>tags: <a href="/tag/sqlalchemy.html">SQLAlchemy</a> <a href="/tag/python.html">Python</a> </p>
+</footer><!-- /.post-info -->                <p>In on of my recent projects, I came across the need to develop a JSON based REST API to fetch data from the <code>sqlalchemy</code> objects. Now, the <code>Query</code> object is a great way to access data using the powerful <code>sqlalchemy orm</code>, but it doesn’t give any built-in way to …</p>
+                <a class="readmore" href="/blog/2015/07/sqlalchemy-hack-convert-dict.html">read more</a>
+<p>There are <a href="/blog/2015/07/sqlalchemy-hack-convert-dict.html#disqus_thread">comments</a>.</p>                </div><!-- /.entry-content -->
+            </article></li>
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="/blog/2015/02/how-to-host-flask-app-openshift.html" rel="bookmark"
+                           title="Permalink to How to host a Flask app on Openshift">How to host a Flask app on Openshift</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2015-02-06T18:30:00+05:30">
+                Published: Fri 06 February 2015
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="/author/prahlad-yeri.html">Prahlad Yeri</a>
+        </address>
+<p>In <a href="/category/python.html">Python</a>.</p>
+<p>tags: <a href="/tag/python.html">Python</a> <a href="/tag/flask.html">Flask</a> <a href="/tag/openshift.html">Openshift</a> </p>
+</footer><!-- /.post-info -->                <p><em>Note: This article may no longer be relevant as Red Hat has recently changed the openshift stack with docker and kubernetes.</em></p>
+<p><a href="https://www.openshift.com/">Openshift free tier</a> is an excellent way to host your python web app for staging or testing, and you can even host a low to medium traffic production site …</p>
+                <a class="readmore" href="/blog/2015/02/how-to-host-flask-app-openshift.html">read more</a>
+<p>There are <a href="/blog/2015/02/how-to-host-flask-app-openshift.html#disqus_thread">comments</a>.</p>                </div><!-- /.entry-content -->
+            </article></li>
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="/blog/2013/12/how-to-create-a-python-app-in-google-app-engine.html" rel="bookmark"
+                           title="Permalink to How to create a Python app in Google App Engine">How to create a Python app in Google App Engine</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2013-12-06T18:35:00+05:30">
+                Published: Fri 06 December 2013
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="/author/prahlad-yeri.html">Prahlad Yeri</a>
+        </address>
+<p>In <a href="/category/python.html">Python</a>.</p>
+<p>tags: <a href="/tag/google-app-engine.html">Google App Engine</a> </p>
+</footer><!-- /.post-info -->                <p>Whilst the <a href="https://developers.google.com/appengine/docs/python">official pythonic reference</a> for Google app engine is the way I learnt how to build my first GAE app, I found it a bit frustrating to go through <a href="https://developers.google.com/appengine/docs/python/#Python_Selecting_the_Python_runtime">each</a> and <a href="https://developers.google.com/appengine/docs/python/#Python_The_environment">every</a> link and understand large topics like caching and data stores in detail just to build a small …</p>
+                <a class="readmore" href="/blog/2013/12/how-to-create-a-python-app-in-google-app-engine.html">read more</a>
+<p>There are <a href="/blog/2013/12/how-to-create-a-python-app-in-google-app-engine.html#disqus_thread">comments</a>.</p>                </div><!-- /.entry-content -->
+            </article></li>
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="/blog/2013/11/how-to-generate-pdf-in-python-for-google-app-engine.html" rel="bookmark"
+                           title="Permalink to How to Generate PDFs in Python for Google App Engine">How to Generate PDFs in Python for Google App Engine</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2013-11-26T19:07:00+05:30">
+                Published: Tue 26 November 2013
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="/author/prahlad-yeri.html">Prahlad Yeri</a>
+        </address>
+<p>In <a href="/category/python.html">Python</a>.</p>
+<p>tags: <a href="/tag/google-app-engine.html">Google App Engine</a> <a href="/tag/python.html">Python</a> </p>
+</footer><!-- /.post-info -->                <p>One of my last projects based on google app engine and python involved storing form data in GAE datastore and generating PDF documents that the user can download. Whilst data storing was the easier part as google's big data API it is pretty <a href="https://developers.google.com/appengine/docs/python/datastore/">well documented</a>, the trickier aspect was to …</p>
+                <a class="readmore" href="/blog/2013/11/how-to-generate-pdf-in-python-for-google-app-engine.html">read more</a>
+<p>There are <a href="/blog/2013/11/how-to-generate-pdf-in-python-for-google-app-engine.html#disqus_thread">comments</a>.</p>                </div><!-- /.entry-content -->
+            </article></li>
+                </ol><!-- /#posts-list -->
+                </section><!-- /#content -->
         <section id="extras" class="body">
                 <div class="blogroll">
                         <h2>links</h2>

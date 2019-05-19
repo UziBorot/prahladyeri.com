@@ -35,21 +35,19 @@
         <address class="vcard author">
                 By                         <a class="url fn" href="/author/prahlad-yeri.html">Prahlad Yeri</a>
         </address>
-<p>In <a href="/category/uncategorized.html">Uncategorized</a>.</p>
+<p>In <a href="/category/php.html">PHP</a>.</p>
 
 </footer><!-- /.post-info -->      <p>It has been a few months since I've started working primarily in PHP and I am actually liking the language a lot! I like the simplicity and symmetry found in C style of solving problems, and PHP has got liberal amounts of that kind of resemblance. I have even come to terms with the clutter of all unorganized functions, considering all the positive aspects of PHP programming.<!--more--></p>
 <p>But an annoying incident happened today with PHP. I had been testing and developing my PHP app over the past few weeks now. Everything worked wonders really, until I deployed the code on client's staging server that is. One of the scripts started giving errors while running, and after some debugging, I found that these two lines were the culprit:</p>
-<p>``` {lang="php"}
-$result = $result-&gt;fetchAll()[0][0];  //doesn't work in PHP 5.3, only in 5.4!
-//$result = $result-&gt;fetchAll();$result=$result[0][0];  //works in both 5.3 and 5.4!</p>
-<div class="highlight"><pre><span></span>``` {lang=&quot;php&quot;}
+<div class="highlight"><pre><span></span>$result = $result-&gt;fetchAll()[0][0];  //doesn&#39;t work in PHP 5.3, only in 5.4!
+//$result = $result-&gt;fetchAll();$result=$result[0][0];  //works in both 5.3 and 5.4!
+
 $states = [&#39;QLD&#39;, &#39;SA&#39;, &#39;NT&#39;, &#39;WA&#39;];    //doesn&#39;t work in PHP 5.3!
 //$states = array(&#39;QLD&#39;, &#39;SA&#39;, &#39;NT&#39;, &#39;WA&#39;); //works in both 5.3 and 5.4!
 </pre></div>
 
 
-<p>The comments are the after-effects of my analysis, of course. The reason my code broke was that I was running PHP 5.4 and the client had PHP 5.3. I generally prefer programming short-cuts, so in the first instance, I used it for fetching the results of an sqlite table query.\
-<a href="http://stackoverflow.com/questions/742764/php-syntax-for-dereferencing-function-result">Turned out</a>, this way of directly de-referencing an array is not allowed in PHP 5.3! You need another place-holder variable to keep this value.</p>
+<p>The comments are the after-effects of my analysis, of course. The reason my code broke was that I was running PHP 5.4 and the client had PHP 5.3. I generally prefer programming short-cuts, so in the first instance, I used it for fetching the results of an sqlite table query. <a href="http://stackoverflow.com/questions/742764/php-syntax-for-dereferencing-function-result">Turned out</a>, this way of directly de-referencing an array is not allowed in PHP 5.3! You need another place-holder variable to keep this value.</p>
 <p>Now there is nothing wrong in breaking compatibility between PHP versions if it is REALLy crucial to implement a functionality. But for basic things like array declarations? Its a different matter that almost every other language nowadays allow de-referencing of arrays, but PHP doesn't. Buy why break compatibility all of a sudden? I was quite annoyed by this. Other languages like python do their utmost to keep existing code from breaking, and upgrades to newer versions are in a phased manner.</p>
 <p>Again in the second case, the array declaration synatx ([x, y, z, ...]) works only in 5.4 and not in 5.3. Now I can understand the frustrations of all the developers who were happy moving to python and python-based frameworks. For a language already suffering from defects such as lack of organization in its functions and class-libraries, the designers' strategy to break code compatibility between PHP versions only for aesthetic reasons (array(a,b,c) vs [a, b, c]) is bound to lose the confidence of its users sooner or later.</p>
     </div><!-- /.entry-content -->

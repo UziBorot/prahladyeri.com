@@ -2,7 +2,7 @@
 <html lang="english">
 <head>
         <meta charset="utf-8" />
-        <title>PHP vs node.js: The REAL statistics</title>
+        <title>Prahlad Yeri - Freelance Programmer - Node</title>
         <link rel="stylesheet" href="/theme/css/main.css" />
         <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Prahlad Yeri - Freelance Programmer Atom Feed" />
 </head>
@@ -17,16 +17,10 @@
                     <li><a href="/hire-me/">Hire Me</a></li>
                 </ul></nav>
         </header><!-- /#banner -->
-<section id="content" class="body">
-  <article>
-    <header>
-      <h1 class="entry-title">
-        <a href="/blog/2014/06/php-vs-node-js-real-statistics.html" rel="bookmark"
-           title="Permalink to PHP vs node.js: The REAL statistics">PHP vs node.js: The REAL statistics</a></h1>
-<a href="https://twitter.com/share" class="twitter-share-button" data-count="horizontal" data-via="prahladyeri">Tweet</a><script type="text/javascript" src="https://platform.twitter.com/widgets.js"></script>
-    </header>
 
-    <div class="entry-content">
+            <aside id="featured" class="body">
+                <article>
+                    <h1 class="entry-title"><a href="/blog/2014/06/php-vs-node-js-real-statistics.html">PHP vs node.js: The REAL statistics</a></h1>
 <footer class="post-info">
         <abbr class="published" title="2014-06-09T21:36:00+05:30">
                 Published: Mon 09 June 2014
@@ -37,7 +31,7 @@
         </address>
 <p>In <a href="/category/php.html">PHP</a>.</p>
 <p>tags: <a href="/tag/php.html">PHP</a> <a href="/tag/javascript.html">JavaScript</a> <a href="/tag/node.html">Node</a> </p>
-</footer><!-- /.post-info -->      <p>When it comes to web programming, I've always coded in ASP.NET or the LAMP technologies for most part of my life. Now, the new buzz in the city is <a href="https://en.wikipedia.org/wiki/Node.js">node.js</a>. It is a light-weight platform that runs javascript code on server-side and is said to improvise performance by using async I/O.<!--more--></p>
+</footer><!-- /.post-info --><p>When it comes to web programming, I've always coded in ASP.NET or the LAMP technologies for most part of my life. Now, the new buzz in the city is <a href="https://en.wikipedia.org/wiki/Node.js">node.js</a>. It is a light-weight platform that runs javascript code on server-side and is said to improvise performance by using async I/O.<!--more--></p>
 <p>The <a href="http://notes.ericjiang.com/posts/751">theory</a> suggests that synchronous or blocking model of I/O works something like this:</p>
 <p><a href="/uploads/2014/06/nodejs-comp.png"><img alt="Blocking I/O" class="alignnone size-full wp-image-3070" height="354" src="/uploads/old/nodejs-comp.png" width="506"></a></p>
 <p>I/O is typically the costliest part of a web transaction. When a request arrives to the apache web server, it passes it to PHP interpreter for scripting any dynamic contents. Now comes the tricky part - If the PHP script wants to read something from the disk/database or write to it, that is the slowest link in the chain. When you call PHP function file_get_contents(), the entire thread is blocked until the contents are retrieved! The server can't do anything until your script gets the file contents. Consider what happens when multiples of simultaneous requests are issued by different users to your server? They get queued, because no thread is available to do the job since they are all blocked in I/O!</p>
@@ -191,11 +185,8 @@ Complete requests:      2000
 <li><a href="http://notes.ericjiang.com/posts/751">http://notes.ericjiang.com/posts/751</a></li>
 <li><a href="http://nodejs.org">http://nodejs.org</a></li>
 <li><a href="https://code.google.com/p/node-js-vs-apache-php-benchmark/wiki/Tests">https://code.google.com/p/node-js-vs-apache-php-benchmark/wiki/Tests</a></li>
-</ol>
-    </div><!-- /.entry-content -->
-
-  </article>
-</section>
+</ol><p>There are <a href="/blog/2014/06/php-vs-node-js-real-statistics.html#disqus_thread">comments</a>.</p>                </article>
+            </aside><!-- /#featured -->
         <section id="extras" class="body">
                 <div class="blogroll">
                         <h2>links</h2>

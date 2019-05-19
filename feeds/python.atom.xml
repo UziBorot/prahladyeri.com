@@ -10,92 +10,394 @@
 &lt;p&gt;&lt;img alt="Configure Credentials" src="/uploads/old/google-apis/configuration_steps.png"&gt;&lt;/p&gt;
 &lt;h3&gt;III: Write your back-end app:&lt;/h3&gt;
 &lt;p&gt;The most important thing to know before building your app is to install these dependencies:&lt;/p&gt;
-&lt;p&gt;::: {.highlighter-rouge}&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;pip install flask google-api-python-client
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;:::&lt;/p&gt;
 &lt;p&gt;You can replace flask with django, pylons or any other framework you use, but this tutorial and code example is based on flask. The principle of accessing the drive api should still apply, so you should be able to make use of this code.&lt;/p&gt;
 &lt;p&gt;The first thing to do is create a flask object and handle the home page url. It could in fact be any other url in your app, but in this example, I’ve used the home page url (/) to do the OAuth authentication on behalf of the logged in user.&lt;/p&gt;
-&lt;figure class="highlight"&gt;
-    app = flask.Flask(__name__)
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;app = flask.Flask(__name__)
 
-    @app.route('/')
-    def index():
-        credentials = get_credentials()
-        if credentials == False:
-            return flask.redirect(flask.url_for('oauth2callback'))
-        elif credentials.access_token_expired:
-            return flask.redirect(flask.url_for('oauth2callback'))
-        else:
-            print('now calling fetch')
-            all_files = fetch("'root' in parents and mimeType = 'application/vnd.google-apps.folder'", sort='modifiedTime desc')
-            s = ""
-            for file in all_files:
-                s += "%s, %s&lt;br&gt;" % (file['name'],file['id'])
-            return s
+@app.route(&amp;#39;/&amp;#39;)
+def index():
+    credentials = get_credentials()
+    if credentials == False:
+        return flask.redirect(flask.url_for(&amp;#39;oauth2callback&amp;#39;))
+    elif credentials.access_token_expired:
+        return flask.redirect(flask.url_for(&amp;#39;oauth2callback&amp;#39;))
+    else:
+        print(&amp;#39;now calling fetch&amp;#39;)
+        all_files = fetch(&amp;quot;&amp;#39;root&amp;#39; in parents and mimeType = &amp;#39;application/vnd.google-apps.folder&amp;#39;&amp;quot;, sort=&amp;#39;modifiedTime desc&amp;#39;)
+        s = &amp;quot;&amp;quot;
+        for file in all_files:
+            s += &amp;quot;%s, %s&amp;lt;br&amp;gt;&amp;quot; % (file[&amp;#39;name&amp;#39;],file[&amp;#39;id&amp;#39;])
+        return s
+&lt;/pre&gt;&lt;/div&gt;
 
-&lt;/figure&gt;
 
 &lt;p&gt;We first check whether we have the drive access credentials for the user locally stored in a file. This is done by the &lt;code class="highlighter-rouge"&gt;get_credentials()&lt;/code&gt; function that checks the local access token file credentials.json (not to be confused with client_id.json we downloaded earlier which is for developer credentials). Again, we are assuming a single user scenario here. If your drive app needs to authenticate with multiple users, you’ll have to store separate credentials.json for each logged-in user in the database, and access that through a session or something.&lt;/p&gt;
 &lt;p&gt;Further, if credentials aren’t found locally or have expired, we direct them to &lt;code class="highlighter-rouge"&gt;/oauth2callback&lt;/code&gt;, so google will authenticate them and send us the token for accessing the drive, post which, we will put that token into the local file, credentials.json and redirect the user back to this index site. Finally, if the credentials are valid, we call the &lt;code class="highlighter-rouge"&gt;fetch()&lt;/code&gt; function that displays the list of all root folders in that user’s drive along with their IDs. Here is the code for &lt;code class="highlighter-rouge"&gt;oauth2callback&lt;/code&gt;:&lt;/p&gt;
-&lt;figure class="highlight"&gt;
-    @app.route('/oauth2callback')
-    def oauth2callback():
-        flow = client.flow_from_clientsecrets('client_id.json',
-                scope='https://www.googleapis.com/auth/drive',
-                redirect_uri=flask.url_for('oauth2callback', _external=True)) # access drive api using developer credentials
-        flow.params['include_granted_scopes'] = 'true'
-        if 'code' not in flask.request.args:
-            auth_uri = flow.step1_get_authorize_url()
-            return flask.redirect(auth_uri)
-        else:
-            auth_code = flask.request.args.get('code')
-            credentials = flow.step2_exchange(auth_code)
-            open('credentials.json','w').write(credentials.to_json()) # write access token to credentials.json locally
-            return flask.redirect(flask.url_for('index'))
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;@app.route(&amp;#39;/oauth2callback&amp;#39;)
+def oauth2callback():
+    flow = client.flow_from_clientsecrets(&amp;#39;client_id.json&amp;#39;,
+            scope=&amp;#39;https://www.googleapis.com/auth/drive&amp;#39;,
+            redirect_uri=flask.url_for(&amp;#39;oauth2callback&amp;#39;, _external=True)) # access drive api using developer credentials
+    flow.params[&amp;#39;include_granted_scopes&amp;#39;] = &amp;#39;true&amp;#39;
+    if &amp;#39;code&amp;#39; not in flask.request.args:
+        auth_uri = flow.step1_get_authorize_url()
+        return flask.redirect(auth_uri)
+    else:
+        auth_code = flask.request.args.get(&amp;#39;code&amp;#39;)
+        credentials = flow.step2_exchange(auth_code)
+        open(&amp;#39;credentials.json&amp;#39;,&amp;#39;w&amp;#39;).write(credentials.to_json()) # write access token to credentials.json locally
+        return flask.redirect(flask.url_for(&amp;#39;index&amp;#39;))
+&lt;/pre&gt;&lt;/div&gt;
 
-&lt;/figure&gt;
 
 &lt;p&gt;Once you have the credentials locally (in the form of &lt;code class="highlighter-rouge"&gt;credentials.json&lt;/code&gt;), you can just use it to access the drive API. Thus, the result of this whole exercise is that only on first page load is the user redirected to google site to authenticate themselves. Once the app has the access token (credentials.json), its no longer required, the result is displayed directly on the page from then on. If all goes well, you should be able to see a screen such as this when you test this example app for the first time:&lt;/p&gt;
 &lt;p&gt;&lt;img alt="Google OAuth Screen" src="/uploads/old/google-apis/oauth_screen.png"&gt;&lt;/p&gt;
 &lt;p&gt;I’ve also included the functions to download and upload files to the drive as they will be very useful:&lt;/p&gt;
-&lt;figure class="highlight"&gt;
-    def download_file(file_id, output_file):
-        credentials = get_credentials()
-        http = credentials.authorize(httplib2.Http())
-        service = discovery.build('drive', 'v3', http=http)
-        #file_id = '0BwwA4oUTeiV1UVNwOHItT0xfa2M'
-        request = service.files().export_media(fileId=file_id,mimeType='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
-        #request = service.files().get_media(fileId=file_id)
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;def download_file(file_id, output_file):
+    credentials = get_credentials()
+    http = credentials.authorize(httplib2.Http())
+    service = discovery.build(&amp;#39;drive&amp;#39;, &amp;#39;v3&amp;#39;, http=http)
+    #file_id = &amp;#39;0BwwA4oUTeiV1UVNwOHItT0xfa2M&amp;#39;
+    request = service.files().export_media(fileId=file_id,mimeType=&amp;#39;application/vnd.openxmlformats-officedocument.spreadsheetml.sheet&amp;#39;)
+    #request = service.files().get_media(fileId=file_id)
 
-        fh = open(output_file,'wb') #io.BytesIO()
-        downloader = MediaIoBaseDownload(fh, request)
-        done = False
-        while done is False:
-            status, done = downloader.next_chunk()
-            #print ("Download %d%%." % int(status.progress() * 100))
-        fh.close()
-        #return fh
+    fh = open(output_file,&amp;#39;wb&amp;#39;) #io.BytesIO()
+    downloader = MediaIoBaseDownload(fh, request)
+    done = False
+    while done is False:
+        status, done = downloader.next_chunk()
+        #print (&amp;quot;Download %d%%.&amp;quot; % int(status.progress() * 100))
+    fh.close()
+    #return fh
 
-    def update_file(file_id, local_file):
-        credentials = get_credentials()
-        http = credentials.authorize(httplib2.Http())
-        service = discovery.build('drive', 'v3', http=http)
-        # First retrieve the file from the API.
-        file = service.files().get(fileId=file_id).execute()
-        # File's new content.
-        media_body = MediaFileUpload(local_file, resumable=True)
-        # Send the request to the API.
-        updated_file = service.files().update(
-            fileId=file_id,
-            #body=file,
-            #newRevision=True,
-            media_body=media_body).execute()
+def update_file(file_id, local_file):
+    credentials = get_credentials()
+    http = credentials.authorize(httplib2.Http())
+    service = discovery.build(&amp;#39;drive&amp;#39;, &amp;#39;v3&amp;#39;, http=http)
+    # First retrieve the file from the API.
+    file = service.files().get(fileId=file_id).execute()
+    # File&amp;#39;s new content.
+    media_body = MediaFileUpload(local_file, resumable=True)
+    # Send the request to the API.
+    updated_file = service.files().update(
+        fileId=file_id,
+        #body=file,
+        #newRevision=True,
+        media_body=media_body).execute()
+&lt;/pre&gt;&lt;/div&gt;
 
-&lt;/figure&gt;
 
 &lt;hr&gt;
 &lt;p&gt;I’ll leave the more comprehensive use of these functions as an exercise to the reader who wants to develop a more fully featured app out of this. Click the below link to download the &lt;code class="highlighter-rouge"&gt;flask_drive_example.py&lt;/code&gt; script for this example implementation from the Github gist:&lt;/p&gt;
-&lt;p&gt;&lt;a class="btn btn-md btn-success" href="https://gist.githubusercontent.com/prahladyeri/0b92b9ca837a0f5474c732876220db78"&gt; flask_drive_example.py&lt;/a&gt;&lt;/p&gt;</content><category term="Flask"></category><category term="Google Drive"></category><category term="Python"></category></entry></feed>
+&lt;p&gt;&lt;a class="btn btn-md btn-success" href="https://gist.githubusercontent.com/prahladyeri/0b92b9ca837a0f5474c732876220db78"&gt; flask_drive_example.py&lt;/a&gt;&lt;/p&gt;</content><category term="Flask"></category><category term="Google Drive"></category><category term="Python"></category></entry><entry><title>Sqlalchemy Hack - How to convert a table to dict on the fly</title><link href="/blog/2015/07/sqlalchemy-hack-convert-dict.html" rel="alternate"></link><published>2015-07-04T18:36:00+05:30</published><updated>2015-07-04T18:36:00+05:30</updated><author><name>Prahlad Yeri</name></author><id>tag:None,2015-07-04:/blog/2015/07/sqlalchemy-hack-convert-dict.html</id><summary type="html">&lt;p&gt;In on of my recent projects, I came across the need to develop a JSON based REST API to fetch data from the &lt;code&gt;sqlalchemy&lt;/code&gt; objects. Now, the &lt;code&gt;Query&lt;/code&gt; object is a great way to access data using the powerful &lt;code&gt;sqlalchemy orm&lt;/code&gt;, but it doesn’t give any built-in way to …&lt;/p&gt;</summary><content type="html">&lt;p&gt;In on of my recent projects, I came across the need to develop a JSON based REST API to fetch data from the &lt;code&gt;sqlalchemy&lt;/code&gt; objects. Now, the &lt;code&gt;Query&lt;/code&gt; object is a great way to access data using the powerful &lt;code&gt;sqlalchemy orm&lt;/code&gt;, but it doesn’t give any built-in way to convert the result-set into a python &lt;code&gt;dict&lt;/code&gt;.&lt;!--more--&gt;&lt;/p&gt;
+&lt;p&gt;For instance, I have a &lt;code&gt;Professor&lt;/code&gt; table in my &lt;code&gt;models.py&lt;/code&gt;. Here is what I get when I query the &lt;code&gt;Professor&lt;/code&gt; model using &lt;code&gt;sqlalchemy&lt;/code&gt; ORM:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&amp;gt;&amp;gt;&amp;gt; session.query(models.Professor).all()
+2015-07-05 11:07:57,282 INFO sqlalchemy.engine.base.Engine SELECT professors.id AS professors_id, professors.name AS professors_name,
+partment, professors.email AS professors_email, professors.password AS professors_password, professors.phone AS professors_phone
+FROM professors
+2015-07-05 11:07:57,282 INFO sqlalchemy.engine.base.Engine ()
+[&amp;lt;Professor(name=`Albus Dumbledore`)&amp;gt;, &amp;lt;Professor(name=`Severus Snape`)&amp;gt;]
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;At the end, I got the two Professors’ name in a collection, but they are still &lt;code&gt;sqlalchemy&lt;/code&gt; objects. How can I convert it to a python dict, so that it can be deserialized to JSON or be used for any other purpose. To solve this, just add the below code to your &lt;code&gt;models.py&lt;/code&gt; module, and just call the &lt;code&gt;models.to_dict()&lt;/code&gt; method to convert an sqlalchemy models collection to a dict (or alternatively, call &lt;code&gt;models.from_dict()&lt;/code&gt; to build the model object collection from an existing dict!):&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;def to_dict(model_instance, query_instance=None):
+    if hasattr(model_instance, &amp;#39;__table__&amp;#39;):
+        return {c.name: str(getattr(model_instance, c.name)) for c in model_instance.__table__.columns}
+    else:
+        cols = query_instance.column_descriptions
+        return { cols[i][&amp;#39;name&amp;#39;] : model_instance[i]  for i in range(len(cols)) }
+
+def from_dict(dict, model_instance):
+    for c in model_instance.__table__.columns:
+        setattr(model_instance, c.name, dict[c.name])
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;The usage is as follows:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;q = dbsession.query(models.Application).filter(models.Application.id==id)
+professors = q.all()
+di = models.to_dict(professors) #for converting a single table resultset
+
+q = dbsession.query(models.Application)
+application = q.first()
+dd = models.to_dict(app)
+dd[&amp;#39;student&amp;#39;] = models.to_dict(application.student, q) #for converting a relationship object which refers to another table.
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;The reason we have to use a slightly different approach for the relationship objects (like &lt;code&gt;application.student&lt;/code&gt; which refers to the &lt;code&gt;student&lt;/code&gt; model) is that the instance doesn’t have an &lt;code&gt;__table__&lt;/code&gt; object which is required to build the dict. Hence, the query instance is passed. This is just one approach I’ve used to convert &lt;code&gt;sqlalchemy&lt;/code&gt; objects to &lt;code&gt;dict&lt;/code&gt;. If you have any other approach, please let me know.&lt;/p&gt;</content><category term="SQLAlchemy"></category><category term="Python"></category></entry><entry><title>How to host a Flask app on Openshift</title><link href="/blog/2015/02/how-to-host-flask-app-openshift.html" rel="alternate"></link><published>2015-02-06T18:30:00+05:30</published><updated>2015-02-06T18:30:00+05:30</updated><author><name>Prahlad Yeri</name></author><id>tag:None,2015-02-06:/blog/2015/02/how-to-host-flask-app-openshift.html</id><summary type="html">&lt;p&gt;&lt;em&gt;Note: This article may no longer be relevant as Red Hat has recently changed the openshift stack with docker and kubernetes.&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://www.openshift.com/"&gt;Openshift free tier&lt;/a&gt; is an excellent way to host your python web app for staging or testing, and you can even host a low to medium traffic production site …&lt;/p&gt;</summary><content type="html">&lt;p&gt;&lt;em&gt;Note: This article may no longer be relevant as Red Hat has recently changed the openshift stack with docker and kubernetes.&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://www.openshift.com/"&gt;Openshift free tier&lt;/a&gt; is an excellent way to host your python web app for staging or testing, and you can even host a low to medium traffic production site. Openshift provides several options (cartridges) for hosting including &lt;code&gt;python, php, node.js, etc.&lt;/code&gt; but &lt;code&gt;python&lt;/code&gt; being my favorite language and &lt;code&gt;Flask&lt;/code&gt; being a minimalist and flexible framework, this combination is what I usually end up with.&lt;!--more--&gt;&lt;/p&gt;
+&lt;h3&gt;Create an Openshift account&lt;/h3&gt;
+&lt;p&gt;In case you haven’t already, head over to &lt;a href="https://www.openshift.com/"&gt;Openshift&lt;/a&gt; and sign up for a free tier. You will be able to host at most three apps for each account. Openshift apps are hosted on &lt;code&gt;rhcloud.com&lt;/code&gt; domain and you’ll have to setup a subdomain first which will be part of your app url. For instance, if I register &lt;code&gt;prahladyeri.rhcloud.com&lt;/code&gt; subdomain, I can create the following apps with that:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;myflaskapp-prahladyeri.rhcloud.com
+myphpapp-prahladyeri.rhcloud.com
+blog-prahladyeri.rhcloud.com
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h3&gt;Install the necessary tools&lt;/h3&gt;
+&lt;p&gt;You will need the following:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;a href="git-scm.com/"&gt;Git&lt;/a&gt;: Your app resides in a git repository, so you’ll need git installed on your machine to push changes. App is deployed automatically once you push.&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://python.org"&gt;Python and Flask&lt;/a&gt;: Obviously, you are going to need them if you are building a Flask app.&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://rubygems.org/gems/rhc"&gt;Openshift rhc tool&lt;/a&gt;: This &lt;code&gt;ruby&lt;/code&gt; based tool is optional, only use it if you don’t want to use their online portal for creating apps or you aren’t familiar with ssh. Personally, I didn’t want to install &lt;code&gt;ruby&lt;/code&gt; on my machine just for this one purpose.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3&gt;Pull the remote repo&lt;/h3&gt;
+&lt;p&gt;Once you create a python app, Openshift will provide you a git repository url as follows:&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Openshift git url" src="/uploads/old/openshift-git-repo.png"&gt;&lt;/p&gt;
+&lt;p&gt;Now open your command line and pull this starter repo to your local machine:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;git clone &amp;lt;YOUR_SOURCE_URL&amp;gt; myFlaskApp
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Now, the remote repository will be cloned in the &lt;code&gt;myFlaskApp&lt;/code&gt; folder. Browse it to see the scaffolding.&lt;/p&gt;
+&lt;h3&gt;Add your flask app&lt;/h3&gt;
+&lt;p&gt;The scaffolding structure will be as follows:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;wsgi.py
+setup.py
+.openshift/..
+.settings/..
+wsgi/..         =&amp;gt; your python source files go here.
+wsgi/static..   =&amp;gt; your static folders viz css, img, fonts, et al. go here.
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;If the wsgi/ folder doesn’t exist, you’ll have to create it. Just modify the setup.py and add Flask and SQLAlchemy as your app dependencies along with your app name. This tells openshift to make sure that dependency packages are available whenever you push any code changes.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;setuptools&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;setup&lt;/span&gt;
+
+&lt;span class="n"&gt;setup&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;name&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;myFlaskApp&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+      &lt;span class="n"&gt;version&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;1.0&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+      &lt;span class="n"&gt;description&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;myFlaskApp&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+      &lt;span class="n"&gt;author&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Prahlad Yeri&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+      &lt;span class="n"&gt;author_email&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;prahladyeri@yahoo.com&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+      &lt;span class="n"&gt;url&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;http://www.python.org/sigs/distutils-sig/&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;
+      &lt;span class="n"&gt;install_requires&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Flask==0.10.1&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;SQLAlchemy==0.9.8&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;],&lt;/span&gt;
+     &lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Now, create a text file named &lt;code&gt;application&lt;/code&gt; in the wsgi/ folder with the following contents:&lt;/p&gt;
+&lt;table class="highlighttable"&gt;&lt;tr&gt;&lt;td class="linenos"&gt;&lt;div class="linenodiv"&gt;&lt;pre&gt; 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12&lt;/pre&gt;&lt;/div&gt;&lt;/td&gt;&lt;td class="code"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="ch"&gt;#!/usr/bin/python&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;os&lt;/span&gt;
+
+&lt;span class="n"&gt;virtenv&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;environ&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;OPENSHIFT_PYTHON_DIR&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;/virtenv/&amp;#39;&lt;/span&gt;
+&lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;environ&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;PYTHON_EGG_CACHE&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;join&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;virtenv&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;lib/python2.7/site-packages&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="n"&gt;virtualenv&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;path&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;join&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;virtenv&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;bin/activate_this.py&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="k"&gt;try&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="nb"&gt;execfile&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;virtualenv&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="nb"&gt;dict&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="vm"&gt;__file__&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="n"&gt;virtualenv&lt;/span&gt;&lt;span class="p"&gt;))&lt;/span&gt;
+&lt;span class="k"&gt;except&lt;/span&gt; &lt;span class="ne"&gt;IOError&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="k"&gt;pass&lt;/span&gt;
+
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;myFlaskApp&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;app&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="n"&gt;application&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+
+&lt;p&gt;This is a configuration file that tells openshift where your Flask app script resides. Now create a python file called myFlaskApp.py, this will be your HelloWorld script:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;flask&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;flask&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;Flask&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;flask&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;request&lt;/span&gt;
+
+&lt;span class="n"&gt;app&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;Flask&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="vm"&gt;__name__&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="nd"&gt;@app.route&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;/&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;home&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
+    &lt;span class="k"&gt;return&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Hello World&amp;quot;&lt;/span&gt;
+
+&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="vm"&gt;__name__&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;__main__&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="n"&gt;app&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;run&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;debug&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;True&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;The last part of the code (app.run) is there so that you may test the Flask app by running this script on your local machine before pushing these changes.&lt;/p&gt;
+&lt;h3&gt;Push your changes&lt;/h3&gt;
+&lt;p&gt;All that is left to be done now is committing your changes and pushing them to openshift:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;git add .
+git commit -m &amp;quot;Initial commit for myFlaskApp&amp;quot;
+git push origin master
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;h3&gt;Voila! You are done&lt;/h3&gt;
+&lt;p&gt;Wasn’t it almost as easy as deploying a &lt;code&gt;php&lt;/code&gt; script on your web host? If everything goes right, your Flask app will be hosted on &lt;code&gt;http://myFlaskApp-mydomain.rhcloud.com/&lt;/code&gt;. Visit your app link and check it out.&lt;/p&gt;
+&lt;h3&gt;Few important things&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;In case you aren’t familiar about how git over ssl works, the remote machine authenticates your machine using an SSL public key you have already provided them. So if this is your fist time, you’ll have to generate a private-public key pair (using ssh in linux or putty on windows). After that, you’ll have to update your public key to Openshift, so they can authenticate your machine. You can add it using the Settings menu on the Openshift portal.&lt;/li&gt;
+&lt;li&gt;Its very important that all your static files reside in &lt;strong&gt;wsgi/static&lt;/strong&gt; folder and that folder only. Openshift uses that path by default. But in case you are really stuck with using &lt;code&gt;/css&lt;/code&gt; and &lt;code&gt;/js&lt;/code&gt; in your existing app, as a solution you can clear the &lt;code&gt;static_url_path&lt;/code&gt; in your flask app as follows:&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;app = Flask(__name__, static_url_path=&amp;#39;&amp;#39;, static_folder=&amp;#39;static&amp;#39;)
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Refer to this Openshift &lt;a href="https://blog.openshift.com/build-your-app-on-openshift-using-flask-sqlalchemy-and-postgresql-92/"&gt;tutorial&lt;/a&gt; for more details.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Make the most of SSH. Some times, you may want to connect with the remote server using secured shell (ssh/putty) for troubleshooting, viewing logs, etc. Your SSH url is included in your git source url. So, if your git url is of the form:&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;ssh://500XXXXXXXXXXXX01061a@prahladyeri-inn.rhcloud.com/~/git/prahladyeri.git/
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Just remove the &lt;code&gt;ssh://&lt;/code&gt; from the beginning and the other things after the domain, so the SSH host url becomes:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;500XXXXXXXXXXXX01061a@prahladyeri-inn.rhcloud.com
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;em&gt;References:&lt;/em&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://blog.openshift.com/build-your-app-on-openshift-using-flask-sqlalchemy-and-postgresql-92/"&gt;Build an app using Flask, SQLAlchemy and PostgreSQL&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://rubygems.org/gems/rhc"&gt;Openshift rhc tool&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.openshift.com/"&gt;Openshift Homepage&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</content><category term="Python"></category><category term="Flask"></category><category term="Openshift"></category></entry><entry><title>How to create a Python app in Google App Engine</title><link href="/blog/2013/12/how-to-create-a-python-app-in-google-app-engine.html" rel="alternate"></link><published>2013-12-06T18:35:00+05:30</published><updated>2013-12-06T18:35:00+05:30</updated><author><name>Prahlad Yeri</name></author><id>tag:None,2013-12-06:/blog/2013/12/how-to-create-a-python-app-in-google-app-engine.html</id><summary type="html">&lt;p&gt;Whilst the &lt;a href="https://developers.google.com/appengine/docs/python"&gt;official pythonic reference&lt;/a&gt; for Google app engine is the way I learnt how to build my first GAE app, I found it a bit frustrating to go through &lt;a href="https://developers.google.com/appengine/docs/python/#Python_Selecting_the_Python_runtime"&gt;each&lt;/a&gt; and &lt;a href="https://developers.google.com/appengine/docs/python/#Python_The_environment"&gt;every&lt;/a&gt; link and understand large topics like caching and data stores in detail just to build a small …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Whilst the &lt;a href="https://developers.google.com/appengine/docs/python"&gt;official pythonic reference&lt;/a&gt; for Google app engine is the way I learnt how to build my first GAE app, I found it a bit frustrating to go through &lt;a href="https://developers.google.com/appengine/docs/python/#Python_Selecting_the_Python_runtime"&gt;each&lt;/a&gt; and &lt;a href="https://developers.google.com/appengine/docs/python/#Python_The_environment"&gt;every&lt;/a&gt; link and understand large topics like caching and data stores in detail just to build a small hello world pythonic app in Google App Engine. What I wanted was a quick and dirty tutorial that let me build a small app first, and then let me improvise upon the areas that I needed to dig deeper.&lt;!--more--&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="/uploads/old/gae_python.png"&gt;&lt;img alt="How to Create a Pythonic app in Google App Engine" class="alignnone wp-image-301" height="150" src="/uploads/old/gae_python.png" width="150"&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;I couldn't find such a tutorial anywhere, so I'm writing this one.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Setup your Environment:&lt;/strong&gt; Download and install &lt;a href="http://www.python.org/getit/releases/2.7/"&gt;python 2.7&lt;/a&gt; for your platform, if you haven't done so already (as of this writing, only 2.5 and 2.7 versions are supported) . Then, download and install the GAE API from &lt;a href="https://developers.google.com/appengine/downloads#Google_App_Engine_SDK_for_Python"&gt;here&lt;/a&gt;. MSI setups are available for windows platform. For linux, you can just unzip into a local folder like '\~/programs/'. The zip file will create a subdir called 'google_appengine'. Practically, the only two python scripts you are ever going to need to develop a GAE app are:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code&gt;dev\_appserver.py&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code&gt;appcfg.py&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Register your app on appspot.com:&lt;/strong&gt; The next step is to register your subdomain on GAE by visiting &lt;a href="https://appengine.google.com/"&gt;https://appengine.google.com&lt;/a&gt;. Once you register your app there, you will get a subdomain called &lt;strong&gt;http://&lt;em&gt;your-app-id&lt;/em&gt;.appspot.com&lt;/strong&gt;. There are also options for redirecting your custom domain such as &lt;strong&gt;www.mydomain.com&lt;/strong&gt; to your app subdomain.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Create your app on the local machine:&lt;/strong&gt; This is as simple as creating a folder on your machine such as \~/source/foo in linux or C:\source\foo in windows. Then just create a text file named app.yaml  with below contents inside this folder:&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;application&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="n"&gt;your&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;app&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;id&lt;/span&gt;
+&lt;span class="n"&gt;version&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;
+&lt;span class="n"&gt;runtime&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="n"&gt;python27&lt;/span&gt;
+&lt;span class="n"&gt;api_version&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="mi"&gt;1&lt;/span&gt;
+&lt;span class="n"&gt;threadsafe&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="kc"&gt;true&lt;/span&gt;
+
+&lt;span class="n"&gt;handlers&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;
+&lt;span class="o"&gt;-&lt;/span&gt; &lt;span class="n"&gt;url&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="o"&gt;/.*&lt;/span&gt;
+  &lt;span class="n"&gt;script&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt; &lt;span class="n"&gt;helloworld&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="na"&gt;application&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Note that &lt;strong&gt;your-app-id&lt;/strong&gt; is the name that you just registered for yourself, make sure that it is typed correctly. version parameter refers to the version of your app, while api_version is the version of GAE SDK used to run this app. The line "script: helloworld.application" indicates that this wsgi handler will be invoked for your app.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Create the wsgi handler:&lt;/strong&gt; This is as simple as creating a python file named "helloworld.py" in the same folder as above, and add below contents to it:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;webapp2&lt;/span&gt;
+
+&lt;span class="k"&gt;class&lt;/span&gt; &lt;span class="nc"&gt;MainPage&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;webapp2&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;RequestHandler&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+
+    &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;get&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="p"&gt;):&lt;/span&gt;
+        &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;response&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;headers&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Content-Type&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;text/plain&amp;#39;&lt;/span&gt;
+        &lt;span class="bp"&gt;self&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;response&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;write&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;Hello, World!&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="n"&gt;application&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;webapp2&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;WSGIApplication&lt;/span&gt;&lt;span class="p"&gt;([&lt;/span&gt;
+    &lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;/&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;MainPage&lt;/span&gt;&lt;span class="p"&gt;),&lt;/span&gt;
+&lt;span class="p"&gt;],&lt;/span&gt; &lt;span class="n"&gt;debug&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="bp"&gt;True&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Test your app: &lt;/strong&gt;To test your app, open up your terminal and change directory to your GAE installation folder (alternatively, add the GAE installation folder to your PATH/\$PATH environment variable to avoid doing this each time), and then type the below command:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;python dev_appserver.py ~/source/foo
+#OR on windows:
+python dev_appserver.py C:\source\foo
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Deploy your app:&lt;/strong&gt; Want to host this app on GAE and check it out? Just fire up your terminal as described above and issue this command:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;python appcfg.py update ~/source/foo
+#OR on windows:
+python appcfg.py update C:\source\foo
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Test your app:&lt;/strong&gt; The above command should host your app on your appspot subdomain (It will ask for your google username/password before doing so). Once the app is successfully hosted, you can check it out by visiting http://your-app-id.appspot.com.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Furthur reading:&lt;/strong&gt; Now that you have a working app, you can actually visit the official reference to read more about:&lt;ol&gt;
+&lt;li&gt;&lt;a href="https://developers.google.com/appengine/docs/python/gettingstartedpython27/handlingforms"&gt;webapp2&lt;/a&gt;: The pythonic web framework used to handle requests and generate responses.&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://developers.google.com/appengine/docs/python/#Python_The_Datastore_and_services"&gt;Datastore&lt;/a&gt;: The big data storage feature that GAE provides your app to store its data.&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://developers.google.com/appengine/docs/python/#Python_Quotas_and_limits"&gt;Quotas and Limits&lt;/a&gt;: Learn about the various limits that google sets for your app to access resources (Don't worry, they are enough to suffice a small to medium scale app).&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://developers.google.com/appengine/docs/python/#Python_App_caching"&gt;App caching&lt;/a&gt;: Learn how to take advantage of various caching mechanisms in GAE to speed up your app.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;/ol&gt;</content><category term="Google App Engine"></category></entry><entry><title>How to Generate PDFs in Python for Google App Engine</title><link href="/blog/2013/11/how-to-generate-pdf-in-python-for-google-app-engine.html" rel="alternate"></link><published>2013-11-26T19:07:00+05:30</published><updated>2013-11-26T19:07:00+05:30</updated><author><name>Prahlad Yeri</name></author><id>tag:None,2013-11-26:/blog/2013/11/how-to-generate-pdf-in-python-for-google-app-engine.html</id><summary type="html">&lt;p&gt;One of my last projects based on google app engine and python involved storing form data in GAE datastore and generating PDF documents that the user can download. Whilst data storing was the easier part as google's big data API it is pretty &lt;a href="https://developers.google.com/appengine/docs/python/datastore/"&gt;well documented&lt;/a&gt;, the trickier aspect was to …&lt;/p&gt;</summary><content type="html">&lt;p&gt;One of my last projects based on google app engine and python involved storing form data in GAE datastore and generating PDF documents that the user can download. Whilst data storing was the easier part as google's big data API it is pretty &lt;a href="https://developers.google.com/appengine/docs/python/datastore/"&gt;well documented&lt;/a&gt;, the trickier aspect was to convert it to PDF using python.&lt;!--more--&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="/uploads/old/pdf.png"&gt;&lt;img alt="pdf" class="alignnone wp-image-164" height="108" src="/uploads/old/pdf-300x300.png" width="108"&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;This was especially difficult in the face of GAE not providing an easy mechanism for disk writing that most PDF generation libraries require. To share my endeavors, I'm writing this post about how to generate pdfs in python for Google app engine.&lt;/p&gt;
+&lt;p&gt;The solution I came across was, as far as I know, the only possible way of generating PDFs in python! There are about three PDF generation utilities in python, each differing in terms of their area of usage:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="http://www.reportlab.com"&gt;&lt;strong&gt;Reportlab PDF library&lt;/strong&gt;&lt;/a&gt;: This is the ideal library, if you want to create a pdf from scratch. It provides objects like canvas, pdfmetrics and ttfonts that help you with stuff like adding lines, shapes, images and paragraphs. This is pretty much comparable to the comprehensive iText java library or its C# port, iTextSharp. Their &lt;a href="http://www.reportlab.com/software/documentation/"&gt;documentation&lt;/a&gt; is also good.&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://www.xhtml2pdf.com/"&gt;&lt;strong&gt;xhtml2pdf&lt;/strong&gt;&lt;/a&gt;: If you want to simply convert an existing html document to pdf, the xhtml2pdf library comes in very handy.&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://pypi.python.org/pypi/pyPdf"&gt;&lt;strong&gt;pyPDF&lt;/strong&gt;&lt;/a&gt;: If all you want to do is merge two PDFs page by page quickly, this library is the way to go.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;I figured out after researching the above three libraries that a combination of xhtml2pdf and pyPDF is what I needed. Since I already had the html document template ready, I just put placeholders for my form data like __name__ , __occupation__, etc so that I can fill these before converting to PDF.&lt;/p&gt;
+&lt;p&gt;Now, I could fill these values from my python program, but the real challenge was storing the resulting PDF to disk, which was not allowed by google app engine! Turns out, we don't need to actually store anything to disk. By sending the CreatePDF() output to a &lt;a href="http://docs.python.org/library/stringio.html"&gt;StringIO&lt;/a&gt; object, which is stored in memory instead of the filesystem, I could bypass the need to actually store anything to disk!!&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;f=open(&amp;#39;template.htm&amp;#39;,&amp;#39;r&amp;#39;)
+sourceHtml = unicode(f.read(), errors=&amp;#39;ignore&amp;#39;)
+f.close()
+sourceHtml = template.render(tvals)
+sourceHtml = sourceHtml.replace(&amp;#39;__name__&amp;#39;,sname)
+sourceHtml = sourceHtml.replace(&amp;#39;__address__&amp;#39;,saddress)
+sourceHtml = sourceHtml.replace(&amp;#39;__occupation__&amp;#39;,will.occupation)
+packet = StringIO.StringIO() #write to memory
+pisa.CreatePDF(sourceHtml,dest=packet)
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Now, it would have been simple to just self.response.write(packet) to send this pdf download to the user, but in my case, I had to merge this generated pdf with another template-pdf which contained information like symbols, images and page-numbers that for some reason, could not be placed into the html document. So, I had to create a PdfFileReader object (coutesy of PyPDF library!), and then merge each page of my generated document with this template document. Then where do I write this merged output? Any guesses? - another StringIO object!! And then finally, write this StringIO object to self.response, so the user can download it.&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;packet.seek(0)
+new =PdfFileReader(packet) #generated pdf
+template = PdfFileReader(file(&amp;quot;template.pdf&amp;quot;, &amp;quot;rb&amp;quot;)) #template pdf
+output=PdfFileWriter() #writer for the merged pdf
+for i in range(new.getNumPages()):
+    page=template.getPage(i)
+    page.mergePage(new.getPage(i))
+    output.addPage(page)
+
+outputStream = StringIO.StringIO()
+output.write(outputStream) #write merged output to the StringIO object
+
+self.response.headers[&amp;#39;Content-Type&amp;#39;] = &amp;#39;application/pdf&amp;#39;
+fname = (will.name if mirror==&amp;#39;n&amp;#39; else will.partner)
+self.response.headers[&amp;#39;Content-Disposition&amp;#39;] = &amp;#39;attachment; filename=&amp;#39; + str(fname).replace(&amp;#39; &amp;#39;,&amp;#39;_&amp;#39;) + &amp;#39;.pdf&amp;#39;
+self.response.write(outputStream.getvalue())
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Remember to add and include the below libraries before you do this:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;StringIO&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;xhtml2pdf.pisa&lt;/span&gt; &lt;span class="kn"&gt;as&lt;/span&gt; &lt;span class="nn"&gt;pisa&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;pyPdf&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;PdfFileWriter&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;PdfFileReader&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;reportlab.pdfgen&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;canvas&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;reportlab.lib.pagesizes&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;A4&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;reportlab.pdfbase&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;pdfmetrics&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt;&lt;span class="n"&gt;ttfonts&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;em&gt;References:&lt;/em&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://developers.google.com/appengine/docs/python/datastore/"&gt;https://developers.google.com/appengine/docs/python/datastore/&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://www.reportlab.com/software/documentation/"&gt;http://www.reportlab.com/software/documentation/&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://www.xhtml2pdf.com/"&gt;http://www.xhtml2pdf.com/&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://pypi.python.org/pypi/pyPdf"&gt;https://pypi.python.org/pypi/pyPdf&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://stackoverflow.com/questions/4899885/how-to-set-any-font-in-reportlab-canvas-in-python"&gt;http://stackoverflow.com/questions/4899885/how-to-set-any-font-in-reportlab-canvas-in-python&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://stackoverflow.com/questions/13522638/paginating-in-pisa-xhtml2pdf-just-repeats-last-page"&gt;http://stackoverflow.com/questions/13522638/paginating-in-pisa-xhtml2pdf-just-repeats-last-page&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://docs.python.org/library/stringio.html"&gt;http://docs.python.org/library/stringio.html&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</content><category term="Google App Engine"></category><category term="Python"></category></entry></feed>

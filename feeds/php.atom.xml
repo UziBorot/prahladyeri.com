@@ -165,14 +165,12 @@
 &lt;p&gt;&lt;img alt="Configure Credentials" src="/uploads/old/google-apis/configuration_steps_generic1.png"&gt;&lt;/p&gt;
 &lt;h3&gt;III: Write your back-end app:&lt;/h3&gt;
 &lt;p&gt;First of all, you have to add the dependency of google-api php library to your project. If you are using composer, all you need to do is add this package to the composer.json:&lt;/p&gt;
-&lt;p&gt;::: {.highlighter-rouge}&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&amp;quot;require&amp;quot;: {
   &amp;quot;google/apiclient&amp;quot;: &amp;quot;^2.0&amp;quot;
 }
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;:::&lt;/p&gt;
 &lt;p&gt;If you don’t use composer, you can just download the latest version of library from &lt;a href="https://github.com/google/google-api-php-client"&gt;their repo&lt;/a&gt;, and just &lt;code class="highlighter-rouge"&gt;require_once&lt;/code&gt; it in your code like this:&lt;/p&gt;
 &lt;p&gt;::: {.highlighter-rouge}&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;require_once &amp;#39;/path/to/google-api-php-client/vendor/autoload.php&amp;#39;;
@@ -232,7 +230,173 @@
 &lt;p&gt;I’ll leave the more comprehensive use of this API as an exercise to the reader who wants to develop a more fully featured app out of this. Click the below link to download the source for this example implementation from the Github repo:&lt;/p&gt;
 &lt;p&gt;&lt;a class="btn btn-md btn-success" href="https://github.com/prahladyeri/php-drive-example/"&gt; php_drive_example&lt;/a&gt;&lt;/p&gt;
 &lt;p&gt;Note:&lt;/p&gt;
-&lt;p&gt;If you are getting an SSL certificate error while testing this on Windows, have a look at &lt;a href="http://stackoverflow.com/questions/29822686/curl-error-60-ssl-certificate-unable-to-get-local-issuer-certificate"&gt;this&lt;/a&gt;.&lt;/p&gt;</content><category term="Google Drive"></category><category term="PHP"></category></entry><entry><title>Some Wordpress tips and tricks</title><link href="/blog/2013/11/some-wordpress-tips-and-tricks.html" rel="alternate"></link><published>2013-11-23T12:19:00+05:30</published><updated>2013-11-23T12:19:00+05:30</updated><author><name>Prahlad Yeri</name></author><id>tag:None,2013-11-23:/blog/2013/11/some-wordpress-tips-and-tricks.html</id><summary type="html">&lt;p&gt;Wordpress is a universally recognized and robust blogging platform written in the PHP language. Below are a bunch of Wordpress tricks that I've learned during my deployments, and I'd like to share with you.&lt;!--more--&gt;&lt;/p&gt;
+&lt;p&gt;If you are getting an SSL certificate error while testing this on Windows, have a look at &lt;a href="http://stackoverflow.com/questions/29822686/curl-error-60-ssl-certificate-unable-to-get-local-issuer-certificate"&gt;this&lt;/a&gt;.&lt;/p&gt;</content><category term="Google Drive"></category><category term="PHP"></category></entry><entry><title>PHP - An Annoying Tryst</title><link href="/blog/2014/06/php-an-annoying-tryst.html" rel="alternate"></link><published>2014-06-30T06:34:00+05:30</published><updated>2014-06-30T06:34:00+05:30</updated><author><name>Prahlad Yeri</name></author><id>tag:None,2014-06-30:/blog/2014/06/php-an-annoying-tryst.html</id><summary type="html">&lt;p&gt;It has been a few months since I've started working primarily in PHP and I am actually liking the language a lot! I like the simplicity and symmetry found in C style of solving problems, and PHP has got liberal amounts of that kind of resemblance. I have even come …&lt;/p&gt;</summary><content type="html">&lt;p&gt;It has been a few months since I've started working primarily in PHP and I am actually liking the language a lot! I like the simplicity and symmetry found in C style of solving problems, and PHP has got liberal amounts of that kind of resemblance. I have even come to terms with the clutter of all unorganized functions, considering all the positive aspects of PHP programming.&lt;!--more--&gt;&lt;/p&gt;
+&lt;p&gt;But an annoying incident happened today with PHP. I had been testing and developing my PHP app over the past few weeks now. Everything worked wonders really, until I deployed the code on client's staging server that is. One of the scripts started giving errors while running, and after some debugging, I found that these two lines were the culprit:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;$result = $result-&amp;gt;fetchAll()[0][0];  //doesn&amp;#39;t work in PHP 5.3, only in 5.4!
+//$result = $result-&amp;gt;fetchAll();$result=$result[0][0];  //works in both 5.3 and 5.4!
+
+$states = [&amp;#39;QLD&amp;#39;, &amp;#39;SA&amp;#39;, &amp;#39;NT&amp;#39;, &amp;#39;WA&amp;#39;];    //doesn&amp;#39;t work in PHP 5.3!
+//$states = array(&amp;#39;QLD&amp;#39;, &amp;#39;SA&amp;#39;, &amp;#39;NT&amp;#39;, &amp;#39;WA&amp;#39;); //works in both 5.3 and 5.4!
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;The comments are the after-effects of my analysis, of course. The reason my code broke was that I was running PHP 5.4 and the client had PHP 5.3. I generally prefer programming short-cuts, so in the first instance, I used it for fetching the results of an sqlite table query. &lt;a href="http://stackoverflow.com/questions/742764/php-syntax-for-dereferencing-function-result"&gt;Turned out&lt;/a&gt;, this way of directly de-referencing an array is not allowed in PHP 5.3! You need another place-holder variable to keep this value.&lt;/p&gt;
+&lt;p&gt;Now there is nothing wrong in breaking compatibility between PHP versions if it is REALLy crucial to implement a functionality. But for basic things like array declarations? Its a different matter that almost every other language nowadays allow de-referencing of arrays, but PHP doesn't. Buy why break compatibility all of a sudden? I was quite annoyed by this. Other languages like python do their utmost to keep existing code from breaking, and upgrades to newer versions are in a phased manner.&lt;/p&gt;
+&lt;p&gt;Again in the second case, the array declaration synatx ([x, y, z, ...]) works only in 5.4 and not in 5.3. Now I can understand the frustrations of all the developers who were happy moving to python and python-based frameworks. For a language already suffering from defects such as lack of organization in its functions and class-libraries, the designers' strategy to break code compatibility between PHP versions only for aesthetic reasons (array(a,b,c) vs [a, b, c]) is bound to lose the confidence of its users sooner or later.&lt;/p&gt;</content></entry><entry><title>PHP vs node.js: The REAL statistics</title><link href="/blog/2014/06/php-vs-node-js-real-statistics.html" rel="alternate"></link><published>2014-06-09T21:36:00+05:30</published><updated>2014-06-09T21:36:00+05:30</updated><author><name>Prahlad Yeri</name></author><id>tag:None,2014-06-09:/blog/2014/06/php-vs-node-js-real-statistics.html</id><summary type="html">&lt;p&gt;When it comes to web programming, I've always coded in ASP.NET or the LAMP technologies for most part of my life. Now, the new buzz in the city is &lt;a href="https://en.wikipedia.org/wiki/Node.js"&gt;node.js&lt;/a&gt;. It is a light-weight platform that runs javascript code on server-side and is said to improvise performance by …&lt;/p&gt;</summary><content type="html">&lt;p&gt;When it comes to web programming, I've always coded in ASP.NET or the LAMP technologies for most part of my life. Now, the new buzz in the city is &lt;a href="https://en.wikipedia.org/wiki/Node.js"&gt;node.js&lt;/a&gt;. It is a light-weight platform that runs javascript code on server-side and is said to improvise performance by using async I/O.&lt;!--more--&gt;&lt;/p&gt;
+&lt;p&gt;The &lt;a href="http://notes.ericjiang.com/posts/751"&gt;theory&lt;/a&gt; suggests that synchronous or blocking model of I/O works something like this:&lt;/p&gt;
+&lt;p&gt;&lt;a href="/uploads/2014/06/nodejs-comp.png"&gt;&lt;img alt="Blocking I/O" class="alignnone size-full wp-image-3070" height="354" src="/uploads/old/nodejs-comp.png" width="506"&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;I/O is typically the costliest part of a web transaction. When a request arrives to the apache web server, it passes it to PHP interpreter for scripting any dynamic contents. Now comes the tricky part - If the PHP script wants to read something from the disk/database or write to it, that is the slowest link in the chain. When you call PHP function file_get_contents(), the entire thread is blocked until the contents are retrieved! The server can't do anything until your script gets the file contents. Consider what happens when multiples of simultaneous requests are issued by different users to your server? They get queued, because no thread is available to do the job since they are all blocked in I/O!&lt;/p&gt;
+&lt;p&gt;Here comes the unique selling-point of node.js. Since node.js implements async I/O in almost all its functions, the server thread in the above scenario is freed as soon as the file retrieval function (fs.readFile) is called. Then, once the I/O completes, node calls a function (passed earlier by fs.readFile) along with the data parameters. In the meantime, that valuable thread can be used for serving some other request.&lt;/p&gt;
+&lt;p&gt;So thats the theory about it anyway. But I'm not someone who just accepts any new fad in the town just because it is hype and everyone uses it. Nope, I want to get under the covers and verify it for myself. I wanted to see whether this theory holds in actual practice or not.&lt;/p&gt;
+&lt;p&gt;So I brought upon myself the job of writing two simple scripts for benchmarking this - one in PHP (hosted on apache2) and other in javascript (hosted on node.js). The test itself was very simple. The script would:&lt;/p&gt;
+&lt;p&gt;1. Accept the request.\
+2. Generate a random string of 108 kilobytes.\
+3. Write the string to a file on the disk.\
+4. Read the contents back from disk.\
+5. Return the string back on the response stream.&lt;/p&gt;
+&lt;p&gt;This is the first script, index.php:&lt;/p&gt;
+&lt;figure class="highlight"&gt;
+    &lt;?php
+    //index.php
+    $s=""; //generate a random string of 108KB and a random filename
+    $fname = chr(rand(0,57)+65).chr(rand(0,57)+65).chr(rand(0,57)+65).chr(rand(0,57)+65).'.txt';
+    for($i=0;$i&amp;lt;108000;$i++)
+    {
+        $n=rand(0,57)+65;
+        $s = $s.chr($n);
+    }
+
+    //write s to a file
+    file_put_contents($fname,$s);
+    $result = file_get_contents($fname);
+    echo $result;
+
+&lt;/figure&gt;
+
+&lt;p&gt;And here is the second script, server.js:&lt;/p&gt;
+&lt;figure class="highlight"&gt;
+    //server.js
+    var http = require('http');    
+    var server = http.createServer(handler);
+
+    function handler(request, response) {
+        //console.log('request received!');
+        response.writeHead(200, {'Content-Type': 'text/plain'});
+
+        s=""; //generate a random string of 108KB and a random filename
+        fname = String.fromCharCode(Math.floor(65 + (Math.random()*(122-65)) )) +
+            String.fromCharCode(Math.floor(65 + (Math.random()*(122-65)) )) +
+            String.fromCharCode(Math.floor(65 + (Math.random()*(122-65)) )) + 
+            String.fromCharCode(Math.floor(65 + (Math.random()*(122-65)) )) + ".txt";
+
+        for(i=0;i&amp;lt;108000;i++)
+        {
+            n=Math.floor(65 + (Math.random()*(122-65)) );
+            s+=String.fromCharCode(n);
+        }
+
+        //write s to a file
+        var fs = require('fs');
+        fs.writeFile(fname, s, function(err, fd) {
+                if (err) throw err;
+                //console.log("The file was saved!");
+                //read back from the file
+                fs.readFile(fname, function (err, data) {
+                    if (err) throw err;
+                    result = data;
+                    response.end(result);
+                });  
+            }
+        );
+    }
+
+    server.listen(8124);
+    console.log('Server running at http://127.0.0.1:8124/');
+
+&lt;/figure&gt;
+
+&lt;p&gt;And then, I ran the apache benchmarking tool on both of them with 2000 requests (200 concurrent). When I saw the time stats of the result, I was astounded:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;#PHP:
+Concurrency Level:      200
+Time taken for tests:   574.796 seconds
+Complete requests:      2000
+
+#node.js:
+Concurrency Level:      200
+Time taken for tests:   41.887 seconds
+Complete requests:      2000
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;The truth is out. node.js was faster than PHP by more 14 times! These results are astonishing. It simply means that node.js IS going to be THE de-facto standard for writing performance driven apps in the upcoming future, there is no doubt about it!&lt;/p&gt;
+&lt;p&gt;Agreed that the &lt;a href="http://nodejs.org"&gt;nodejs&lt;/a&gt; ecosystem isn't that widely developed yet, and most node modules for things like db connectivity, network access, utilities, etc. are actively being developed. But still, after seeing these results, its a no-brainer. Any extra effort spent in developing node.js apps is more than worth it. PHP might be still having the "king of web" status, but with node.js in the town, I don't see that status staying for very long!&lt;/p&gt;
+&lt;h2&gt;Update&lt;/h2&gt;
+&lt;p&gt;After reading some comments from the below section, I felt obliged to create a C#/mono version too. This, unfortunately, has turned out to be the slowest of the bunch (\~40 secs for 1 request). Either the Task library in mono is terribly implemented, or there is something terribly wrong with my &lt;a href="http://pastebin.mozilla.org/5406784"&gt;code&lt;/a&gt;. I'll fix it once I get some time and be back with my next post (maybe ASP.NET vs node.js vs PHP!).&lt;/p&gt;
+&lt;h2&gt;Second Update&lt;/h2&gt;
+&lt;p&gt;As for C#/ASP.NET, this is the most optimum version that I could manage. It still lags behind both PHP and node.js and most of the issued requests just get dropped. (And yes, I've tested it on both Linux/Mono and Windows-Server-2012/IIS environments). Maybe ASP.NET is inherently slower, so I'll have to change the terms of this benchmark to take it into comparison:&lt;/p&gt;
+&lt;figure class="highlight"&gt;
+    public class Handler : System.Web.IHttpHandler
+    {
+        private StringBuilder payload = null;
+
+        private async void processAsync()
+        {
+            var r = new Random ();
+
+            //generate a random string of 108kb
+            payload=new StringBuilder();
+            for (var i = 0; i &amp;lt; 54000; i++)
+                payload.Append( (char)(r.Next(65,90)));
+
+            //create a unique file
+            var fname = "";
+            do{fname = @"c:\source\csharp\asyncdemo\" + r.Next (1, 99999999).ToString () + ".txt";
+            } while(File.Exists(fname));            
+
+            //write the string to disk in async manner
+            using(FileStream fs = File.Open(fname,FileMode.CreateNew,FileAccess.ReadWrite))
+            {
+                var bytes=(new System.Text.ASCIIEncoding ()).GetBytes (payload.ToString());
+                await fs.WriteAsync (bytes,0,bytes.Length);
+                fs.Close ();
+            }
+
+            //read the string back from disk in async manner
+            payload = new StringBuilder ();
+            StreamReader sr = new StreamReader (fname);
+            payload.Append(await sr.ReadToEndAsync ());
+            sr.Close ();
+            //File.Delete (fname); //remove the file
+        }
+
+        public void ProcessRequest (HttpContext context)
+        {
+            Task task = new Task(processAsync);
+            task.Start ();
+            task.Wait ();
+
+            //write the string back on the response stream
+            context.Response.ContentType = "text/plain";
+            context.Response.Write (payload.ToString());
+        }
+
+        public bool IsReusable 
+        {
+            get {
+                return false;
+            }
+        }
+    }
+
+&lt;/figure&gt;
+
+&lt;p&gt;References&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;a href="https://en.wikipedia.org/wiki/Node.js"&gt;https://en.wikipedia.org/wiki/Node.js&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://notes.ericjiang.com/posts/751"&gt;http://notes.ericjiang.com/posts/751&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://nodejs.org"&gt;http://nodejs.org&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://code.google.com/p/node-js-vs-apache-php-benchmark/wiki/Tests"&gt;https://code.google.com/p/node-js-vs-apache-php-benchmark/wiki/Tests&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;</content><category term="PHP"></category><category term="JavaScript"></category><category term="Node"></category></entry><entry><title>Some Wordpress tips and tricks</title><link href="/blog/2013/11/some-wordpress-tips-and-tricks.html" rel="alternate"></link><published>2013-11-23T12:19:00+05:30</published><updated>2013-11-23T12:19:00+05:30</updated><author><name>Prahlad Yeri</name></author><id>tag:None,2013-11-23:/blog/2013/11/some-wordpress-tips-and-tricks.html</id><summary type="html">&lt;p&gt;Wordpress is a universally recognized and robust blogging platform written in the PHP language. Below are a bunch of Wordpress tricks that I've learned during my deployments, and I'd like to share with you.&lt;!--more--&gt;&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;&lt;em&gt;1. Change breadcrumbs to start from "Home" instead of \&amp;lt;Site-Title&gt;&lt;/em&gt;&lt;/strong&gt; (Works for Mantra theme): When I …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Wordpress is a universally recognized and robust blogging platform written in the PHP language. Below are a bunch of Wordpress tricks that I've learned during my deployments, and I'd like to share with you.&lt;!--more--&gt;&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;&lt;em&gt;1. Change breadcrumbs to start from "Home" instead of \&amp;lt;Site-Title&gt;&lt;/em&gt;&lt;/strong&gt; (Works for Mantra theme): When I set up this site, the breadcrumbs in the post used to read like this:&lt;/p&gt;
 &lt;p&gt;&lt;a href="http://www.prahladyeri.com/"&gt;Prahlad Yeri » &lt;/a&gt;&lt;a href="http://www.prahladyeri.com/category/wordpress/"&gt;wordpress » &lt;/a&gt;WordPress installation quick-start guide&lt;/p&gt;

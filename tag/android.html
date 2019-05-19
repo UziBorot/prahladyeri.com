@@ -37,13 +37,11 @@
 <p>The so called apps available in the Play Store don’t allow you to utilize the full power of your linux device. A power user always wants to have the power of a full linux distro (such as Debian or Ubuntu or Fedora) on his/her device.</p>
 <p>For a long time, I researched for the best way to install a linux distro on a tablet, preferably one that didn’t involve rooting or partitioning the device. The <a href="https://wiki.debian.org/ChrootOnAndroid">debian guide</a> lists down several methods and apps to do this such as Linux Deploy, GNURoot, Termux, etc. Out of them, the least risky and one that supports most android devices (including my KitKat tablet) is <a href="https://play.google.com/store/apps/details?id=com.gnuroot.debian">GNURoot-Debian</a>.</p>
 <p>Once you install this app on your tablet, it creates a self-contained <code class="highlighter-rouge">chroot</code> install of debian using a tool called <a href="https://wiki.archlinux.org/index.php/Proot">Proot</a>. Once that is done, all you need to do is open up the app terminal and just start using it:</p>
-<p>::: {.highlighter-rouge}</p>
 <div class="highlight"><pre><span></span>apt-get update
 apt-get install tmux vim gcc python python3 python3-pip
 </pre></div>
 
 
-<p>:::</p>
 <p>Of course, these are just some of the packages that I’ve installed, you can do whatever you want with your linux installation. The only limitation is regarding multiple user logins. By default, the app will login you as <code class="highlighter-rouge">root</code> and while you can create additional users using <code class="highlighter-rouge">useradd</code> command, don’t expect things like <code class="highlighter-rouge">setuid</code> and <code class="highlighter-rouge">setgid</code> to work. The only way to switch user is using the <code class="highlighter-rouge">su - yourLogin</code> command (whilst the <code class="highlighter-rouge">login</code> command should work too in theory, I’m having a few problems with it presently, it might need some fixing in /etc/pam.d/* configuration files).</p>
 <p>Further, if you have good amount of RAM on your tablet, you may consider using a desktop environment along with your headless installation (LXDE is recommended as it performs best on minimal resources). In order to do that, you’ll need two things:</p>
 <ol>
@@ -91,6 +89,76 @@ startlxde &amp;</p>
 </footer><!-- /.post-info -->                <p>Last week, my brand new Xiaomi Mi-Pad arrived via Flipkart and no sooner did I have it in my hands, I started installing useful apps like Greenify, ES File Explorer, etc. Two days went by and I was disappointed to learn that it doesn’t support a USB Dongle (Data …</p>
                 <a class="readmore" href="/blog/2016/07/how-to-unbrick-lifeless-xiaomi-mi-pad.html">read more</a>
 <p>There are <a href="/blog/2016/07/how-to-unbrick-lifeless-xiaomi-mi-pad.html#disqus_thread">comments</a>.</p>                </div><!-- /.entry-content -->
+            </article></li>
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="/blog/2013/12/how-to-create-android-dialogs-in-a-reusable-manner.html" rel="bookmark"
+                           title="Permalink to How to create android dialogs in a reusable manner">How to create android dialogs in a reusable manner</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2013-12-01T04:55:00+05:30">
+                Published: Sun 01 December 2013
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="/author/prahlad-yeri.html">Prahlad Yeri</a>
+        </address>
+<p>In <a href="/category/java.html">Java</a>.</p>
+<p>tags: <a href="/tag/android.html">Android</a> </p>
+</footer><!-- /.post-info -->                <p>Creating dialogs is a very common need in your app to show a dialog box to the user in order to fetch a value, be it a mobile, desktop or even a web application. Furthermore, the values can range from anything like simple <em>OK-Cancel</em> dialog results to a list of …</p>
+                <a class="readmore" href="/blog/2013/12/how-to-create-android-dialogs-in-a-reusable-manner.html">read more</a>
+<p>There are <a href="/blog/2013/12/how-to-create-android-dialogs-in-a-reusable-manner.html#disqus_thread">comments</a>.</p>                </div><!-- /.entry-content -->
+            </article></li>
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="/blog/2013/11/how-to-uniquely-identify-your-android-device-in-code.html" rel="bookmark"
+                           title="Permalink to How to uniquely identify your Android device in code">How to uniquely identify your Android device in code</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2013-11-28T02:17:00+05:30">
+                Published: Thu 28 November 2013
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="/author/prahlad-yeri.html">Prahlad Yeri</a>
+        </address>
+<p>In <a href="/category/java.html">Java</a>.</p>
+<p>tags: <a href="/tag/android.html">Android</a> </p>
+</footer><!-- /.post-info -->                <p>My last android project involved tracking each device where the app is installed and storing the information to a database. It is quite a common need to uniquely identify your android device in code.<!--more--></p>
+<p><img alt="droid-man" src="/uploads/old/droid-man.png"></p>
+<p>Now, had it been a PC, it would have been easy to track the MAC-address of …</p>
+                <a class="readmore" href="/blog/2013/11/how-to-uniquely-identify-your-android-device-in-code.html">read more</a>
+<p>There are <a href="/blog/2013/11/how-to-uniquely-identify-your-android-device-in-code.html#disqus_thread">comments</a>.</p>                </div><!-- /.entry-content -->
+            </article></li>
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="/blog/2013/11/three-steps-to-integrate-barcode-scanning-in-your-android-app.html" rel="bookmark"
+                           title="Permalink to 3 Steps to integrate barcode scanning in your Android app">3 Steps to integrate barcode scanning in your Android app</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2013-11-24T14:50:00+05:30">
+                Published: Sun 24 November 2013
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="/author/prahlad-yeri.html">Prahlad Yeri</a>
+        </address>
+<p>In <a href="/category/java.html">Java</a>.</p>
+<p>tags: <a href="/tag/android.html">Android</a> <a href="/tag/java.html">Java</a> </p>
+</footer><!-- /.post-info -->                <p>Whilst barcode scanning is a pretty complex and non-trivial task in itself, it could be overwhelming sometimes with android programming. Lucky for us, there exists an opensource project called <a href="https://github.com/zxing/zxing"><em>ZXing (pronounced Zebra-crossing)</em></a> that solves this problem for us.<!--more--></p>
+<p><a href="/uploads/old/barcode.png"><img alt="Barcode" class="wp-image-152 alignnone" height="77" src="/uploads/old/barcode.png" width="108"></a></p>
+<p>The ZXing project has already done the heavy lifting by programming the …</p>
+                <a class="readmore" href="/blog/2013/11/three-steps-to-integrate-barcode-scanning-in-your-android-app.html">read more</a>
+<p>There are <a href="/blog/2013/11/three-steps-to-integrate-barcode-scanning-in-your-android-app.html#disqus_thread">comments</a>.</p>                </div><!-- /.entry-content -->
             </article></li>
                 </ol><!-- /#posts-list -->
                 </section><!-- /#content -->

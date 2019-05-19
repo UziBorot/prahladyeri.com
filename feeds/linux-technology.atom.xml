@@ -5,13 +5,11 @@
 &lt;p&gt;The so called apps available in the Play Store don’t allow you to utilize the full power of your linux device. A power user always wants to have the power of a full linux distro (such as Debian or Ubuntu or Fedora) on his/her device.&lt;/p&gt;
 &lt;p&gt;For a long time, I researched for the best way to install a linux distro on a tablet, preferably one that didn’t involve rooting or partitioning the device. The &lt;a href="https://wiki.debian.org/ChrootOnAndroid"&gt;debian guide&lt;/a&gt; lists down several methods and apps to do this such as Linux Deploy, GNURoot, Termux, etc. Out of them, the least risky and one that supports most android devices (including my KitKat tablet) is &lt;a href="https://play.google.com/store/apps/details?id=com.gnuroot.debian"&gt;GNURoot-Debian&lt;/a&gt;.&lt;/p&gt;
 &lt;p&gt;Once you install this app on your tablet, it creates a self-contained &lt;code class="highlighter-rouge"&gt;chroot&lt;/code&gt; install of debian using a tool called &lt;a href="https://wiki.archlinux.org/index.php/Proot"&gt;Proot&lt;/a&gt;. Once that is done, all you need to do is open up the app terminal and just start using it:&lt;/p&gt;
-&lt;p&gt;::: {.highlighter-rouge}&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;apt-get update
 apt-get install tmux vim gcc python python3 python3-pip
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;:::&lt;/p&gt;
 &lt;p&gt;Of course, these are just some of the packages that I’ve installed, you can do whatever you want with your linux installation. The only limitation is regarding multiple user logins. By default, the app will login you as &lt;code class="highlighter-rouge"&gt;root&lt;/code&gt; and while you can create additional users using &lt;code class="highlighter-rouge"&gt;useradd&lt;/code&gt; command, don’t expect things like &lt;code class="highlighter-rouge"&gt;setuid&lt;/code&gt; and &lt;code class="highlighter-rouge"&gt;setgid&lt;/code&gt; to work. The only way to switch user is using the &lt;code class="highlighter-rouge"&gt;su - yourLogin&lt;/code&gt; command (whilst the &lt;code class="highlighter-rouge"&gt;login&lt;/code&gt; command should work too in theory, I’m having a few problems with it presently, it might need some fixing in /etc/pam.d/* configuration files).&lt;/p&gt;
 &lt;p&gt;Further, if you have good amount of RAM on your tablet, you may consider using a desktop environment along with your headless installation (LXDE is recommended as it performs best on minimal resources). In order to do that, you’ll need two things:&lt;/p&gt;
 &lt;ol&gt;

@@ -35,11 +35,10 @@
         <address class="vcard author">
                 By                         <a class="url fn" href="/author/prahlad-yeri.html">Prahlad Yeri</a>
         </address>
-<p>In <a href="/category/uncategorized.html">Uncategorized</a>.</p>
-
-</footer><!-- /.post-info -->      <p>In on of my recent projects, I came across the need to develop a JSON based REST API to fetch data from the <code class="highlighter-rouge">sqlalchemy</code> objects. Now, the <code class="highlighter-rouge">Query</code> object is a great way to access data using the powerful <code class="highlighter-rouge">sqlalchemy orm</code>, but it doesn’t give any built-in way to convert the result-set into a python <code class="highlighter-rouge">dict</code>.<!--more--></p>
-<p>For instance, I have a <code class="highlighter-rouge">Professor</code> table in my <code class="highlighter-rouge">models.py</code>. Here is what I get when I query the <code class="highlighter-rouge">Professor</code> model using <code class="highlighter-rouge">sqlalchemy</code> ORM:</p>
-<p>::: {.language-python .highlighter-rouge}</p>
+<p>In <a href="/category/python.html">Python</a>.</p>
+<p>tags: <a href="/tag/sqlalchemy.html">SQLAlchemy</a> <a href="/tag/python.html">Python</a> </p>
+</footer><!-- /.post-info -->      <p>In on of my recent projects, I came across the need to develop a JSON based REST API to fetch data from the <code>sqlalchemy</code> objects. Now, the <code>Query</code> object is a great way to access data using the powerful <code>sqlalchemy orm</code>, but it doesn’t give any built-in way to convert the result-set into a python <code>dict</code>.<!--more--></p>
+<p>For instance, I have a <code>Professor</code> table in my <code>models.py</code>. Here is what I get when I query the <code>Professor</code> model using <code>sqlalchemy</code> ORM:</p>
 <div class="highlight"><pre><span></span>&gt;&gt;&gt; session.query(models.Professor).all()
 2015-07-05 11:07:57,282 INFO sqlalchemy.engine.base.Engine SELECT professors.id AS professors_id, professors.name AS professors_name,
 partment, professors.email AS professors_email, professors.password AS professors_password, professors.phone AS professors_phone
@@ -49,9 +48,7 @@ FROM professors
 </pre></div>
 
 
-<p>:::</p>
-<p>At the end, I got the two Professors’ name in a collection, but they are still <code class="highlighter-rouge">sqlalchemy</code> objects. How can I convert it to a python dict, so that it can be deserialized to JSON or be used for any other purpose. To solve this, just add the below code to your <code class="highlighter-rouge">models.py</code> module, and just call the <code class="highlighter-rouge">models.to_dict()</code> method to convert an sqlalchemy models collection to a dict (or alternatively, call <code class="highlighter-rouge">models.from_dict()</code> to build the model object collection from an existing dict!):</p>
-<p>::: {.language-python .highlighter-rouge}</p>
+<p>At the end, I got the two Professors’ name in a collection, but they are still <code>sqlalchemy</code> objects. How can I convert it to a python dict, so that it can be deserialized to JSON or be used for any other purpose. To solve this, just add the below code to your <code>models.py</code> module, and just call the <code>models.to_dict()</code> method to convert an sqlalchemy models collection to a dict (or alternatively, call <code>models.from_dict()</code> to build the model object collection from an existing dict!):</p>
 <div class="highlight"><pre><span></span>def to_dict(model_instance, query_instance=None):
     if hasattr(model_instance, &#39;__table__&#39;):
         return {c.name: str(getattr(model_instance, c.name)) for c in model_instance.__table__.columns}
@@ -65,21 +62,19 @@ def from_dict(dict, model_instance):
 </pre></div>
 
 
-<p>:::</p>
 <p>The usage is as follows:</p>
-<figure class="highlight">
-    q = dbsession.query(models.Application).filter(models.Application.id==id)
-    professors = q.all()
-    di = models.to_dict(professors) #for converting a single table resultset
+<div class="highlight"><pre><span></span>q = dbsession.query(models.Application).filter(models.Application.id==id)
+professors = q.all()
+di = models.to_dict(professors) #for converting a single table resultset
 
-    q = dbsession.query(models.Application)
-    application = q.first()
-    dd = models.to_dict(app)
-    dd['student'] = models.to_dict(application.student, q) #for converting a relationship object which refers to another table. 
+q = dbsession.query(models.Application)
+application = q.first()
+dd = models.to_dict(app)
+dd[&#39;student&#39;] = models.to_dict(application.student, q) #for converting a relationship object which refers to another table.
+</pre></div>
 
-</figure>
 
-<p>The reason we have to use a slightly different approach for the relationship objects (like <code class="highlighter-rouge">application.student</code> which refers to the <code class="highlighter-rouge">student</code> model) is that the instance doesn’t have an <code class="highlighter-rouge">__table__</code> object which is required to build the dict. Hence, the query instance is passed. This is just one approach I’ve used to convert <code class="highlighter-rouge">sqlalchemy</code> objects to <code class="highlighter-rouge">dict</code>. If you have any other approach, please let me know.</p>
+<p>The reason we have to use a slightly different approach for the relationship objects (like <code>application.student</code> which refers to the <code>student</code> model) is that the instance doesn’t have an <code>__table__</code> object which is required to build the dict. Hence, the query instance is passed. This is just one approach I’ve used to convert <code>sqlalchemy</code> objects to <code>dict</code>. If you have any other approach, please let me know.</p>
     </div><!-- /.entry-content -->
 
   </article>

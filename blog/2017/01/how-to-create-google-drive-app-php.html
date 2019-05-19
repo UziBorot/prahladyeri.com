@@ -48,14 +48,12 @@
 <p><img alt="Configure Credentials" src="/uploads/old/google-apis/configuration_steps_generic1.png"></p>
 <h3>III: Write your back-end app:</h3>
 <p>First of all, you have to add the dependency of google-api php library to your project. If you are using composer, all you need to do is add this package to the composer.json:</p>
-<p>::: {.highlighter-rouge}</p>
 <div class="highlight"><pre><span></span>&quot;require&quot;: {
   &quot;google/apiclient&quot;: &quot;^2.0&quot;
 }
 </pre></div>
 
 
-<p>:::</p>
 <p>If you don’t use composer, you can just download the latest version of library from <a href="https://github.com/google/google-api-php-client">their repo</a>, and just <code class="highlighter-rouge">require_once</code> it in your code like this:</p>
 <p>::: {.highlighter-rouge}</p>
 <div class="highlight"><pre><span></span>require_once &#39;/path/to/google-api-php-client/vendor/autoload.php&#39;;

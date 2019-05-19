@@ -21,7 +21,7 @@
   <article>
     <header>
       <h1 class="entry-title">
-        <a href="/blog/2015/07/a-collection-of-random-hacks-ubuntu.html" rel="bookmark"
+        <a href="/drafts/a-collection-of-random-hacks-ubuntu.html" rel="bookmark"
            title="Permalink to A collection of random hacks - Ubuntu">A collection of random hacks - Ubuntu</a></h1>
 <a href="https://twitter.com/share" class="twitter-share-button" data-count="horizontal" data-via="prahladyeri">Tweet</a><script type="text/javascript" src="https://platform.twitter.com/widgets.js"></script>
     </header>
@@ -35,8 +35,8 @@
         <address class="vcard author">
                 By                         <a class="url fn" href="/author/prahlad-yeri.html">Prahlad Yeri</a>
         </address>
-<p>In <a href="/category/uncategorized.html">Uncategorized</a>.</p>
-
+<p>In <a href="/category/linux.html">Linux</a>.</p>
+<p>tags: <a href="/tag/linux.html">Linux</a> <a href="/tag/ubuntu.html">Ubuntu</a> </p>
 </footer><!-- /.post-info -->      <p>Whether you are a sysadmin, developer or just a user, if you face a non-trivial issue while setting up any software, you generally head over to sites like <code class="highlighter-rouge">stackoverflow.com</code> to find any solutions. If the problem is solved and you are happy, you generally do two things: Bookmark/Star that post, and secondly make a note to your own workflow about that issue for future references. For what its worth, here is the collection of such notes prepared by me for <code class="highlighter-rouge">ubuntu 12.04 LTS</code>. However, most solutions should work on <code class="highlighter-rouge">14.04</code> too.<!--more--></p>
 <p><img alt="Ubuntu Logo" src="/uploads/old/3D_Ubuntu_7.jpg"></p>
 <h2>To boot ubuntu to <a href="http://askubuntu.com/questions/52089/how-do-i-boot-to-a-command-line-interface-instead-of-a-gui">command prompt intead of GUI</a></h2>
@@ -81,12 +81,10 @@
 <li><code class="highlighter-rouge">xdg-mime default geany.desktop $(grep MimeType /usr/share/applications/geany.desktop | sed 's/MimeType=//' | sed 's/;/ /g')</code></li>
 </ul>
 <h2>To create an ssh tunnel between local port 9999 and a remote server (dynamic port forwarding/socks)</h2>
-<p>::: {.highlighter-rouge}</p>
 <div class="highlight"><pre><span></span>ssh -C -ND 9999 username@sshserver.com
 </pre></div>
 
 
-<p>:::</p>
 <h2>Graphics</h2>
 <p>To check whether we are using sna or uxa:\
 <code class="highlighter-rouge">apt-cache policy xserver-xorg-video-intel* | grep Installed</code></p>
@@ -175,28 +173,25 @@ sudo usb_modeswitch -R -v -p</p>
 </ul>
 <h2>Set ubuntu/debian to use bios time instead of converting as per timezones</h2>
 <ul>
-<li>option1: open: <code class="highlighter-rouge">/etc/default/rcS</code> and add/change this line:</li>
-</ul>
-<figure class="highlight">
+<li>
+<p>option1: open: <code class="highlighter-rouge">/etc/default/rcS</code> and add/change this line:</p>
+<div class="highlight"><pre><span></span># Set UTC=yes if your hardware clock is set to UTC (GMT)
+UTC=no
+</pre></div>
 
-        # Set UTC=yes if your hardware clock is set to UTC (GMT)
-        UTC=no
 
-
-</figure>
-
-<ul>
-<li>option 2: open /etc/adjtime and change <code class="highlighter-rouge">'UTC'</code> to <code class="highlighter-rouge">'LOCAL'</code></li>
+</li>
+<li>
+<p>option 2: open /etc/adjtime and change <code class="highlighter-rouge">'UTC'</code> to <code class="highlighter-rouge">'LOCAL'</code></p>
+</li>
 <li>option 3: <code class="highlighter-rouge">hwclock --systohc --localtime #(Explore these options)</code></li>
 </ul>
 <h2>greeter configuration on ubuntu</h2>
-<p>::: {.highlighter-rouge}</p>
 <div class="highlight"><pre><span></span>view defaults: /etc/lightdm/lightdm.conf
 set defaults: /usr/lib/lightdm/lightdm-set-defaults
 </pre></div>
 
 
-<p>:::</p>
 <h2>start/disable init services</h2>
 <p>Refer http://askubuntu.com/questions/138487/how-to-keep-apache-and-mysql-from-starting-automatically</p>
 <h2>LAMP (debian/ubuntu)</h2>
@@ -235,16 +230,12 @@ set defaults: /usr/lib/lightdm/lightdm-set-defaults
 <p>Disable/Enable services (ubuntu/debian) - works for any service with .conf configured. example: <code class="highlighter-rouge">/etc/init/mysql.conf</code></p>
 <ul>
 <li>
-<p>method-1:
-    ::: {.highlighter-rouge}
-    <code>{.highlight}
-      #disable service at startup
-      sudo sh -c "echo 'manual' &gt;&gt; /etc/init/mysql.override"
-      sudo sh -c "echo 'manual' &gt;&gt; /etc/init/bluetooth.override"
-      #enable service at startup
-      sudo rm /etc/init/mysql.override</code>
-    ```
-    :::</p>
+<p>method-1:</p>
+<h1>disable service at startup</h1>
+<p>sudo sh -c "echo 'manual' &gt;&gt; /etc/init/mysql.override"
+sudo sh -c "echo 'manual' &gt;&gt; /etc/init/bluetooth.override"</p>
+<h1>enable service at startup</h1>
+<p>sudo rm /etc/init/mysql.override```</p>
 </li>
 <li>
 <p>method-2 (for ubuntu 12.04):</p>

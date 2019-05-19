@@ -43,13 +43,11 @@
 <p>The so called apps available in the Play Store don’t allow you to utilize the full power of your linux device. A power user always wants to have the power of a full linux distro (such as Debian or Ubuntu or Fedora) on his/her device.</p>
 <p>For a long time, I researched for the best way to install a linux distro on a tablet, preferably one that didn’t involve rooting or partitioning the device. The <a href="https://wiki.debian.org/ChrootOnAndroid">debian guide</a> lists down several methods and apps to do this such as Linux Deploy, GNURoot, Termux, etc. Out of them, the least risky and one that supports most android devices (including my KitKat tablet) is <a href="https://play.google.com/store/apps/details?id=com.gnuroot.debian">GNURoot-Debian</a>.</p>
 <p>Once you install this app on your tablet, it creates a self-contained <code class="highlighter-rouge">chroot</code> install of debian using a tool called <a href="https://wiki.archlinux.org/index.php/Proot">Proot</a>. Once that is done, all you need to do is open up the app terminal and just start using it:</p>
-<p>::: {.highlighter-rouge}</p>
 <div class="highlight"><pre><span></span>apt-get update
 apt-get install tmux vim gcc python python3 python3-pip
 </pre></div>
 
 
-<p>:::</p>
 <p>Of course, these are just some of the packages that I’ve installed, you can do whatever you want with your linux installation. The only limitation is regarding multiple user logins. By default, the app will login you as <code class="highlighter-rouge">root</code> and while you can create additional users using <code class="highlighter-rouge">useradd</code> command, don’t expect things like <code class="highlighter-rouge">setuid</code> and <code class="highlighter-rouge">setgid</code> to work. The only way to switch user is using the <code class="highlighter-rouge">su - yourLogin</code> command (whilst the <code class="highlighter-rouge">login</code> command should work too in theory, I’m having a few problems with it presently, it might need some fixing in /etc/pam.d/* configuration files).</p>
 <p>Further, if you have good amount of RAM on your tablet, you may consider using a desktop environment along with your headless installation (LXDE is recommended as it performs best on minimal resources). In order to do that, you’ll need two things:</p>
 <ol>

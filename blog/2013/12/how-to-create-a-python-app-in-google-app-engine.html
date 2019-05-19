@@ -35,8 +35,8 @@
         <address class="vcard author">
                 By                         <a class="url fn" href="/author/prahlad-yeri.html">Prahlad Yeri</a>
         </address>
-<p>In <a href="/category/uncategorized.html">Uncategorized</a>.</p>
-
+<p>In <a href="/category/python.html">Python</a>.</p>
+<p>tags: <a href="/tag/google-app-engine.html">Google App Engine</a> </p>
 </footer><!-- /.post-info -->      <p>Whilst the <a href="https://developers.google.com/appengine/docs/python">official pythonic reference</a> for Google app engine is the way I learnt how to build my first GAE app, I found it a bit frustrating to go through <a href="https://developers.google.com/appengine/docs/python/#Python_Selecting_the_Python_runtime">each</a> and <a href="https://developers.google.com/appengine/docs/python/#Python_The_environment">every</a> link and understand large topics like caching and data stores in detail just to build a small hello world pythonic app in Google App Engine. What I wanted was a quick and dirty tutorial that let me build a small app first, and then let me improvise upon the areas that I needed to dig deeper.<!--more--></p>
 <p><a href="/uploads/old/gae_python.png"><img alt="How to Create a Pythonic app in Google App Engine" class="alignnone wp-image-301" height="150" src="/uploads/old/gae_python.png" width="150"></a></p>
 <p>I couldn't find such a tutorial anywhere, so I'm writing this one.</p>
@@ -44,39 +44,45 @@
 <li>
 <p><strong>Setup your Environment:</strong> Download and install <a href="http://www.python.org/getit/releases/2.7/">python 2.7</a> for your platform, if you haven't done so already (as of this writing, only 2.5 and 2.7 versions are supported) . Then, download and install the GAE API from <a href="https://developers.google.com/appengine/downloads#Google_App_Engine_SDK_for_Python">here</a>. MSI setups are available for windows platform. For linux, you can just unzip into a local folder like '\~/programs/'. The zip file will create a subdir called 'google_appengine'. Practically, the only two python scripts you are ever going to need to develop a GAE app are:</p>
 <ul>
-<li>dev_appserver.py</li>
-<li>appcfg.py</li>
+<li><code>dev\_appserver.py</code></li>
+<li><code>appcfg.py</code></li>
 </ul>
 </li>
 <li>
 <p><strong>Register your app on appspot.com:</strong> The next step is to register your subdomain on GAE by visiting <a href="https://appengine.google.com/">https://appengine.google.com</a>. Once you register your app there, you will get a subdomain called <strong>http://<em>your-app-id</em>.appspot.com</strong>. There are also options for redirecting your custom domain such as <strong>www.mydomain.com</strong> to your app subdomain.</p>
 </li>
-<li>
-<p><strong>Create your app on the local machine:</strong> This is as simple as creating a folder on your machine such as \~/source/foo in linux or C:\source\foo in windows. Then just create a text file named app.yaml  with below contents inside this folder:</p>
-<p>``` {lang="python"}
-application: your-app-id
-version: 1
-runtime: python27
-api_version: 1
-threadsafe: true</p>
-<p>handlers:
-- url: /.*
-  script: helloworld.application
-```</p>
-<p>Note that <strong>your-app-id</strong> is the name that you just registered for yourself, make sure that it is typed correctly. version parameter refers to the version of your app, while api_version is the version of GAE SDK used to run this app. The line "script: helloworld.application" indicates that this wsgi handler will be invoked for your app.</p>
+<li><strong>Create your app on the local machine:</strong> This is as simple as creating a folder on your machine such as \~/source/foo in linux or C:\source\foo in windows. Then just create a text file named app.yaml  with below contents inside this folder:<div class="highlight"><pre><span></span><span class="n">application</span><span class="o">:</span> <span class="n">your</span><span class="o">-</span><span class="n">app</span><span class="o">-</span><span class="n">id</span>
+<span class="n">version</span><span class="o">:</span> <span class="mi">1</span>
+<span class="n">runtime</span><span class="o">:</span> <span class="n">python27</span>
+<span class="n">api_version</span><span class="o">:</span> <span class="mi">1</span>
+<span class="n">threadsafe</span><span class="o">:</span> <span class="kc">true</span>
+
+<span class="n">handlers</span><span class="o">:</span>
+<span class="o">-</span> <span class="n">url</span><span class="o">:</span> <span class="o">/.*</span>
+  <span class="n">script</span><span class="o">:</span> <span class="n">helloworld</span><span class="o">.</span><span class="na">application</span>
+</pre></div>
+
+
 </li>
+</ol>
+<p>Note that <strong>your-app-id</strong> is the name that you just registered for yourself, make sure that it is typed correctly. version parameter refers to the version of your app, while api_version is the version of GAE SDK used to run this app. The line "script: helloworld.application" indicates that this wsgi handler will be invoked for your app.</p>
+<ol>
 <li>
 <p><strong>Create the wsgi handler:</strong> This is as simple as creating a python file named "helloworld.py" in the same folder as above, and add below contents to it:</p>
-<p>``` {lang="python"}
-import webapp2</p>
-<p>class MainPage(webapp2.RequestHandler):</p>
-<p>def get(self):
-        self.response.headers['Content-Type'] = 'text/plain'
-        self.response.write('Hello, World!')</p>
-<p>application = webapp2.WSGIApplication([
-    ('/', MainPage),
-], debug=True)
-```</p>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">webapp2</span>
+
+<span class="k">class</span> <span class="nc">MainPage</span><span class="p">(</span><span class="n">webapp2</span><span class="o">.</span><span class="n">RequestHandler</span><span class="p">):</span>
+
+    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">response</span><span class="o">.</span><span class="n">headers</span><span class="p">[</span><span class="s1">&#39;Content-Type&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;text/plain&#39;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">response</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s1">&#39;Hello, World!&#39;</span><span class="p">)</span>
+
+<span class="n">application</span> <span class="o">=</span> <span class="n">webapp2</span><span class="o">.</span><span class="n">WSGIApplication</span><span class="p">([</span>
+    <span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">,</span> <span class="n">MainPage</span><span class="p">),</span>
+<span class="p">],</span> <span class="n">debug</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+</pre></div>
+
+
 </li>
 <li>
 <p><strong>Test your app: </strong>To test your app, open up your terminal and change directory to your GAE installation folder (alternatively, add the GAE installation folder to your PATH/\$PATH environment variable to avoid doing this each time), and then type the below command:</p>

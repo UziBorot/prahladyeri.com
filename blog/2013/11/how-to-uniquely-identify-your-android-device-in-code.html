@@ -35,24 +35,23 @@
         <address class="vcard author">
                 By                         <a class="url fn" href="/author/prahlad-yeri.html">Prahlad Yeri</a>
         </address>
-<p>In <a href="/category/uncategorized.html">Uncategorized</a>.</p>
-
+<p>In <a href="/category/java.html">Java</a>.</p>
+<p>tags: <a href="/tag/android.html">Android</a> </p>
 </footer><!-- /.post-info -->      <p>My last android project involved tracking each device where the app is installed and storing the information to a database. It is quite a common need to uniquely identify your android device in code.<!--more--></p>
-<p><a href="/uploads/old/droid-man.png"><img alt="droid-man" class="alignnone wp-image-209" height="70" src="/uploads/old/droid-man.png" width="60"></a></p>
+<p><img alt="droid-man" src="/uploads/old/droid-man.png"></p>
 <p>Now, had it been a PC, it would have been easy to track the MAC-address of the NIC or an HDD serial to uniquely identify and track that device. But what is the equivalent for android?</p>
 <p>My research first led me to IMEI number (<em>TelephonyManager.getDeviceId()</em>). IMEI is a unique number associated with your device (pretty much like a vehicle's chassis number) and is widely used for tracking cellphones. The android API provides this ready-made function to uniquely identify your device if you wish to go this route:</p>
-<p>``` {lang="java"}
-public static String getDeviceIdTm(Context context)
+<div class="highlight"><pre><span></span>public static String getDeviceIdTm(Context context)
 {
     TelephonyManager tm=(TelephonyManager)context.getSystemService(Context.TELEPHONY_SERVICE);
     return tm.getDeviceId();
-}</p>
-<div class="highlight"><pre><span></span>But wait, not all devices are equipped with Telephony. What about tablets and amazon kindle devices? It so happens, that this is just one way to track your device, but it is not full-proof. It will work only for phones and for other devices this function will return null.
+}
+</pre></div>
 
-This led me to another way of tracking an Android device: An in-built variable that the Android system itself provides you: ANDROID\_ID. In theory, this variable is all you need to know to identify your device uniquely:
 
-``` {lang=&quot;java&quot;}
-public static String getDeviceIdAndroid(Context context)
+<p>But wait, not all devices are equipped with Telephony. What about tablets and amazon kindle devices? It so happens, that this is just one way to track your device, but it is not full-proof. It will work only for phones and for other devices this function will return null.</p>
+<p>This led me to another way of tracking an Android device: An in-built variable that the Android system itself provides you: ANDROID_ID. In theory, this variable is all you need to know to identify your device uniquely:</p>
+<div class="highlight"><pre><span></span>public static String getDeviceIdAndroid(Context context)
 {
     return Secure.getString(context.getContentResolver(),Secure.ANDROID_ID);
 }
@@ -61,22 +60,21 @@ public static String getDeviceIdAndroid(Context context)
 
 <p>But Alas! Even this is not full-proof. It will work on most modern versions of android (HoneyComb and above). Again, due to a manufacturer bug, it will not return a unique value, but a constant value "9774d56d682e549c" on some handsets.</p>
 <p>This led me to a third way of identifying my device which was a bit hackish. I prefer not to use this method if any of the prior two methods worked.</p>
-<p>``` {lang="java"}
-public static String getDeviceIdPseudo(Context context)
+<div class="highlight"><pre><span></span>public static String getDeviceIdPseudo(Context context)
  {
-     String tstr="";
+     String tstr=&quot;&quot;;
      if (Build.VERSION.SDK_INT &gt; Build.VERSION_CODES.FROYO) {
          tstr+= Build.SERIAL;
-         tstr += "::" + (Build.PRODUCT.length() % 10) + (Build.BOARD.length() % 10) + (Build.BRAND.length() % 10) + (Build.CPU_ABI.length() % 10) + (Build.DEVICE.length() % 10) + (Build.MANUFACTURER.length() % 10) + (Build.MODEL.length() % 10);
+         tstr += &quot;::&quot; + (Build.PRODUCT.length() % 10) + (Build.BOARD.length() % 10) + (Build.BRAND.length() % 10) + (Build.CPU_ABI.length() % 10) + (Build.DEVICE.length() % 10) + (Build.MANUFACTURER.length() % 10) + (Build.MODEL.length() % 10);
          return tstr;
     }
- }</p>
-<div class="highlight"><pre><span></span>This method computes a Pseudo-id for your device taking reference to some hardware values. If the previous two methods don&#39;t work, then this is all you are left with for device identification.
+ }
+</pre></div>
 
-I then integrated the above three methods to create a generic method called ***getDeviceIdUnique()*** that will work on all android devices - irrespective of whether its a phone/tablet or what make it is:
 
-``` {lang=&quot;java&quot;}
-public static String getDeviceIdUnique(Context context)
+<p>This method computes a Pseudo-id for your device taking reference to some hardware values. If the previous two methods don't work, then this is all you are left with for device identification.</p>
+<p>I then integrated the above three methods to create a generic method called <strong><em>getDeviceIdUnique()</em></strong> that will work on all android devices - irrespective of whether its a phone/tablet or what make it is:</p>
+<div class="highlight"><pre><span></span>public static String getDeviceIdUnique(Context context)
  {
      try {
          String a = getDeviceIdTm(context);
@@ -100,20 +98,11 @@ public static String getDeviceIdUnique(Context context)
 </pre></div>
 
 
-<address>
-References:
-
-</address>
-
-<address>
-<http://stackoverflow.com/questions/2785485/is-there-a-unique-android-device-id>
-
-</address>
-
-<address>
-<http://stackoverflow.com/questions/4468248/unique-id-of-android-device>
-
-</address>
+<p><em>References:</em></p>
+<ul>
+<li><a href="http://stackoverflow.com/questions/2785485/is-there-a-unique-android-device-id">http://stackoverflow.com/questions/2785485/is-there-a-unique-android-device-id</a></li>
+<li><a href="http://stackoverflow.com/questions/4468248/unique-id-of-android-device">http://stackoverflow.com/questions/4468248/unique-id-of-android-device</a></li>
+</ul>
     </div><!-- /.entry-content -->
 
   </article>

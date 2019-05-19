@@ -35,17 +35,17 @@
         <address class="vcard author">
                 By                         <a class="url fn" href="/author/prahlad-yeri.html">Prahlad Yeri</a>
         </address>
-<p>In <a href="/category/uncategorized.html">Uncategorized</a>.</p>
-
+<p>In <a href="/category/java.html">Java</a>.</p>
+<p>tags: <a href="/tag/android.html">Android</a> </p>
 </footer><!-- /.post-info -->      <p>Creating dialogs is a very common need in your app to show a dialog box to the user in order to fetch a value, be it a mobile, desktop or even a web application. Furthermore, the values can range from anything like simple <em>OK-Cancel</em> dialog results to a list of "check-able" values or even a date-range.<!--more--></p>
 <p><a href="http://www.prahladyeri.com/uploads/2013/11/droid-man.png"><img alt="droid-man" class="alignnone wp-image-209" height="70" src="/uploads/old/droid-man.png" width="60"></a></p>
-<p>I experienced the need to create an android dialog for each one of those for showing reports in a recent android app project. [Whilst the java api offers maximum flexibility in creating dialog interface elements, there is no ready-made method that can be called to get, say a result for a message-dialog like this:]{style="line-height: 1.714285714; font-size: 1rem;"}</p>
-<p>``` {lang="java"}
-result = MessageBox.Show();</p>
-<div class="highlight"><pre><span></span>Other languages like C\# and VB provide such methods to show modal dialog boxes that return values after waiting for a modal dialog. But unfortunately, there is no concept of &quot;modal&quot; in android. A thread cannot just sit idle waiting for input as the resources are too valuable for that. Instead, there is the concept of callbacks, so that instead of you waiting for the dialog to return, the method calls back a function reference you have passed it:
+<p>I experienced the need to create an android dialog for each one of those for showing reports in a recent android app project. Whilst the java api offers maximum flexibility in creating dialog interface elements, there is no ready-made method that can be called to get, say a result for a message-dialog like this:</p>
+<div class="highlight"><pre><span></span>result = MessageBox.Show();
+</pre></div>
 
-``` {lang=&quot;java&quot;}
-AlertDialog.Builder builder=new AlertDialog.Builder(context);
+
+<p>Other languages like C# and VB provide such methods to show modal dialog boxes that return values after waiting for a modal dialog. But unfortunately, there is no concept of "modal" in android. A thread cannot just sit idle waiting for input as the resources are too valuable for that. Instead, there is the concept of callbacks, so that instead of you waiting for the dialog to return, the method calls back a function reference you have passed it:</p>
+<div class="highlight"><pre><span></span>AlertDialog.Builder builder=new AlertDialog.Builder(context);
 builder.setTitle(&quot;Milk supply tracker&quot;);
 builder.setMessage(message);
 builder.setPositiveButton(&quot;Yes&quot;,listener);
@@ -55,45 +55,44 @@ builder.create().show();
 
 
 <p>The listener here is the referece to a function that will be called when the Yes or No button will be clicked. This not only complicates your code, but makes it very difficult to reuse code for handling different situations like getting a selection from a range of values or getting a date/time range. To solve this problem, I created a separate java class called Dialog and added variations of ShowDialog() methods to handle each type of dialog:</p>
-<p>``` {lang="java"}
-class Dialog
-{
-    public static void ShowMessageDialog(Context context, String message)
-    {
-        ShowDialog(context,message,MessageBoxType.OKOnly,new String[]{},false, null,null);
-    }</p>
-<div class="highlight"><pre><span></span>public static void ShowMessageDialog(Context context, String message, MessageBoxType type , OnClickListener listener)
- {
-     ShowDialog(context,message,type,new String[]{},false, listener,null);
- }
+<div class="highlight"><pre><span></span><span class="kr">class</span> <span class="nx">Dialog</span>
+<span class="p">{</span>
+    <span class="kr">public</span> <span class="kr">static</span> <span class="k">void</span> <span class="nx">ShowMessageDialog</span><span class="p">(</span><span class="nx">Context</span> <span class="nx">context</span><span class="p">,</span> <span class="nb">String</span> <span class="nx">message</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="nx">ShowDialog</span><span class="p">(</span><span class="nx">context</span><span class="p">,</span><span class="nx">message</span><span class="p">,</span><span class="nx">MessageBoxType</span><span class="p">.</span><span class="nx">OKOnly</span><span class="p">,</span><span class="k">new</span> <span class="nb">String</span><span class="p">[]{},</span><span class="kc">false</span><span class="p">,</span> <span class="kc">null</span><span class="p">,</span><span class="kc">null</span><span class="p">);</span>
+    <span class="p">}</span>
 
-public static void ShowListDialog(Context context, String message, String[] listItems, boolean isMultiChoice, OnClickListener listener)
- {
- if (isMultiChoice)
-     ShowDialog(context, message, MessageBoxType.OkCancel , listItems, isMultiChoice, listener,null);
- else
-     ShowDialog(context, message, MessageBoxType.OKOnly , listItems, isMultiChoice, null,listener);
- }
+    <span class="kr">public</span> <span class="kr">static</span> <span class="k">void</span> <span class="nx">ShowMessageDialog</span><span class="p">(</span><span class="nx">Context</span> <span class="nx">context</span><span class="p">,</span> <span class="nb">String</span> <span class="nx">message</span><span class="p">,</span> <span class="nx">MessageBoxType</span> <span class="nx">type</span> <span class="p">,</span> <span class="nx">OnClickListener</span> <span class="nx">listener</span><span class="p">)</span>
+     <span class="p">{</span>
+         <span class="nx">ShowDialog</span><span class="p">(</span><span class="nx">context</span><span class="p">,</span><span class="nx">message</span><span class="p">,</span><span class="nx">type</span><span class="p">,</span><span class="k">new</span> <span class="nb">String</span><span class="p">[]{},</span><span class="kc">false</span><span class="p">,</span> <span class="nx">listener</span><span class="p">,</span><span class="kc">null</span><span class="p">);</span>
+     <span class="p">}</span>
 
-public static void ShowDateDialog(Context context,String message,OnDateSetListener listener)
-{
-    Calendar c=Calendar.getInstance();
-    int y=c.get(Calendar.YEAR);
-    int m=c.get(Calendar.MONTH);
-    int d=c.get(Calendar.DAY_OF_MONTH);
+    <span class="kr">public</span> <span class="kr">static</span> <span class="k">void</span> <span class="nx">ShowListDialog</span><span class="p">(</span><span class="nx">Context</span> <span class="nx">context</span><span class="p">,</span> <span class="nb">String</span> <span class="nx">message</span><span class="p">,</span> <span class="nb">String</span><span class="p">[]</span> <span class="nx">listItems</span><span class="p">,</span> <span class="kr">boolean</span> <span class="nx">isMultiChoice</span><span class="p">,</span> <span class="nx">OnClickListener</span> <span class="nx">listener</span><span class="p">)</span>
+     <span class="p">{</span>
+     <span class="k">if</span> <span class="p">(</span><span class="nx">isMultiChoice</span><span class="p">)</span>
+         <span class="nx">ShowDialog</span><span class="p">(</span><span class="nx">context</span><span class="p">,</span> <span class="nx">message</span><span class="p">,</span> <span class="nx">MessageBoxType</span><span class="p">.</span><span class="nx">OkCancel</span> <span class="p">,</span> <span class="nx">listItems</span><span class="p">,</span> <span class="nx">isMultiChoice</span><span class="p">,</span> <span class="nx">listener</span><span class="p">,</span><span class="kc">null</span><span class="p">);</span>
+     <span class="k">else</span>
+         <span class="nx">ShowDialog</span><span class="p">(</span><span class="nx">context</span><span class="p">,</span> <span class="nx">message</span><span class="p">,</span> <span class="nx">MessageBoxType</span><span class="p">.</span><span class="nx">OKOnly</span> <span class="p">,</span> <span class="nx">listItems</span><span class="p">,</span> <span class="nx">isMultiChoice</span><span class="p">,</span> <span class="kc">null</span><span class="p">,</span><span class="nx">listener</span><span class="p">);</span>
+     <span class="p">}</span>
 
-    DatePickerDialog dlg=new DatePickerDialog(context, listener, y, m, d);
-    dlg.setTitle(message);
-    dlg.show();
-}
+    <span class="kr">public</span> <span class="kr">static</span> <span class="k">void</span> <span class="nx">ShowDateDialog</span><span class="p">(</span><span class="nx">Context</span> <span class="nx">context</span><span class="p">,</span><span class="nb">String</span> <span class="nx">message</span><span class="p">,</span><span class="nx">OnDateSetListener</span> <span class="nx">listener</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="nx">Calendar</span> <span class="nx">c</span><span class="o">=</span><span class="nx">Calendar</span><span class="p">.</span><span class="nx">getInstance</span><span class="p">();</span>
+        <span class="kr">int</span> <span class="nx">y</span><span class="o">=</span><span class="nx">c</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="nx">Calendar</span><span class="p">.</span><span class="nx">YEAR</span><span class="p">);</span>
+        <span class="kr">int</span> <span class="nx">m</span><span class="o">=</span><span class="nx">c</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="nx">Calendar</span><span class="p">.</span><span class="nx">MONTH</span><span class="p">);</span>
+        <span class="kr">int</span> <span class="nx">d</span><span class="o">=</span><span class="nx">c</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="nx">Calendar</span><span class="p">.</span><span class="nx">DAY_OF_MONTH</span><span class="p">);</span>
+
+        <span class="nx">DatePickerDialog</span> <span class="nx">dlg</span><span class="o">=</span><span class="k">new</span> <span class="nx">DatePickerDialog</span><span class="p">(</span><span class="nx">context</span><span class="p">,</span> <span class="nx">listener</span><span class="p">,</span> <span class="nx">y</span><span class="p">,</span> <span class="nx">m</span><span class="p">,</span> <span class="nx">d</span><span class="p">);</span>
+        <span class="nx">dlg</span><span class="p">.</span><span class="nx">setTitle</span><span class="p">(</span><span class="nx">message</span><span class="p">);</span>
+        <span class="nx">dlg</span><span class="p">.</span><span class="nx">show</span><span class="p">();</span>
+    <span class="p">}</span>
+
+<span class="p">}</span>
 </pre></div>
 
 
-<p>}</p>
-<div class="highlight"><pre><span></span>As you can see, the ShowMessageDialog() accepts different parameters depending on whether a listener is required or not. ShowListDialog(), on the other hand passes an array of strings to create a dialog displaying a list of values from which a user may select. The isMultiChoice parameter tells whether a checkbox is required or not against each value in the select list. All this is actually implemented in the ShowDialog() private method, whereas the ShowDateDialog() has its own implementation. Here is the source for ShowDialog():
-
-``` {lang=&quot;java&quot;}
-private static void ShowDialog(Context context, String message, MessageBoxType type , String[] listItems, boolean isMultiChoice, OnClickListener listener,OnClickListener selectedItemListener)
+<p>As you can see, the ShowMessageDialog() accepts different parameters depending on whether a listener is required or not. ShowListDialog(), on the other hand passes an array of strings to create a dialog displaying a list of values from which a user may select. The isMultiChoice parameter tells whether a checkbox is required or not against each value in the select list. All this is actually implemented in the ShowDialog() private method, whereas the ShowDateDialog() has its own implementation. Here is the source for ShowDialog():</p>
+<div class="highlight"><pre><span></span>private static void ShowDialog(Context context, String message, MessageBoxType type , String[] listItems, boolean isMultiChoice, OnClickListener listener,OnClickListener selectedItemListener)
 {
     AlertDialog.Builder builder=new AlertDialog.Builder(context);
 
@@ -154,24 +153,21 @@ private static void ShowDialog(Context context, String message, MessageBoxType t
 
 
 <p>So hopefully, this class should suffice all your needs related to showing a dialog on your android app. Here is a working example of how the ShowListDialog() is actually called with checkboxes on:</p>
-<p>``` {lang="java"}
-selItems=new String[]{"apples","oranges","grapes"};
-Device.ShowListDialog(this,"Select a fruit" ,this.selItems, true, new DialogInterface.OnClickListener() {</p>
-<div class="highlight"><pre><span></span>    <span class="p">@</span><span class="k">Override</span>
-    <span class="nt">public</span> <span class="nt">void</span> <span class="nt">onClick</span><span class="o">(</span><span class="nt">DialogInterface</span> <span class="nt">dialog</span><span class="o">,</span> <span class="nt">int</span> <span class="nt">which</span><span class="o">)</span> 
-    <span class="p">{</span>
-        <span class="nt">if</span> <span class="o">(</span><span class="nt">which</span><span class="o">==</span><span class="nt">DialogInterface</span><span class="p">.</span><span class="nc">BUTTON_POSITIVE</span><span class="o">)</span>
-        <span class="p">{</span>
-            <span class="err">for(int</span> <span class="n">i</span><span class="p">:</span><span class="n">Device</span><span class="o">.</span><span class="n">CheckedItems</span><span class="p">)</span>
-            <span class="n">Dialog</span><span class="o">.</span><span class="nf">ShowMessageDialog</span><span class="p">(</span><span class="n">ReportsActivity</span><span class="err">.</span><span class="n">this</span><span class="p">,</span> <span class="s2">&quot;selected:&quot;</span> <span class="o">+</span> <span class="n">selItems</span><span class="cp">[</span><span class="nx">i</span><span class="cp">]</span><span class="p">);</span>
-        <span class="p">}</span>
-    <span class="p">}</span>
-<span class="err">}</span><span class="o">);</span>
+<div class="highlight"><pre><span></span><span class="nt">selItems</span><span class="o">=</span><span class="nt">new</span> <span class="nt">String</span><span class="cp">[]</span><span class="p">{</span><span class="err">&quot;apples&quot;,&quot;oranges&quot;,&quot;grapes&quot;</span><span class="p">}</span><span class="o">;</span>
+<span class="nt">Device</span><span class="p">.</span><span class="nc">ShowListDialog</span><span class="o">(</span><span class="nt">this</span><span class="o">,</span><span class="s2">&quot;Select a fruit&quot;</span> <span class="o">,</span><span class="nt">this</span><span class="p">.</span><span class="nc">selItems</span><span class="o">,</span> <span class="nt">true</span><span class="o">,</span> <span class="nt">new</span> <span class="nt">DialogInterface</span><span class="p">.</span><span class="nc">OnClickListener</span><span class="o">()</span> <span class="p">{</span>
+
+        <span class="err">@Override</span>
+        <span class="err">public</span> <span class="err">void</span> <span class="err">onClick(DialogInterface</span> <span class="err">dialog,</span> <span class="err">int</span> <span class="err">which)</span> 
+        <span class="err">{</span>
+            <span class="err">if</span> <span class="err">(which==DialogInterface.BUTTON_POSITIVE)</span>
+            <span class="err">{</span>
+                <span class="err">for(int</span> <span class="n">i</span><span class="p">:</span><span class="n">Device</span><span class="o">.</span><span class="n">CheckedItems</span><span class="p">)</span>
+                <span class="n">Dialog</span><span class="o">.</span><span class="nf">ShowMessageDialog</span><span class="p">(</span><span class="n">ReportsActivity</span><span class="err">.</span><span class="n">this</span><span class="p">,</span> <span class="s2">&quot;selected:&quot;</span> <span class="o">+</span> <span class="n">selItems</span><span class="cp">[</span><span class="nx">i</span><span class="cp">]</span><span class="p">);</span>
+            <span class="p">}</span>
+        <span class="err">}</span>
+    <span class="err">}</span><span class="o">);</span>
+<span class="err">}</span>
 </pre></div>
-
-
-<p>}
-```</p>
     </div><!-- /.entry-content -->
 
   </article>
