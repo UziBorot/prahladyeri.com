@@ -1,4 +1,4 @@
-Git repo to host my blog (master branch).
+Git repo to host my blog (gh-pages branch).
 
 All content is published under a creative commons license (CCA 4.0).
 
