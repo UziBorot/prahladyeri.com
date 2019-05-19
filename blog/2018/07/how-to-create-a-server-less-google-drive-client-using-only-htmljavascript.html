@@ -41,7 +41,8 @@
 <p>Almost everyone knows about the <a href="https://github.com/google/google-api-python-client">Google API Python Client</a>(and similar others in Java, PHP, etc.) which can be accessed from the server, but few are aware that Google even supports a totally server-less implementation of a client using only client-side technology (HTML/JavaScript). The only caveat here is that your app won't get a permanent access token like the server side apps do, but instead, has a temporary access until your web page isn't closed. Here is how to go about doing it:</p>
 <h2>Step-1: Register your App by visiting the Google Cloud Console:</h2>
 <p>As usual, visit the <a href="https://console.cloud.google.com/">Google Cloud Console</a>and register your app first, enable the Google Drive API by visiting "APIs &amp; Services"=>"Dashboard", then click on "Credentials" to create an API Key, an OAuth credential and setup the authentication screen for your user. While setting credentials, remember to add your app's URL in authorized Redirect-URIs section. If you have multiple URLs for your app (like localhost for testing, www.YourSite.com for production, etc., then add them all to the list):</p>
-<p>[caption id="attachment_875" align="alignnone" width="690"]<img alt="Credentials Configuration Redirect URIs" class="size-full wp-image-875" height="397" src="/uploads/2018/07/credentials_config_redirect_uri.png" width="690"> Credentials Configuration: Redirect URIs[/caption]</p>
+<p><img alt="Credentials Configuration Redirect URIs" src="/uploads/2018/07/credentials_config_redirect_uri.png"></p>
+<p><strong>Credentials Configuration: Redirect URIs</strong></p>
 <h2>Step-2: Setup the OAuth consent screen.</h2>
 <p>This is what your user will see when they visit your app and it redirects them to Google for getting permissions for Drive access. Click on the "OAuth consent screen" tab and configure it with your app's name, logo, etc.</p>
 <h2>Step-3: Add script references.</h2>
@@ -188,7 +189,7 @@
                 <address id="about" class="vcard body">
                 Copyright (c) 2013-2019 <a href="/">Prahlad Yeri</a>.
 				<br>
-				This work is licensed under a [Creative Commons Attribution 4.0 International License](http://creativecommons.org/licenses/by/4.0/).
+				This work is licensed under a <a href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.
                 </address><!-- /#about -->
         </footer><!-- /#contentinfo -->
 

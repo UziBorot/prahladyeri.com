@@ -40,26 +40,19 @@
 </footer><!-- /.post-info -->      <p>The usual advice you get when seeking a more resource conserving distro is to use a lighter spin-off such as Xubuntu, Lubuntu, or a Debian with Openbox, etc. However, not many people know that even a "heavy" distro such as Ubuntu 16.04 LTS with the default Unity Desktop could be made much lighter by uninstalling some stuff and removing others from the startup. Lets see how it can be achieved:<!--more--></p>
 <h2><strong>1.Remove unwanted items from Startup Applications.</strong></h2>
 <p>When you go to the Ubuntu Dash and start the "<strong>Startup Applications</strong>" dialog, it doesn't show you the whole picture. There are still many "hidden apps" that silently start in the background without you knowing it. In order for all these hidden apps to be displayed in that dialog, you'll have to run the following command in the terminal once:</p>
-<p>``` {.brush: .bash}
-sudo sed -i 's/NoDisplay=true/NoDisplay=false/g' /etc/xdg/autostart/*.desktop</p>
-<div class="highlight"><pre><span></span>Once you run this and then open the &quot;Startup Applications&quot; dialog, you&#39;ll be able to see the hidden apps too:
+<div class="highlight"><pre><span></span>sudo sed -i &#39;s/NoDisplay=true/NoDisplay=false/g&#39; /etc/xdg/autostart/*.desktop
+</pre></div>
 
-\[caption id=&quot;attachment\_505&quot; align=&quot;alignnone&quot; width=&quot;600&quot;\][![Startup Applications (Ubuntu)](/uploads/2017/09/startup_applications.png){.size-full .wp-image-505 width=&quot;600&quot; height=&quot;478&quot;}](/uploads/2017/09/startup_applications.png) Startup Applications (Ubuntu)\[/caption\]
 
-From this dialog, you can disable an app from starting up by &quot;unchecking&quot; it. The most important that I typically uncheck on a new installation are **Backup Monitor** and **Desktop Sharing**. It doesn&#39;t make sense to have such a huge backup schizophrenia on a non-production desktop computer, so I wonder why the Backup Monitor is enabled in the first place. About 99% of sysadmins either perform a manual backup periodically, or write an automation script use something like **rsync** which is specifically designed for the job.
-
-**Desktop Sharing** is an equally unnecessary tool to have been enabled by default on a linux desktop. This ain&#39;t the Windows world where people use Remote Desktop clients to connect to other PCs on the same network. Again, around 99% of linux folks use **ssh** to connect to remote machines. But that doesn&#39;t mean that you have to keep ssh server enabled by default either. Desktop Sharing should be an opt-in feature in any case and a user who specifically needs it can enable it when needed.
-
-**2. Remove unnecessary background services such as cups and avahi-daemon. **
------------------------------------------------------------------------------
-
-On a fresh Ubuntu 16.04 installation, run **sudo netstat -antpe** and you&#39;ll see the rarely used **cupsd** daemon (*common unix printing service*) running on a free TCP port leeching your memory and network resources. Similarly, run **sudo netstat -anupe** to scan for UDP ports and you&#39;ll similarly see the cups browser daemon (**cups-browsed**) and the avahi daemon (**avahi-daemon**) services.
-
-Again, use of printers has become less and less especially since the oncoming of digital age and Internet revolution. Hell, even companies have been encouraging email communication these days in a bid to avoid paper work and save trees, my bank sends me an email statement since last two years instead of a postal envelope to my address, and here we are - one of the top linux distributions running a printer service by default! Again, please make it an opt-in feature, those who need it will have enough sense to type **sudo apt install cups**. Until that happens, the rest of the folks can do the following:
-
-``` {.brush: .bash}
-sudo systemctl disable cupsd.service
-
+<p>Once you run this and then open the "Startup Applications" dialog, you'll be able to see the hidden apps too:</p>
+<p><a href="/uploads/2017/09/startup_applications.png"><img alt="Startup Applications (Ubuntu)" class="size-full wp-image-505" height="478" src="/uploads/2017/09/startup_applications.png" width="600"></a></p>
+<p><strong>Startup Applications (Ubuntu)</strong></p>
+<p>From this dialog, you can disable an app from starting up by "unchecking" it. The most important that I typically uncheck on a new installation are <strong>Backup Monitor</strong> and <strong>Desktop Sharing</strong>. It doesn't make sense to have such a huge backup schizophrenia on a non-production desktop computer, so I wonder why the Backup Monitor is enabled in the first place. About 99% of sysadmins either perform a manual backup periodically, or write an automation script use something like <strong>rsync</strong> which is specifically designed for the job.</p>
+<p><strong>Desktop Sharing</strong> is an equally unnecessary tool to have been enabled by default on a linux desktop. This ain't the Windows world where people use Remote Desktop clients to connect to other PCs on the same network. Again, around 99% of linux folks use <strong>ssh</strong> to connect to remote machines. But that doesn't mean that you have to keep ssh server enabled by default either. Desktop Sharing should be an opt-in feature in any case and a user who specifically needs it can enable it when needed.</p>
+<h2><strong>2. Remove unnecessary background services such as cups and avahi-daemon. </strong></h2>
+<p>On a fresh Ubuntu 16.04 installation, run <strong>sudo netstat -antpe</strong> and you'll see the rarely used <strong>cupsd</strong> daemon (<em>common unix printing service</em>) running on a free TCP port leeching your memory and network resources. Similarly, run <strong>sudo netstat -anupe</strong> to scan for UDP ports and you'll similarly see the cups browser daemon (<strong>cups-browsed</strong>) and the avahi daemon (<strong>avahi-daemon</strong>) services.</p>
+<p>Again, use of printers has become less and less especially since the oncoming of digital age and Internet revolution. Heck, even companies have been encouraging email communication these days in a bid to avoid paper work and save trees, my bank sends me an email statement since last two years instead of a postal envelope to my address, and here we are - one of the top linux distributions running a printer service by default! Again, please make it an opt-in feature, those who need it will have enough sense to type <strong>sudo apt install cups</strong>. Until that happens, the rest of the folks can do the following:</p>
+<div class="highlight"><pre><span></span>sudo systemctl disable cupsd.service
 sudo systemctl disable cups-browsed.service
 </pre></div>
 
@@ -67,42 +60,39 @@ sudo systemctl disable cups-browsed.service
 <p>We are not uninstalling it, just disabling the service just in case. And before you say that <em>cups</em> is needed for PDF exports from browsers, then no, the latest versions of firefox and chrome come with their own PDF extensions and don't depend on this service anymore.</p>
 <p>As for the other service (avahi-daemon), it really doesn't make any sense as <strong>avahi</strong> is the linux implementation of Apple's proprietary protocols for peer-to-peer communication between their iDevices. Now, who in their right mind would be using Ubuntu on their PC/Laptop and still use an Apple product like iPhone or MacBook? The two just don't play well together as Apple products are a closed system and doesn't allow much interaction with anything else without going through a lot of hoops. A user who can handle a linux distribution such as Ubuntu can easily handle something like Android which interacts well with a linux system (since Android itself is based on the linux kernel).</p>
 <p>Again, for the extremely rare folks who do have such a setup, let them install it themselves. For others, to disable the avahi-daemon, just:</p>
-<p>``` {.brush: .bash}
-sudo systemctl disable avahi-daemon</p>
-<div class="highlight"><pre><span></span><span class="gh">**3. Disable HUD (if you don&#39;t use it).**</span>
-<span class="gh">-----------------------------------------</span>
+<div class="highlight"><pre><span></span>sudo systemctl disable avahi-daemon
+</pre></div>
 
-One of the reasons why Xubuntu has such a low memory footprint (\~200 MB at idle) is that it doesn&#39;t come with memory leeching services such as the HUD. For example, on my laptop, HUD service eats a good 30MB of RAM which is too much for a service that I don&#39;t even use. As [described in this post](https://askubuntu.com/a/218073/49938), you can disable the HUD service from the terminal as follows:
 
-on 32bit systems
-
-<span class="s">``` {.brush: .bash}</span>
-<span class="s">sudo chmod -x /usr/lib/indicator-appmenu/hud-service</span>
+<h2><strong>3. Disable HUD (if you don't use it).</strong></h2>
+<p>One of the reasons why Xubuntu has such a low memory footprint (~200 MB at idle) is that it doesn't come with memory leeching services such as the HUD. For example, on my laptop, HUD service eats a good 30MB of RAM which is too much for a service that I don't even use. As <a href="https://askubuntu.com/a/218073/49938">described in this post</a>, you can disable the HUD service from the terminal as follows:</p>
+<p>on 32bit systems</p>
+<div class="highlight"><pre><span></span>sudo chmod -x /usr/lib/indicator-appmenu/hud-service
 </pre></div>
 
 
 <p>on 64bit systems</p>
-<p>``` {.brush: .bash}
-sudo chmod -x /usr/lib/x86_64-linux-gnu/hud/hud-service</p>
-<div class="highlight"><pre><span></span><span class="gh">**4. Disable evolution processes (if you use Thunderbird or anything else instead).**</span>
-<span class="gh">-------------------------------------------------------------------------------------</span>
+<div class="highlight"><pre><span></span>sudo chmod -x /usr/lib/x86_64-linux-gnu/hud/hud-service
+</pre></div>
 
-Evolution processes(such as <span class="gs">**evolution-calendar-factory**</span> and <span class="gs">**evolution-addressbook-factory**</span>) are huge memory leechers and a big drain on your resources. If you just start the System Monitor and search for &quot;evolution&quot;, then you&#39;ll find 4-5 different processes that will be totally consuming a good 120MB of your RAM! Now, for someone who doesn&#39;t even use the evolution email client or any of these services, why should they be there in the first place? But unfortunately, you cannot just remove (uninstall) these packages using <span class="ge">*apt*</span>. Trying to <span class="gs">**remove evolution-data-server**</span> will break your system as they have made it a core part of the desktop. What you can do instead (if you really want to claim back that RAM) is a workaround [suggested in this post](https://askubuntu.com/a/816353/49938). Simply rename the folders as follows (or use the other hack mentioned in the answer):
 
-<span class="s">``` {.brush: .bash}</span>
-<span class="s">sudo mv /usr/lib/evolution-data-server /usr/lib/evolution-data-server-disabled</span>
-<span class="s">sudo mv /usr/lib/evolution /usr/lib/evolution-disabled</span>
+<h2><strong>4. Disable evolution processes (if you use Thunderbird or anything else instead).</strong></h2>
+<p>Evolution processes(such as <strong>evolution-calendar-factory</strong> and <strong>evolution-addressbook-factory</strong>) are huge memory leechers and a big drain on your resources. If you just start the System Monitor and search for "evolution", then you'll find 4-5 different processes that will be totally consuming a good 120MB of your RAM! Now, for someone who doesn't even use the evolution email client or any of these services, why should they be there in the first place? But unfortunately, you cannot just remove (uninstall) these packages using <em>apt</em>. Trying to <strong>remove evolution-data-server</strong> will break your system as they have made it a core part of the desktop. What you can do instead (if you really want to claim back that RAM) is a workaround <a href="https://askubuntu.com/a/816353/49938">suggested in this post</a>. Simply rename the folders as follows (or use the other hack mentioned in the answer):</p>
+<div class="highlight"><pre><span></span>sudo mv /usr/lib/evolution-data-server /usr/lib/evolution-data-server-disabled
+sudo mv /usr/lib/evolution /usr/lib/evolution-disabled
 </pre></div>
 
 
 <h2><strong>5. Remove GNOME software center (only if you don't use it):</strong></h2>
 <p>This piece of junk takes a good 70-80MB on any typical Ubuntu installation. For managing software, I personally find the good old <strong>apt install</strong> way to be much more intuitive than the GNOME software center. For those rare cases when you absolutely need a GUI, the <strong>synaptic package manager</strong> works absolutely fine and works without taking a constant toll on your resources.</p>
 <p>As described in <a href="https://askubuntu.com/a/783075/49938">this answer</a>, all it takes to safely remove GNOME software center it from your system is:</p>
-<p><code>{.brush: .bash}
-sudo apt purge gnome-software</code></p>
+<div class="highlight"><pre><span></span>sudo apt purge gnome-software
+</pre></div>
+
+
 <hr>
 <p>After trimming the programs and services as mentioned above, your system should become nearly as light-weight as those other lighter distros like Xubuntu/Lubuntu/etc. and you'll still be able to enjoy and work with a richer and better user interface.</p>
-<p>On my own laptop, I was able to reduce the idle memory consumption from \~550MB to \~300MB which is as close as it gets to Ubuntu MATE!</p>
+<p>On my own laptop, I was able to reduce the idle memory consumption from ~550MB to ~300MB which is as close as it gets to Ubuntu MATE!</p>
 <p><em>Sources:</em></p>
 <ul>
 <li><a href="https://askubuntu.com/questions/210387/how-can-i-disable-hud-service">https://askubuntu.com/questions/210387/how-can-i-disable-hud-service</a></li>
@@ -140,7 +130,7 @@ sudo apt purge gnome-software</code></p>
                 <address id="about" class="vcard body">
                 Copyright (c) 2013-2019 <a href="/">Prahlad Yeri</a>.
 				<br>
-				This work is licensed under a [Creative Commons Attribution 4.0 International License](http://creativecommons.org/licenses/by/4.0/).
+				This work is licensed under a <a href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.
                 </address><!-- /#about -->
         </footer><!-- /#contentinfo -->
 

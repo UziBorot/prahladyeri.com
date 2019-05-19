@@ -31,15 +31,15 @@
         </address>
 <p>In <a href="/category/linux.html">Linux</a>.</p>
 <p>tags: <a href="/tag/google-drive.html">Google Drive</a> <a href="/tag/linux.html">Linux</a> <a href="/tag/python.html">Python</a> </p>
-</footer><!-- /.post-info --><p>One of the most boring things we need to perform in life is using the <a href="https://drive.google.com/drive/">Google Drive</a>. On one hand, so useful is this tool provided by Google (so many cloud GBs for free, yay!). But on the other hand, the web interface to access those files is not quite as intuitive, especially so for power users, and certainly so for linux users!<!--more--></p>
+</footer><!-- /.post-info --><p>One of the most boring things we need to perform in life is using the <a href="https://drive.google.com/drive/">Google Drive</a>. On one hand, so useful is this tool provided by Google (so many cloud GBs for free, yay!) but on the other hand, the web interface to access those files is not quite as intuitive, especially so for power users, and certainly so for linux users!<!--more--></p>
 <p>Unlike the good old FTP/SFTP where you could just run some geeky commands in a terminal (or use a super-intuitive GUI like FileZilla to just drag and drop files), the Google Drive web interface results in a crippled work flow. To top it, we don't even have a desktop client like the Windows folks do.</p>
 <h1>Tux Drive</h1>
 <p>To solve this problem, I have written a console based python program called <a href="https://github.com/prahladyeri/tuxdrive"><strong>tuxdrive</strong></a>.</p>
-<p>[caption id="" align="alignnone" width="687"]<img alt="Tux Drive running on Ubuntu 16.04 LTS" height="302" src="https://raw.githubusercontent.com/prahladyeri/tuxdrive/master/screenshot.png" width="687"> Tux Drive running on Ubuntu 16.04 LTS[/caption]</p>
+<p><img alt="Tux Drive running on Ubuntu 16.04 LTS" height="302" src="https://raw.githubusercontent.com/prahladyeri/tuxdrive/master/screenshot.png" width="687"></p>
+<p><strong>Tux Drive running on Ubuntu 16.04 LTS</strong></p>
 <p>Its nowhere as comprehensive as FTP/SFTP in flexibility (yet), but it does some basic things like <strong><em>ls (or dir)</em></strong> to list remote files and directories on your drive, <strong><em>get file_name</em></strong> to download a file, <strong><em>cd remote_dir</em></strong> to change the drive directory, etc.</p>
 <p>Here is the entire list of vocabulary that <strong>tuxdrive</strong> is currently acquainted with:</p>
-<p><code>{.brush: .bash}
- help (or ?): Shows this help facility.
+<div class="highlight"><pre><span></span> help (or ?): Shows this help facility.
  dir (or ls): Lists all files and folders on drive.
  !dir (or !ls): Lists all files and folders in current directory.
  get (or pull) &lt;item&gt;: Pulls the named file/folder from drive to current working directory.
@@ -52,7 +52,10 @@
  rdcache: Show remote directory mapping of id and folder paths.
  rfcache: Show remote files mapping of id and folder paths.
  mkdir: Create a directory on remote path.
- exit: Exits this program.</code></p>
+ exit: Exits this program.
+</pre></div>
+
+
 <p>Instructions to download and run <strong>tuxdrive</strong> can be found on the <a href="https://github.com/prahladyeri/tuxdrive">project github</a>. I sincerely hope this tool becomes useful to as many users as possible. If something good comes out of this, I'll think about integrating dropbox too into this in future.</p>
 <p>Have a Good Day.</p><p>There are <a href="/blog/2017/09/introducing-tuxdrive-a-command-line-tool-to-access-google-drive-from-linux.html#disqus_thread">comments</a>.</p>                </article>
             </aside><!-- /#featured -->
@@ -135,7 +138,7 @@
                 <address id="about" class="vcard body">
                 Copyright (c) 2013-2019 <a href="/">Prahlad Yeri</a>.
 				<br>
-				This work is licensed under a [Creative Commons Attribution 4.0 International License](http://creativecommons.org/licenses/by/4.0/).
+				This work is licensed under a <a href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.
                 </address><!-- /#about -->
         </footer><!-- /#contentinfo -->
 

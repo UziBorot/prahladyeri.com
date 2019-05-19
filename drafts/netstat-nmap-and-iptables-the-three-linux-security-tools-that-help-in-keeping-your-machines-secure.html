@@ -35,7 +35,7 @@
         <address class="vcard author">
                 By                         <a class="url fn" href="/author/prahlad-yeri.html">Prahlad Yeri</a>
         </address>
-<p>In <a href="/category/linux-technology.html">Linux, Technology</a>.</p>
+<p>In <a href="/category/linux.html">Linux</a>.</p>
 <p>tags: <a href="/tag/linux.html">Linux</a> <a href="/tag/open-source.html">Open Source</a> </p>
 </footer><!-- /.post-info -->      <p>Today, I'd like to mention about three linux security tools that go a long way towards securing your linux devices. In fact, these three are easily the top linux tools when you want to audit the most basic aspects of linux security:</p>
 <ol>
@@ -43,10 +43,10 @@
 <li>Ensure there are no back-doors running on your device that are communicating with a remote device port.</li>
 </ol>
 <p><strong>netstat</strong> is easily the best tool for this job. For example, the command <strong>sudo netstat -antp</strong> on this Ubuntu machine shows that the only active <em>tcp</em> connections are those created by the <em>firefox</em> process:</p>
-<p>[caption id="attachment_551" align="alignnone" width="639"]<img alt="netstat" class="size-full wp-image-551" height="270" src="/uploads/2017/10/netstat-e1507442684592.png" width="639"> netstat tool running on Ubuntu 16.04 LTS[/caption]</p>
+<p><img alt="netstat" class="size-full wp-image-551" height="270" src="/uploads/2017/10/netstat-e1507442684592.png" width="639"> <strong>netstat tool running on Ubuntu 16.04 LTS</strong></p>
 <p>Similarly, the <strong>sudo netstat -anup</strong> command (without grep filter) shows that the only <em>udp</em> connections open are those created by dnsmasq.</p>
 <p><strong>nmap</strong> tool, on the other hand, also does the same thing (port scanning), but can do it on a remote machine on your network too. You can use it to confirm the same facts as above from the perspective of another machine on your local area network. Besides that, you can use it to scan for open ports on your other device too. For example, you can use the nmap tool from your PC/laptop to test for any open listening ports on your android phone on the same WiFi network as yours:</p>
-<p>[caption id="attachment_552" align="alignnone" width="606"]<img alt="nmap" class="size-full wp-image-552" height="370" src="/uploads/2017/10/nmap.png" width="606"> nmap tool running on Ubuntu 16.04 LTS[/caption]</p>
+<p><img alt="nmap" class="size-full wp-image-552" height="370" src="/uploads/2017/10/nmap.png" width="606"> <strong>nmap tool running on Ubuntu 16.04 LTS</strong></p>
 <p>Finally, <strong>iptables</strong> is the most important of all as it is the linux firewall that allows you to block in/out traffic on specific ports. For example, if you don't host any web apps or run any service such as ssh-server on your device (on most personal computers, you won't), then you can block all incoming traffic using the iptables command as thus:</p>
 <div class="highlight"><pre><span></span>/sbin/iptables -P INPUT DROP
 </pre></div>
@@ -95,7 +95,7 @@
                 <address id="about" class="vcard body">
                 Copyright (c) 2013-2019 <a href="/">Prahlad Yeri</a>.
 				<br>
-				This work is licensed under a [Creative Commons Attribution 4.0 International License](http://creativecommons.org/licenses/by/4.0/).
+				This work is licensed under a <a href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.
                 </address><!-- /#about -->
         </footer><!-- /#contentinfo -->
 

@@ -32,7 +32,8 @@
 <p>In <a href="/category/open-source.html">Open Source</a>.</p>
 <p>tags: <a href="/tag/git.html">Git</a> <a href="/tag/github.html">Github</a> <a href="/tag/gitlab.html">Gitlab</a> <a href="/tag/microsoft.html">Microsoft</a> <a href="/tag/open-source.html">Open Source</a> </p>
 </footer><!-- /.post-info --><p>After <a href="https://www.prahladyeri.com/blog/2018/06/microsofts-github-acquisition-an-unbiased-perspective.html">Microsoft's recent acquisition of Github</a>, a mass exodus has kind of begun and many small and large projects are moving their code bases to the much hyped <a href="https://gitlab.com/">Gitlab</a> in a hurry, and these include both open and closed source projects. However, before migrating to Gitlab, they should take a pause and learn something about Gitlab and consider evaluating other alternatives too.<!--more--></p>
-<p>[caption id="attachment_644" align="alignnone" width="692"]<img alt="Gitlab Stack" class="size-full wp-image-644" height="605" src="/uploads/2018/06/gitlab_stack.png" width="692"> Gitlab Stack[/caption]</p>
+<p><img alt="Gitlab Stack" class="size-full wp-image-644" height="605" src="/uploads/2018/06/gitlab_stack.png" width="692"> </p>
+<p><strong>Gitlab Stack</strong></p>
 <p>According to above <a href="https://stackshare.io/gitlab/gitlab">StackShare.io chart</a>, Gitlab basically runs on Microsoft Azure cloud hosting facility. So, if you are leaving Github in order to escape the clutches of Microsoft, then you are headed to a totally wrong place! Microsoft is exactly the place where your source code will reside in this case, only difference is that instead of controlling it directly (as in the case of Github), Microsoft will be controlling your code only technically.</p>
 <p>I know, some of you will be saying that you are self-hosting an open source copy of Gitlab and not actually moving to <a href="https://gitlab.com">Gitlab.com</a>. In that case, please have a look at another item in that stack, namely Rails (RoR or Ruby on Rails framework).</p>
 <p>Though Rails is a great framework that developers enjoy to code with, its a performance hog when it comes to actually running on production! There is a reason why <a href="https://jaredfriedman.wordpress.com/2015/09/15/why-i-wouldnt-use-rails-for-a-new-company/">Twitter ditched Rails</a> in favor of Node.js instead of fixing the interpreter like Facebook did with PHP. Apart from Rails being a performance hog, consider that a git hosting facility is not a simple CRUD app. Its very difficult to do advanced things like CI/CD right in a framework like Rails and the effect is showing. It may work out initially, but once your code base starts to increase and your integrations start to scale, you'll hit the RoR scaling limit sooner or later, like <a href="https://serverfault.com/questions/818489/gitlab-extremely-high-memory-consumption-by-ruby-bundle-process">many others have</a>. Its not uncommon for Gitlab to eat gigabytes of your RAM or consume 100% CPU. So, if you are trying to host Gitlab in a small Digital Ocean droplet or Amazon AWS Micro instance, you can just forget about it!</p>
@@ -83,7 +84,7 @@
                 <address id="about" class="vcard body">
                 Copyright (c) 2013-2019 <a href="/">Prahlad Yeri</a>.
 				<br>
-				This work is licensed under a [Creative Commons Attribution 4.0 International License](http://creativecommons.org/licenses/by/4.0/).
+				This work is licensed under a <a href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.
                 </address><!-- /#about -->
         </footer><!-- /#contentinfo -->
 

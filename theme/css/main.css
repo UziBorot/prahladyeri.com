@@ -458,6 +458,8 @@ article.hentry div.entry-content {
 	min-height: 100px;
 }
 
-article div.entry-content img {
-	max-height: 750px;
+article div.entry-content img,
+#featured.body article img
+{
+	max-width: 750px;
 }
