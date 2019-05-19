@@ -3,25 +3,25 @@
 <head>
         <meta charset="utf-8" />
         <title>How to host a Flask app on Openshift</title>
-        <link rel="stylesheet" href="../../../theme/css/main.css" />
+        <link rel="stylesheet" href="/theme/css/main.css" />
         <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Prahlad Yeri - Freelance Programmer Atom Feed" />
 </head>
 
 <body id="index" class="home">
         <header id="banner" class="body">
-                <h1><a href="../../../">Prahlad Yeri - Freelance Programmer </a></h1>
+                <h1><a href="/">Prahlad Yeri - Freelance Programmer </a></h1>
                 <nav><ul>
 				<li><a href="/">Home</a></li> <!--hard coded-->
-                    <li><a href="../../../about">About</a></li>
-                    <li><a href="../../../projects">Projects</a></li>
-                    <li><a href="../../../hire-me">Hire Me</a></li>
+                    <li><a href="/about">About</a></li>
+                    <li><a href="/projects">Projects</a></li>
+                    <li><a href="/hire-me">Hire Me</a></li>
                 </ul></nav>
         </header><!-- /#banner -->
 <section id="content" class="body">
   <article>
     <header>
       <h1 class="entry-title">
-        <a href="../../../blog/2015/02/how-to-host-flask-app-openshift.html" rel="bookmark"
+        <a href="/blog/2015/02/how-to-host-flask-app-openshift.html" rel="bookmark"
            title="Permalink to How to host a Flask app on Openshift">How to host a Flask app on Openshift</a></h1>
 <a href="https://twitter.com/share" class="twitter-share-button" data-count="horizontal" data-via="prahladyeri">Tweet</a><script type="text/javascript" src="https://platform.twitter.com/widgets.js"></script>
     </header>
@@ -33,9 +33,9 @@
         </abbr>
 
         <address class="vcard author">
-                By                         <a class="url fn" href="../../../author/prahlad-yeri.html">Prahlad Yeri</a>
+                By                         <a class="url fn" href="/author/prahlad-yeri.html">Prahlad Yeri</a>
         </address>
-<p>In <a href="../../../category/uncategorized.html">Uncategorized</a>.</p>
+<p>In <a href="/category/uncategorized.html">Uncategorized</a>.</p>
 
 </footer><!-- /.post-info -->      <p><a href="https://www.openshift.com/">Openshift free tier</a> is an excellent way to host your python web app for staging or testing, and you can even host a low to medium traffic production site. Openshift provides several options (cartridges) for hosting including <code class="highlighter-rouge">python, php, node.js, etc.</code> but <code class="highlighter-rouge">python</code> being my favorite language and <code class="highlighter-rouge">Flask</code> being a minimalist and flexible framework, this combination is what I usually end up with.<!--more--></p>
 <h3>Create an Openshift account</h3>
@@ -174,21 +174,6 @@ git push origin master
 <li><a href="https://www.openshift.com/">Openshift Homepage</a></li>
 </ul>
     </div><!-- /.entry-content -->
-    <div class="comments">
-      <h2>Comments !</h2>
-      <div id="disqus_thread"></div>
-      <script type="text/javascript">
-        var disqus_shortname = 'https://prahladyeri-blog.disqus.com';
-        var disqus_identifier = 'blog/2015/02/how-to-host-flask-app-openshift.html';
-        var disqus_url = '../../../blog/2015/02/how-to-host-flask-app-openshift.html';
-        (function() {
-        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-        dsq.src = '//https://prahladyeri-blog.disqus.com.disqus.com/embed.js';
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-        })();
-      </script>
-      <noscript>Please enable JavaScript to view the comments.</noscript>
-    </div>
 
   </article>
 </section>

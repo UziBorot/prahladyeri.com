@@ -3,25 +3,25 @@
 <head>
         <meta charset="utf-8" />
         <title>Using Symfony Routing component as a minimal micro framework to bootstrap your project</title>
-        <link rel="stylesheet" href="../theme/css/main.css" />
+        <link rel="stylesheet" href="/theme/css/main.css" />
         <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Prahlad Yeri - Freelance Programmer Atom Feed" />
 </head>
 
 <body id="index" class="home">
         <header id="banner" class="body">
-                <h1><a href="../">Prahlad Yeri - Freelance Programmer </a></h1>
+                <h1><a href="/">Prahlad Yeri - Freelance Programmer </a></h1>
                 <nav><ul>
 				<li><a href="/">Home</a></li> <!--hard coded-->
-                    <li><a href="../about">About</a></li>
-                    <li><a href="../projects">Projects</a></li>
-                    <li><a href="../hire-me">Hire Me</a></li>
+                    <li><a href="/about">About</a></li>
+                    <li><a href="/projects">Projects</a></li>
+                    <li><a href="/hire-me">Hire Me</a></li>
                 </ul></nav>
         </header><!-- /#banner -->
 <section id="content" class="body">
   <article>
     <header>
       <h1 class="entry-title">
-        <a href="../drafts/using-symfony-routing-component-as-a-minimal-micro-framework-to-bootstrap-your-project.html" rel="bookmark"
+        <a href="/drafts/using-symfony-routing-component-as-a-minimal-micro-framework-to-bootstrap-your-project.html" rel="bookmark"
            title="Permalink to Using Symfony Routing component as a minimal micro framework to bootstrap your project">Using Symfony Routing component as a minimal micro framework to bootstrap your project</a></h1>
 <a href="https://twitter.com/share" class="twitter-share-button" data-count="horizontal" data-via="prahladyeri">Tweet</a><script type="text/javascript" src="https://platform.twitter.com/widgets.js"></script>
     </header>
@@ -33,10 +33,10 @@
         </abbr>
 
         <address class="vcard author">
-                By                         <a class="url fn" href="../author/prahlad-yeri.html">Prahlad Yeri</a>
+                By                         <a class="url fn" href="/author/prahlad-yeri.html">Prahlad Yeri</a>
         </address>
-<p>In <a href="../category/php.html">PHP</a>.</p>
-<p>tags: <a href="../tag/php.html">PHP</a> <a href="../tag/symfony.html">Symfony</a> </p>
+<p>In <a href="/category/php.html">PHP</a>.</p>
+<p>tags: <a href="/tag/php.html">PHP</a> <a href="/tag/symfony.html">Symfony</a> </p>
 </footer><!-- /.post-info -->      <p>The world of PHP frameworks is divided into too complex and opinionated (Laravel, Symfony, Zend, etc.) and too bare bones and opinionated (Fat Free, Slim, Silex, etc.). What most people need is a bare bones micro framework but a non-opinionated one! Something which is small to start with, but is scalable using the lego blocks approach. In the Python world, Flask is one such framework. Its a micro framework, no doubt, but it is scalable enough to build large and complex apps such as Airbnb and Reddit and Netflix.<!--more--></p>
 <p>In the PHP world, the best approach to lego blocks is Symfony components (not the framework itself). In this article, we will learn how to setup a minimal but non-opinionated PHP project using symfony/routing component and a few other useful ones such as symfony/http-foundation, symfony/yaml and symfony/config.</p>
 <p>Firstly, create a source folder for your project and add a simple composer.json file with below contents:</p>
