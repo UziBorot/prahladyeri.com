@@ -3,25 +3,25 @@
 <head>
         <meta charset="utf-8" />
         <title>WordPress DIY: Adding Twitter Cards Meta to your blog Without using an External Plugin</title>
-        <link rel="stylesheet" href="/theme/css/main.css" />
+        <link rel="stylesheet" href="../../../theme/css/main.css" />
         <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Prahlad Yeri - Freelance Programmer Atom Feed" />
 </head>
 
 <body id="index" class="home">
         <header id="banner" class="body">
-                <h1><a href="/">Prahlad Yeri - Freelance Programmer </a></h1>
+                <h1><a href="../../../">Prahlad Yeri - Freelance Programmer </a></h1>
                 <nav><ul>
 				<li><a href="/">Home</a></li> <!--hard coded-->
-                    <li><a href="/about">About</a></li>
-                    <li><a href="/projects">Projects</a></li>
-                    <li><a href="/hire-me">Hire Me</a></li>
+                    <li><a href="../../../about">About</a></li>
+                    <li><a href="../../../projects">Projects</a></li>
+                    <li><a href="../../../hire-me">Hire Me</a></li>
                 </ul></nav>
         </header><!-- /#banner -->
 <section id="content" class="body">
   <article>
     <header>
       <h1 class="entry-title">
-        <a href="/blog/2018/07/wordpress-diy-adding-twitter-cards-meta-to-your-blog.html" rel="bookmark"
+        <a href="../../../blog/2018/07/wordpress-diy-adding-twitter-cards-meta-to-your-blog.html" rel="bookmark"
            title="Permalink to WordPress DIY: Adding Twitter Cards Meta to your blog Without using an External Plugin">WordPress DIY: Adding Twitter Cards Meta to your blog Without using an External Plugin</a></h1>
 <a href="https://twitter.com/share" class="twitter-share-button" data-count="horizontal" data-via="prahladyeri">Tweet</a><script type="text/javascript" src="https://platform.twitter.com/widgets.js"></script>
     </header>
@@ -33,10 +33,10 @@
         </abbr>
 
         <address class="vcard author">
-                By                         <a class="url fn" href="/author/prahlad-yeri.html">Prahlad Yeri</a>
+                By                         <a class="url fn" href="../../../author/prahlad-yeri.html">Prahlad Yeri</a>
         </address>
-<p>In <a href="/category/php.html">PHP</a>.</p>
-<p>tags: <a href="/tag/diy.html">DIY</a> <a href="/tag/php.html">PHP</a> <a href="/tag/wordpress.html">Wordpress</a> </p>
+<p>In <a href="../../../category/php.html">PHP</a>.</p>
+<p>tags: <a href="../../../tag/diy.html">DIY</a> <a href="../../../tag/php.html">PHP</a> <a href="../../../tag/wordpress.html">Wordpress</a> </p>
 </footer><!-- /.post-info -->      <p>Just like my <a href="https://prahladyeri.com/blog/2018/07/wordpress-diy-adding-google-analytics-script-to-your-blog.html">last article</a>, we won't be focusing on using a third party plugin, but write our own plugin. I'm a minimalist and don't prefer to use layer-2 solutions for really trivial things that can easily be achieved by writing code.<!--more--></p>
 <p>Now, though trivial to implement, the twitter cards support is a very important and useful thing for your blog. To understand why, consider the following example tweet from Python Software Foundation:</p>
 <p>[caption id="attachment_857" align="alignnone" width="1366"]<img alt="Links had no Twitter Card Meta" class="size-full wp-image-857" height="768" src="/uploads/2018/07/no_twitter_card.png" width="1366"> Links had no Twitter Card Meta[/caption]</p>
@@ -96,6 +96,21 @@
 <p>2. You'll need to add the <strong>"Read More"</strong> meta tag in all your posts, otherwise <strong>\$content['main']</strong> will return the whole thing instead of just the excerpt.</p>
 <p>Once you do this and publish your post, head over to the <a href="https://cards-dev.twitter.com/validator">Twitter Cards Validator Service</a> and test your link. Its as easy as that!</p>
     </div><!-- /.entry-content -->
+    <div class="comments">
+      <h2>Comments !</h2>
+      <div id="disqus_thread"></div>
+      <script type="text/javascript">
+        var disqus_shortname = 'https://prahladyeri-blog.disqus.com';
+        var disqus_identifier = 'blog/2018/07/wordpress-diy-adding-twitter-cards-meta-to-your-blog.html';
+        var disqus_url = '../../../blog/2018/07/wordpress-diy-adding-twitter-cards-meta-to-your-blog.html';
+        (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//https://prahladyeri-blog.disqus.com.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+      </script>
+      <noscript>Please enable JavaScript to view the comments.</noscript>
+    </div>
 
   </article>
 </section>

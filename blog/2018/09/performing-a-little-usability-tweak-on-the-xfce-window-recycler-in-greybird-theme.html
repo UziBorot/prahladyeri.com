@@ -3,25 +3,25 @@
 <head>
         <meta charset="utf-8" />
         <title>Performing A Little Usability Tweak On The XFCE Window Recycler in Greybird Theme</title>
-        <link rel="stylesheet" href="/theme/css/main.css" />
+        <link rel="stylesheet" href="../../../theme/css/main.css" />
         <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Prahlad Yeri - Freelance Programmer Atom Feed" />
 </head>
 
 <body id="index" class="home">
         <header id="banner" class="body">
-                <h1><a href="/">Prahlad Yeri - Freelance Programmer </a></h1>
+                <h1><a href="../../../">Prahlad Yeri - Freelance Programmer </a></h1>
                 <nav><ul>
 				<li><a href="/">Home</a></li> <!--hard coded-->
-                    <li><a href="/about">About</a></li>
-                    <li><a href="/projects">Projects</a></li>
-                    <li><a href="/hire-me">Hire Me</a></li>
+                    <li><a href="../../../about">About</a></li>
+                    <li><a href="../../../projects">Projects</a></li>
+                    <li><a href="../../../hire-me">Hire Me</a></li>
                 </ul></nav>
         </header><!-- /#banner -->
 <section id="content" class="body">
   <article>
     <header>
       <h1 class="entry-title">
-        <a href="/blog/2018/09/performing-a-little-usability-tweak-on-the-xfce-window-recycler-in-greybird-theme.html" rel="bookmark"
+        <a href="../../../blog/2018/09/performing-a-little-usability-tweak-on-the-xfce-window-recycler-in-greybird-theme.html" rel="bookmark"
            title="Permalink to Performing A Little Usability Tweak On The XFCE Window Recycler in Greybird Theme">Performing A Little Usability Tweak On The XFCE Window Recycler in Greybird Theme</a></h1>
 <a href="https://twitter.com/share" class="twitter-share-button" data-count="horizontal" data-via="prahladyeri">Tweet</a><script type="text/javascript" src="https://platform.twitter.com/widgets.js"></script>
     </header>
@@ -33,10 +33,10 @@
         </abbr>
 
         <address class="vcard author">
-                By                         <a class="url fn" href="/author/prahlad-yeri.html">Prahlad Yeri</a>
+                By                         <a class="url fn" href="../../../author/prahlad-yeri.html">Prahlad Yeri</a>
         </address>
-<p>In <a href="/category/linux.html">Linux</a>.</p>
-<p>tags: <a href="/tag/linux.html">Linux</a> <a href="/tag/xfce.html">XFCE</a> </p>
+<p>In <a href="../../../category/linux.html">Linux</a>.</p>
+<p>tags: <a href="../../../tag/linux.html">Linux</a> <a href="../../../tag/xfce.html">XFCE</a> </p>
 </footer><!-- /.post-info -->      <p>Xubuntu is my favorite distro, hands down and the default Greybird theme is just wonderful! There used to be a time when I liked Ubuntu-MATE too, but not so much since they took the road to GTK+3! Coming back to the topic, XFCE works great but it has a small usability issue in the default Greybird theme which annoys most power users.<!--more--></p>
 <p>ALT+TAB is the usual way to recycle window icons on any DE, and the "tab" key determines the currently focused window. Now, one of the Greybird theme developers decided in his profound wisdom that a mouse move over the cycling dialog can cause a window focus too. Since the mouse cursor occupies a central position most of the time, it automatically causes an item in the cycling dialog to be selected which is not intended at all! While this could be a great "feature" for those users who like juggling with their mouse while pressing the ALT+TAB keys, I hardly think any power user would like to do that. For most users, this could be easily a cause of annoyance or frustration since they have to move the mouse out of the dialog's range to ensure that it doesn't interfere with their selection again.</p>
 <p><img alt="XFCE Alt+Tab Cycling Dialog" src="/uploads/2018/09/alt-tab-cycling.png"></p>
@@ -74,6 +74,21 @@ widget &quot;xfwm4-tabwin*&quot; style &quot;xfwm-tabwin-tweak&quot;
 
 <p>Save the above file as \~/.gtkrc-2.0 and change your theme from Greybird to something else and back again, and this issue will be resolved.</p>
     </div><!-- /.entry-content -->
+    <div class="comments">
+      <h2>Comments !</h2>
+      <div id="disqus_thread"></div>
+      <script type="text/javascript">
+        var disqus_shortname = 'https://prahladyeri-blog.disqus.com';
+        var disqus_identifier = 'blog/2018/09/performing-a-little-usability-tweak-on-the-xfce-window-recycler-in-greybird-theme.html';
+        var disqus_url = '../../../blog/2018/09/performing-a-little-usability-tweak-on-the-xfce-window-recycler-in-greybird-theme.html';
+        (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//https://prahladyeri-blog.disqus.com.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+      </script>
+      <noscript>Please enable JavaScript to view the comments.</noscript>
+    </div>
 
   </article>
 </section>

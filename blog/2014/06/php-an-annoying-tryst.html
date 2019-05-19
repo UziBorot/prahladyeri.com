@@ -3,25 +3,25 @@
 <head>
         <meta charset="utf-8" />
         <title>PHP - An Annoying Tryst</title>
-        <link rel="stylesheet" href="/theme/css/main.css" />
+        <link rel="stylesheet" href="../../../theme/css/main.css" />
         <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Prahlad Yeri - Freelance Programmer Atom Feed" />
 </head>
 
 <body id="index" class="home">
         <header id="banner" class="body">
-                <h1><a href="/">Prahlad Yeri - Freelance Programmer </a></h1>
+                <h1><a href="../../../">Prahlad Yeri - Freelance Programmer </a></h1>
                 <nav><ul>
 				<li><a href="/">Home</a></li> <!--hard coded-->
-                    <li><a href="/about">About</a></li>
-                    <li><a href="/projects">Projects</a></li>
-                    <li><a href="/hire-me">Hire Me</a></li>
+                    <li><a href="../../../about">About</a></li>
+                    <li><a href="../../../projects">Projects</a></li>
+                    <li><a href="../../../hire-me">Hire Me</a></li>
                 </ul></nav>
         </header><!-- /#banner -->
 <section id="content" class="body">
   <article>
     <header>
       <h1 class="entry-title">
-        <a href="/blog/2014/06/php-an-annoying-tryst.html" rel="bookmark"
+        <a href="../../../blog/2014/06/php-an-annoying-tryst.html" rel="bookmark"
            title="Permalink to PHP - An Annoying Tryst">PHP - An Annoying Tryst</a></h1>
 <a href="https://twitter.com/share" class="twitter-share-button" data-count="horizontal" data-via="prahladyeri">Tweet</a><script type="text/javascript" src="https://platform.twitter.com/widgets.js"></script>
     </header>
@@ -33,9 +33,9 @@
         </abbr>
 
         <address class="vcard author">
-                By                         <a class="url fn" href="/author/prahlad-yeri.html">Prahlad Yeri</a>
+                By                         <a class="url fn" href="../../../author/prahlad-yeri.html">Prahlad Yeri</a>
         </address>
-<p>In <a href="/category/uncategorized.html">Uncategorized</a>.</p>
+<p>In <a href="../../../category/uncategorized.html">Uncategorized</a>.</p>
 
 </footer><!-- /.post-info -->      <p>It has been a few months since I've started working primarily in PHP and I am actually liking the language a lot! I like the simplicity and symmetry found in C style of solving problems, and PHP has got liberal amounts of that kind of resemblance. I have even come to terms with the clutter of all unorganized functions, considering all the positive aspects of PHP programming.<!--more--></p>
 <p>But an annoying incident happened today with PHP. I had been testing and developing my PHP app over the past few weeks now. Everything worked wonders really, until I deployed the code on client's staging server that is. One of the scripts started giving errors while running, and after some debugging, I found that these two lines were the culprit:</p>
@@ -53,6 +53,21 @@ $states = [&#39;QLD&#39;, &#39;SA&#39;, &#39;NT&#39;, &#39;WA&#39;];    //doesn&
 <p>Now there is nothing wrong in breaking compatibility between PHP versions if it is REALLy crucial to implement a functionality. But for basic things like array declarations? Its a different matter that almost every other language nowadays allow de-referencing of arrays, but PHP doesn't. Buy why break compatibility all of a sudden? I was quite annoyed by this. Other languages like python do their utmost to keep existing code from breaking, and upgrades to newer versions are in a phased manner.</p>
 <p>Again in the second case, the array declaration synatx ([x, y, z, ...]) works only in 5.4 and not in 5.3. Now I can understand the frustrations of all the developers who were happy moving to python and python-based frameworks. For a language already suffering from defects such as lack of organization in its functions and class-libraries, the designers' strategy to break code compatibility between PHP versions only for aesthetic reasons (array(a,b,c) vs [a, b, c]) is bound to lose the confidence of its users sooner or later.</p>
     </div><!-- /.entry-content -->
+    <div class="comments">
+      <h2>Comments !</h2>
+      <div id="disqus_thread"></div>
+      <script type="text/javascript">
+        var disqus_shortname = 'https://prahladyeri-blog.disqus.com';
+        var disqus_identifier = 'blog/2014/06/php-an-annoying-tryst.html';
+        var disqus_url = '../../../blog/2014/06/php-an-annoying-tryst.html';
+        (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//https://prahladyeri-blog.disqus.com.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+      </script>
+      <noscript>Please enable JavaScript to view the comments.</noscript>
+    </div>
 
   </article>
 </section>

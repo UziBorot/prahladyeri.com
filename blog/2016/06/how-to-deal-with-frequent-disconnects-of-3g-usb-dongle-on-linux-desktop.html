@@ -3,25 +3,25 @@
 <head>
         <meta charset="utf-8" />
         <title>How to deal with frequent disconnects of 3G USB Dongle on Linux Desktop</title>
-        <link rel="stylesheet" href="/theme/css/main.css" />
+        <link rel="stylesheet" href="../../../theme/css/main.css" />
         <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Prahlad Yeri - Freelance Programmer Atom Feed" />
 </head>
 
 <body id="index" class="home">
         <header id="banner" class="body">
-                <h1><a href="/">Prahlad Yeri - Freelance Programmer </a></h1>
+                <h1><a href="../../../">Prahlad Yeri - Freelance Programmer </a></h1>
                 <nav><ul>
 				<li><a href="/">Home</a></li> <!--hard coded-->
-                    <li><a href="/about">About</a></li>
-                    <li><a href="/projects">Projects</a></li>
-                    <li><a href="/hire-me">Hire Me</a></li>
+                    <li><a href="../../../about">About</a></li>
+                    <li><a href="../../../projects">Projects</a></li>
+                    <li><a href="../../../hire-me">Hire Me</a></li>
                 </ul></nav>
         </header><!-- /#banner -->
 <section id="content" class="body">
   <article>
     <header>
       <h1 class="entry-title">
-        <a href="/blog/2016/06/how-to-deal-with-frequent-disconnects-of-3g-usb-dongle-on-linux-desktop.html" rel="bookmark"
+        <a href="../../../blog/2016/06/how-to-deal-with-frequent-disconnects-of-3g-usb-dongle-on-linux-desktop.html" rel="bookmark"
            title="Permalink to How to deal with frequent disconnects of 3G USB Dongle on Linux Desktop">How to deal with frequent disconnects of 3G USB Dongle on Linux Desktop</a></h1>
 <a href="https://twitter.com/share" class="twitter-share-button" data-count="horizontal" data-via="prahladyeri">Tweet</a><script type="text/javascript" src="https://platform.twitter.com/widgets.js"></script>
     </header>
@@ -33,10 +33,10 @@
         </abbr>
 
         <address class="vcard author">
-                By                         <a class="url fn" href="/author/prahlad-yeri.html">Prahlad Yeri</a>
+                By                         <a class="url fn" href="../../../author/prahlad-yeri.html">Prahlad Yeri</a>
         </address>
-<p>In <a href="/category/linux.html">Linux</a>.</p>
-<p>tags: <a href="/tag/hardware.html">Hardware</a> <a href="/tag/linux.html">Linux</a> </p>
+<p>In <a href="../../../category/linux.html">Linux</a>.</p>
+<p>tags: <a href="../../../tag/hardware.html">Hardware</a> <a href="../../../tag/linux.html">Linux</a> </p>
 </footer><!-- /.post-info -->      <p>One of the major issues on linux desktop these days has to do with 3G USB dongles/modems. In many countries like India, a USB dongle still remains a major way to access the Internet. The latest versions of <code class="highlighter-rouge">network-manager</code> has solved most of the issues relating to the basic recognition of these modems, but one major irritant still remains on Ubuntu 16.04 and a few other distros.<!--more--></p>
 <p>It so happens that many a times, the connection entirely vanishes from the network-manager applet menu on the top right. For example, if you hibernate your laptop and then wake it, the menu is no longer there. However, if you manually take out the dongle and re-insert, the modem is recognized and the menu reappears. If you want to avoid that manual re-insertion and want to do a “soft reset” instead, here is what you can do:</p>
 <ol>
@@ -73,6 +73,21 @@ alias &quot;modeswitch_huawei=sudo usb_modeswitch -v 12d1 -p 1496 -J&quot;
 <p>:::</p>
 <p>Now, all you need to do is run <code class="highlighter-rouge">reset_huawei &amp;&amp; modeswitch_huawei</code> and that’s it! No need to manually re-insert the dongle anymore.</p>
     </div><!-- /.entry-content -->
+    <div class="comments">
+      <h2>Comments !</h2>
+      <div id="disqus_thread"></div>
+      <script type="text/javascript">
+        var disqus_shortname = 'https://prahladyeri-blog.disqus.com';
+        var disqus_identifier = 'blog/2016/06/how-to-deal-with-frequent-disconnects-of-3g-usb-dongle-on-linux-desktop.html';
+        var disqus_url = '../../../blog/2016/06/how-to-deal-with-frequent-disconnects-of-3g-usb-dongle-on-linux-desktop.html';
+        (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//https://prahladyeri-blog.disqus.com.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+      </script>
+      <noscript>Please enable JavaScript to view the comments.</noscript>
+    </div>
 
   </article>
 </section>

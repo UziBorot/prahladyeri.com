@@ -3,34 +3,34 @@
 <head>
         <meta charset="utf-8" />
         <title>Prahlad Yeri - Freelance Programmer - Backbone</title>
-        <link rel="stylesheet" href="/theme/css/main.css" />
+        <link rel="stylesheet" href="../theme/css/main.css" />
         <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Prahlad Yeri - Freelance Programmer Atom Feed" />
 </head>
 
 <body id="index" class="home">
         <header id="banner" class="body">
-                <h1><a href="/">Prahlad Yeri - Freelance Programmer </a></h1>
+                <h1><a href="../">Prahlad Yeri - Freelance Programmer </a></h1>
                 <nav><ul>
 				<li><a href="/">Home</a></li> <!--hard coded-->
-                    <li><a href="/about">About</a></li>
-                    <li><a href="/projects">Projects</a></li>
-                    <li><a href="/hire-me">Hire Me</a></li>
+                    <li><a href="../about">About</a></li>
+                    <li><a href="../projects">Projects</a></li>
+                    <li><a href="../hire-me">Hire Me</a></li>
                 </ul></nav>
         </header><!-- /#banner -->
 
             <aside id="featured" class="body">
                 <article>
-                    <h1 class="entry-title"><a href="/blog/2018/07/backbone-events-promises-async_await-combination.html">Backbone.Events+Promises+async/await is a great combination for building JavaScript apps</a></h1>
+                    <h1 class="entry-title"><a href="../blog/2018/07/backbone-events-promises-async_await-combination.html">Backbone.Events+Promises+async/await is a great combination for building JavaScript apps</a></h1>
 <footer class="post-info">
         <abbr class="published" title="2018-07-12T11:59:00+05:30">
                 Published: Thu 12 July 2018
         </abbr>
 
         <address class="vcard author">
-                By                         <a class="url fn" href="/author/prahlad-yeri.html">Prahlad Yeri</a>
+                By                         <a class="url fn" href="../author/prahlad-yeri.html">Prahlad Yeri</a>
         </address>
-<p>In <a href="/category/javascript.html">JavaScript</a>.</p>
-<p>tags: <a href="/tag/backbone.html">Backbone</a> <a href="/tag/javascript.html">JavaScript</a> </p>
+<p>In <a href="../category/javascript.html">JavaScript</a>.</p>
+<p>tags: <a href="../tag/backbone.html">Backbone</a> <a href="../tag/javascript.html">JavaScript</a> </p>
 </footer><!-- /.post-info --><p>At the risk of being a contrarian, I'd like to show in this article how exactly can the Backbone's Events model be combined with the more modern constructs of Promises and async/await to build a killer app using JavaScript.<!--more--></p>
 <p>First, let's try to understand why do we need these constructs for asynchronous programming when JavaScript itself is a mostly asynchronous language featuring events and function callbacks. The <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Promise">Promise API</a> was introduced in ES6 standard as a way of preventing callback hell:</p>
 <div class="highlight"><pre><span></span><span class="kd">function</span> <span class="nx">someFunction</span><span class="p">(</span><span class="kd">function</span> <span class="nx">anotherFunction</span><span class="p">(</span><span class="nx">data</span><span class="p">){</span>
@@ -72,7 +72,7 @@ var sequentialStart = async function() {
 <p>Consider that you have a complex web application with several views and each component should be able to trigger a message or event to any other component asynchronously in order for the app to render and function properly. Consider an app with a <strong>loginView</strong> that needs to trigger an alert that a user has just signed in. Now, keeping the separation of concerns, the best practice here would be that the loginView shouldn't try to render that part of the DOM and leave it to the other component: <strong>navbarView</strong>. Now, how can our loginView be able to "tell" the navbarView asynchronously over the wire to display that alert? Both Promises and async/await are of no use here, and hence we need a macro-level all-purpose <strong>Event Bus</strong>, similar to the one that Backbone.js provides us:</p>
 <p>[caption id="attachment_920" align="alignnone" width="757"]<img alt="backbone.events Model" class="size-full wp-image-920" height="278" src="/uploads/2018/07/backbone.events_model.png" width="757"> backbone.events Model[/caption]</p>
 <p>In this case, our caller and callee are inside separate components and don't even know each other. And separation of concerns imply that they cannot even contact each other directly. Now, Backbone provides this useful trigger/listen mechanism called <strong>Backbone.Events</strong> using which any object in your app can listen to the events triggered on any other object! In this case, the loginView triggers an event called "navbarView.alert" and thus "tells" the navbarView that it has to do something (in this case show an alert). This mechanism also supports passing of any kind of data along with the triggering of event (in this case the <em>message</em> parameter).</p>
-<p>Thus, we can see that combining the power of all these asynchronous models, we can easily handle any level of complexity in our app, provided that our <a href="https://prahladyeri.com/blog/2018/07/the-right-way-to-architect-single-page-web-applications.html">app itself is structured in the right way from the start</a>.</p><p>There are <a href="/blog/2018/07/backbone-events-promises-async_await-combination.html#disqus_thread">comments</a>.</p>                </article>
+<p>Thus, we can see that combining the power of all these asynchronous models, we can easily handle any level of complexity in our app, provided that our <a href="https://prahladyeri.com/blog/2018/07/the-right-way-to-architect-single-page-web-applications.html">app itself is structured in the right way from the start</a>.</p><p>There are <a href="../blog/2018/07/backbone-events-promises-async_await-combination.html#disqus_thread">comments</a>.</p>                </article>
             </aside><!-- /#featured -->
                 <section id="content" class="body">
                     <h1>Other articles</h1>
@@ -81,7 +81,7 @@ var sequentialStart = async function() {
 
             <li><article class="hentry">
                 <header>
-                    <h1><a href="/blog/2018/07/what-problem-is-react-jsx-solving.html" rel="bookmark"
+                    <h1><a href="../blog/2018/07/what-problem-is-react-jsx-solving.html" rel="bookmark"
                            title="Permalink to What problem is React/JSX solving in your App?">What problem is React/JSX solving in your App?</a></h1>
                 </header>
 
@@ -92,13 +92,13 @@ var sequentialStart = async function() {
         </abbr>
 
         <address class="vcard author">
-                By                         <a class="url fn" href="/author/prahlad-yeri.html">Prahlad Yeri</a>
+                By                         <a class="url fn" href="../author/prahlad-yeri.html">Prahlad Yeri</a>
         </address>
-<p>In <a href="/category/web-development.html">Web Development</a>.</p>
-<p>tags: <a href="/tag/backbone.html">Backbone</a> <a href="/tag/javascript.html">JavaScript</a> <a href="/tag/react.html">React</a> </p>
+<p>In <a href="../category/web-development.html">Web Development</a>.</p>
+<p>tags: <a href="../tag/backbone.html">Backbone</a> <a href="../tag/javascript.html">JavaScript</a> <a href="../tag/react.html">React</a> </p>
 </footer><!-- /.post-info -->                <p>Framework wars and debates are very much a thing these days, be it Angular vs Backbone or Angular vs React, but the real debate isn't about these frameworks. The real debate essentially comes down to which is the most efficient way of structuring your app and more importantly, rendering and …</p>
-                <a class="readmore" href="/blog/2018/07/what-problem-is-react-jsx-solving.html">read more</a>
-<p>There are <a href="/blog/2018/07/what-problem-is-react-jsx-solving.html#disqus_thread">comments</a>.</p>                </div><!-- /.entry-content -->
+                <a class="readmore" href="../blog/2018/07/what-problem-is-react-jsx-solving.html">read more</a>
+<p>There are <a href="../blog/2018/07/what-problem-is-react-jsx-solving.html#disqus_thread">comments</a>.</p>                </div><!-- /.entry-content -->
             </article></li>
                 </ol><!-- /#posts-list -->
                 </section><!-- /#content -->
