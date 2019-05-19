@@ -1,0 +1,1919 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Prahlad Yeri - Freelance Programmer - Uncategorized</title><link href="/" rel="alternate"></link><link href="/feeds/uncategorized.atom.xml" rel="self"></link><id>/</id><updated>2015-07-06T21:36:00+05:30</updated><entry><title>A collection of random hacks - Ubuntu</title><link href="/blog/2015/07/a-collection-of-random-hacks-ubuntu.html" rel="alternate"></link><published>2015-07-06T21:36:00+05:30</published><updated>2015-07-06T21:36:00+05:30</updated><author><name>Prahlad Yeri</name></author><id>tag:None,2015-07-06:/blog/2015/07/a-collection-of-random-hacks-ubuntu.html</id><summary type="html">&lt;p&gt;Whether you are a sysadmin, developer or just a user, if you face a non-trivial issue while setting up any software, you generally head over to sites like &lt;code class="highlighter-rouge"&gt;stackoverflow.com&lt;/code&gt; to find any solutions. If the problem is solved and you are happy, you generally do two things: Bookmark/Star …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Whether you are a sysadmin, developer or just a user, if you face a non-trivial issue while setting up any software, you generally head over to sites like &lt;code class="highlighter-rouge"&gt;stackoverflow.com&lt;/code&gt; to find any solutions. If the problem is solved and you are happy, you generally do two things: Bookmark/Star that post, and secondly make a note to your own workflow about that issue for future references. For what its worth, here is the collection of such notes prepared by me for &lt;code class="highlighter-rouge"&gt;ubuntu 12.04 LTS&lt;/code&gt;. However, most solutions should work on &lt;code class="highlighter-rouge"&gt;14.04&lt;/code&gt; too.&lt;!--more--&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Ubuntu Logo" src="/uploads/old/3D_Ubuntu_7.jpg"&gt;&lt;/p&gt;
+&lt;h2&gt;To boot ubuntu to &lt;a href="http://askubuntu.com/questions/52089/how-do-i-boot-to-a-command-line-interface-instead-of-a-gui"&gt;command prompt intead of GUI&lt;/a&gt;&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;Modify your file &lt;code class="highlighter-rouge"&gt;/etc/default/grub&lt;/code&gt; with &lt;code class="highlighter-rouge"&gt;GRUB_CMDLINE_LINUX_DEFAULT="text"&lt;/code&gt;. Optionally, also uncomment this line:&lt;/p&gt;
+&lt;p&gt;#GRUB_TERMINAL=console&lt;/p&gt;
+&lt;p&gt;and do &lt;code class="highlighter-rouge"&gt;sudo update-grub&lt;/code&gt;. The machine will boot in text mode.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;To start the graphical interface just do&lt;/p&gt;
+&lt;p&gt;sudo service lightdm start #could be gdm or startx in some situations&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id="create-a-private-repo-based-on-a-previously-burned-aptoncd-backup-iso-file"&gt;Create a private repo based on a previously burned aptoncd backup (.ISO file)&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;Create a mount point in /etc/fstab that points to that ISO file on your file system:\
+    &lt;code class="highlighter-rouge"&gt;/path/to/iso    /media/mount-point  auto    defaults 0 0&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Add this line in /etc/apt/sources.list: &lt;code class="highlighter-rouge"&gt;deb [arch=i386] file:/media/repo-name/ /&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Just perform a &lt;code class="highlighter-rouge"&gt;sudo apt-get update&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;To upgrade packages, don’t use the ubuntu GUI, instead do &lt;code class="highlighter-rouge"&gt;sudo apt-get upgrade&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2&gt;Add a user to a group&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;Edit &lt;code class="highlighter-rouge"&gt;/etc/group&lt;/code&gt; file and add the user after the &lt;code class="highlighter-rouge"&gt;&amp;lt;groupName&amp;gt;:&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2&gt;Virtualbox (ubuntu guest configuration)&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;Insert VBoxGuestAdditions ISO CD and auto run the script file.&lt;/li&gt;
+&lt;li&gt;Share folders from host machine (Shares are auto-mounted in /media/sf_* folders&lt;/li&gt;
+&lt;li&gt;Add user: &lt;code class="highlighter-rouge"&gt;sudo usermod -aG vboxsf $(whoami)&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2&gt;Ubuntu performance tweaks&lt;/h2&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;code class="highlighter-rouge"&gt;/etc/sysctl.conf =&amp;gt; vm.swappiness=10&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code class="highlighter-rouge"&gt;/etc/apt/apt.conf.d/00aptitude   =&amp;gt;  Acquire::Languages "none";&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code class="highlighter-rouge"&gt;/etc/fstab  =&amp;gt; set noatime&lt;/code&gt;, for example:\
+    &lt;code class="highlighter-rouge"&gt;/dev/sda7          /chroot          ext2          defaults,noatime          1  2&lt;/code&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2&gt;Making Geany the default editor (&lt;a href="http://askubuntu.com/questions/194712/how-do-i-make-geany-my-default-editor-on-ubuntu"&gt;source&lt;/a&gt;)&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code class="highlighter-rouge"&gt;xdg-mime default geany.desktop $(grep MimeType /usr/share/applications/geany.desktop | sed 's/MimeType=//' | sed 's/;/ /g')&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;To create an ssh tunnel between local port 9999 and a remote server (dynamic port forwarding/socks)&lt;/h2&gt;
+&lt;p&gt;::: {.highlighter-rouge}&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;ssh -C -ND 9999 username@sshserver.com
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;:::&lt;/p&gt;
+&lt;h2&gt;Graphics&lt;/h2&gt;
+&lt;p&gt;To check whether we are using sna or uxa:\
+&lt;code class="highlighter-rouge"&gt;apt-cache policy xserver-xorg-video-intel* | grep Installed&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;If the results of Installed are under 2.20 (e.g. 2:2.17.0-1ubuntu4 0), it means we are using the older uxa drivers.\
+Proceed with the ppa installataion steps in the link.&lt;/p&gt;
+&lt;p&gt;References:\
+&lt;a href="http://askubuntu.com/questions/225356/how-can-i-enable-the-sna-acceleration-method-for-intel-cards-under-ubuntu-12-04"&gt;ubuntu&lt;/a&gt;\
+&lt;a href="https://ask.fedoraproject.org/en/question/39843/how-to-enable-sna-acceleration-method-for-intel-cards-in-fedora-20/"&gt;fedora&lt;/a&gt;&lt;/p&gt;
+&lt;h2&gt;Resetting a modem/usb-device using usb-modeswitch&lt;/h2&gt;
+&lt;p&gt;We can try if a reset of our USB device helps resurrecting it. We first need to find out the vendor ID, and the product ID easiest by\
+lsusb.&lt;/p&gt;
+&lt;p&gt;This will give information e.g. like follows:\
+Bus 003 Device 002: ID 04f9:0224 Brother Industries, Ltd&lt;/p&gt;
+&lt;p&gt;In this example the vendor ID is 04f9, product ID is 0224 (right, its my printer).\
+To reset the device we may then issue\
+sudo usb_modeswitch -R -v -p&lt;/p&gt;
+&lt;h2&gt;cpu-scaling/battery-saving&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;install indicator-cpufreq package&lt;/li&gt;
+&lt;li&gt;[Edit file &lt;code class="highlighter-rouge"&gt;/etc/init.d/ondemand&lt;/code&gt; and set default from ondemand to powersave]&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;References:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;https://bugs.launchpad.net/indicator-cpufreq/+bug/1082868&lt;/li&gt;
+&lt;li&gt;https://wiki.debian.org/HowTo/CpuFrequencyScaling&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;laptop mode&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;package: pm-powersave (see manpages)&lt;/li&gt;
+&lt;li&gt;check: cat /proc/sys/vm/laptop_mode&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;References:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;http://askubuntu.com/questions/312005/is-laptop-mode-tools-still-relevant-on-13-04&lt;/li&gt;
+&lt;li&gt;http://askubuntu.com/questions/172391/is-laptop-mode-tools-still-relevant-for-12-04-and-the-3-x-kernels\
+    http://askubuntu.com/questions/170667/how-to-analysis-the-output-of-powertop-to-increase-battery-lifetime&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;apt tweaks&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Removing translations:&lt;ul&gt;
+&lt;li&gt;create a file named &lt;code class="highlighter-rouge"&gt;/etc/apt/apt.conf.d/99translations&lt;/code&gt; &amp;amp; put the following in it: &lt;code class="highlighter-rouge"&gt;Acquire::Languages "none";&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;You may also need to remove existing translation files in &lt;code class="highlighter-rouge"&gt;/var/lib/apt/lists/&lt;/code&gt; - filter by &lt;code class="highlighter-rouge"&gt;*Translation*&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;References:&lt;ul&gt;
+&lt;li&gt;http://askubuntu.com/questions/74653/how-can-i-remove-the-translation-entries-in-apt&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Reconfigure locales:&lt;ul&gt;
+&lt;li&gt;&lt;code class="highlighter-rouge"&gt;dpkg --reconfigure locales&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Search for a package:&lt;ul&gt;
+&lt;li&gt;&lt;code class="highlighter-rouge"&gt;apt-cache search pygame&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code class="highlighter-rouge"&gt;- dpkg --search pygame&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Show package status: &lt;code class="highlighter-rouge"&gt;dpkg --list python-pygame&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Show package details: &lt;code class="highlighter-rouge"&gt;apt-cache show python-pygame&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;Search for a package’s dependency (Ex: python-pygame): &lt;code class="highlighter-rouge"&gt;apt-cache depends python-pygame&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;git basics&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;clone a url:\
+    &lt;code class="highlighter-rouge"&gt;git clone url-name&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;check status:\
+    &lt;code class="highlighter-rouge"&gt;git status&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;add/remove files:&lt;/li&gt;
+&lt;/ul&gt;
+&lt;figure class="highlight"&gt;
+        git add &lt;file-name&gt;
+        git add .
+        git rm &lt;file-name&gt;
+        git rm .
+
+&lt;/figure&gt;
+
+&lt;ul&gt;
+&lt;li&gt;commit:\
+    &lt;code class="highlighter-rouge"&gt;git commit -m "message"&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;exclude/include file:&lt;ul&gt;
+&lt;li&gt;&lt;code class="highlighter-rouge"&gt;git update-index --assume-unchanged path/to/file&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code class="highlighter-rouge"&gt;git update-index --no-assume-unchanged path/to/file&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;Set ubuntu/debian to use bios time instead of converting as per timezones&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;option1: open: &lt;code class="highlighter-rouge"&gt;/etc/default/rcS&lt;/code&gt; and add/change this line:&lt;/li&gt;
+&lt;/ul&gt;
+&lt;figure class="highlight"&gt;
+
+        # Set UTC=yes if your hardware clock is set to UTC (GMT)
+        UTC=no
+
+
+&lt;/figure&gt;
+
+&lt;ul&gt;
+&lt;li&gt;option 2: open /etc/adjtime and change &lt;code class="highlighter-rouge"&gt;'UTC'&lt;/code&gt; to &lt;code class="highlighter-rouge"&gt;'LOCAL'&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;option 3: &lt;code class="highlighter-rouge"&gt;hwclock --systohc --localtime #(Explore these options)&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;greeter configuration on ubuntu&lt;/h2&gt;
+&lt;p&gt;::: {.highlighter-rouge}&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;view defaults: /etc/lightdm/lightdm.conf
+set defaults: /usr/lib/lightdm/lightdm-set-defaults
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;:::&lt;/p&gt;
+&lt;h2&gt;start/disable init services&lt;/h2&gt;
+&lt;p&gt;Refer http://askubuntu.com/questions/138487/how-to-keep-apache-and-mysql-from-starting-automatically&lt;/p&gt;
+&lt;h2&gt;LAMP (debian/ubuntu)&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;disable apache at boot:\
+    &lt;code class="highlighter-rouge"&gt;sudo update-rc.d apache2 disable&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;enable apache at boot:\
+    &lt;code class="highlighter-rouge"&gt;sudo update-rc.d apache2 enable&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;start/stop at will:\
+    &lt;code class="highlighter-rouge"&gt;sudo update-rc.d service start&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;list available apache modules:\
+    &lt;code class="highlighter-rouge"&gt;apache2ctl -M&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;enable a module:\
+    &lt;code class="highlighter-rouge"&gt;a2enmod &amp;lt;modulename&amp;gt;&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;disable a module:\
+    &lt;code class="highlighter-rouge"&gt;a2dismod &amp;lt;modulename&amp;gt;&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;Service control:&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;services (Traditional):&lt;ul&gt;
+&lt;li&gt;&lt;code class="highlighter-rouge"&gt;/etc/init.d/apache2 restart&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code class="highlighter-rouge"&gt;/etc/init.d/apache2&lt;/code&gt; (TO show a list of all command options)&lt;/li&gt;
+&lt;li&gt;&lt;code class="highlighter-rouge"&gt;update-rc.d&lt;/code&gt; (or in RedHat based distros, &lt;code class="highlighter-rouge"&gt;chkconfig&lt;/code&gt;)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;services (Upstart):&lt;ul&gt;
+&lt;li&gt;&lt;code class="highlighter-rouge"&gt;status apache2&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code class="highlighter-rouge"&gt;service apache2 status&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code class="highlighter-rouge"&gt;service mysql status&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code class="highlighter-rouge"&gt;service apache2 restart&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;services (systemd):\
+    &lt;code class="highlighter-rouge"&gt;systemctl disable apache2&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Disable/Enable services (ubuntu/debian) - works for any service with .conf configured. example: &lt;code class="highlighter-rouge"&gt;/etc/init/mysql.conf&lt;/code&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;method-1:
+    ::: {.highlighter-rouge}
+    &lt;code&gt;{.highlight}
+      #disable service at startup
+      sudo sh -c "echo 'manual' &amp;gt;&amp;gt; /etc/init/mysql.override"
+      sudo sh -c "echo 'manual' &amp;gt;&amp;gt; /etc/init/bluetooth.override"
+      #enable service at startup
+      sudo rm /etc/init/mysql.override&lt;/code&gt;
+    ```
+    :::&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;method-2 (for ubuntu 12.04):&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;/ul&gt;
+&lt;figure class="highlight"&gt;
+          sudo nano /etc/init/mysql.conf #Then comment out the hashing section like this:
+            #start on (net-device-up
+                      #and local-filesystems
+                      #and runlevel [2345])
+
+&lt;/figure&gt;
+
+&lt;ul&gt;
+&lt;li&gt;list all services: &lt;code class="highlighter-rouge"&gt;initctl list&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2&gt;iptables basics:&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;Save/Restore state:\
+    iptables-save &gt; /etc/iptables.rules #save current state to file\
+    iptables-restore \&amp;lt; /etc/iptables.rules #restore state from file&lt;/li&gt;
+&lt;li&gt;Save state (using iptables-persistent package):&lt;ul&gt;
+&lt;li&gt;method-1: install the package and run: &lt;code class="highlighter-rouge"&gt;sudo /etc/init.d/iptables-persistent save&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;method-2 for IPv4 rules: sudo su -c &lt;code class="highlighter-rouge"&gt;iptables-save &amp;gt; /etc/iptables/rules.v4&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;method-3 for IPv6 rules: sudo su -c &lt;code class="highlighter-rouge"&gt;ip6tables-save &amp;gt; /etc/iptables/rules.v6&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;Auto load on network up - Append this command to an iface config in &lt;code class="highlighter-rouge"&gt;/etc/network/interfaces&lt;/code&gt;:\
+    post-up iptables-restore \&amp;lt; /etc/iptables.rules&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;&lt;a href="http://askubuntu.com/questions/119393/how-to-save-rules-of-the-iptables"&gt;reference&lt;/a&gt;&lt;/p&gt;
+&lt;h2&gt;network/tcp tweaks:&lt;/h2&gt;
+&lt;p&gt;::: {.highlighter-rouge}&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;sysctl -w net.ipv4.tcp_timestamps=0
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;:::&lt;/p&gt;
+&lt;h2&gt;Add/Edit Unity Launcher shortcut:&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;.desktop files are stored: globally in /usr/share/applications, locally in \~/.local/share/applications.&lt;/li&gt;
+&lt;li&gt;create a file named &lt;code class="highlighter-rouge"&gt;~/.local/share/applications/[name].desktop&lt;/code&gt;:&lt;/li&gt;
+&lt;/ul&gt;
+&lt;figure class="highlight"&gt;
+      [Desktop Entry]
+        Encoding=UTF-8
+        Name=PyCharm 3.0
+        Comment=Jetbrains Python IDE
+        Exec=/home/sysadmin/programs/pycharm-community-3.0/bin
+        Icon=/home/sysadmin/programs/pycharm-community-3.0/bin/pycharm.png
+        Categories=Application;Development;Python;IDE
+        Version=1.0
+        Type=Application
+        Terminal=0
+
+&lt;/figure&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Do this only if required: add this entry using dconf-editor: desktop-&gt; unity-&gt; launcher -&gt; favourites&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Reset Unity (12.10 or later, but not tested!!)&lt;/p&gt;
+&lt;figure class="highlight"&gt;
+    dconf reset -f /org/compiz/
+    logoff and back in
+    unity --reset-icons &amp;disown
+
+&lt;/figure&gt;
+
+&lt;p&gt;Reset Unity (12.04 or earlier):&lt;/p&gt;
+&lt;figure class="highlight"&gt;
+    unity --reset &amp;disown
+    logoff and back in
+
+&lt;/figure&gt;
+
+&lt;p&gt;Start python web server module:&lt;/p&gt;
+&lt;figure class="highlight"&gt;
+    python -m SimpleHTTPServer 8000
+
+&lt;/figure&gt;
+
+&lt;p&gt;wifi commands:\
+show available wifi interfaces:\
+&lt;code class="highlighter-rouge"&gt;iwconfig&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Ubuntu window buttons messed up:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Open gconf-editor and go to key: &lt;code class="highlighter-rouge"&gt;/apps/metacity/general/button_layout&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;to set controls on right side, set value to &lt;code class="highlighter-rouge"&gt;:minimize,maximize,close&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;to set controls on left side (defaults in 12.04), set value to &lt;code class="highlighter-rouge"&gt;close,maximize,minimize:&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Start Netbeans with –cp option:\
+&lt;code class="highlighter-rouge"&gt;netbeans -cp:a /usr/share/java/xercesImpl.jar&lt;/code&gt;\
+To add above command to netbeans startup, edit &lt;code class="highlighter-rouge"&gt;/etc/netbeans.conf&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Grub: Solve brightness and other issues:\
+Add this to &lt;code class="highlighter-rouge"&gt;/etc/default/grub&lt;/code&gt;: &lt;code class="highlighter-rouge"&gt;GRUB_CMDLINE_LINUX="acpi_osi=Linux acpi_backlight=Vendor"&lt;/code&gt;\
+and run &lt;code class="highlighter-rouge"&gt;update-grub&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Ubuntu brightness issue: set to max on startup:&lt;/p&gt;
+&lt;p&gt;Solution-1 (http://ubuntuforums.org/showthread.php?t=1976157):&lt;/p&gt;
+&lt;p&gt;edit &lt;code class="highlighter-rouge"&gt;/etc/rc.local&lt;/code&gt; and add one of the below commands:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code class="highlighter-rouge"&gt;#echo 334665 &amp;gt; /sys/class/backlight/intel_backlight/brightness&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code class="highlighter-rouge"&gt;#echo 2 &amp;gt; /sys/class/backlight/acpi_video0/brightness&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;&lt;code class="highlighter-rouge"&gt;#(sleep 3 &amp;amp;&amp;amp; echo 2 &amp;gt; /sys/class/backlight/acpi_video0/brightness) &amp;amp; #&lt;/code&gt; this one actually worked for me, as it delayed setting the value by 3 seconds:&lt;/li&gt;
+&lt;li&gt;&lt;code class="highlighter-rouge"&gt;#xbacklight -set 30&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h2 id="solution-2-from-httpsbugslaunchpadnetubuntusourcegnome-power-managerbug923940"&gt;Solution-2 (From https://bugs.launchpad.net/ubuntu/+source/gnome-power-manager/+bug/923940):&lt;/h2&gt;
+&lt;p&gt;As a temporary patch, you can try the following:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Create a file (any name) under &lt;code class="highlighter-rouge"&gt;/etc/pm/power.d&lt;/code&gt; with the following content:&lt;/li&gt;
+&lt;/ul&gt;
+&lt;figure class="highlight"&gt;
+    # Brightness adjustment
+    case $1 in
+            true)
+
+                    # 20% screen brightness on battery
+                    echo 2 &gt; /sys/class/backlight/acpi_video0/brightness
+            ;;
+            false)
+                    # 80% screen brightness on AC
+                    echo 3 &gt; /sys/class/backlight/acpi_video0/brightness
+            ;;
+    esac
+
+    exit 0
+
+&lt;/figure&gt;
+
+&lt;ul&gt;
+&lt;li&gt;Make it executable by &lt;code class="highlighter-rouge"&gt;chmod +x myscript&lt;/code&gt; assuming “myscript” is the name of your file.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Of course, you will need to reboot. This will adjust the brightness at 20 % when on battery and 80% when on AC power.&lt;/p&gt;
+&lt;p&gt;Change grub boot order:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;open &lt;code class="highlighter-rouge"&gt;/etc/default/grub&lt;/code&gt; in editor and change GRUB_DEFAULT parameter&lt;/li&gt;
+&lt;li&gt;run &lt;code class="highlighter-rouge"&gt;update-grub&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;(Also set GRUB_SAVEDEFAULT=true if GRUB_DEFAULT equals saved)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Get X logs: See &lt;code class="highlighter-rouge"&gt;/var/log/Xorg.0.log&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;To switch between gdm, kdm, etc:\
+&lt;code class="highlighter-rouge"&gt;dpkg-reconfigure gdm&lt;/code&gt;\
+or\
+&lt;code class="highlighter-rouge"&gt;dpkg-reconfigure lightdm&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Disable KMS (/etc/modprobe.d/i915-kms.conf):\
+options i915 modeset=0&lt;/p&gt;
+&lt;p&gt;Check hardware configuration:\
+&lt;code class="highlighter-rouge"&gt;lspci&lt;/code&gt;\
+&lt;code class="highlighter-rouge"&gt;lsusb&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;Create an xorg.conf configuration:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;login as root&lt;/li&gt;
+&lt;li&gt;Xorg -configure&lt;/li&gt;
+&lt;li&gt;mv /root/xorg.conf.new /etc/X11/xorg.conf&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Local mirror of a web-site:&lt;/p&gt;
+&lt;figure class="highlight"&gt;
+    wget -mkp -np -nc -nd -E --continue http://www.brpreiss.com/books/opus7
+        -p = get page requisites (css, etc)
+        -k = convert links
+        -r = recursive   
+        -m = turn on options suitable for mirroring (such as -r)
+        -nc = no clobber
+        -nd = no directoriy hierarchy
+        -c = continue with partially downloaded
+        -w n = wait for n seconds between requests
+        -np = no parent
+        -E = rename to proper .html/.css extensions if the page isn't
+        --accept patternlist = accept only certain patterns (eg. Admin*)
+        --reject patternlist = opposite of accept
+
+&lt;/figure&gt;
+
+&lt;p&gt;Watch CPU Temperatures:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code class="highlighter-rouge"&gt;cat /sys/bus/acpi/devices/LNXTHERM:00/thermal_zone/temp&lt;/code&gt; (need lm-sensors package installed):&lt;/li&gt;
+&lt;li&gt;watch -n 1 -d sensors&lt;/li&gt;
+&lt;li&gt;sensors&lt;/li&gt;
+&lt;li&gt;sensors-detect (dangerous/need more info)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Fill a usb/device with zeros:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code class="highlighter-rouge"&gt;sudo dd if=/dev/zero of=/dev/sdb bs=1M&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;List all devices on the machine:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code class="highlighter-rouge"&gt;sudo fdisk -l&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Write an iso image to usb/device: (sdx is the name of device)&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code class="highlighter-rouge"&gt;sudo dd if=/path_to_iso of=/dev/sdx bs=1M&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Install grub to a specific device: (For usb devices, ext2 is ideal)&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code class="highlighter-rouge"&gt;sudo grub-install --root-directory=/media/USBFolderName /dev/sdx&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Find a file on disk:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;/usr -xdev -name *.wav&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;Show all apps in startup dialog (not just a few that come with stock ubuntu):&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;sudo sed -i ‘s/NoDisplay=true/NoDisplay=false/g’ /etc/xdg/autostart/*.desktop&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;view tcp communication logs:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code class="highlighter-rouge"&gt;/proc/net/tcp&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;recordMyDesktop cli:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code class="highlighter-rouge"&gt;recordMyDesktop --width 1360 --height 768 --v_bitrate 2000000&lt;/code&gt;&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;resize unity-2d launcher:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;take backup: &lt;code class="highlighter-rouge"&gt;tar cvfz ~/Documents/unity-2d-shell-backup.tar.gz /usr/share/unity-2d/shell/*&lt;/code&gt;&lt;/li&gt;
+&lt;li&gt;edit Shell.qml and change width: 65 to 50&lt;/li&gt;
+&lt;li&gt;edit common/IconTile.qml:&lt;ul&gt;
+&lt;li&gt;sourceSize.width: 48 to sourceSize.width: 32&lt;/li&gt;
+&lt;li&gt;sourceSize.height: 48 to sourceSize.height: 32&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;edit launcher/LauncherList.qml:&lt;ul&gt;
+&lt;li&gt;property int tileSize: 54 to property int tileSize: 38&lt;/li&gt;
+&lt;li&gt;property int selectionOutlineSize: 65 to&lt;/li&gt;
+&lt;li&gt;property int selectionOutlineSize: 50&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;logout &amp;amp; back in.&lt;/li&gt;
+&lt;/ul&gt;</content></entry><entry><title>Sqlalchemy Hack - How to convert a table to dict on the fly</title><link href="/blog/2015/07/sqlalchemy-hack-convert-dict.html" rel="alternate"></link><published>2015-07-04T18:36:00+05:30</published><updated>2015-07-04T18:36:00+05:30</updated><author><name>Prahlad Yeri</name></author><id>tag:None,2015-07-04:/blog/2015/07/sqlalchemy-hack-convert-dict.html</id><summary type="html">&lt;p&gt;In on of my recent projects, I came across the need to develop a JSON based REST API to fetch data from the &lt;code class="highlighter-rouge"&gt;sqlalchemy&lt;/code&gt; objects. Now, the &lt;code class="highlighter-rouge"&gt;Query&lt;/code&gt; object is a great way to access data using the powerful &lt;code class="highlighter-rouge"&gt;sqlalchemy orm&lt;/code&gt;, but it doesn’t give any built-in way to …&lt;/p&gt;</summary><content type="html">&lt;p&gt;In on of my recent projects, I came across the need to develop a JSON based REST API to fetch data from the &lt;code class="highlighter-rouge"&gt;sqlalchemy&lt;/code&gt; objects. Now, the &lt;code class="highlighter-rouge"&gt;Query&lt;/code&gt; object is a great way to access data using the powerful &lt;code class="highlighter-rouge"&gt;sqlalchemy orm&lt;/code&gt;, but it doesn’t give any built-in way to convert the result-set into a python &lt;code class="highlighter-rouge"&gt;dict&lt;/code&gt;.&lt;!--more--&gt;&lt;/p&gt;
+&lt;p&gt;For instance, I have a &lt;code class="highlighter-rouge"&gt;Professor&lt;/code&gt; table in my &lt;code class="highlighter-rouge"&gt;models.py&lt;/code&gt;. Here is what I get when I query the &lt;code class="highlighter-rouge"&gt;Professor&lt;/code&gt; model using &lt;code class="highlighter-rouge"&gt;sqlalchemy&lt;/code&gt; ORM:&lt;/p&gt;
+&lt;p&gt;::: {.language-python .highlighter-rouge}&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&amp;gt;&amp;gt;&amp;gt; session.query(models.Professor).all()
+2015-07-05 11:07:57,282 INFO sqlalchemy.engine.base.Engine SELECT professors.id AS professors_id, professors.name AS professors_name,
+partment, professors.email AS professors_email, professors.password AS professors_password, professors.phone AS professors_phone
+FROM professors
+2015-07-05 11:07:57,282 INFO sqlalchemy.engine.base.Engine ()
+[&amp;lt;Professor(name=`Albus Dumbledore`)&amp;gt;, &amp;lt;Professor(name=`Severus Snape`)&amp;gt;]
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;:::&lt;/p&gt;
+&lt;p&gt;At the end, I got the two Professors’ name in a collection, but they are still &lt;code class="highlighter-rouge"&gt;sqlalchemy&lt;/code&gt; objects. How can I convert it to a python dict, so that it can be deserialized to JSON or be used for any other purpose. To solve this, just add the below code to your &lt;code class="highlighter-rouge"&gt;models.py&lt;/code&gt; module, and just call the &lt;code class="highlighter-rouge"&gt;models.to_dict()&lt;/code&gt; method to convert an sqlalchemy models collection to a dict (or alternatively, call &lt;code class="highlighter-rouge"&gt;models.from_dict()&lt;/code&gt; to build the model object collection from an existing dict!):&lt;/p&gt;
+&lt;p&gt;::: {.language-python .highlighter-rouge}&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;def to_dict(model_instance, query_instance=None):
+    if hasattr(model_instance, &amp;#39;__table__&amp;#39;):
+        return {c.name: str(getattr(model_instance, c.name)) for c in model_instance.__table__.columns}
+    else:
+        cols = query_instance.column_descriptions
+        return { cols[i][&amp;#39;name&amp;#39;] : model_instance[i]  for i in range(len(cols)) }
+
+def from_dict(dict, model_instance):
+    for c in model_instance.__table__.columns:
+        setattr(model_instance, c.name, dict[c.name])
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;:::&lt;/p&gt;
+&lt;p&gt;The usage is as follows:&lt;/p&gt;
+&lt;figure class="highlight"&gt;
+    q = dbsession.query(models.Application).filter(models.Application.id==id)
+    professors = q.all()
+    di = models.to_dict(professors) #for converting a single table resultset
+
+    q = dbsession.query(models.Application)
+    application = q.first()
+    dd = models.to_dict(app)
+    dd['student'] = models.to_dict(application.student, q) #for converting a relationship object which refers to another table. 
+
+&lt;/figure&gt;
+
+&lt;p&gt;The reason we have to use a slightly different approach for the relationship objects (like &lt;code class="highlighter-rouge"&gt;application.student&lt;/code&gt; which refers to the &lt;code class="highlighter-rouge"&gt;student&lt;/code&gt; model) is that the instance doesn’t have an &lt;code class="highlighter-rouge"&gt;__table__&lt;/code&gt; object which is required to build the dict. Hence, the query instance is passed. This is just one approach I’ve used to convert &lt;code class="highlighter-rouge"&gt;sqlalchemy&lt;/code&gt; objects to &lt;code class="highlighter-rouge"&gt;dict&lt;/code&gt;. If you have any other approach, please let me know.&lt;/p&gt;</content></entry><entry><title>Is Sourceforge.net safe anymore to download software</title><link href="/blog/2015/06/is-sourceforge-safe-anymore.html" rel="alternate"></link><published>2015-06-25T21:36:00+05:30</published><updated>2015-06-25T21:36:00+05:30</updated><author><name>Prahlad Yeri</name></author><id>tag:None,2015-06-25:/blog/2015/06/is-sourceforge-safe-anymore.html</id><summary type="html">&lt;p&gt;You have probably heard about all the recent buzz surrounding the sourceforge.net website hosting adware/malware bundled installers and naive users falling prey to it. In some cases, SF even actively took control of &lt;a href="http://arstechnica.com/information-technology/2015/05/sourceforge-grabs-gimp-for-windows-account-wraps-installer-in-bundle-pushing-adware/"&gt;abandoned developer accounts&lt;/a&gt;. to bundle their crapware.&lt;!--more--&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Sourceforge Logo" src="/uploads/old/sf-logo.png"&gt;&lt;/p&gt;
+&lt;p&gt;So, is it safe anymore to go to …&lt;/p&gt;</summary><content type="html">&lt;p&gt;You have probably heard about all the recent buzz surrounding the sourceforge.net website hosting adware/malware bundled installers and naive users falling prey to it. In some cases, SF even actively took control of &lt;a href="http://arstechnica.com/information-technology/2015/05/sourceforge-grabs-gimp-for-windows-account-wraps-installer-in-bundle-pushing-adware/"&gt;abandoned developer accounts&lt;/a&gt;. to bundle their crapware.&lt;!--more--&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Sourceforge Logo" src="/uploads/old/sf-logo.png"&gt;&lt;/p&gt;
+&lt;p&gt;So, is it safe anymore to go to this site and download your favorite FLOSS software? The TLDR version is NO, unless you happen to trust the developer and the project is actively being developed by them. But to understand the big picture, you will have to see the root cause of this which goes much deeper than just sourceforge, and relates to software distribution practices in the Microsoft Windows world.&lt;/p&gt;
+&lt;h2&gt;What went wrong?&lt;/h2&gt;
+&lt;p&gt;Software Development consists of two important phases: Authoring of source code, and secondly, the build process where the code is compiled to binaries and bundled into installable packages that you may download. Many years ago, sourceforge was one of the rare sites that provided a place on the internet where open source developers can host their code and binaries, and users can download them. This used to go well for many years and thus sourceforge gained a nice reputation in the FLOSS Community.&lt;/p&gt;
+&lt;p&gt;But soon enough, Sourceforge decided to cash in on this reputation by breaching this trust. And they started bundling adware and crapware to the developer builds. In some cases, &lt;a href="https://forum.filezilla-project.org/viewtopic.php?t=30240"&gt;the lead developers&lt;/a&gt; were in cohorts with Sourceforge. And as &lt;a href="http://www.thewindowsclub.com/safe-software-download-sites"&gt;this Windows Club article&lt;/a&gt; succintly explains, Sourceforge wasn’t alone in this. There were many othere like CNET.com, Download.com, etc.&lt;/p&gt;
+&lt;h2&gt;The Problem&lt;/h2&gt;
+&lt;p&gt;Though the adware bundling is optional in theory, the default options are so tactfully placed that only the shrewdest of hackers can dodge all of them! Though this kind of behavior is sort of expected from B-grade sites like CNET and download.com, Sourceforge was something that the open source community held in high esteem. Though most of the developers have moved to github now, souceforge was once considered the Jerusalem for downloading FLOSS Software, especially Windows Software. Even today, their interface is the best suited for novice users who are just looking for a big green download button to click - Github interface is more geared towards developers and generally overwhelms them. But now that the Jerusalem folks have turned into heretics (for lack of a better analogy), what are our options?&lt;/p&gt;
+&lt;p&gt;The best option is to get it from the developer’s site itself if they provide it. But sometimes that’s not possible as the developer may not always have bandwidth to host the binaries, and we have to depend on 3rd party sites like sourceforge. As the author of the linked article suggests, &lt;a href="http://majorgeeks.com"&gt;MajorGeeks&lt;/a&gt; and &lt;a href="http://softpedia.com"&gt;Softpedia&lt;/a&gt; are generally clean in my experience. Downloading software from those cleaner sites, however, is just a workaround and doesn’t solve the larger structural problem of Software Distribution in Windows world. So, what is that solution?&lt;/p&gt;
+&lt;h2&gt;The Linux Solution!&lt;/h2&gt;
+&lt;p&gt;One crisis we are facing in the Windows FLOSS world right now is the Middleman problem. The original developer (A) writes some code and compiles it, the middleman (SF) bundles adware to it and makes a quick buck, whilst an innocent user (B) clicks that download link. Since there is no way for B to verify if the package is actually bundled by A, SF continues to get his commissions.&lt;/p&gt;
+&lt;p&gt;But what if there was a way for B to verify if the package is actually signed by A? In the Linux world, we do have such a mechanism, so there is no place for middlemen to make a profit there. If I download GNU Emacs from the &lt;a href="http://ftp.gnu.org/gnu/emacs/"&gt;GNU ftp server&lt;/a&gt;, all I have to do is &lt;code class="highlighter-rouge"&gt;gpg --verify emacs.sig emacs.tar.gz&lt;/code&gt; and the system will tell me whether my emacs copy is signed by developers of Emacs, or was it tampered with for injecting any malware!&lt;/p&gt;
+&lt;p&gt;The second crisis the Windows FLOSS is facing is lack of a decent package management system. In above analogy, we can’t expect B to personally verify each downloaded software against A’s signature, s/he needs a good package manager that downloads the package from a trusted server and installs it afer verifying the signatures.&lt;/p&gt;
+&lt;p&gt;In Linux world, we have two major packaging systems known by the name of &lt;code class="highlighter-rouge"&gt;apt&lt;/code&gt; and &lt;code class="highlighter-rouge"&gt;yum&lt;/code&gt;. How are they better, stable and secure than the Windows approach of users downloading arbitrary installers from SF-like sites and installing them, is something beyond the scope of this article. But suffice it to say that its very very high time that Windows gets a similar package manager to take care of the present structural issues surrounding it. &lt;a href="http://www.ninite.com/"&gt;Ninite&lt;/a&gt; has tried to do something in this direction, but its a proprietary and paid solution. We need open source and something that everyone accepts as a standard. Maybe, perhaps Microsoft will take the initiative and do it themselves? Only time will tell.&lt;/p&gt;</content></entry><entry><title>How to know whether my blog post will attract traffic or not</title><link href="/blog/2015/06/how-to-know-whether-my-blog-post-will-attract-traffic-or-not.html" rel="alternate"></link><published>2015-06-10T18:30:00+05:30</published><updated>2015-06-10T18:30:00+05:30</updated><author><name>Prahlad Yeri</name></author><id>tag:None,2015-06-10:/blog/2015/06/how-to-know-whether-my-blog-post-will-attract-traffic-or-not.html</id><summary type="html">&lt;p&gt;One of the evergreen topics for discussions in the blogging world is SEO, and especially the various ways of attracting bless of the all-pervading search engines to one’s own site or blog. There are various ways to approach this problem, some of the popular ones are:&lt;!--more--&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Using meta tags …&lt;/li&gt;&lt;/ol&gt;</summary><content type="html">&lt;p&gt;One of the evergreen topics for discussions in the blogging world is SEO, and especially the various ways of attracting bless of the all-pervading search engines to one’s own site or blog. There are various ways to approach this problem, some of the popular ones are:&lt;!--more--&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Using meta tags like &lt;code class="highlighter-rouge"&gt;keyword&lt;/code&gt; and &lt;code class="highlighter-rouge"&gt;description&lt;/code&gt; to attract the search engines.&lt;/li&gt;
+&lt;li&gt;Performing keyword research (using Google Adword tool or similar).&lt;/li&gt;
+&lt;li&gt;Getting Link juice through social media marketing.&lt;/li&gt;
+&lt;li&gt;Hiring SEO experts or web designers to get some arcane suggestions.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;But lost in these technical fads, people are forgetting one basic foundation upon which the internet is built: &lt;code class="highlighter-rouge"&gt;CONTENT IS KING&lt;/code&gt;. Yes, the sad truth is that Google (or Yahoo/Bing for that matter) cannot be fooled by any of these tools in the &lt;code class="highlighter-rouge"&gt;long term&lt;/code&gt;. Doing some social media marketing on Facebook might place your article on #1 position for a short period of time, but sooner or later, Google will figure out whether your content is actually worth it or not.&lt;/p&gt;
+&lt;p&gt;But how do you write good content, and also ensure that it has some uniqueness that the million other sites on the internet don’t already have? Well, I can’t help you with the first question. Since &lt;em&gt;you&lt;/em&gt; know what your area of expertise is, only you can come up with a good topic and subject-matter for your blog or site. For instance, Web Development is my area of expertise, and I came up with this particular topic you are reading right now.&lt;/p&gt;
+&lt;p&gt;But I can certainly help you with the second question! Doing some research on this matter and performing a topic-wise traffic analysis of my own blog, has proven to me this one thing: &lt;code class="highlighter-rouge"&gt;CONTENT IS KING&lt;/code&gt;. So, my method of figuring out whether your article/post will rock or not, is based upon this simple canon. Once you decide the topic and subject-matter of your next blog post, do this simple reality check before you even bother drafting it:&lt;/p&gt;
+&lt;p&gt;Almost every Googler is looking for a specific solution for a problem or issue, be it shopping for a product, knowing a url address or researching something. So, your next post or article should solve that problem in order to pass the &lt;code class="highlighter-rouge"&gt;CONTENT&lt;/code&gt; test. To get a quick idea of the competition, perform a Google search from the point of view of your potential Googler! A glance at the results will instantly tell you whether this problem is already solved, and by how many.&lt;/p&gt;
+&lt;p&gt;For instance, before publishing this article, I did this simple Google search:&lt;/p&gt;
+&lt;p&gt;::: {.highlighter-rouge}&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;How to know whether my blog post will attract traffic or not
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;:::&lt;/p&gt;
+&lt;p&gt;And this is what I got:&lt;/p&gt;
+&lt;p&gt;&lt;img alt="How to know whether my blog post will attract traffic or not" src="/uploads/old/how-to-know-whether-blog-topic-gets-traffic.png"&gt;&lt;/p&gt;
+&lt;p&gt;All those are top ranking sites and deserve to be on page one (no offence meant to them). However, for someone specifically looking for a solution to this question (agreed, however small that set of users be), none of them have an immediate answer that could be surmised by the search result summary. Whilst they are all making clear points about &lt;code class="highlighter-rouge"&gt;WAYS&lt;/code&gt; to increase search engine traffic, none of them talks about knowing, in priory, whether a given method will work or not. So, at least for this particular query (maybe used by about 1% of all bloggers), my blog post deserves to be amongst those page one results - and sure it will, because it has the only one thing that matters for Google - &lt;code class="highlighter-rouge"&gt;CONTENT&lt;/code&gt;.&lt;/p&gt;</content></entry><entry><title>How to host a Flask app on Openshift</title><link href="/blog/2015/02/how-to-host-flask-app-openshift.html" rel="alternate"></link><published>2015-02-06T18:30:00+05:30</published><updated>2015-02-06T18:30:00+05:30</updated><author><name>Prahlad Yeri</name></author><id>tag:None,2015-02-06:/blog/2015/02/how-to-host-flask-app-openshift.html</id><summary type="html">&lt;p&gt;&lt;a href="https://www.openshift.com/"&gt;Openshift free tier&lt;/a&gt; is an excellent way to host your python web app for staging or testing, and you can even host a low to medium traffic production site. Openshift provides several options (cartridges) for hosting including &lt;code class="highlighter-rouge"&gt;python, php, node.js, etc.&lt;/code&gt; but &lt;code class="highlighter-rouge"&gt;python&lt;/code&gt; being my favorite language and &lt;code class="highlighter-rouge"&gt;Flask …&lt;/code&gt;&lt;/p&gt;</summary><content type="html">&lt;p&gt;&lt;a href="https://www.openshift.com/"&gt;Openshift free tier&lt;/a&gt; is an excellent way to host your python web app for staging or testing, and you can even host a low to medium traffic production site. Openshift provides several options (cartridges) for hosting including &lt;code class="highlighter-rouge"&gt;python, php, node.js, etc.&lt;/code&gt; but &lt;code class="highlighter-rouge"&gt;python&lt;/code&gt; being my favorite language and &lt;code class="highlighter-rouge"&gt;Flask&lt;/code&gt; being a minimalist and flexible framework, this combination is what I usually end up with.&lt;!--more--&gt;&lt;/p&gt;
+&lt;h3&gt;Create an Openshift account&lt;/h3&gt;
+&lt;p&gt;In case you haven’t already, head over to &lt;a href="https://www.openshift.com/"&gt;Openshift&lt;/a&gt; and sign up for a free tier. You will be able to host at most three apps for each account. Openshift apps are hosted on &lt;code class="highlighter-rouge"&gt;rhcloud.com&lt;/code&gt; domain and you’ll have to setup a subdomain first which will be part of your app url. For instance, if I register &lt;code class="highlighter-rouge"&gt;prahladyeri.rhcloud.com&lt;/code&gt; subdomain, I can create the following apps with that:&lt;/p&gt;
+&lt;p&gt;::: {.highlighter-rouge}&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;myflaskapp-prahladyeri.rhcloud.com
+myphpapp-prahladyeri.rhcloud.com
+blog-prahladyeri.rhcloud.com
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;:::&lt;/p&gt;
+&lt;h3&gt;Install the necessary tools&lt;/h3&gt;
+&lt;p&gt;You will need the following:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;a href="git-scm.com/"&gt;Git&lt;/a&gt;: Your app resides in a git repository, so you’ll need git installed on your machine to push changes. App is deployed automatically once you push.&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://python.org"&gt;Python and Flask&lt;/a&gt;: Obviously, you are going to need them if you are building a Flask app.&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://rubygems.org/gems/rhc"&gt;Openshift rhc tool&lt;/a&gt;: This &lt;code class="highlighter-rouge"&gt;ruby&lt;/code&gt; based tool is optional, only use it if you don’t want to use their online portal for creating apps or you aren’t familiar with ssh. Personally, I didn’t want to install &lt;code class="highlighter-rouge"&gt;ruby&lt;/code&gt; on my machine just for this one purpose.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3&gt;Pull the remote repo&lt;/h3&gt;
+&lt;p&gt;Once you create a python app, Openshift will provide you a git repository url as follows:&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Openshift git url" src="/uploads/old/openshift-git-repo.png"&gt;&lt;/p&gt;
+&lt;p&gt;Now open your command line and pull this starter repo to your local machine:&lt;/p&gt;
+&lt;figure class="highlight"&gt;
+      git clone &lt;YOUR_SOURCE_URL&gt; myFlaskApp
+
+&lt;/figure&gt;
+
+&lt;p&gt;Now, the remote repository will be cloned in the &lt;code class="highlighter-rouge"&gt;myFlaskApp&lt;/code&gt; folder. Browse it to see the scaffolding.&lt;/p&gt;
+&lt;h3&gt;Add your flask app&lt;/h3&gt;
+&lt;p&gt;The scaffolding structure will be as follows:&lt;/p&gt;
+&lt;figure class="highlight"&gt;
+    wsgi.py
+    setup.py
+    .openshift/..
+    .settings/..
+    wsgi/..         =&gt; your python source files go here.
+    wsgi/static..   =&gt; your static folders viz css, img, fonts, et al. go here.
+
+&lt;/figure&gt;
+
+&lt;p&gt;If the wsgi/ folder doesn’t exist, you’ll have to create it. Just modify the setup.py and add Flask and SQLAlchemy as your app dependencies along with your app name. This tells openshift to make sure that dependency packages are available whenever you push any code changes.&lt;/p&gt;
+&lt;figure class="highlight"&gt;
+
+    from setuptools import setup
+
+    setup(name='myFlaskApp',
+          version='1.0',
+          description='myFlaskApp',
+          author='Prahlad Yeri',
+          author_email='prahladyeri@yahoo.com',
+          url='http://www.python.org/sigs/distutils-sig/',
+          install_requires=['Flask==0.10.1','SQLAlchemy==0.9.8'],
+         )
+
+&lt;/figure&gt;
+
+&lt;p&gt;Now, create a text file named &lt;code class="highlighter-rouge"&gt;application&lt;/code&gt; in the wsgi/ folder with the following contents:&lt;/p&gt;
+&lt;figure class="highlight"&gt;
+
+    #!/usr/bin/python
+    import os
+
+    virtenv = os.environ['OPENSHIFT_PYTHON_DIR'] + '/virtenv/'
+    os.environ['PYTHON_EGG_CACHE'] = os.path.join(virtenv, 'lib/python2.7/site-packages')
+    virtualenv = os.path.join(virtenv, 'bin/activate_this.py')
+    try:
+        execfile(virtualenv, dict(__file__=virtualenv))
+    except IOError:
+        pass
+
+    from myFlaskApp import app as application       
+
+&lt;/figure&gt;
+
+&lt;p&gt;This is a configuration file that tells openshift where your Flask app script resides. Now create a python file called myFlaskApp.py, this will be your HelloWorld script:&lt;/p&gt;
+&lt;figure class="highlight"&gt;
+
+    import flask
+    from flask import Flask
+    from flask import request
+
+    app = Flask(__name__)
+
+    @app.route("/")
+    def home():
+        return "Hello World"
+
+    if __name__ == "__main__":
+        app.run(debug=True)
+
+&lt;/figure&gt;
+
+&lt;p&gt;The last part of the code (app.run) is there so that you may test the Flask app by running this script on your local machine before pushing these changes.&lt;/p&gt;
+&lt;h3&gt;Push your changes&lt;/h3&gt;
+&lt;p&gt;All that is left to be done now is committing your changes and pushing them to openshift:&lt;/p&gt;
+&lt;p&gt;::: {.highlighter-rouge}&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;git add .
+git commit -m &amp;quot;Initial commit for myFlaskApp&amp;quot;
+git push origin master
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;:::&lt;/p&gt;
+&lt;h3&gt;Voila! You are done&lt;/h3&gt;
+&lt;p&gt;Wasn’t it almost as easy as deploying a &lt;code class="highlighter-rouge"&gt;php&lt;/code&gt; script on your web host? If everything goes right, your Flask app will be hosted on &lt;code class="highlighter-rouge"&gt;http://myFlaskApp-mydomain.rhcloud.com/&lt;/code&gt;. Visit your app link and check it out.&lt;/p&gt;
+&lt;h3&gt;Few important things&lt;/h3&gt;
+&lt;ul&gt;
+&lt;li&gt;In case you aren’t familiar about how git over ssl works, the remote machine authenticates your machine using an SSL public key you have already provided them. So if this is your fist time, you’ll have to generate a private-public key pair (using ssh in linux or putty on windows). After that, you’ll have to update your public key to Openshift, so they can authenticate your machine. You can add it using the Settings menu on the Openshift portal.&lt;/li&gt;
+&lt;li&gt;Its very important that all your static files reside in &lt;strong&gt;wsgi/static&lt;/strong&gt; folder and that folder only. Openshift uses that path by default. But in case you are really stuck with using &lt;code class="highlighter-rouge"&gt;/css&lt;/code&gt; and &lt;code class="highlighter-rouge"&gt;/js&lt;/code&gt; in your existing app, as a solution you can clear the &lt;code class="highlighter-rouge"&gt;static_url_path&lt;/code&gt; in your flask app as follows:&lt;/li&gt;
+&lt;/ul&gt;
+&lt;figure class="highlight"&gt;
+      app = Flask(__name__, static_url_path='', static_folder='static')
+
+&lt;/figure&gt;
+
+&lt;p&gt;Refer to this Openshift &lt;a href="https://blog.openshift.com/build-your-app-on-openshift-using-flask-sqlalchemy-and-postgresql-92/"&gt;tutorial&lt;/a&gt; for more details.&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Make the most of SSH. Some times, you may want to connect with the remote server using secured shell (ssh/putty) for troubleshooting, viewing logs, etc. Your SSH url is included in your git source url. So, if your git url is of the form:&lt;/li&gt;
+&lt;/ul&gt;
+&lt;figure class="highlight"&gt;
+          ssh://500XXXXXXXXXXXX01061a@prahladyeri-inn.rhcloud.com/~/git/prahladyeri.git/
+
+&lt;/figure&gt;
+
+&lt;p&gt;Just remove the &lt;code class="highlighter-rouge"&gt;ssh://&lt;/code&gt; from the beginning and the other things after the domain, so the SSH host url becomes:&lt;/p&gt;
+&lt;figure class="highlight"&gt;
+          500XXXXXXXXXXXX01061a@prahladyeri-inn.rhcloud.com
+
+&lt;/figure&gt;
+
+&lt;p&gt;&lt;em&gt;References:&lt;/em&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://blog.openshift.com/build-your-app-on-openshift-using-flask-sqlalchemy-and-postgresql-92/"&gt;Build an app using Flask, SQLAlchemy and PostgreSQL&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://rubygems.org/gems/rhc"&gt;Openshift rhc tool&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.openshift.com/"&gt;Openshift Homepage&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</content></entry><entry><title>Farewell Wordpress, Hello Jekyll!</title><link href="/blog/2015/02/farewell-wordpress-hello-jekyll.html" rel="alternate"></link><published>2015-02-04T18:30:00+05:30</published><updated>2015-02-04T18:30:00+05:30</updated><author><name>Prahlad Yeri</name></author><id>tag:None,2015-02-04:/blog/2015/02/farewell-wordpress-hello-jekyll.html</id><summary type="html">&lt;p&gt;Here I am, signing off from a &lt;em&gt;self-hosted, over-bloated &lt;a href="http://www.wordpress.org"&gt;Wordpress&lt;/a&gt;&lt;/em&gt; site and finding a welcome change in &lt;a href="http://jekyllrb.com/"&gt;Jekyll&lt;/a&gt;, a blog-aware static site generator. There is nothing new about this, several well-known bloggers have already migrated to Jekyll in the last few years including &lt;a href="http://rsms.me/"&gt;Rasmus Andersson&lt;/a&gt;, &lt;a href="http://quaran.to/"&gt;Nick Quaranto&lt;/a&gt; and &lt;a href="http://rogchap.com/"&gt;Roger Chapman …&lt;/a&gt;&lt;/p&gt;</summary><content type="html">&lt;p&gt;Here I am, signing off from a &lt;em&gt;self-hosted, over-bloated &lt;a href="http://www.wordpress.org"&gt;Wordpress&lt;/a&gt;&lt;/em&gt; site and finding a welcome change in &lt;a href="http://jekyllrb.com/"&gt;Jekyll&lt;/a&gt;, a blog-aware static site generator. There is nothing new about this, several well-known bloggers have already migrated to Jekyll in the last few years including &lt;a href="http://rsms.me/"&gt;Rasmus Andersson&lt;/a&gt;, &lt;a href="http://quaran.to/"&gt;Nick Quaranto&lt;/a&gt; and &lt;a href="http://rogchap.com/"&gt;Roger Chapman&lt;/a&gt;. Ever since Tom Preston Werner invented this thing in 2008 and published his infamous article about &lt;a href="http://tom.preston-werner.com/2008/11/17/blogging-like-a-hacker.html"&gt;Blogging Like a Hacker&lt;/a&gt;, it has become the &lt;em&gt;Go-to thing&lt;/em&gt; for those of us who favour on-line publishing above everything else.&lt;!--more--&gt;&lt;/p&gt;
+&lt;p&gt;And that’s for many good reasons, the most important being a major issue with Wordpress design - &lt;em&gt;Of what use is an RDBMS database like mysql in a weblog?&lt;/em&gt;. I think this question should have been asked the day Wordpress was invented. However, since there weren’t too many alternatives in those days and &lt;code class="highlighter-rouge"&gt;php&lt;/code&gt; hosting was &lt;em&gt;way too easy&lt;/em&gt;, most ignored this factor.&lt;/p&gt;
+&lt;h3&gt;Save me a ton of money&lt;/h3&gt;
+&lt;p&gt;Jekyll generates static sites made of pure HTML/CSS. A static site is a website whose content stays static (&lt;em&gt;unchanged by any user-input&lt;/em&gt;) on the server-side (though dynamic functionality can be provided on the client-side using javascript). What this means is that you are not only done away with the hassle of hosting your own database, but also avoid &lt;em&gt;costly monthly fees&lt;/em&gt; going to your Web Hosting Providers. That’s because unlike a &lt;code class="highlighter-rouge"&gt;php&lt;/code&gt; hosted dynamic site, a static site is much much faster and cheaper. In fact, &lt;a href="https://github.com/jekyll/jekyll/wiki/Sites"&gt;Github pages&lt;/a&gt; provides you free static web hosting without any bandwidth or space restrictions!&lt;/p&gt;
+&lt;h3&gt;How do I implement this?&lt;/h3&gt;
+&lt;p&gt;The &lt;em&gt;References&lt;/em&gt; section at the bottom contains a couple of links to detailed migration guides if you intend to go this route. As any seasoned &lt;code class="highlighter-rouge"&gt;php&lt;/code&gt; programmer would tell you, programming in a language like &lt;code class="highlighter-rouge"&gt;php&lt;/code&gt; isn’t everyone’s cup of tea. While you don’t have to do any programming for hosting a static site, you should still know about a few things in order to implement a static site:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="http://jekyllrb.com/"&gt;Jekyll&lt;/a&gt;: Jekyll is a command line tool written in &lt;code class="highlighter-rouge"&gt;ruby&lt;/code&gt; language to generate blog-aware static sites (like the one you are presently viewing). Visit the link to find docs that explain what Jekyll is, how to install ruby and jekyll on your system and publish your posts.&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://daringfireball.net/projects/markdown/syntax"&gt;Markdown&lt;/a&gt;: &lt;code class="highlighter-rouge"&gt;Markdown&lt;/code&gt; is a beautiful language crafted specially with on-line publishers in mind. Jekyll posts written in &lt;code class="highlighter-rouge"&gt;Markdown&lt;/code&gt; syntax are saved with the extension of &lt;code class="highlighter-rouge"&gt;.md&lt;/code&gt;. While you can write posts in plain old html syntax too, knowing markdown comes very handy and saves time.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;For instance, when I write:&lt;/p&gt;
+&lt;figure class="highlight"&gt;
+          [Jekyll](http://jekyllrb.com/)
+
+&lt;/figure&gt;
+
+&lt;p&gt;It becomes:&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://jekyllrb.com/"&gt;Jekyll&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Making lists, headings, etc. is as easy. For instance,&lt;/p&gt;
+&lt;figure class="highlight"&gt;
+    ### Three hashes means H3
+    #### Four hashes means H4
+    1. This is list-item1
+    2. This is list-item2
+
+&lt;/figure&gt;
+
+&lt;p&gt;becomes:&lt;/p&gt;
+&lt;h3&gt;Three hashes means H3&lt;/h3&gt;
+&lt;h4&gt;Four hashes means H4&lt;/h4&gt;
+&lt;ol&gt;
+&lt;li&gt;This is list-item1&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;This is list-item2&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;a href="https://disqus.com/"&gt;Disqus&lt;/a&gt;: Perhaps the only feature for which most bloggers need a dynamic site is that of posting comments. Thanks to services like disqus, bloggers can now leave the hassle of maintaining their own database for storing their readers’ comments. Disqus does this for them. Read on the link to find out how to implement it on your Jekyll blog.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://github.com/jekyll/jekyll/wiki/Sites"&gt;Github pages&lt;/a&gt;: Github pages is literally a boon for us bloggers. I’m aware of no other static web hosting service that lets you host unlimited content with practically unlimited bandwidth!&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.google.com/analytics"&gt;Google Analytics&lt;/a&gt;: This is an invaluable service from Google used for tracking the web traffic on your blog or website. And not just hit-counts, you get to know what kinds of visitors come to your site based on demographic stats like location, age-group, gender, likes/dislikes, etc. All you have to do is put a bunch of code that analytics site provides you in your jekyll default template. Even when I was on Wordpress, I was using Google Analytics instead of the various stats plugins that come with Wordpress.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h3&gt;Outcome&lt;/h3&gt;
+&lt;p&gt;Jekyll feels so good that I can’t recommend you enough of it! If you are presently using a self-hosted wordpress site and want to migrate to Jekyll and Github-pages, just go ahead and do it without any second thoughts. And after that, please let me know about your migration experience through &lt;code class="highlighter-rouge"&gt;disqus&lt;/code&gt; comments below this post!&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;References&lt;/em&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="http://hadihariri.com/2013/12/24/migrating-from-wordpress-to-jekyll/"&gt;Wordpress to Jekyll - Migration guide&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://paulstamatiou.com/how-to-wordpress-to-jekyll/"&gt;Wordpress to Jekyll - How to&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://github.com/jekyll/jekyll/wiki/Sites"&gt;Jekyll, A blog aware static site generator&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://tom.preston-werner.com/2008/11/17/blogging-like-a-hacker.html"&gt;Blogging Like a Hacker&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://en.wikipedia.org/wiki/Jekyll_%28software%29"&gt;Jekyll, Wikipedia&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://github.com/jekyll/jekyll/wiki/Sites"&gt;Github pages&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://help.github.com/articles/setting-up-a-custom-domain-with-github-pages/"&gt;How to set up a custom domain with Github pages&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://joshualande.com/jekyll-github-pages-poole/"&gt;Poole - A minimalistic Jekyll theme&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</content></entry><entry><title>4 Ways to share your mobile internet with a PC/laptop</title><link href="/blog/2014/12/4-ways-to-share-your-mobile-internet-with-a-pclaptop.html" rel="alternate"></link><published>2014-12-20T11:47:00+05:30</published><updated>2014-12-20T11:47:00+05:30</updated><author><name>Prahlad Yeri</name></author><id>tag:None,2014-12-20:/blog/2014/12/4-ways-to-share-your-mobile-internet-with-a-pclaptop.html</id><summary type="html">&lt;p&gt;The one thing I like about the world of Linux in general and also Android is the great number of options. Unlike Windows phone, where there is only one way to perform a task (if at all there is!), android provides a richer user experience in all departments.&lt;!--more--&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="/uploads/old/Android_tether_options.png"&gt;&lt;img alt="Android Tethering Options" src="/uploads/old/Android_tether_options.png"&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Suppose you …&lt;/p&gt;</summary><content type="html">&lt;p&gt;The one thing I like about the world of Linux in general and also Android is the great number of options. Unlike Windows phone, where there is only one way to perform a task (if at all there is!), android provides a richer user experience in all departments.&lt;!--more--&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="/uploads/old/Android_tether_options.png"&gt;&lt;img alt="Android Tethering Options" src="/uploads/old/Android_tether_options.png"&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Suppose you are traveling to some place and your laptop has lost its usual source of internet connectivity. You will naturally consider surfing the web on your cell-phone, or better still, try and find a way to share the internet on your cell-phone with your laptop, so your work won't suffer.&lt;/p&gt;
+&lt;p&gt;The android OS supports multiple ways to perform tethering (a.k.a share your mobile internet with other devices such as laptop).&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;&lt;em&gt;USB Tethering:&lt;/em&gt;&lt;/strong&gt; I mention this method first because it is the most power-efficient of the lot. Always try to use this method before others if you want to prioritize battery savings. The only shortcoming of this method is that you will only be able to share the  mobile internet with at most one device only (in the above example, your laptop). And of course, you will be able to keep your USB cable handy. To use this method, just hook up the USB cable to your laptop (making sure that the device drivers are installed). Then, on your cellphone, go to &lt;strong&gt;&lt;em&gt;Settings-&gt;Tethering and Portable Hotspot&lt;/em&gt;&lt;/strong&gt; and tap on the &lt;strong&gt;&lt;em&gt;USB Tethering&lt;/em&gt;&lt;/strong&gt; option to activate it. (On your particular model, the actual setting name might differ as each manufacturer customizes android to their own liking)&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;em&gt;Bluetooth Tethering:&lt;/em&gt;&lt;/strong&gt; This method is less efficient than USB tethering, but still quite efficient compared to others. Again, the disadvantage is that at most only one peer can be shared. Also, the speed will be much slower compared to Wifi and other techniques, but if 10mbps is workable for you, then this option could be a great help for you. To activate, tap on this option in &lt;strong&gt;&lt;em&gt;Settings-&gt;Tethering and Portable Hotspot&lt;/em&gt;&lt;/strong&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;em&gt;Wifi Access Point:&lt;/em&gt;&lt;/strong&gt; This method is the most common of the lot as the concept of turning your cellphone into a Wifi access point has turned into quite a fad nowadays. However, it is also the least efficient energy wise. The advantage, of course, is that your cellphone can provide its bandwidth to multiple devices at the same time. To activate, tap on this option in &lt;strong&gt;&lt;em&gt;Settings-&gt;Tethering and Portable Hotspot&lt;/em&gt;&lt;/strong&gt;.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;em&gt;Using a USB Dongle as Mobile broadband:&lt;/em&gt;&lt;/strong&gt; This method applies only to GSM radios (not CDMA as they are locked by providers).  Though it doesn't come under the definition of tethering, the effect is same. If none of the above methods work for you (or for some reason, you don't want to use), as an alternative, you can take out the SIM card and put it in an unlocked USB dongle (also called &lt;a href="https://en.wikipedia.org/wiki/WorldSIM#Data_SIM_Card"&gt;Data Card&lt;/a&gt;). Data Cards are manufactured by companies like ZTE and Huawei and unlocked versions are available in many &lt;a href="http://www.amazon.com/Generic-Wireless-7-2Mbps-Dongle-Function/dp/B00MHAKIFI/ref=sr_1_5?ie=UTF8&amp;amp;qid=1419075706&amp;amp;sr=8-5&amp;amp;keywords=usb+data+cards"&gt;online retail stores&lt;/a&gt;.&lt;/li&gt;
+&lt;/ol&gt;</content></entry><entry><title>7 Reasons I would prefer an Android Phone over WP8</title><link href="/blog/2014/12/7-reasons-i-would-prefer-an-android-phone-over-wp8.html" rel="alternate"></link><published>2014-12-19T09:42:00+05:30</published><updated>2014-12-19T09:42:00+05:30</updated><author><name>Prahlad Yeri</name></author><id>tag:None,2014-12-19:/blog/2014/12/7-reasons-i-would-prefer-an-android-phone-over-wp8.html</id><summary type="html">&lt;p&gt;My existing phone is a &lt;em&gt;Karbonn A30&lt;/em&gt; running &lt;em&gt;Android ICS&lt;/em&gt; and my next phone is going to be an Android phone too. Both as a &lt;strong&gt;user&lt;/strong&gt; and as a &lt;strong&gt;developer&lt;/strong&gt;, I've come upon the realization that Android provides a much better user experience and overall satisfaction in mobile computing.&lt;!--more--&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="/uploads/old/Android_WP8_Feature_compare.png"&gt;&lt;img alt="Android-WP8 Feature comparison" src="/uploads/old/Android_WP8_Feature_compare.png"&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;I …&lt;/p&gt;</summary><content type="html">&lt;p&gt;My existing phone is a &lt;em&gt;Karbonn A30&lt;/em&gt; running &lt;em&gt;Android ICS&lt;/em&gt; and my next phone is going to be an Android phone too. Both as a &lt;strong&gt;user&lt;/strong&gt; and as a &lt;strong&gt;developer&lt;/strong&gt;, I've come upon the realization that Android provides a much better user experience and overall satisfaction in mobile computing.&lt;!--more--&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="/uploads/old/Android_WP8_Feature_compare.png"&gt;&lt;img alt="Android-WP8 Feature comparison" src="/uploads/old/Android_WP8_Feature_compare.png"&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;I had briefly considered using Windows Phone once, but I've discarded that idea after giving it a trial run. Here are the 7 reasons why I would only go for a phone running the Android Operating system and not WP8.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;&lt;em&gt;More features:&lt;/em&gt;&lt;/strong&gt; This is one of the primary reasons a user buys any product, let alone a cell-phone. Android clearly wins in this department as it provides more features (out-of-the-box) compared to WP8. Just open the android settings menu and compare it to the feature-deprived WP8 settings screen to prove this to yourself. WP settings doesn't even allow you to perform basic things like:&lt;ol&gt;
+&lt;li&gt;Setting up a custom mp3 ringtone (You need a PC with Zune software running for that.)&lt;/li&gt;
+&lt;li&gt;Setting up bluetooth options (No advanced options like bluetooth tethering )&lt;/li&gt;
+&lt;li&gt;Brightness settings are only low, medium and high (whereas Android provides a slider to set a custom percentage).&lt;/li&gt;
+&lt;li&gt;No built-in file manager (At least the lumia 520 I tested did not)&lt;/li&gt;
+&lt;li&gt;Not enough power stats (Android shows a complete run-down of what apps ate how much battery life, WP doesn't even show the exact percent of battery remaining)&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;em&gt;More options for tethering:&lt;/em&gt;&lt;/strong&gt; One of the major reasons that I use my phone is to tether my phone's internet, so as to use it on my laptop. Android provides me three options to do this: Wifi tethering (aka Access point), Bluetooth tethering, USB tethering. WP8 only provides Wifi sharing and that too is not quite customizable.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;em&gt;More free apps:&lt;/em&gt;&lt;/strong&gt; The Google play store is full of professional apps (many of them free, too). For instance, ES3 is a file-manager, archiver, FTP-manager and backup-manager combined. This app is not freely available on WP8 and I doubt the paid version would be having the features comparable to android version. Other examples are Terminal-IDE  (A fully-fledged IDE) and QPython (A fully-fledged programming environment!) that are both freely available on Android.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;em&gt;Opensource technologies:&lt;/em&gt;&lt;/strong&gt; Android stack completely rests on Open source technologies. The Linux kernel, Apache Harmony and Dalvik VM are all Opensource components.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;em&gt;Supported by Google:&lt;/em&gt;&lt;/strong&gt; Another reason to go with Android is that it is actively developed and supported by Google Inc, a company whose interests directly harmonize with that of the end-users.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;em&gt;More options for the Developer:&lt;/em&gt;&lt;/strong&gt; Even as a developer, you will have a much better time developing an Android app than a WP8 app. First of all, the development tools (EclipseADT and Android SDK) are pretty well-documented on &lt;a href="http://developer.android.com"&gt;Android Developer site&lt;/a&gt;. Secondly, these are opensource tools that run on all platforms including Linux and OSX. On the other hand, developing a WP8 app requires Windows 8 64 bit version and nothing else.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;em&gt;No vendor lock-in:&lt;/em&gt;&lt;/strong&gt; As a corollary to point 4, there is no vendor lock-in when you go for Android. Because the source code of android OS is freely available from the &lt;a href="http://source.android.com"&gt;repository&lt;/a&gt;, you can customize it if you need to.&lt;/li&gt;
+&lt;/ol&gt;</content></entry><entry><title>PHP - An Annoying Tryst</title><link href="/blog/2014/06/php-an-annoying-tryst.html" rel="alternate"></link><published>2014-06-30T06:34:00+05:30</published><updated>2014-06-30T06:34:00+05:30</updated><author><name>Prahlad Yeri</name></author><id>tag:None,2014-06-30:/blog/2014/06/php-an-annoying-tryst.html</id><summary type="html">&lt;p&gt;It has been a few months since I've started working primarily in PHP and I am actually liking the language a lot! I like the simplicity and symmetry found in C style of solving problems, and PHP has got liberal amounts of that kind of resemblance. I have even come …&lt;/p&gt;</summary><content type="html">&lt;p&gt;It has been a few months since I've started working primarily in PHP and I am actually liking the language a lot! I like the simplicity and symmetry found in C style of solving problems, and PHP has got liberal amounts of that kind of resemblance. I have even come to terms with the clutter of all unorganized functions, considering all the positive aspects of PHP programming.&lt;!--more--&gt;&lt;/p&gt;
+&lt;p&gt;But an annoying incident happened today with PHP. I had been testing and developing my PHP app over the past few weeks now. Everything worked wonders really, until I deployed the code on client's staging server that is. One of the scripts started giving errors while running, and after some debugging, I found that these two lines were the culprit:&lt;/p&gt;
+&lt;p&gt;``` {lang="php"}
+$result = $result-&amp;gt;fetchAll()[0][0];  //doesn't work in PHP 5.3, only in 5.4!
+//$result = $result-&amp;gt;fetchAll();$result=$result[0][0];  //works in both 5.3 and 5.4!&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;``` {lang=&amp;quot;php&amp;quot;}
+$states = [&amp;#39;QLD&amp;#39;, &amp;#39;SA&amp;#39;, &amp;#39;NT&amp;#39;, &amp;#39;WA&amp;#39;];    //doesn&amp;#39;t work in PHP 5.3!
+//$states = array(&amp;#39;QLD&amp;#39;, &amp;#39;SA&amp;#39;, &amp;#39;NT&amp;#39;, &amp;#39;WA&amp;#39;); //works in both 5.3 and 5.4!
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;The comments are the after-effects of my analysis, of course. The reason my code broke was that I was running PHP 5.4 and the client had PHP 5.3. I generally prefer programming short-cuts, so in the first instance, I used it for fetching the results of an sqlite table query.\
+&lt;a href="http://stackoverflow.com/questions/742764/php-syntax-for-dereferencing-function-result"&gt;Turned out&lt;/a&gt;, this way of directly de-referencing an array is not allowed in PHP 5.3! You need another place-holder variable to keep this value.&lt;/p&gt;
+&lt;p&gt;Now there is nothing wrong in breaking compatibility between PHP versions if it is REALLy crucial to implement a functionality. But for basic things like array declarations? Its a different matter that almost every other language nowadays allow de-referencing of arrays, but PHP doesn't. Buy why break compatibility all of a sudden? I was quite annoyed by this. Other languages like python do their utmost to keep existing code from breaking, and upgrades to newer versions are in a phased manner.&lt;/p&gt;
+&lt;p&gt;Again in the second case, the array declaration synatx ([x, y, z, ...]) works only in 5.4 and not in 5.3. Now I can understand the frustrations of all the developers who were happy moving to python and python-based frameworks. For a language already suffering from defects such as lack of organization in its functions and class-libraries, the designers' strategy to break code compatibility between PHP versions only for aesthetic reasons (array(a,b,c) vs [a, b, c]) is bound to lose the confidence of its users sooner or later.&lt;/p&gt;</content></entry><entry><title>9 Optimizations to make your Linux Desktop fly like a Rocket!</title><link href="/blog/2014/06/9-optimizations-to-make-your-linux-desktop-fly-like-a-rocket.html" rel="alternate"></link><published>2014-06-28T03:11:00+05:30</published><updated>2014-06-28T03:11:00+05:30</updated><author><name>Prahlad Yeri</name></author><id>tag:None,2014-06-28:/blog/2014/06/9-optimizations-to-make-your-linux-desktop-fly-like-a-rocket.html</id><summary type="html">&lt;p&gt;This article is the result of notes I've prepared during tweaking, twisting and optimizing ubuntu variants over the last few years. In case you use any other distro, some of these settings may not be applicable to you. For best results, these changes must be done on top of a …&lt;/p&gt;</summary><content type="html">&lt;p&gt;This article is the result of notes I've prepared during tweaking, twisting and optimizing ubuntu variants over the last few years. In case you use any other distro, some of these settings may not be applicable to you. For best results, these changes must be done on top of a fresh installation, otherwise chances of things breaking increase a bit. Each step is optional - In case of software removals, do it only if you are not going to use the concerned software. Be careful before making any changes and know exactly what and why you are doing that.&lt;!--more--&gt;&lt;/p&gt;
+&lt;h3&gt;#1 Optimize disk access with noatime:&lt;/h3&gt;
+&lt;p&gt;Each file and folder on your linux system has a file-creation timestamp and a modification timestamp. Apart from that, linux tries to keep track of "access time" for each of these files. Now keeping track of the access time has its performace-cost, and if you want to remove this performance cost, you need to specify "noatime" attribute in the disk partition entries in your /etc/fstab file. Edit this file in your text-editor and set noatime as follows:&lt;/p&gt;
+&lt;p&gt;UUID=97102801-14e3-9752-7412-d9c57e30981w / ext4 errors=remount-ro 0,&lt;strong&gt;noatime&lt;/strong&gt; 1&lt;/p&gt;
+&lt;h3&gt;#2 Optimize Swappiness:&lt;/h3&gt;
+&lt;p&gt;Swappiness is the tendency of the linux kernel to prefer disk-swapping vis-a-vis physical memory. The default swappiness value of 60 was kept considering server installations. If you are a desktop user having a machine with good RAM, you would normally prefer disk-swapping to be minimal. You can safely reduce this value to 10. To do so edit the file /etc/sysctl.conf and add the following:&lt;/p&gt;
+&lt;p&gt;vm.swappiness=10&lt;/p&gt;
+&lt;p&gt;(Just change the entry if it already exists, don't make a duplicate!)&lt;/p&gt;
+&lt;h3&gt;#3 Install preload:&lt;/h3&gt;
+&lt;p&gt;If you typically use the same programs regularly, preload will help you by loading into memory, the programs that you use most frequently. To install on ubuntu:&lt;/p&gt;
+&lt;p&gt;sudo apt-get install preload&lt;/p&gt;
+&lt;h3&gt;#4 Place your mission critical apps in /dev/shm:&lt;/h3&gt;
+&lt;p&gt;Few weeks back, I was having performance issues with running Eclipse on ubuntu. After tweaking and optimizing various JVM settings in vain, the thing that really made the difference was &lt;a href="http://www.prahladyeri.com/2014/06/real-way-make-eclipse-run-faster-ubuntu/"&gt;placing the entire JDK folder in RAMDISK&lt;/a&gt;. The /dev/shm folder is like a virtual ramdisk (on ubuntu and derivatives) where you can place your temporal, high-priority stuff to run it in "best performance" mode.&lt;/p&gt;
+&lt;h3&gt;#5 Remove unwanted programs from startup:&lt;/h3&gt;
+&lt;p&gt;Many linux distros such as ubuntu come loaded with a ton of baggage, and if you are someone like me, you might feel obliged to reduce some burden off your system by removing or disabling unwanted software and daemons from it. You can do this by going to "Startup Applications" in the System menu, but ubuntu hides the pre-installed apps by default. To overcome this limitation, open your terminal and issue the below command:&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;{lang="xml"}
+sudo sed -i 's/NoDisplay=true/NoDisplay=false/g' /etc/xdg/autostart/*.desktop&lt;/code&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://www.prahladyeri.com/uploads/2014/06/startup.png"&gt;&lt;img alt="ubuntu startup" class="alignnone size-full wp-image-3092" height="612" src="/uploads/old/startup.png" width="649"&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Now you can go through the startup programs list and can disable the unwanted ones. Common sense will tell you that if you don't use bluetooth on your machine, you can get rid of the "Bluetooth Manager". Similar is the case with "Backup Monitor" in case you don't need to sync your backups in realtime. Here is the list of services that I've safely disabled without causing any issues:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Backup Monitor&lt;/li&gt;
+&lt;li&gt;Bluetooth Manager&lt;/li&gt;
+&lt;li&gt;Chat&lt;/li&gt;
+&lt;li&gt;Desktop sharing&lt;/li&gt;
+&lt;li&gt;Gwibber&lt;/li&gt;
+&lt;li&gt;Ocra screen reader&lt;/li&gt;
+&lt;li&gt;Personal file sharing&lt;/li&gt;
+&lt;li&gt;Screen saver&lt;/li&gt;
+&lt;li&gt;Ubuntu one&lt;/li&gt;
+&lt;li&gt;update notifier&lt;/li&gt;
+&lt;/ul&gt;
+&lt;h3&gt;#6 Uninstall software that you don't use:&lt;/h3&gt;
+&lt;p&gt;The next step is to remove those software that you don't use at all. Again, some common sense but with some caution is needed here. There are some programs (like empathy) that form the core part of ubuntu, so it won't allow you to "apt-get remove.." them without removing unity itself. In such cases, we will disable such programs from starting up as services (next step). Some of the programs that you may safely remove are:&lt;/p&gt;
+&lt;p&gt;apt-get remove samba-common\
+apt-get remove cups\
+apt-get remove avahi-daemon avahi-autoipd&lt;/p&gt;
+&lt;p&gt;I typically uninstall all three after a new installation. The first one is needed for file-sharing in the local network if you have one. Second is the print daemon, and third is used to broadcast common network services across the local network and finding local hosts by using friendly names like "local.workstation".&lt;/p&gt;
+&lt;h3&gt;#7 Disable unwanted daemons:&lt;/h3&gt;
+&lt;p&gt;In case you don't want to remove the cups program as you might need printing in future, you can disable them for the time being. To do so, issue the below command:&lt;/p&gt;
+&lt;p&gt;sudo sh -c "echo 'manual' &gt;&gt; /etc/init/cups.override"&lt;/p&gt;
+&lt;p&gt;You may disable any daemon in this manner by doing a manual override, just replace the "cups.override" with the daemon name that you want removed such as:&lt;/p&gt;
+&lt;p&gt;sudo sh -c "echo 'manual' &gt;&gt; /etc/init/bluetooth.override"&lt;/p&gt;
+&lt;p&gt;Later, if you want to enable that daemon, all you to do is delete the .override file.&lt;/p&gt;
+&lt;h3&gt;#8 Optimize Nautilus to behave in a speedy manner:&lt;/h3&gt;
+&lt;p&gt;This is totally optional. Nautilus, by default, tries to show thumbnails of each and every file in a directory. If the directory contains a lot of files, this causes a noticable delay. Now if you are in the habit of regularly previewing thumbnails of your images, don't do this optimization. Otherwise, if previewing thumbnails don't matter to you and all you are interested in is speed (like me), you can go to Edit-&gt;Preferences-&gt;Preview-tab and set the preview settings to Never.&lt;/p&gt;
+&lt;h3&gt;#9 Disable translation downloads in aptitude:&lt;/h3&gt;
+&lt;p&gt;This setting is for speeding up the downloads from apt repositories rather than your machine. By default, ubuntu adds additional translation repos when you issue "apt-get update" command to update your repository settings. If you only need english, you can disable translation downloads by editing /etc/apt/apt.conf.d/00aptitude and additing this line to it:&lt;/p&gt;
+&lt;p&gt;Acquire::Languages "none";&lt;/p&gt;
+&lt;p&gt;References:\
+&lt;a href="http://askubuntu.com/questions/74653/how-can-i-remove-the-translation-entries-in-apt"&gt;http://askubuntu.com/questions/74653/how-can-i-remove-the-translation-entries-in-apt&lt;/a&gt;\
+&lt;a href="http://askubuntu.com/questions/2194/how-can-i-improve-overall-system-performance"&gt;http://askubuntu.com/questions/2194/how-can-i-improve-overall-system-performance&lt;/a&gt;\
+&lt;a href="http://askubuntu.com/questions/173094/how-can-i-use-ram-storage-for-the-tmp-directory-and-how-to-set-a-maximum-amount"&gt;http://askubuntu.com/questions/173094/how-can-i-use-ram-storage-for-the-tmp-directory-and-how-to-set-a-maximum-amount&lt;/a&gt;&lt;/p&gt;</content></entry><entry><title>PHP-FPM vs node.js - The REAL Performance Battle</title><link href="/blog/2014/06/php-fpm-vs-node-js-the-real-performance-battle.html" rel="alternate"></link><published>2014-06-22T21:15:00+05:30</published><updated>2014-06-22T21:15:00+05:30</updated><author><name>Prahlad Yeri</name></author><id>tag:None,2014-06-22:/blog/2014/06/php-fpm-vs-node-js-the-real-performance-battle.html</id><summary type="html">&lt;p&gt;Even after my last &lt;a href="/blog/2014/06/php-vs-node-js-real-statistics.html"&gt;article&lt;/a&gt; about PHP and node.js benchmarking, my search for the holy grail of performance truth still continues. However, I do understand now that pitting PHP running on apache against a stand-alone node was a bit unfair with PHP for it was limited by what the …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Even after my last &lt;a href="/blog/2014/06/php-vs-node-js-real-statistics.html"&gt;article&lt;/a&gt; about PHP and node.js benchmarking, my search for the holy grail of performance truth still continues. However, I do understand now that pitting PHP running on apache against a stand-alone node was a bit unfair with PHP for it was limited by what the apache configuration could handle.&lt;!--more--&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="/uploads/old/benchmark.png"&gt;&lt;img alt="Benchmark" class="alignnone size-full wp-image-3082" height="622" src="/uploads/old/benchmark.png" width="1021"&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;No, this time I went with nginx, a light and performance oriented server that was specifically designed to solve the &lt;a href="https://en.wikipedia.org/wiki/C10k"&gt;C10K&lt;/a&gt; problem from the ground-up. And who better than &lt;a href="http://php-fpm.org/"&gt;PHP-FPM&lt;/a&gt;, the enhanced Fastcgi process manager that implements asynchronous features (at least in theory) to take on &lt;a href="http://nodejs.org/"&gt;node.js&lt;/a&gt;. node.js is the one server that implements all its features primarily using callbacks in javascript, and thus drastically improvising performance by leveraging the benefits of &lt;a href="https://en.wikipedia.org/wiki/Functional_programming"&gt;functional programming&lt;/a&gt; (again, in theory).&lt;/p&gt;
+&lt;p&gt;I used the same code I had used earlier but did a small improvement to it so that the random filenames generated for performing I/O are unique:&lt;/p&gt;
+&lt;figure class="highlight"&gt;
+    &lt;?php 
+    //asyncdemo.php
+    $s=""; //generate a random string of 108KB and a random filename
+    $filename="";
+    //generate a random filename
+    do {
+        $fname = rand(1,99999).'.txt';
+    } while(file_exists($fname));
+
+    //generate a random string of 108kb
+    for($i=0;$i&lt;108000;$i++)
+    {
+        $n=rand(0,57)+65;
+        $s.=chr($n);
+    }
+
+    //write the string to disk
+    file_put_contents($fname,$s);
+
+    //read the string back from disk
+    $result = file_get_contents($fname);
+
+    //write the string back on the response stream
+    echo $result;
+
+&lt;/figure&gt;
+
+&lt;p&gt;And here is the Javascript version:&lt;/p&gt;
+&lt;figure class="highlight"&gt;
+    //server.js
+    var http = require('http');    
+    var server = http.createServer(handler);
+    var fs = require('fs');
+
+    function handler(request, response) {
+        response.writeHead(200, {'Content-Type': 'text/plain'});
+
+        //generate a random filename
+        do{fname = (1 + Math.floor(Math.random()*99999999))+'.txt';
+        } while(fs.existsSync(fname));
+
+        //generate a random string of 108kb
+        var payload="";
+        for(i=0;i&amp;lt;108000;i++)
+        {
+            n=Math.floor(65 + (Math.random()*(122-65)) );
+            payload+=String.fromCharCode(n);
+        }
+
+        //write the string to disk in async manner
+        fs.writeFile(fname, payload, function(err) {
+                if (err) console.log(err);
+
+                //read the string back from disk in async manner
+                fs.readFile(fname, function (err, data) {
+                    if (err) console.log(err);
+                    response.end(data); //write the string back on the response stream
+                });  
+            }
+        );
+    }
+
+    server.listen(8080);
+    console.log('Running on localhost:8080');
+
+&lt;/figure&gt;
+
+&lt;p&gt;So, what happens when we run a piece of web application code performing async I/O for two thousand times (with two hundred concurrent) using a tool like apache-bench? Who is faster - PHP-FPM or node.js? Here is the answer.&lt;/p&gt;
+&lt;p&gt;So, moral of the story is that even the latest and greatest of PHP world falls behind node.js (though by a much smaller margin than before). Now, I do understand that PHP's market is very large, and with so many opensource CMSes like wordpress, mediawiki and drupal already powered by PHP, it is quite difficult to shake PHP's market share in the near future.&lt;/p&gt;
+&lt;p&gt;On the other hand, with the performance advantage that node.js offers, its a very lucrative option for startups small businesses that don't have the funding to develop high-end enterprise apps in say, Java or SAP. More importantly, if tommorrow I were to given a task of developing a performance-driven app, is there one reason why I should not write it in node.js and go for PHP-FPM instead? Some food for thought. Comments are Welcome!&lt;/p&gt;
+&lt;figure class="highlight"&gt;
+    Summarized results:
+    PHP-FPM: 64.447 secondsnode.js: 42.441 seconds
+
+    The Machine:
+    Intel Pentium Dual-Core 2.30GHz running Linux 3.2.0
+
+    The Configurations:
+    PHP-FPM: PHP 5.4.23 (fpm-fcgi) (built: Jun 22 2014 14:51:15
+    NODE: node v0.10.28
+
+    Detailed Results:
+    --PHP-FPM-----
+    ab -c 200 -n 2000 http://localhost:8080/asyncdemo/asyncdemo.php
+
+    Concurrency Level:      200
+    Time taken for tests:   64.447 seconds
+    Complete requests:      2000
+    Failed requests:        6
+       (Connect: 0, Receive: 0, Length: 6, Exceptions: 0)
+    Write errors:           0
+    Non-2xx responses:      6
+    Total transferred:      215649378 bytes
+    HTML transferred:       215355222 bytes
+    Requests per second:    31.03 [#/sec] (mean)
+    Time per request:       6444.742 [ms] (mean)
+    Time per request:       32.224 [ms] (mean, across all concurrent requests)
+    Transfer rate:          3267.70 [Kbytes/sec] receive
+
+
+    --NODE-----
+    ab -c 200 -n 2000 http://localhost:8080/
+
+    Concurrency Level:      200
+    Time taken for tests:   42.441 seconds
+    Complete requests:      2000
+    Failed requests:        1
+       (Connect: 0, Receive: 0, Length: 1, Exceptions: 0)
+    Write errors:           0
+    Total transferred:      216155440 bytes
+    HTML transferred:       215953440 bytes
+    Requests per second:    47.12 [#/sec] (mean)
+    Time per request:       4244.115 [ms] (mean)
+    Time per request:       21.221 [ms] (mean, across all concurrent requests)
+    Transfer rate:          4973.69 [Kbytes/sec] received
+
+
+&lt;/figure&gt;</content></entry><entry><title>PHP vs node.js: The REAL statistics</title><link href="/blog/2014/06/php-vs-node-js-real-statistics.html" rel="alternate"></link><published>2014-06-09T21:36:00+05:30</published><updated>2014-06-09T21:36:00+05:30</updated><author><name>Prahlad Yeri</name></author><id>tag:None,2014-06-09:/blog/2014/06/php-vs-node-js-real-statistics.html</id><summary type="html">&lt;p&gt;When it comes to web programming, I've always coded in ASP.NET or the LAMP technologies for most part of my life. Now, the new buzz in the city is &lt;a href="https://en.wikipedia.org/wiki/Node.js"&gt;node.js&lt;/a&gt;. It is a light-weight platform that runs javascript code on server-side and is said to improvise performance by …&lt;/p&gt;</summary><content type="html">&lt;p&gt;When it comes to web programming, I've always coded in ASP.NET or the LAMP technologies for most part of my life. Now, the new buzz in the city is &lt;a href="https://en.wikipedia.org/wiki/Node.js"&gt;node.js&lt;/a&gt;. It is a light-weight platform that runs javascript code on server-side and is said to improvise performance by using async I/O.&lt;!--more--&gt;&lt;/p&gt;
+&lt;p&gt;The &lt;a href="http://notes.ericjiang.com/posts/751"&gt;theory&lt;/a&gt; suggests that synchronous or blocking model of I/O works something like this:&lt;/p&gt;
+&lt;p&gt;&lt;a href="/uploads/2014/06/nodejs-comp.png"&gt;&lt;img alt="Blocking I/O" class="alignnone size-full wp-image-3070" height="354" src="/uploads/old/nodejs-comp.png" width="506"&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;I/O is typically the costliest part of a web transaction. When a request arrives to the apache web server, it passes it to PHP interpreter for scripting any dynamic contents. Now comes the tricky part - If the PHP script wants to read something from the disk/database or write to it, that is the slowest link in the chain. When you call PHP function file_get_contents(), the entire thread is blocked until the contents are retrieved! The server can't do anything until your script gets the file contents. Consider what happens when multiples of simultaneous requests are issued by different users to your server? They get queued, because no thread is available to do the job since they are all blocked in I/O!&lt;/p&gt;
+&lt;p&gt;Here comes the unique selling-point of node.js. Since node.js implements async I/O in almost all its functions, the server thread in the above scenario is freed as soon as the file retrieval function (fs.readFile) is called. Then, once the I/O completes, node calls a function (passed earlier by fs.readFile) along with the data parameters. In the meantime, that valuable thread can be used for serving some other request.&lt;/p&gt;
+&lt;p&gt;So thats the theory about it anyway. But I'm not someone who just accepts any new fad in the town just because it is hype and everyone uses it. Nope, I want to get under the covers and verify it for myself. I wanted to see whether this theory holds in actual practice or not.&lt;/p&gt;
+&lt;p&gt;So I brought upon myself the job of writing two simple scripts for benchmarking this - one in PHP (hosted on apache2) and other in javascript (hosted on node.js). The test itself was very simple. The script would:&lt;/p&gt;
+&lt;p&gt;1. Accept the request.\
+2. Generate a random string of 108 kilobytes.\
+3. Write the string to a file on the disk.\
+4. Read the contents back from disk.\
+5. Return the string back on the response stream.&lt;/p&gt;
+&lt;p&gt;This is the first script, index.php:&lt;/p&gt;
+&lt;figure class="highlight"&gt;
+    &lt;?php
+    //index.php
+    $s=""; //generate a random string of 108KB and a random filename
+    $fname = chr(rand(0,57)+65).chr(rand(0,57)+65).chr(rand(0,57)+65).chr(rand(0,57)+65).'.txt';
+    for($i=0;$i&amp;lt;108000;$i++)
+    {
+        $n=rand(0,57)+65;
+        $s = $s.chr($n);
+    }
+
+    //write s to a file
+    file_put_contents($fname,$s);
+    $result = file_get_contents($fname);
+    echo $result;
+
+&lt;/figure&gt;
+
+&lt;p&gt;And here is the second script, server.js:&lt;/p&gt;
+&lt;figure class="highlight"&gt;
+    //server.js
+    var http = require('http');    
+    var server = http.createServer(handler);
+
+    function handler(request, response) {
+        //console.log('request received!');
+        response.writeHead(200, {'Content-Type': 'text/plain'});
+
+        s=""; //generate a random string of 108KB and a random filename
+        fname = String.fromCharCode(Math.floor(65 + (Math.random()*(122-65)) )) +
+            String.fromCharCode(Math.floor(65 + (Math.random()*(122-65)) )) +
+            String.fromCharCode(Math.floor(65 + (Math.random()*(122-65)) )) + 
+            String.fromCharCode(Math.floor(65 + (Math.random()*(122-65)) )) + ".txt";
+
+        for(i=0;i&amp;lt;108000;i++)
+        {
+            n=Math.floor(65 + (Math.random()*(122-65)) );
+            s+=String.fromCharCode(n);
+        }
+
+        //write s to a file
+        var fs = require('fs');
+        fs.writeFile(fname, s, function(err, fd) {
+                if (err) throw err;
+                //console.log("The file was saved!");
+                //read back from the file
+                fs.readFile(fname, function (err, data) {
+                    if (err) throw err;
+                    result = data;
+                    response.end(result);
+                });  
+            }
+        );
+    }
+
+    server.listen(8124);
+    console.log('Server running at http://127.0.0.1:8124/');
+
+&lt;/figure&gt;
+
+&lt;p&gt;And then, I ran the apache benchmarking tool on both of them with 2000 requests (200 concurrent). When I saw the time stats of the result, I was astounded:&lt;/p&gt;
+&lt;p&gt;``` {lang="xml"}&lt;/p&gt;
+&lt;h1&gt;PHP:&lt;/h1&gt;
+&lt;p&gt;Concurrency Level:      200
+Time taken for tests:   574.796 seconds
+Complete requests:      2000&lt;/p&gt;
+&lt;h1&gt;node.js:&lt;/h1&gt;
+&lt;p&gt;Concurrency Level:      200
+Time taken for tests:   41.887 seconds
+Complete requests:      2000
+```&lt;/p&gt;
+&lt;p&gt;The truth is out. node.js was faster than PHP by more 14 times! These results are astonishing. It simply means that node.js IS going to be THE de-facto standard for writing performance driven apps in the upcoming future, there is no doubt about it!&lt;/p&gt;
+&lt;p&gt;Agreed that the &lt;a href="http://nodejs.org"&gt;nodejs&lt;/a&gt; ecosystem isn't that widely developed yet, and most node modules for things like db connectivity, network access, utilities, etc. are actively being developed. But still, after seeing these results, its a no-brainer. Any extra effort spent in developing node.js apps is more than worth it. PHP might be still having the "king of web" status, but with node.js in the town, I don't see that status staying for very long!&lt;/p&gt;
+&lt;h2&gt;Update&lt;/h2&gt;
+&lt;p&gt;After reading some comments from the below section, I felt obliged to create a C#/mono version too. This, unfortunately, has turned out to be the slowest of the bunch (\~40 secs for 1 request). Either the Task library in mono is terribly implemented, or there is something terribly wrong with my &lt;a href="http://pastebin.mozilla.org/5406784"&gt;code&lt;/a&gt;. I'll fix it once I get some time and be back with my next post (maybe ASP.NET vs node.js vs PHP!).&lt;/p&gt;
+&lt;h2&gt;Second Update&lt;/h2&gt;
+&lt;p&gt;As for C#/ASP.NET, this is the most optimum version that I could manage. It still lags behind both PHP and node.js and most of the issued requests just get dropped. (And yes, I've tested it on both Linux/Mono and Windows-Server-2012/IIS environments). Maybe ASP.NET is inherently slower, so I'll have to change the terms of this benchmark to take it into comparison:&lt;/p&gt;
+&lt;figure class="highlight"&gt;
+    public class Handler : System.Web.IHttpHandler
+    {
+        private StringBuilder payload = null;
+
+        private async void processAsync()
+        {
+            var r = new Random ();
+
+            //generate a random string of 108kb
+            payload=new StringBuilder();
+            for (var i = 0; i &amp;lt; 54000; i++)
+                payload.Append( (char)(r.Next(65,90)));
+
+            //create a unique file
+            var fname = "";
+            do{fname = @"c:\source\csharp\asyncdemo\" + r.Next (1, 99999999).ToString () + ".txt";
+            } while(File.Exists(fname));            
+
+            //write the string to disk in async manner
+            using(FileStream fs = File.Open(fname,FileMode.CreateNew,FileAccess.ReadWrite))
+            {
+                var bytes=(new System.Text.ASCIIEncoding ()).GetBytes (payload.ToString());
+                await fs.WriteAsync (bytes,0,bytes.Length);
+                fs.Close ();
+            }
+
+            //read the string back from disk in async manner
+            payload = new StringBuilder ();
+            StreamReader sr = new StreamReader (fname);
+            payload.Append(await sr.ReadToEndAsync ());
+            sr.Close ();
+            //File.Delete (fname); //remove the file
+        }
+
+        public void ProcessRequest (HttpContext context)
+        {
+            Task task = new Task(processAsync);
+            task.Start ();
+            task.Wait ();
+
+            //write the string back on the response stream
+            context.Response.ContentType = "text/plain";
+            context.Response.Write (payload.ToString());
+        }
+
+        public bool IsReusable 
+        {
+            get {
+                return false;
+            }
+        }
+    }
+
+&lt;/figure&gt;
+
+&lt;p&gt;References&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;a href="https://en.wikipedia.org/wiki/Node.js"&gt;https://en.wikipedia.org/wiki/Node.js&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://notes.ericjiang.com/posts/751"&gt;http://notes.ericjiang.com/posts/751&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://nodejs.org"&gt;http://nodejs.org&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://code.google.com/p/node-js-vs-apache-php-benchmark/wiki/Tests"&gt;https://code.google.com/p/node-js-vs-apache-php-benchmark/wiki/Tests&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;</content></entry><entry><title>How to create a custom email plugin for Wordpress</title><link href="/blog/2014/06/how-to-create-a-custom-email-plugin-for-wordpress.html" rel="alternate"></link><published>2014-06-07T10:39:00+05:30</published><updated>2014-06-07T10:39:00+05:30</updated><author><name>Prahlad Yeri</name></author><id>tag:None,2014-06-07:/blog/2014/06/how-to-create-a-custom-email-plugin-for-wordpress.html</id><summary type="html">&lt;p&gt;Last week, I suddenly stopped receiving email notifications for my &lt;a href="https://www.openshift.com/"&gt;openshift&lt;/a&gt; hosted blog. I came to know after some &lt;a href="http://stackoverflow.com/questions/17583205/sendmail-on-openshift-php-codeigniter/17598537#17598537"&gt;reading&lt;/a&gt; that commonly used cloud hosts such as openshift, aws, etc. are usually blacklisted by most email servers, hence its not a good idea to use them to send mails.&lt;!--more--&gt;&lt;/p&gt;
+&lt;p&gt;In …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Last week, I suddenly stopped receiving email notifications for my &lt;a href="https://www.openshift.com/"&gt;openshift&lt;/a&gt; hosted blog. I came to know after some &lt;a href="http://stackoverflow.com/questions/17583205/sendmail-on-openshift-php-codeigniter/17598537#17598537"&gt;reading&lt;/a&gt; that commonly used cloud hosts such as openshift, aws, etc. are usually blacklisted by most email servers, hence its not a good idea to use them to send mails.&lt;!--more--&gt;&lt;/p&gt;
+&lt;p&gt;In any case, why should I depend on my hosting provider for email sending. Until now, I had never bothered about how mail sending worked in wordpress as it used to work out of the box. So last week, I pulled up my socks and decided to put my php &lt;a href="http://en.wikipedia.org/wiki/Geany"&gt;IDE&lt;/a&gt; and &lt;a href="http://en.wikipedia.org/wiki/Xdebug"&gt;debugger&lt;/a&gt; to some good work.&lt;/p&gt;
+&lt;p&gt;I decided to use my &lt;a href="https://sendgrid.com"&gt;sendgrid&lt;/a&gt; account to send mails. All that`s needed now is calling the web service with the credentials they've provided. But how to integrate this with my wordpress blog?&lt;/p&gt;
+&lt;p&gt;Once I located &lt;strong&gt;&lt;em&gt;where&lt;/em&gt;&lt;/strong&gt; the mail sending functionality is there in wordpress code, adding a new method was a piece of cake!! Turns out that wordpress, by default, just executes the "mail" command which is usually just a symlink on unix boxes actually pointing to &lt;em&gt;/usr/bin/sendmail&lt;/em&gt; or something. I found it in a pluggable function &lt;em&gt;wp_mail()&lt;/em&gt;. (see &lt;em&gt;/wp-includes/pluggable.php&lt;/em&gt;). I also came to know from the codex that &lt;a href="http://codex.wordpress.org/Pluggable_Functions"&gt;pluggable functions&lt;/a&gt; can be easily overridden by plugins.&lt;/p&gt;
+&lt;p&gt;Now all I had to do was write a small plugin in the /wp-content/plugins/sendgrid/ folder and override this wp_mail() function with whatever I want.&lt;/p&gt;
+&lt;p&gt;Lo and behold! I started receiving notifications for all comments and contact forms filled, by just writing this one plugin. I found the process so simple and easy to integrate with wordpress that I couldn't help sharing with you. Here are the two php snippets that you need to place in /wp-content/plugins/&lt;em&gt;your-plugin-name&lt;/em&gt;/ and activate it. &lt;em&gt;Wordpress&lt;/em&gt; will do the rest!&lt;/p&gt;
+&lt;p&gt;(First one is the main plugin php file that displays the plugin in your admin menu and overrides the wp_mail function. The second php file contains the actual custom function that sends email via sendgrid.)&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;wp-content/plugins/sendgrid/myplugin.php:&lt;/em&gt;&lt;/p&gt;
+&lt;figure class="highlight"&gt;
+    &lt;?php /**
+     * Plugin Name: Sendgrid Plugin
+     * Plugin URI:  http://www.prahladyeri.com
+     * Description: Mail sending using Sendgrid Web API
+     * Version:     0.1
+     * Author:      Prahlad Yeri
+     * Author URI:  http://www.prahladyeri.com
+     * License:     MIT
+     */
+
+    //namespace MailDemo;
+    require_once('sendgrid.php');
+
+    add_action( 'init', 'plugin_init' );
+
+    /**
+     * Plugin Name: Prahlad's mail
+     * Description: Alternative way to send a mail
+     */
+    if (!function_exists('wp_mail')) 
+    {
+        function wp_mail($to, $subject, $message, $headers = '', $attachments = array())
+        {
+            $sto = '';
+            if (is_array($to))
+            {
+                $sto = implode(',',$to);
+            } else {
+                $sto = $to;
+            }
+            sendgridmail('wpadmin@mywebsite.com', $sto, $subject, $message, $headers);
+        }
+    }
+
+    function plugin_init()
+    {
+    }
+
+&lt;/figure&gt;
+
+&lt;p&gt;&lt;em&gt;wp-content/plugins/sendgrid/sendgrid.php:&lt;/em&gt;&lt;/p&gt;
+&lt;figure class="highlight"&gt;
+    &lt;?php //wp-content/plugins/sendgrid/sendgrid.php
+    function sendgridmail($from, $to, $subject, $message, $headers) {        
+    $url = 'https://api.sendgrid.com/';
+    $user='your-sendgrid-username';   
+    $pass='your-sendgrid-password';
+
+    $params = array(       
+    'api_user'  ?&gt; $user,
+            'api_key'   =&gt; $pass,
+            'to'        =&gt; $to,
+            'subject'   =&gt; $subject,
+            'html'      =&gt; '',
+            'text'      =&gt; $message,
+            'from'      =&gt; $from,
+          );
+
+
+        $request =  $url.'api/mail.send.json';
+
+        // Generate curl request
+        $session = curl_init($request);
+        // Tell curl to use HTTP POST
+        curl_setopt ($session, CURLOPT_POST, true);
+        // Tell curl that this is the body of the POST
+        curl_setopt ($session, CURLOPT_POSTFIELDS, $params);
+        // Tell curl not to return headers, but do return the response
+        curl_setopt($session, CURLOPT_HEADER, false);
+        curl_setopt($session, CURLOPT_RETURNTRANSFER, true);
+
+        print_r('obtaining the response');
+        // obtain response
+        $response = curl_exec($session);
+        print_r('closing curl session');
+        curl_close($session);
+
+        // print everything out
+        //print_r($response);
+    }
+
+    //only for testing:
+    /*$to      = 'prahladyeri@yahoo.com';
+    $subject = 'Testemail';
+    $message = 'It works!!';
+    echo 'To is: ' + $to;
+    #wp_mail($to, $subject, $message, array() );
+    sendgridmail($to, $subject, $message, array());
+    print_r('Just sent!');*/
+
+&lt;/figure&gt;
+
+&lt;p&gt;References:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;a href="http://codex.wordpress.org/Pluggable_Functions"&gt;http://codex.wordpress.org/Pluggable_Functions&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://codex.wordpress.org/Pluggable_Functions"&gt;http://stackoverflow.com/questions/17583205/sendmail-on-openshift-php-codeigniter/17598537#17598537&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://en.wikipedia.org/wiki/Geany"&gt;http://en.wikipedia.org/wiki/Geany&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://en.wikipedia.org/wiki/Xdebug"&gt;http://en.wikipedia.org/wiki/Xdebug&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://sendgrid.com"&gt;https://sendgrid.com&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://sendgrid.com/docs/"&gt;https://sendgrid.com/docs/&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.openshift.com/"&gt;https://www.openshift.com/&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;</content></entry><entry><title>An Introduction to Go - Elegance with Power and Simplicity</title><link href="/blog/2014/06/an-introduction-to-go-elegance-with-power-and-simplicity.html" rel="alternate"></link><published>2014-06-05T12:42:00+05:30</published><updated>2014-06-05T12:42:00+05:30</updated><author><name>Prahlad Yeri</name></author><id>tag:None,2014-06-05:/blog/2014/06/an-introduction-to-go-elegance-with-power-and-simplicity.html</id><summary type="html">&lt;p&gt;Whilst I usually try to stick with only "bread-butter" languages (i.e. php, python, java &amp;amp; C#), my last project involved the &lt;a href="https://developers.google.com/appengine"&gt;Google appengine&lt;/a&gt; web app written in Google's own flagship &lt;a href="https://en.wikipedia.org/wiki/Go_%28programming_language%29"&gt;Go&lt;/a&gt; language.&lt;!--more--&gt;&lt;/p&gt;
+&lt;p&gt;Being a polyglot who is always intrigued by new languages, I couldn't help being curious about how it …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Whilst I usually try to stick with only "bread-butter" languages (i.e. php, python, java &amp;amp; C#), my last project involved the &lt;a href="https://developers.google.com/appengine"&gt;Google appengine&lt;/a&gt; web app written in Google's own flagship &lt;a href="https://en.wikipedia.org/wiki/Go_%28programming_language%29"&gt;Go&lt;/a&gt; language.&lt;!--more--&gt;&lt;/p&gt;
+&lt;p&gt;Being a polyglot who is always intrigued by new languages, I couldn't help being curious about how it was coding with Go, hence I took on the project. My experience of coding with Go was so gratifying that I couldn't help but share it with you.&lt;/p&gt;
+&lt;p&gt;Go has a unique blend of elegance combined with power: For coding and maintaining apps in any language, readability is a very important feature. As your project size grows bigger and bigger, this becomes more and more important. In fact, you are even prepared to sacrifice some performance gain achieved by low level languages like C to get the developer productivity achieved through more 'readable' languages like java and python. This factor partly explains why less and less programs are coded in C/C++ now and more in java. It also explains the recent popularity of python, an interpreted and relatively 'low performance' language compared to its siblings, Java and C++.&lt;/p&gt;
+&lt;p&gt;What Go brings to the table is a graceful combination of both readability and performance. Yes, unbelievable but true! It has the compiler and the strongest type system like that of C/C++ coupled with a syntax that feels home with dynamic languages like python. It even has the simplicity that is comparable to python.&lt;/p&gt;
+&lt;p&gt;Syntactically, Go is based on C++, but with lots of modifications that make it easy to use, such as:&lt;/p&gt;
+&lt;p&gt;1. No semicolons (;) to end the statements;&lt;/p&gt;
+&lt;p&gt;2. No type declaration needed like C (int i=2;). In Go, types are automatically “guessed” from value (i := 2).&lt;/p&gt;
+&lt;p&gt;3. No containing braces required statements like for and if.&lt;/p&gt;
+&lt;p&gt;An example would be helpful here to grasp how Go is different and better. Consider a simple square-root calculation function in C++:&lt;/p&gt;
+&lt;p&gt;``` {lang="go"}
+float Sqrt(float x) {
+    int z = 1.0;
+    for (int i= 0; i &amp;lt; 1000; i++) {
+        z -= (z*z - x) / (2 * z);
+    }
+    return z;
+}&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt; 
+
+Now here the same function written in Go:
+
+ 
+
+``` {lang=&amp;quot;go&amp;quot;}
+package newmath
+
+func Sqrt(x float64) float64 {
+    z := 1.0
+    for i := 0; i &amp;lt; 1000; i++ {
+        z -= (z*z - x) / (2 * z)
+    }
+    return z
+}
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Did you notice a few things about Go? For instance:&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;1. Less clunkiness:&lt;/em&gt; No need of hashes, braces around the ifs/fors and no need of semicolons to end statements (some of you might argue about semicolons, saying it allows you to quickly combine multiple statements on one line, but do you realize how less readable code you are creating by doing that?)&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;2. Dynamism:&lt;/em&gt; The := is a “short assignment” operator in Go, meaning that you don't need to specify its type. “z:=1.0” is certainly more elegant compared to “float z = 10;”.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;3. Efficient compilation:&lt;/em&gt; Despite the dynamic nature of this language that seems to suggest an interpreted nature, Go compiles and runs as efficiently as a low-level language such as C/C++.&lt;/p&gt;
+&lt;p&gt;Another reason for investing your skills in Go is that Go has &lt;a href="https://developers.google.com/appengine/docs/go/"&gt;Google's backing&lt;/a&gt;. Indeed, the language itself is a Google invention and Google has started implementing it in most of its projects such as the &lt;a href="https://developers.google.com/appengine"&gt;Google Appengine&lt;/a&gt; cloud hosting service.&lt;/p&gt;
+&lt;p&gt;A controversy that might indirectly pave the way for Go's success is the looming high-profile &lt;a href="https://en.wikipedia.org/wiki/Oracle_v._Google"&gt;Oracle vs Google&lt;/a&gt; lawsuit about Oracle's accusations that Google incorrectly used its copyrighted Java APIs for implementing its Android operating system. Its quite unlikely that Oracle is able to get away with its claims, but if the uncertainty regarding this stays for any time longer, its very much possible that Google will gradually start building its Android APIs in Go language slowly discarding the Java APIs.&lt;/p&gt;
+&lt;p&gt;Now I'm not a fortune-teller, but looking at the way things are currently positioned, Go doesn't look like a language that is going to fade anytime soon.&lt;/p&gt;
+&lt;p&gt;You can have a look at official Go docs, tutorials and a list of libraries and utilities provided in references below. Happy learning Go Language!&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Note: If you are running a debian based linux system like ubuntu, you can install golang using the CLI:&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;sudo apt-get install gccgo&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;References:&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://golang.org/help/"&gt;http://golang.org/help/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://golang.org/"&gt;http://golang.org&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://code.google.com/p/go-wiki/wiki/Projects"&gt;https://code.google.com/p/go-wiki/wiki/Projects&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://golang.org/doc/faq"&gt;http://golang.org/doc/faq&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://developers.google.com/appengine/docs/go/"&gt;https://developers.google.com/appengine/docs/go/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://en.wikipedia.org/wiki/Go_%28programming_language%29"&gt;https://en.wikipedia.org/wiki/Go_%28programming_language%29&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://en.wikipedia.org/wiki/Oracle_v._Google"&gt; https://en.wikipedia.org/wiki/Oracle_v._Google&lt;/a&gt;&lt;/p&gt;</content></entry><entry><title>The REAL way to make Eclipse run faster on Ubuntu</title><link href="/blog/2014/06/real-way-make-eclipse-run-faster-ubuntu.html" rel="alternate"></link><published>2014-06-02T09:57:00+05:30</published><updated>2014-06-02T09:57:00+05:30</updated><author><name>Prahlad Yeri</name></author><id>tag:None,2014-06-02:/blog/2014/06/real-way-make-eclipse-run-faster-ubuntu.html</id><summary type="html">&lt;p&gt;If you are still one of those people who are frustrated with the crawling speed of eclipse IDE (especially after the recent clunky releases of Juno/Kepler), then you are in good company! Most of the advice you might have read until now for speeding up Eclipse must have involved …&lt;/p&gt;</summary><content type="html">&lt;p&gt;If you are still one of those people who are frustrated with the crawling speed of eclipse IDE (especially after the recent clunky releases of Juno/Kepler), then you are in good company! Most of the advice you might have read until now for speeding up Eclipse must have involved tweaking the following parameters in eclipse.ini file:&lt;!--more--&gt;&lt;/p&gt;
+&lt;p&gt;::: {.wp_syntax}
+&lt;code class="python"&gt;-Xmn512m -Xms1024m -Xmx1024m -Xss2m -XX:PermSize=1024m -XX:MaxPermSize=1024m -XX:+UseParallelGC&lt;/code&gt;&lt;/code&gt;
+:::&lt;/p&gt;
+&lt;p&gt;Since Eclipse is pretty much a RAM hungry monster, feeding it with lots of RAM should surely make it run fast, right? Wrong! Until recently I had spent a lot of time tweaking those parameters, but no substantial performance could be gained (though I have 4GB of RAM with i3 which is not a bad configuration). The main issue here is that the underlying linux won't provide the required boost to eclipse no matter whatever the parameters you provide. For instance, the system monitor shows that eclipse is only consuming 500Mb RAM, now what difference will it make if I provide 2048m to -XX:MaxPermSize?&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://www.prahladyeri.com/uploads/2014/06/eclipse-monitor.png"&gt;&lt;img alt="System Monitor" class="size-medium wp-image-2969" src="/uploads/old/eclipse-monitor-300x236.png"&gt;&lt;/a&gt; System Monitor&lt;/p&gt;
+&lt;p&gt;My search lead me to another better &lt;a href="http://ubuntuguide.net/ubuntu-using-ramdisk-for-better-performance-and-fast-response"&gt;approach&lt;/a&gt; to solving this problem. If somehow we can load JDK into a shared memory or a RAM-Disk instead of it starting from the local hard-disk, both startup time and performance could be drastically improved.&lt;/p&gt;
+&lt;p&gt;But how do we create a RAM-Disk on linux? Well, if you using ubuntu, then you are in &lt;a href="http://superuser.com/questions/45342/when-should-i-use-dev-shm-and-when-should-i-use-tmp"&gt;luck!&lt;/a&gt; Ubuntu has a working RAM-Disk folder called &lt;strong&gt;/dev/shm&lt;/strong&gt; that could be globally used by any application as a temporary storage. If you go to that folder, you can see lots of files stored by pulseaudio.&lt;/p&gt;
+&lt;p&gt;I thought why not copy the JDK folder to /dev/shm and provide that as a -vm parameter to eclipse. Lo and behold! Eclipse runs about 10 times faster on my ubuntu machine. Try it yourself and let me know (If you are having performance issues with Eclipse, that is..-).&lt;/p&gt;</content></entry><entry><title>How to make your ubuntu machine thank you for its battery life!</title><link href="/blog/2014/04/how-to-make-your-ubuntu-machine-thank-you-for-its-battery-life.html" rel="alternate"></link><published>2014-04-21T04:18:00+05:30</published><updated>2014-04-21T04:18:00+05:30</updated><author><name>Prahlad Yeri</name></author><id>tag:None,2014-04-21:/blog/2014/04/how-to-make-your-ubuntu-machine-thank-you-for-its-battery-life.html</id><summary type="html">&lt;p&gt;Ever since I bought my Toshiba Dual-core Notebook and installed ubuntu on it, I was disappointed by the fact that how quickly it used to heat up and the battery started draining. Add to the equation, the Indian summer of 40 degrees Celsius plus, and you soon have your fans …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Ever since I bought my Toshiba Dual-core Notebook and installed ubuntu on it, I was disappointed by the fact that how quickly it used to heat up and the battery started draining. Add to the equation, the Indian summer of 40 degrees Celsius plus, and you soon have your fans crying with agony.&lt;!--more--&gt;&lt;/p&gt;
+&lt;p&gt;Of course,  the Toshiba CD comes with all the bells and whistles for power saving, but thats only for the Windows users, what about us Linuxers? After some &lt;a href="http://www.noobslab.com/2013/10/enable-laptop-mode-and-other-tweaks-to.html"&gt;research&lt;/a&gt;, I came to know about some tweaks I can perform on my ubuntu system so that my laptop not only heats less, but also gets its battery life expanded!&lt;/p&gt;
+&lt;p&gt;The fact is that one of the most power hungry component of your machine is the CPU (apart from your LCD/screen). Assuming that you are already sane enough not to keep your screen brightness at its max, here is an important tweak that you may perform to prolong the life of your battery. If you are having any issues with your CPU fan making a lot of &lt;a href="http://lifehacker.com/5813003/how-can-i-quiet-a-noisy-computer-fan"&gt;noise&lt;/a&gt;, this will help with that issue too, (since by lowering your CPU consumption you will make your fan work less).&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://www.prahladyeri.com/uploads/2014/04/indicator-cpufreq.png"&gt;&lt;img alt="indicator-cpufreq - An ubuntu app" class="size-full wp-image-2524" height="221" src="/uploads/old/indicator-cpufreq.png" width="173"&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;indicator-cpufreq - An ubuntu app&lt;/em&gt;&lt;/p&gt;
+&lt;p&gt;This small wonder of an app can be installed on ubuntu by issuing "&lt;strong&gt;&lt;em&gt;sudo apt-get install indicator-cpufreq&lt;/em&gt;&lt;/strong&gt;".&lt;/p&gt;
+&lt;p&gt;Once it is installed just add the command "indicator-cpufreq" to your startup applications, and you will see the above applet in your ubuntu system tray! You may now choose to set your CPU scaling mode to "Powersave" whenever you are performing any less cpu-intensive task (like most of us) such as editing a Libreoffice document or a spreadsheet. On the other hand, you may occasionally set the scaling mode to "Performance" when you are doing some cpu-intensive task such as playing a 3D game.&lt;/p&gt;
+&lt;p&gt;By default, the applet starts in "&lt;strong&gt;Ondemand&lt;/strong&gt;" mode. To, set the default to "&lt;strong&gt;Powersave&lt;/strong&gt;", all you have to do is make a small edit to script &lt;em&gt;/etc/init.d/ondemand&lt;/em&gt; as follows:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    ....
+    &lt;span class="k"&gt;for&lt;/span&gt; CPUFREQ in /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor
+    &lt;span class="k"&gt;do&lt;/span&gt;
+        &lt;span class="o"&gt;[&lt;/span&gt; -f &lt;span class="nv"&gt;$CPUFREQ&lt;/span&gt; &lt;span class="o"&gt;]&lt;/span&gt; &lt;span class="o"&gt;||&lt;/span&gt; &lt;span class="k"&gt;continue&lt;/span&gt;
+        &lt;span class="c1"&gt;#changed by Prahlad from ondemand to powersave&lt;/span&gt;
+        &lt;span class="nb"&gt;echo&lt;/span&gt; -n powersave &amp;gt; &lt;span class="nv"&gt;$CPUFREQ&lt;/span&gt;
+    &lt;span class="k"&gt;done&lt;/span&gt;
+    ....
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Take this small step (if you already haven't) and see how your battery life prolongs, as your electricity bill falls!!&lt;/p&gt;
+&lt;address&gt;
+**References:**
+
+&lt;/address&gt;
+
+&lt;ol&gt;
+&lt;li&gt;&lt;address&gt;
+    http://www.noobslab.com/2013/10/enable-laptop-mode-and-other-tweaks-to.html
+    &lt;/address&gt;&lt;/li&gt;
+&lt;li&gt;&lt;address&gt;
+    http://askubuntu.com/questions/223250/how-to-tweak-powertop-to-reduce-power-consumption?rq=1
+    &lt;/address&gt;&lt;/li&gt;
+&lt;li&gt;&lt;address&gt;
+    http://lifehacker.com/5866009/control-your-computers-fan-speeds-for-better-performance-when-you-need-it-silence-when-you-dont
+    &lt;/address&gt;&lt;/li&gt;
+&lt;li&gt;&lt;address&gt;
+    http://lifehacker.com/5813003/how-can-i-quiet-a-noisy-computer-fan
+    &lt;/address&gt;&lt;/li&gt;
+&lt;li&gt;&lt;address&gt;
+    https://bugs.launchpad.net/indicator-cpufreq/+bug/1082868
+    &lt;/address&gt;&lt;/li&gt;
+&lt;/ol&gt;</content></entry><entry><title>Google appengine tip: How to clear appcfg credential cache</title><link href="/blog/2014/01/google-appengine-tip-how-to-clear-appcfg-credential-cache.html" rel="alternate"></link><published>2014-01-19T23:19:00+05:30</published><updated>2014-01-19T23:19:00+05:30</updated><author><name>Prahlad Yeri</name></author><id>tag:None,2014-01-19:/blog/2014/01/google-appengine-tip-how-to-clear-appcfg-credential-cache.html</id><summary type="html">&lt;p&gt;Many a times, it so happens that you need to work with multiple credentials while uploading/downloading apps on Google appengine. In such a scenario, it becomes difficult to switch credentials instantly.&lt;!--more--&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="/uploads/old/gae_new_Logo.png"&gt;&lt;img alt="gae_new_Logo" class="alignnone size-full wp-image-1382" height="48" src="/uploads/old/gae_new_Logo.png" width="54"&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;For instance, you have just uploaded an app using appcfg.py with your google credentials and they are …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Many a times, it so happens that you need to work with multiple credentials while uploading/downloading apps on Google appengine. In such a scenario, it becomes difficult to switch credentials instantly.&lt;!--more--&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="/uploads/old/gae_new_Logo.png"&gt;&lt;img alt="gae_new_Logo" class="alignnone size-full wp-image-1382" height="48" src="/uploads/old/gae_new_Logo.png" width="54"&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;For instance, you have just uploaded an app using appcfg.py with your google credentials and they are still stored in the cache. So when you want to upload a new app, it won't ask you for email/password and still try to retrieve old credentials automatically ignoring any command-line parameters you have given! Thus, you keep scratching your head as to why you are getting a permission-denied error while uploading/downloading the app!&lt;/p&gt;
+&lt;p&gt;The only way out here is clearing the credential cache of appcfg. On Linux systems, these are stored in a file called:&lt;/p&gt;
+&lt;p&gt;``` {lang="python"}
+/home/username/.appcfg_cookies&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;On Windows based systems, these are typically stored in:
+
+``` {lang=&amp;quot;python&amp;quot;}
+C:\Users\username\.appcfg_cookies
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Just delete this file and you are done! Next time, appcfg.py will ask you for a fresh google email and password, thus enabling you to upload/download your app.&lt;/p&gt;
+&lt;p&gt;References:\
+&lt;a href="http://stackoverflow.com/questions/5149914/how-to-save-my-user-account-and-password-in-google-app-engine-launcher"&gt;http://stackoverflow.com/questions/5149914/how-to-save-my-user-account-and-password-in-google-app-engine-launcher\
+&lt;/a&gt;&lt;/p&gt;</content></entry><entry><title>How to host your own mail server using Google appengine</title><link href="/blog/2013/12/how-to-host-your-own-mail-server-using-google-appengine.html" rel="alternate"></link><published>2013-12-30T21:23:00+05:30</published><updated>2013-12-30T21:23:00+05:30</updated><author><name>Prahlad Yeri</name></author><id>tag:None,2013-12-30:/blog/2013/12/how-to-host-your-own-mail-server-using-google-appengine.html</id><summary type="html">&lt;p&gt;Google has an outstanding habit of bringing the power of elites to the masses. Firstly, they took over the world of smartphones with android, and now the buzzword everywhere is Google Appengine.&lt;!--more--&gt;&lt;/p&gt;
+&lt;p&gt;Once you get the basics of GAE and start looking beyond your first &lt;a href="/blog/2013/12/how-to-create-a-pythonic-app-in-google-app-engine/" title="How to create a Python app in Google App Engine"&gt;HelloWorld&lt;/a&gt; application, you will start …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Google has an outstanding habit of bringing the power of elites to the masses. Firstly, they took over the world of smartphones with android, and now the buzzword everywhere is Google Appengine.&lt;!--more--&gt;&lt;/p&gt;
+&lt;p&gt;Once you get the basics of GAE and start looking beyond your first &lt;a href="/blog/2013/12/how-to-create-a-pythonic-app-in-google-app-engine/" title="How to create a Python app in Google App Engine"&gt;HelloWorld&lt;/a&gt; application, you will start appreciating the sheer power it provides compared to other paid hosting providers. GAE provides you the ability to send mails from your app without paying a single penny. Only if your app starts exceeding the usage quotas, you will have to pay in order to continue using the services.&lt;/p&gt;
+&lt;p&gt;An application of the above is creating and hosting your own email server through your app. Below is a single python script which acts as an http mail server that can route your email requests. It also doubles up as a test server so you can test the hosted service by appending the "/test" subdirectory to the url. You may pass http POST requests to your app including fields like username, to, cc, subject etc. once you build this script and host your app in the google cloud.&lt;/p&gt;
+&lt;figure class="highlight"&gt;
+    #main.py
+    import webapp2
+    import urllib2
+    from google.appengine.api import users,mail
+
+    class TestPage(webapp2.RequestHandler):
+        def get(self):
+            body = """
+            &amp;lt;form method="post" action="http://your-app-id.appspot.com"&gt;
+            Full Name: &amp;lt;input name="fullname" /&gt;&amp;lt;br /&gt;
+            user: &amp;lt;input name="username" /&gt;&amp;lt;br /&gt;
+            to: &amp;lt;input name="to" /&gt;&amp;lt;br /&gt;
+            cc: &amp;lt;input name="cc" /&gt;&amp;lt;br /&gt;
+            bcc: &amp;lt;input name="bcc" /&gt;&amp;lt;br /&gt;
+            subject: &amp;lt;input name="subject" /&gt;&amp;lt;br /&gt;
+            body: &amp;lt;textarea name="body"&gt;&amp;lt;/textarea&gt;&amp;lt;br /&gt;
+            &amp;lt;input type="submit" /&gt;
+            &amp;lt;/form&gt;
+            """
+            self.response.write(body)
+
+    class MainPage(webapp2.RequestHandler):
+        def post(self):
+            #TODO: check if password is correct.
+
+            #From will actually be a placeholder, since only your own appspotmail addresses would be allowed.
+            tfullname = self.request.get('fullname')
+            tusername = self.request.get('username')
+            tto = self.request.get('to')
+            tcc = self.request.get('cc')
+            tbcc = self.request.get('bcc')
+            tsubject = self.request.get('subject')
+            tbody = self.request.get('body')
+            tattachment = self.request.get('attachment')
+            send_mail(fullname=tfullname,username=tusername,to=tto,subject=tsubject,body=tbody,cc=tcc,bcc=tbcc,attachment=tattachment)
+            self.response.write("success")
+            #self.response.write(tto)
+
+        def get(self):
+            #self.response.headers['Content-Type'] = 'text/plain'
+            self.response.out.write("""your-app-id http mail service version 1.0.&amp;lt;br /&gt;
+            post vars:
+            [password]
+            [fullname]
+            [username]
+            [to]
+            [cc]
+            [bcc]
+            [subject]
+            [body]
+            [attachment]
+
+            &amp;lt;br /&gt;
+            &amp;lt;br /&gt;
+
+            &amp;lt;a type="button" href="test"&gt;Click here for a demo&amp;lt;/a&gt;
+            """)
+
+    def send_mail(fullname,username,to,subject,body,cc=None,bcc=None,attachment=None):
+        sender=fullname + " &amp;lt;" + username + "@your-app-id.appspotmail.com&gt;"
+        message = mail.EmailMessage(sender=sender)
+        message.to = to
+        if cc!=None and cc!='':
+            message.cc=cc
+        if bcc!=None and bcc!='':
+            message.bcc = bcc
+        message.subject = subject
+        message.body = body
+        message.send()
+
+    application = webapp2.WSGIApplication([
+                                           ('/', MainPage),
+                                           ('/test', TestPage)
+                                           ], debug=True)
+
+&lt;/figure&gt;
+
+&lt;p&gt;So now, you may bid farewell to third party mail services like mail-chimp and others - since you have your own mail server.&lt;/p&gt;</content></entry><entry><title>How to create a Python app in Google App Engine</title><link href="/blog/2013/12/how-to-create-a-python-app-in-google-app-engine.html" rel="alternate"></link><published>2013-12-06T18:35:00+05:30</published><updated>2013-12-06T18:35:00+05:30</updated><author><name>Prahlad Yeri</name></author><id>tag:None,2013-12-06:/blog/2013/12/how-to-create-a-python-app-in-google-app-engine.html</id><summary type="html">&lt;p&gt;Whilst the &lt;a href="https://developers.google.com/appengine/docs/python"&gt;official pythonic reference&lt;/a&gt; for Google app engine is the way I learnt how to build my first GAE app, I found it a bit frustrating to go through &lt;a href="https://developers.google.com/appengine/docs/python/#Python_Selecting_the_Python_runtime"&gt;each&lt;/a&gt; and &lt;a href="https://developers.google.com/appengine/docs/python/#Python_The_environment"&gt;every&lt;/a&gt; link and understand large topics like caching and data stores in detail just to build a small …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Whilst the &lt;a href="https://developers.google.com/appengine/docs/python"&gt;official pythonic reference&lt;/a&gt; for Google app engine is the way I learnt how to build my first GAE app, I found it a bit frustrating to go through &lt;a href="https://developers.google.com/appengine/docs/python/#Python_Selecting_the_Python_runtime"&gt;each&lt;/a&gt; and &lt;a href="https://developers.google.com/appengine/docs/python/#Python_The_environment"&gt;every&lt;/a&gt; link and understand large topics like caching and data stores in detail just to build a small hello world pythonic app in Google App Engine. What I wanted was a quick and dirty tutorial that let me build a small app first, and then let me improvise upon the areas that I needed to dig deeper.&lt;!--more--&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="/uploads/old/gae_python.png"&gt;&lt;img alt="How to Create a Pythonic app in Google App Engine" class="alignnone wp-image-301" height="150" src="/uploads/old/gae_python.png" width="150"&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;I couldn't find such a tutorial anywhere, so I'm writing this one.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Setup your Environment:&lt;/strong&gt; Download and install &lt;a href="http://www.python.org/getit/releases/2.7/"&gt;python 2.7&lt;/a&gt; for your platform, if you haven't done so already (as of this writing, only 2.5 and 2.7 versions are supported) . Then, download and install the GAE API from &lt;a href="https://developers.google.com/appengine/downloads#Google_App_Engine_SDK_for_Python"&gt;here&lt;/a&gt;. MSI setups are available for windows platform. For linux, you can just unzip into a local folder like '\~/programs/'. The zip file will create a subdir called 'google_appengine'. Practically, the only two python scripts you are ever going to need to develop a GAE app are:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;dev_appserver.py&lt;/li&gt;
+&lt;li&gt;appcfg.py&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Register your app on appspot.com:&lt;/strong&gt; The next step is to register your subdomain on GAE by visiting &lt;a href="https://appengine.google.com/"&gt;https://appengine.google.com&lt;/a&gt;. Once you register your app there, you will get a subdomain called &lt;strong&gt;http://&lt;em&gt;your-app-id&lt;/em&gt;.appspot.com&lt;/strong&gt;. There are also options for redirecting your custom domain such as &lt;strong&gt;www.mydomain.com&lt;/strong&gt; to your app subdomain.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Create your app on the local machine:&lt;/strong&gt; This is as simple as creating a folder on your machine such as \~/source/foo in linux or C:\source\foo in windows. Then just create a text file named app.yaml  with below contents inside this folder:&lt;/p&gt;
+&lt;p&gt;``` {lang="python"}
+application: your-app-id
+version: 1
+runtime: python27
+api_version: 1
+threadsafe: true&lt;/p&gt;
+&lt;p&gt;handlers:
+- url: /.*
+  script: helloworld.application
+```&lt;/p&gt;
+&lt;p&gt;Note that &lt;strong&gt;your-app-id&lt;/strong&gt; is the name that you just registered for yourself, make sure that it is typed correctly. version parameter refers to the version of your app, while api_version is the version of GAE SDK used to run this app. The line "script: helloworld.application" indicates that this wsgi handler will be invoked for your app.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Create the wsgi handler:&lt;/strong&gt; This is as simple as creating a python file named "helloworld.py" in the same folder as above, and add below contents to it:&lt;/p&gt;
+&lt;p&gt;``` {lang="python"}
+import webapp2&lt;/p&gt;
+&lt;p&gt;class MainPage(webapp2.RequestHandler):&lt;/p&gt;
+&lt;p&gt;def get(self):
+        self.response.headers['Content-Type'] = 'text/plain'
+        self.response.write('Hello, World!')&lt;/p&gt;
+&lt;p&gt;application = webapp2.WSGIApplication([
+    ('/', MainPage),
+], debug=True)
+```&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Test your app: &lt;/strong&gt;To test your app, open up your terminal and change directory to your GAE installation folder (alternatively, add the GAE installation folder to your PATH/\$PATH environment variable to avoid doing this each time), and then type the below command:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;python dev_appserver.py ~/source/foo
+#OR on windows:
+python dev_appserver.py C:\source\foo
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Deploy your app:&lt;/strong&gt; Want to host this app on GAE and check it out? Just fire up your terminal as described above and issue this command:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;python appcfg.py update ~/source/foo
+#OR on windows:
+python appcfg.py update C:\source\foo
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Test your app:&lt;/strong&gt; The above command should host your app on your appspot subdomain (It will ask for your google username/password before doing so). Once the app is successfully hosted, you can check it out by visiting http://your-app-id.appspot.com.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;Furthur reading:&lt;/strong&gt; Now that you have a working app, you can actually visit the official reference to read more about:&lt;ol&gt;
+&lt;li&gt;&lt;a href="https://developers.google.com/appengine/docs/python/gettingstartedpython27/handlingforms"&gt;webapp2&lt;/a&gt;: The pythonic web framework used to handle requests and generate responses.&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://developers.google.com/appengine/docs/python/#Python_The_Datastore_and_services"&gt;Datastore&lt;/a&gt;: The big data storage feature that GAE provides your app to store its data.&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://developers.google.com/appengine/docs/python/#Python_Quotas_and_limits"&gt;Quotas and Limits&lt;/a&gt;: Learn about the various limits that google sets for your app to access resources (Don't worry, they are enough to suffice a small to medium scale app).&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://developers.google.com/appengine/docs/python/#Python_App_caching"&gt;App caching&lt;/a&gt;: Learn how to take advantage of various caching mechanisms in GAE to speed up your app.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;/li&gt;
+&lt;/ol&gt;</content></entry><entry><title>How to create android dialogs in a reusable manner</title><link href="/blog/2013/12/how-to-create-android-dialogs-in-a-reusable-manner.html" rel="alternate"></link><published>2013-12-01T04:55:00+05:30</published><updated>2013-12-01T04:55:00+05:30</updated><author><name>Prahlad Yeri</name></author><id>tag:None,2013-12-01:/blog/2013/12/how-to-create-android-dialogs-in-a-reusable-manner.html</id><summary type="html">&lt;p&gt;Creating dialogs is a very common need in your app to show a dialog box to the user in order to fetch a value, be it a mobile, desktop or even a web application. Furthermore, the values can range from anything like simple &lt;em&gt;OK-Cancel&lt;/em&gt; dialog results to a list of …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Creating dialogs is a very common need in your app to show a dialog box to the user in order to fetch a value, be it a mobile, desktop or even a web application. Furthermore, the values can range from anything like simple &lt;em&gt;OK-Cancel&lt;/em&gt; dialog results to a list of "check-able" values or even a date-range.&lt;!--more--&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://www.prahladyeri.com/uploads/2013/11/droid-man.png"&gt;&lt;img alt="droid-man" class="alignnone wp-image-209" height="70" src="/uploads/old/droid-man.png" width="60"&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;I experienced the need to create an android dialog for each one of those for showing reports in a recent android app project. [Whilst the java api offers maximum flexibility in creating dialog interface elements, there is no ready-made method that can be called to get, say a result for a message-dialog like this:]{style="line-height: 1.714285714; font-size: 1rem;"}&lt;/p&gt;
+&lt;p&gt;``` {lang="java"}
+result = MessageBox.Show();&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;Other languages like C\# and VB provide such methods to show modal dialog boxes that return values after waiting for a modal dialog. But unfortunately, there is no concept of &amp;quot;modal&amp;quot; in android. A thread cannot just sit idle waiting for input as the resources are too valuable for that. Instead, there is the concept of callbacks, so that instead of you waiting for the dialog to return, the method calls back a function reference you have passed it:
+
+``` {lang=&amp;quot;java&amp;quot;}
+AlertDialog.Builder builder=new AlertDialog.Builder(context);
+builder.setTitle(&amp;quot;Milk supply tracker&amp;quot;);
+builder.setMessage(message);
+builder.setPositiveButton(&amp;quot;Yes&amp;quot;,listener);
+builder.setNegativeButton(&amp;quot;No&amp;quot;,listener);
+builder.create().show();
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;The listener here is the referece to a function that will be called when the Yes or No button will be clicked. This not only complicates your code, but makes it very difficult to reuse code for handling different situations like getting a selection from a range of values or getting a date/time range. To solve this problem, I created a separate java class called Dialog and added variations of ShowDialog() methods to handle each type of dialog:&lt;/p&gt;
+&lt;p&gt;``` {lang="java"}
+class Dialog
+{
+    public static void ShowMessageDialog(Context context, String message)
+    {
+        ShowDialog(context,message,MessageBoxType.OKOnly,new String[]{},false, null,null);
+    }&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;public static void ShowMessageDialog(Context context, String message, MessageBoxType type , OnClickListener listener)
+ {
+     ShowDialog(context,message,type,new String[]{},false, listener,null);
+ }
+
+public static void ShowListDialog(Context context, String message, String[] listItems, boolean isMultiChoice, OnClickListener listener)
+ {
+ if (isMultiChoice)
+     ShowDialog(context, message, MessageBoxType.OkCancel , listItems, isMultiChoice, listener,null);
+ else
+     ShowDialog(context, message, MessageBoxType.OKOnly , listItems, isMultiChoice, null,listener);
+ }
+
+public static void ShowDateDialog(Context context,String message,OnDateSetListener listener)
+{
+    Calendar c=Calendar.getInstance();
+    int y=c.get(Calendar.YEAR);
+    int m=c.get(Calendar.MONTH);
+    int d=c.get(Calendar.DAY_OF_MONTH);
+
+    DatePickerDialog dlg=new DatePickerDialog(context, listener, y, m, d);
+    dlg.setTitle(message);
+    dlg.show();
+}
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;}&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;As you can see, the ShowMessageDialog() accepts different parameters depending on whether a listener is required or not. ShowListDialog(), on the other hand passes an array of strings to create a dialog displaying a list of values from which a user may select. The isMultiChoice parameter tells whether a checkbox is required or not against each value in the select list. All this is actually implemented in the ShowDialog() private method, whereas the ShowDateDialog() has its own implementation. Here is the source for ShowDialog():
+
+``` {lang=&amp;quot;java&amp;quot;}
+private static void ShowDialog(Context context, String message, MessageBoxType type , String[] listItems, boolean isMultiChoice, OnClickListener listener,OnClickListener selectedItemListener)
+{
+    AlertDialog.Builder builder=new AlertDialog.Builder(context);
+
+    if (listItems.length&amp;gt;0 &amp;amp;&amp;amp; isMultiChoice==false)
+    {
+        CheckedItems=new ArrayList();//won&amp;#39;t be used in this case.
+        builder.setTitle(message);
+
+        builder.setItems(listItems, selectedItemListener);
+    }
+    else if (listItems.length&amp;gt;0 &amp;amp;&amp;amp; isMultiChoice==true)
+    {
+        CheckedItems=new ArrayList();
+        builder.setTitle(message);
+
+        builder.setMultiChoiceItems(listItems, null, new OnMultiChoiceClickListener() 
+        {
+            @Override
+            public void onClick(DialogInterface dialog, int which, boolean checked) 
+            {
+                if (checked)
+                    CheckedItems.add(which);
+                else
+                {
+                    if (CheckedItems.contains(which))
+                        CheckedItems.remove(which);
+                }
+            }
+        });
+    }
+    else
+    {
+        builder.setTitle(&amp;quot;Milk supply tracker&amp;quot;);
+        builder.setMessage(message);
+    }
+
+    if (listItems.length==0 || isMultiChoice)
+    {
+        switch(type)
+        {
+        case OKOnly:
+            builder.setPositiveButton(&amp;quot;OK&amp;quot;,listener);
+            break;
+        case OkCancel:
+            builder.setPositiveButton(&amp;quot;OK&amp;quot;,listener);
+            builder.setNegativeButton(&amp;quot;Cancel&amp;quot;,listener);
+            break;
+        case YesNo:
+            builder.setPositiveButton(&amp;quot;Yes&amp;quot;,listener);
+            builder.setNegativeButton(&amp;quot;No&amp;quot;,listener);
+            break;
+        }           
+    }
+
+    builder.create().show();
+}
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;So hopefully, this class should suffice all your needs related to showing a dialog on your android app. Here is a working example of how the ShowListDialog() is actually called with checkboxes on:&lt;/p&gt;
+&lt;p&gt;``` {lang="java"}
+selItems=new String[]{"apples","oranges","grapes"};
+Device.ShowListDialog(this,"Select a fruit" ,this.selItems, true, new DialogInterface.OnClickListener() {&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;    &lt;span class="p"&gt;@&lt;/span&gt;&lt;span class="k"&gt;Override&lt;/span&gt;
+    &lt;span class="nt"&gt;public&lt;/span&gt; &lt;span class="nt"&gt;void&lt;/span&gt; &lt;span class="nt"&gt;onClick&lt;/span&gt;&lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="nt"&gt;DialogInterface&lt;/span&gt; &lt;span class="nt"&gt;dialog&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="nt"&gt;int&lt;/span&gt; &lt;span class="nt"&gt;which&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt; 
+    &lt;span class="p"&gt;{&lt;/span&gt;
+        &lt;span class="nt"&gt;if&lt;/span&gt; &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="nt"&gt;which&lt;/span&gt;&lt;span class="o"&gt;==&lt;/span&gt;&lt;span class="nt"&gt;DialogInterface&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nc"&gt;BUTTON_POSITIVE&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+        &lt;span class="p"&gt;{&lt;/span&gt;
+            &lt;span class="err"&gt;for(int&lt;/span&gt; &lt;span class="n"&gt;i&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;&lt;span class="n"&gt;Device&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;CheckedItems&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+            &lt;span class="n"&gt;Dialog&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="nf"&gt;ShowMessageDialog&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;ReportsActivity&lt;/span&gt;&lt;span class="err"&gt;.&lt;/span&gt;&lt;span class="n"&gt;this&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;selected:&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="n"&gt;selItems&lt;/span&gt;&lt;span class="cp"&gt;[&lt;/span&gt;&lt;span class="nx"&gt;i&lt;/span&gt;&lt;span class="cp"&gt;]&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+        &lt;span class="p"&gt;}&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="err"&gt;}&lt;/span&gt;&lt;span class="o"&gt;);&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;}
+```&lt;/p&gt;</content></entry><entry><title>How to uniquely identify your Android device in code</title><link href="/blog/2013/11/how-to-uniquely-identify-your-android-device-in-code.html" rel="alternate"></link><published>2013-11-28T02:17:00+05:30</published><updated>2013-11-28T02:17:00+05:30</updated><author><name>Prahlad Yeri</name></author><id>tag:None,2013-11-28:/blog/2013/11/how-to-uniquely-identify-your-android-device-in-code.html</id><summary type="html">&lt;p&gt;My last android project involved tracking each device where the app is installed and storing the information to a database. It is quite a common need to uniquely identify your android device in code.&lt;!--more--&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="/uploads/old/droid-man.png"&gt;&lt;img alt="droid-man" class="alignnone wp-image-209" height="70" src="/uploads/old/droid-man.png" width="60"&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Now, had it been a PC, it would have been easy to track the MAC-address of …&lt;/p&gt;</summary><content type="html">&lt;p&gt;My last android project involved tracking each device where the app is installed and storing the information to a database. It is quite a common need to uniquely identify your android device in code.&lt;!--more--&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="/uploads/old/droid-man.png"&gt;&lt;img alt="droid-man" class="alignnone wp-image-209" height="70" src="/uploads/old/droid-man.png" width="60"&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;Now, had it been a PC, it would have been easy to track the MAC-address of the NIC or an HDD serial to uniquely identify and track that device. But what is the equivalent for android?&lt;/p&gt;
+&lt;p&gt;My research first led me to IMEI number (&lt;em&gt;TelephonyManager.getDeviceId()&lt;/em&gt;). IMEI is a unique number associated with your device (pretty much like a vehicle's chassis number) and is widely used for tracking cellphones. The android API provides this ready-made function to uniquely identify your device if you wish to go this route:&lt;/p&gt;
+&lt;p&gt;``` {lang="java"}
+public static String getDeviceIdTm(Context context)
+{
+    TelephonyManager tm=(TelephonyManager)context.getSystemService(Context.TELEPHONY_SERVICE);
+    return tm.getDeviceId();
+}&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;But wait, not all devices are equipped with Telephony. What about tablets and amazon kindle devices? It so happens, that this is just one way to track your device, but it is not full-proof. It will work only for phones and for other devices this function will return null.
+
+This led me to another way of tracking an Android device: An in-built variable that the Android system itself provides you: ANDROID\_ID. In theory, this variable is all you need to know to identify your device uniquely:
+
+``` {lang=&amp;quot;java&amp;quot;}
+public static String getDeviceIdAndroid(Context context)
+{
+    return Secure.getString(context.getContentResolver(),Secure.ANDROID_ID);
+}
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;But Alas! Even this is not full-proof. It will work on most modern versions of android (HoneyComb and above). Again, due to a manufacturer bug, it will not return a unique value, but a constant value "9774d56d682e549c" on some handsets.&lt;/p&gt;
+&lt;p&gt;This led me to a third way of identifying my device which was a bit hackish. I prefer not to use this method if any of the prior two methods worked.&lt;/p&gt;
+&lt;p&gt;``` {lang="java"}
+public static String getDeviceIdPseudo(Context context)
+ {
+     String tstr="";
+     if (Build.VERSION.SDK_INT &amp;gt; Build.VERSION_CODES.FROYO) {
+         tstr+= Build.SERIAL;
+         tstr += "::" + (Build.PRODUCT.length() % 10) + (Build.BOARD.length() % 10) + (Build.BRAND.length() % 10) + (Build.CPU_ABI.length() % 10) + (Build.DEVICE.length() % 10) + (Build.MANUFACTURER.length() % 10) + (Build.MODEL.length() % 10);
+         return tstr;
+    }
+ }&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;This method computes a Pseudo-id for your device taking reference to some hardware values. If the previous two methods don&amp;#39;t work, then this is all you are left with for device identification.
+
+I then integrated the above three methods to create a generic method called ***getDeviceIdUnique()*** that will work on all android devices - irrespective of whether its a phone/tablet or what make it is:
+
+``` {lang=&amp;quot;java&amp;quot;}
+public static String getDeviceIdUnique(Context context)
+ {
+     try {
+         String a = getDeviceIdTm(context);
+         String b = getDeviceIdAndroid(context);
+         String c = getDeviceIdPseudo(context);
+
+         if (a!=null &amp;amp;&amp;amp; a.length()&amp;gt;0 &amp;amp;&amp;amp; a.replace(&amp;quot;0&amp;quot;, &amp;quot;&amp;quot;).length()&amp;gt;0) 
+             return a;
+         else if (b!=null &amp;amp;&amp;amp; b.length()&amp;gt;0 &amp;amp;&amp;amp; b.equals(&amp;quot;9774d56d682e549c&amp;quot;)==false) 
+             return b;
+         else if (c!=null &amp;amp;&amp;amp; c.length()&amp;gt;0) 
+             return c;
+         else
+             return &amp;quot;&amp;quot;;
+         }
+     catch(Exception ex)
+     {
+         return &amp;quot;&amp;quot;;
+     }
+ }
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;address&gt;
+References:
+
+&lt;/address&gt;
+
+&lt;address&gt;
+&lt;http://stackoverflow.com/questions/2785485/is-there-a-unique-android-device-id&gt;
+
+&lt;/address&gt;
+
+&lt;address&gt;
+&lt;http://stackoverflow.com/questions/4468248/unique-id-of-android-device&gt;
+
+&lt;/address&gt;</content></entry><entry><title>The 7 "Bread and Butter" Plugins for your Wordpress blog</title><link href="/blog/2013/11/the-7-bread-and-butter-plugins-for-your-wordpress-blog.html" rel="alternate"></link><published>2013-11-27T19:09:00+05:30</published><updated>2013-11-27T19:09:00+05:30</updated><author><name>Prahlad Yeri</name></author><id>tag:None,2013-11-27:/blog/2013/11/the-7-bread-and-butter-plugins-for-your-wordpress-blog.html</id><summary type="html">&lt;p&gt;Based on my experiments while setting up this blog, below are the 7 "bread and butter" plugins for your wordpress blog. These plugins came very handy for me and allowed me to seamlessly integrate much needed functionality in my blog without writing a single line of php code.&lt;!--more--&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="/uploads/old/database_active.png"&gt;&lt;img alt="Wordpress Plugin" class="alignnone wp-image-186" height="77" src="/uploads/old/database_active.png" width="77"&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;&lt;a href="http://wordpress.org/plugins/contact-form-7/"&gt;Contact Form …&lt;/a&gt;&lt;/strong&gt;&lt;/li&gt;&lt;/ol&gt;</summary><content type="html">&lt;p&gt;Based on my experiments while setting up this blog, below are the 7 "bread and butter" plugins for your wordpress blog. These plugins came very handy for me and allowed me to seamlessly integrate much needed functionality in my blog without writing a single line of php code.&lt;!--more--&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="/uploads/old/database_active.png"&gt;&lt;img alt="Wordpress Plugin" class="alignnone wp-image-186" height="77" src="/uploads/old/database_active.png" width="77"&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;&lt;a href="http://wordpress.org/plugins/contact-form-7/"&gt;Contact Form 7&lt;/a&gt; (Contact Forms): &lt;/strong&gt;While designing this blog, a Contact page was one of my primary requirements. This plugin is popular and well maintained. Once installed, you will have a Contact tab on your dashboard that has a default contact-form with a short-code. You can copy-paste this short-code into any post or page of yours, and lo and behold! You have a contact form ready such as &lt;a href="http://www.prahladyeri.com/contact/" title="Contact"&gt;the one on this blog&lt;/a&gt;. Of course, you can customize the default contact-form to change the fields to suit your particular needs. By default, the form filled by the user is mailed to the admin user's email address. If you want to store the form data in the WP database in addition to that, you will have to install the &lt;a href="http://wordpress.org/extend/plugins/flamingo/"&gt;Flamingo&lt;/a&gt; plugin along with this.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;a href="http://wordpress.org/plugins/jetpack/"&gt;Jetpack&lt;/a&gt; (Multi-purpose): &lt;/strong&gt;This is what I would term the "bread-and-butter" plugin for wordpress blog owners. Brought to you by Automattic (the company behind Wordpress), this plugin provides almost every feature a blogger can think of such as:&lt;ul&gt;
+&lt;li&gt;Comprehensive statistics such as hits per page/post, incoming/outoing links, referrals, etc.&lt;/li&gt;
+&lt;li&gt;Social buttons and a social-networking based comment system.&lt;/li&gt;
+&lt;li&gt;Email subscriptions for your blog posts and comments.&lt;/li&gt;
+&lt;li&gt;A mobile theme that automatically streamlines your site for mobile visitors.&lt;/li&gt;
+&lt;li&gt;Allowing your readers to login to your blog using their wordpress.com account.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;a href="http://wordpress.org/plugins/akismet/"&gt;Akismet&lt;/a&gt; (Spam control): &lt;/strong&gt;Again, this is a "bread and butter" kind of plugin. What kind of blogger, in his right mind, will trust comments on his high-traffic blog to be spam free! Akismet is a web-service that specializes in eradicating spam. Once you install this plugin, all your comments will be scanned by this web service before they make way to your dashboard.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;a href="http://wordpress.org/extend/plugins/wordpress-importer/"&gt;WordPress Importer&lt;/a&gt; (migrating your existing wordpress blog): &lt;/strong&gt;If you are migrating your posts from another wordpress hosted blog or a wordpress.com blog (like I did), you need this plugin to import the posts that you exported from there. In fact, wordpress automatically prompts you to install this plugin when you go to Dashboard-&gt;Tools-&gt;Import to import your posts.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;a href="http://wordpress.org/plugins/xml-sitemap-feed/"&gt;XML Sitemap &amp;amp; Google News Feeds&lt;/a&gt; (Submitting sitemaps to spiders): &lt;/strong&gt;A well written blog must also be searchable by spiders and search-engines, so that it can send readers to your blog. Now, when you submit your blog url to the search-engines like Google or Bing, it pays to have a sitemap so that the spiders know how is your blog or website structured. After installing this plugin, an automatic sitemap url is seamlessly generated for you at http://Your-WP-URL/sitemap.xml. You can then submit this sitemap url to the search engines and thus increase the visibility of your wordpress blog.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;a href="http://wordpress.org/plugins/w3-total-cache/"&gt;W3 Total Cache&lt;/a&gt; (caching and performance): &lt;/strong&gt;Whilst I haven't installed this plugin myself yet, it is said to improve the performance of your blog by serving static content to your users instead of running heavy-duty php scripts that increase your backend load. This plugin is also recommended by the XML Sitemap plugin.&lt;/li&gt;
+&lt;li&gt;&lt;strong&gt;&lt;a href="http://wordpress.org/plugins/backup/"&gt;Backup&lt;/a&gt; (backing up your wordpress site):&lt;/strong&gt; You usually take an export of your posts from the Tools-Export menu, but if you want to backup your entire wordpress blog including the mysql database dump and all files used for hosting your wordpress blog, then this plugin is the way to go.&lt;/li&gt;
+&lt;/ol&gt;</content></entry><entry><title>How to Generate PDFs in Python for Google App Engine</title><link href="/blog/2013/11/how-to-generate-pdf-in-python-for-google-app-engine.html" rel="alternate"></link><published>2013-11-26T19:07:00+05:30</published><updated>2013-11-26T19:07:00+05:30</updated><author><name>Prahlad Yeri</name></author><id>tag:None,2013-11-26:/blog/2013/11/how-to-generate-pdf-in-python-for-google-app-engine.html</id><summary type="html">&lt;p&gt;One of my last projects based on google app engine and python involved storing form data in GAE datastore and generating PDF documents that the user can download. Whilst data storing was the easier part as google's big data API it is pretty &lt;a href="https://developers.google.com/appengine/docs/python/datastore/"&gt;well documented&lt;/a&gt;, the trickier aspect was to …&lt;/p&gt;</summary><content type="html">&lt;p&gt;One of my last projects based on google app engine and python involved storing form data in GAE datastore and generating PDF documents that the user can download. Whilst data storing was the easier part as google's big data API it is pretty &lt;a href="https://developers.google.com/appengine/docs/python/datastore/"&gt;well documented&lt;/a&gt;, the trickier aspect was to convert it to PDF using python.&lt;!--more--&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="/uploads/old/pdf.png"&gt;&lt;img alt="pdf" class="alignnone wp-image-164" height="108" src="/uploads/old/pdf-300x300.png" width="108"&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;This was especially difficult in the face of GAE not providing an easy mechanism for disk writing that most PDF generation libraries require. To share my endeavors, I'm writing this post about how to generate pdfs in python for Google app engine.&lt;/p&gt;
+&lt;p&gt;The solution I came across was, as far as I know, the only possible way of generating PDFs in python! There are about three PDF generation utilities in python, each differing in terms of their area of usage:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="http://www.reportlab.com"&gt;&lt;strong&gt;Reportlab PDF library&lt;/strong&gt;&lt;/a&gt;: This is the ideal library, if you want to create a pdf from scratch. It provides objects like canvas, pdfmetrics and ttfonts that help you with stuff like adding lines, shapes, images and paragraphs. This is pretty much comparable to the comprehensive iText java library or its C# port, iTextSharp. Their &lt;a href="http://www.reportlab.com/software/documentation/"&gt;documentation&lt;/a&gt; is also good.&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://www.xhtml2pdf.com/"&gt;&lt;strong&gt;xhtml2pdf&lt;/strong&gt;&lt;/a&gt;: If you want to simply convert an existing html document to pdf, the xhtml2pdf library comes in very handy.&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://pypi.python.org/pypi/pyPdf"&gt;&lt;strong&gt;pyPDF&lt;/strong&gt;&lt;/a&gt;: If all you want to do is merge two PDFs page by page quickly, this library is the way to go.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;I figured out after researching the above three libraries that a combination of xhtml2pdf and pyPDF is what I needed. Since I already had the html document template ready, I just put placeholders for my form data like __name__ , __occupation__, etc so that I can fill these before converting to PDF.&lt;/p&gt;
+&lt;p&gt;Now, I could fill these values from my python program, but the real challenge was storing the resulting PDF to disk, which was not allowed by google app engine! Turns out, we don't need to actually store anything to disk. By sending the CreatePDF() output to a &lt;a href="http://docs.python.org/library/stringio.html"&gt;StringIO&lt;/a&gt; object, which is stored in memory instead of the filesystem, I could bypass the need to actually store anything to disk!!&lt;/p&gt;
+&lt;p&gt;``` {lang="python"}
+f=open('template.htm','r')
+sourceHtml = unicode(f.read(), errors='ignore')
+f.close()
+sourceHtml = template.render(tvals)
+sourceHtml = sourceHtml.replace('&lt;strong&gt;name&lt;/strong&gt;',sname)
+sourceHtml = sourceHtml.replace('&lt;strong&gt;address&lt;/strong&gt;',saddress)
+sourceHtml = sourceHtml.replace('&lt;strong&gt;occupation&lt;/strong&gt;',will.occupation)
+packet = StringIO.StringIO() #write to memory
+pisa.CreatePDF(sourceHtml,dest=packet)&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;Now, it would have been simple to just self.response.write(packet) to send this pdf download to the user, but in my case, I had to merge this generated pdf with another template-pdf which contained information like symbols, images and page-numbers that for some reason, could not be placed into the html document. So, I had to create a PdfFileReader object (coutesy of PyPDF library!), and then merge each page of my generated document with this template document. Then where do I write this merged output? Any guesses? - another StringIO object!! And then finally, write this StringIO object to self.response, so the user can download it.
+
+``` {lang=&amp;quot;python&amp;quot;}
+packet.seek(0)
+new =PdfFileReader(packet) #generated pdf
+template = PdfFileReader(file(&amp;quot;template.pdf&amp;quot;, &amp;quot;rb&amp;quot;)) #template pdf
+output=PdfFileWriter() #writer for the merged pdf
+for i in range(new.getNumPages()):
+    page=template.getPage(i)
+    page.mergePage(new.getPage(i))
+    output.addPage(page)
+
+outputStream = StringIO.StringIO()
+output.write(outputStream) #write merged output to the StringIO object
+
+self.response.headers[&amp;#39;Content-Type&amp;#39;] = &amp;#39;application/pdf&amp;#39;
+fname = (will.name if mirror==&amp;#39;n&amp;#39; else will.partner)
+self.response.headers[&amp;#39;Content-Disposition&amp;#39;] = &amp;#39;attachment; filename=&amp;#39; + str(fname).replace(&amp;#39; &amp;#39;,&amp;#39;_&amp;#39;) + &amp;#39;.pdf&amp;#39;
+self.response.write(outputStream.getvalue())
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Remember to add and include the below libraries before you do this:&lt;/p&gt;
+&lt;p&gt;&lt;code&gt;{lang="python"}
+import StringIO
+import xhtml2pdf.pisa as pisa
+from pyPdf import PdfFileWriter,PdfFileReader
+from reportlab.pdfgen import canvas
+from reportlab.lib.pagesizes import A4
+from reportlab.pdfbase import pdfmetrics,ttfonts&lt;/code&gt;&lt;/p&gt;
+&lt;address&gt;
+References:
+
+&lt;/address&gt;
+
+&lt;address&gt;
+&lt;https://developers.google.com/appengine/docs/python/datastore/&gt;
+
+&lt;/address&gt;
+
+&lt;address&gt;
+&lt;http://www.reportlab.com/software/documentation/&gt;
+
+&lt;/address&gt;
+
+&lt;address&gt;
+&lt;http://www.xhtml2pdf.com/&gt;
+
+&lt;/address&gt;
+
+&lt;address&gt;
+&lt;https://pypi.python.org/pypi/pyPdf&gt;
+
+&lt;/address&gt;
+
+&lt;address&gt;
+&lt;http://stackoverflow.com/questions/4899885/how-to-set-any-font-in-reportlab-canvas-in-python&gt;
+
+&lt;/address&gt;
+
+&lt;address&gt;
+&lt;http://stackoverflow.com/questions/13522638/paginating-in-pisa-xhtml2pdf-just-repeats-last-page&gt;
+
+&lt;/address&gt;
+
+&lt;address&gt;
+&lt;http://docs.python.org/library/stringio.html&gt;
+
+&lt;/address&gt;
+
+&lt;address&gt;
+
+&lt;/address&gt;</content></entry><entry><title>3 Steps to integrate barcode scanning in your Android app</title><link href="/blog/2013/11/three-steps-to-integrate-barcode-scanning-in-your-android-app.html" rel="alternate"></link><published>2013-11-24T14:50:00+05:30</published><updated>2013-11-24T14:50:00+05:30</updated><author><name>Prahlad Yeri</name></author><id>tag:None,2013-11-24:/blog/2013/11/three-steps-to-integrate-barcode-scanning-in-your-android-app.html</id><summary type="html">&lt;p&gt;Whilst barcode scanning is a pretty complex and non-trivial task in itself, it could be overwhelming sometimes with android programming. Lucky for us, there exists an opensource project called &lt;a href="https://github.com/zxing/zxing"&gt;&lt;em&gt;ZXing (pronounced Zebra-crossing)&lt;/em&gt;&lt;/a&gt; that solves this problem for us.&lt;!--more--&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="/uploads/old/barcode.png"&gt;&lt;img alt="Barcode" class="wp-image-152 alignnone" height="77" src="/uploads/old/barcode.png" width="108"&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;The ZXing project has already done the heavy lifting by programming the …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Whilst barcode scanning is a pretty complex and non-trivial task in itself, it could be overwhelming sometimes with android programming. Lucky for us, there exists an opensource project called &lt;a href="https://github.com/zxing/zxing"&gt;&lt;em&gt;ZXing (pronounced Zebra-crossing)&lt;/em&gt;&lt;/a&gt; that solves this problem for us.&lt;!--more--&gt;&lt;/p&gt;
+&lt;p&gt;&lt;a href="/uploads/old/barcode.png"&gt;&lt;img alt="Barcode" class="wp-image-152 alignnone" height="77" src="/uploads/old/barcode.png" width="108"&gt;&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;The ZXing project has already done the heavy lifting by programming the core java components required to scan a 1d/2d barcode or even a PR-code in the form of a &lt;a href="https://play.google.com/store/apps/details?id=com.google.zxing.client.android"&gt;Google-play app&lt;/a&gt;. All you have to do is send an intent to this app and receive the scanned results that you may use in your app.&lt;/p&gt;
+&lt;p&gt;The ZXing project is Apache licensed, so it is free to use without any kind of restrictions. Follow these steps to integrate ZXing with your app:&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;Step 1:&lt;/em&gt;&lt;/strong&gt; Download the source for IntentIntegrator.java and IntentResult.java from &lt;a href="http://code.google.com/p/zxing/source/browse/trunk#trunk%2Fandroid-integration%2Fsrc%2Fmain%2Fjava%2Fcom%2Fgoogle%2Fzxing%2Fintegration%2Fandroid"&gt;here&lt;/a&gt; and add the files to your android project sources.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;Step 2:&lt;/em&gt;&lt;/strong&gt; Start an intent in that part of your code where you would like to initiate the barcode scanning (such as a menu handler):&lt;/p&gt;
+&lt;p&gt;``` {lang="java"}
+IntentIntegrator integrator = new IntentIntegrator(yourActivity);
+integrator.initiateScan();&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="o"&gt;***&lt;/span&gt;&lt;span class="nt"&gt;Step&lt;/span&gt; &lt;span class="nt"&gt;3&lt;/span&gt;&lt;span class="o"&gt;:***&lt;/span&gt; &lt;span class="nt"&gt;All&lt;/span&gt; &lt;span class="nt"&gt;that&lt;/span&gt; &lt;span class="nt"&gt;remains&lt;/span&gt; &lt;span class="nt"&gt;now&lt;/span&gt; &lt;span class="nt"&gt;is&lt;/span&gt; &lt;span class="nt"&gt;to&lt;/span&gt; &lt;span class="nt"&gt;handle&lt;/span&gt; &lt;span class="nt"&gt;the&lt;/span&gt; &lt;span class="nt"&gt;result&lt;/span&gt; &lt;span class="nt"&gt;of&lt;/span&gt; &lt;span class="nt"&gt;this&lt;/span&gt; &lt;span class="nt"&gt;activity&lt;/span&gt; &lt;span class="nt"&gt;in&lt;/span&gt; &lt;span class="nt"&gt;your&lt;/span&gt; &lt;span class="nt"&gt;onActivityResult&lt;/span&gt;&lt;span class="o"&gt;()&lt;/span&gt; &lt;span class="nt"&gt;handler&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt; &lt;span class="nt"&gt;This&lt;/span&gt; &lt;span class="nt"&gt;is&lt;/span&gt; &lt;span class="nt"&gt;how&lt;/span&gt; &lt;span class="nt"&gt;I&lt;/span&gt; &lt;span class="nt"&gt;did&lt;/span&gt; &lt;span class="nt"&gt;it&lt;/span&gt; &lt;span class="nt"&gt;in&lt;/span&gt; &lt;span class="nt"&gt;my&lt;/span&gt; &lt;span class="nt"&gt;code&lt;/span&gt;&lt;span class="o"&gt;:&lt;/span&gt;
+
+&lt;span class="err"&gt;```&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;&lt;span class="err"&gt;lang=&amp;quot;java&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="nt"&gt;if&lt;/span&gt; &lt;span class="o"&gt;(&lt;/span&gt;&lt;span class="nt"&gt;requestCode&lt;/span&gt;&lt;span class="o"&gt;==&lt;/span&gt;&lt;span class="nt"&gt;IntentIntegrator&lt;/span&gt;&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nc"&gt;REQUEST_CODE&lt;/span&gt;&lt;span class="o"&gt;)&lt;/span&gt;
+&lt;span class="p"&gt;{&lt;/span&gt;
+    &lt;span class="err"&gt;IntentResult&lt;/span&gt; &lt;span class="err"&gt;scanResult&lt;/span&gt; &lt;span class="err"&gt;=&lt;/span&gt; &lt;span class="err"&gt;IntentIntegrator.parseActivityResult(requestCode,&lt;/span&gt; &lt;span class="err"&gt;resultCode,&lt;/span&gt; &lt;span class="err"&gt;data)&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+    &lt;span class="err"&gt;if&lt;/span&gt; &lt;span class="err"&gt;(scanResult&lt;/span&gt; &lt;span class="err"&gt;!=&lt;/span&gt; &lt;span class="err"&gt;null)&lt;/span&gt;
+    &lt;span class="err"&gt;{&lt;/span&gt;
+        &lt;span class="err"&gt;//&lt;/span&gt; &lt;span class="err"&gt;handle&lt;/span&gt; &lt;span class="err"&gt;scan&lt;/span&gt; &lt;span class="err"&gt;result&lt;/span&gt;
+        &lt;span class="err"&gt;//MessageBox.run(this,&lt;/span&gt; &lt;span class="err"&gt;&amp;quot;&amp;quot;,&lt;/span&gt; &lt;span class="err"&gt;&amp;quot;toString()&lt;/span&gt; &lt;span class="n"&gt;returns&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot; + scanResult.toString());&lt;/span&gt;
+&lt;span class="s2"&gt;    }&lt;/span&gt;
+&lt;span class="s2"&gt;    else&lt;/span&gt;
+&lt;span class="s2"&gt;    {&lt;/span&gt;
+&lt;span class="s2"&gt;        // else continue with any other code you need in the method&lt;/span&gt;
+&lt;span class="s2"&gt;        MessageBox.run(this, &amp;quot;&amp;quot;, &amp;quot;&lt;/span&gt;&lt;span class="n"&gt;scanResult&lt;/span&gt; &lt;span class="n"&gt;is&lt;/span&gt; &lt;span class="n"&gt;null&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="err"&gt;&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;);&lt;/span&gt;
+    &lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="err"&gt;}&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;That`s all! The above code not only returns the barcode scanning result to your app, but even prompts the user to install a barcode scanner app in case one isn't there. This is the easiest and recommended way of integrating barcode scanning in your android app.&lt;/p&gt;
+&lt;p&gt;In case you want to embed the entire ZXing component in your app and don't want to install an app separately for it, refer to the relevant links in the references section. However, this method is not recommended as your app won't get the updates from ZXing.&lt;/p&gt;
+&lt;address&gt;
+References:
+
+&lt;/address&gt;
+
+&lt;address&gt;
+&lt;http://stackoverflow.com/questions/11205183/integrating-zxing-barcode-scanner?rq=1&gt;
+
+&lt;/address&gt;
+
+&lt;address&gt;
+&lt;http://stackoverflow.com/questions/4854442/embed-zxing-library-without-using-barcode-scanner-app/4854637#4854637&gt;
+
+&lt;/address&gt;
+
+&lt;address&gt;
+&lt;http://stackoverflow.com/questions/16433860/how-to-use-zxing-library-wihtout-installing-barcodescanner-app&gt;
+
+&lt;/address&gt;
+
+&lt;address&gt;
+&lt;https://github.com/zxing/zxing&gt;
+
+&lt;/address&gt;
+
+&lt;address&gt;
+&lt;http://code.google.com/p/zxing/wiki/ScanningViaIntent&gt;
+
+&lt;/address&gt;
+
+&lt;address&gt;
+
+&lt;/address&gt;</content></entry><entry><title>Some Wordpress tips and tricks</title><link href="/blog/2013/11/some-wordpress-tips-and-tricks.html" rel="alternate"></link><published>2013-11-23T12:19:00+05:30</published><updated>2013-11-23T12:19:00+05:30</updated><author><name>Prahlad Yeri</name></author><id>tag:None,2013-11-23:/blog/2013/11/some-wordpress-tips-and-tricks.html</id><summary type="html">&lt;p&gt;Wordpress is a universally recognized and robust blogging platform written in the PHP language. Below are a bunch of Wordpress tricks that I've learned during my deployments, and I'd like to share with you.&lt;!--more--&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;1. Change breadcrumbs to start from "Home" instead of \&amp;lt;Site-Title&gt;&lt;/em&gt;&lt;/strong&gt; (Works for Mantra theme): When I …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Wordpress is a universally recognized and robust blogging platform written in the PHP language. Below are a bunch of Wordpress tricks that I've learned during my deployments, and I'd like to share with you.&lt;!--more--&gt;&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;1. Change breadcrumbs to start from "Home" instead of \&amp;lt;Site-Title&gt;&lt;/em&gt;&lt;/strong&gt; (Works for Mantra theme): When I set up this site, the breadcrumbs in the post used to read like this:&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://www.prahladyeri.com/"&gt;Prahlad Yeri » &lt;/a&gt;&lt;a href="http://www.prahladyeri.com/category/wordpress/"&gt;wordpress » &lt;/a&gt;WordPress installation quick-start guide&lt;/p&gt;
+&lt;p&gt;However, I wanted it to look like this:&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://www.prahladyeri.com/"&gt;Home » &lt;/a&gt;&lt;a href="http://www.prahladyeri.com/category/wordpress/"&gt;wordpress » &lt;/a&gt;WordPress installation quick-start guide&lt;/p&gt;
+&lt;p&gt;In order to do that, you need to look into your theme-functions.php file and see where wordpress is echoing your breadcrumbs. In the mantra theme, I found this in the function mantra_breadcrumbs(). So accordingly, I changed get_bloginfo('name') and hard-coded it to 'Home':&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;//changed by prahlad
+//echo &amp;#39;&lt;span class="nt"&gt;&amp;lt;a&lt;/span&gt; &lt;span class="na"&gt;href=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;&amp;#39;.get_bloginfo(&amp;#39;url&amp;#39;).&amp;#39;&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;&amp;#39;.get_bloginfo(&amp;#39;name&amp;#39;).&amp;#39; &lt;span class="ni"&gt;&amp;amp;raquo;&lt;/span&gt; &lt;span class="nt"&gt;&amp;lt;/a&amp;gt;&lt;/span&gt;&amp;#39;; 
+echo &amp;#39;&lt;span class="nt"&gt;&amp;lt;a&lt;/span&gt; &lt;span class="na"&gt;href=&lt;/span&gt;&lt;span class="s"&gt;&amp;quot;&amp;#39;.get_bloginfo(&amp;#39;url&amp;#39;).&amp;#39;&amp;quot;&lt;/span&gt;&lt;span class="nt"&gt;&amp;gt;&lt;/span&gt;&amp;#39;.&amp;#39;Home&amp;#39;.&amp;#39; &lt;span class="ni"&gt;&amp;amp;raquo;&lt;/span&gt; &lt;span class="nt"&gt;&amp;lt;/a&amp;gt;&lt;/span&gt;&amp;#39;;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;You have to do this at multiple places in the mantra_breadcrumbs() (or your theme's equivalent function) wherever get_bloginfo('name') is used and replace it with 'Home'.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;2. How to crop off the big page-title that appears on top of pages:&lt;/em&gt; &lt;/strong&gt;This is a nice little css trick.  Just open your theme's style.css and switch off the display for "entry-title" class elements within the "page" class elements. This will hide the page titles only on page-titles (and not posts!):&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="c"&gt;/*start: prahlad - used to hide post-titles on all pages (not posts)*/&lt;/span&gt;
+&lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nc"&gt;page&lt;/span&gt; &lt;span class="p"&gt;.&lt;/span&gt;&lt;span class="nc"&gt;entry-title&lt;/span&gt; &lt;span class="p"&gt;{&lt;/span&gt;
+ &lt;span class="k"&gt;display&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="kc"&gt;none&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt;
+&lt;span class="p"&gt;}&lt;/span&gt;
+&lt;span class="c"&gt;/*end: prahlad*/&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;If you notice that some whitespace is still left on top of the page, you can try some of these modifiers:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="na"&gt;.site-header&lt;/span&gt; &lt;span class="err"&gt;{&lt;/span&gt;
+ &lt;span class="nl"&gt;padding-bottom:&lt;/span&gt; &lt;span class="err"&gt;0&lt;/span&gt;&lt;span class="c"&gt;;&lt;/span&gt;
+&lt;span class="err"&gt;}&lt;/span&gt;
+
+&lt;span class="na"&gt;.site-content&lt;/span&gt; &lt;span class="err"&gt;{&lt;/span&gt;
+ &lt;span class="nl"&gt;margin-top:&lt;/span&gt; &lt;span class="err"&gt;0&lt;/span&gt;&lt;span class="c"&gt;;&lt;/span&gt;
+&lt;span class="err"&gt;}&lt;/span&gt;
+
+&lt;span class="err"&gt;/*&lt;/span&gt;&lt;span class="c"&gt;#content {&lt;/span&gt;
+ &lt;span class="nl"&gt;margin-top:&lt;/span&gt; &lt;span class="err"&gt;-20&lt;/span&gt;&lt;span class="nf"&gt;px&lt;/span&gt;&lt;span class="c"&gt;;&lt;/span&gt;
+&lt;span class="err"&gt;}*/&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;3. How to add a contact-form to your post or page:&lt;/em&gt;&lt;/strong&gt;  In order to do that you need a Contact-Form plugin. The most popular and well-maintained plugin at that is "Contact-Forms 7":&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://wordpress.org/plugins/contact-form-7/"&gt;http://wordpress.org/plugins/contact-form-7/&lt;/a&gt;&lt;/p&gt;
+&lt;p&gt;This is a pretty decent form plugin that, from a single line of short-code (in your page or post), creates a basic all-purpose contact-form such as this:&lt;/p&gt;
+&lt;p&gt;[caption id="attachment_120" align="alignnone" width="300"]&lt;a href="/uploads/old/Contact-Forms-7.png"&gt;&lt;img alt="Page created with Contact Forms 7" class="size-medium wp-image-120" height="164" src="/uploads/old/Contact-Forms-7-300x164.png" width="300"&gt;&lt;/a&gt; Page created with Contact Forms 7[/caption]&lt;/p&gt;
+&lt;p&gt;When you install this plugin, you will see an additional "Contact" tab in your dashboard. When you click that, you will see a default form with a short-code like this:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;[contact-form-7 id=&amp;quot;116&amp;quot; title=&amp;quot;Contact form 1&amp;quot;]
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;You can copy-paste this short-code anywhere in the editor for your page or post. For this site's contact page, it looked something like this:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;[contact-form-7 id=&amp;quot;116&amp;quot; title=&amp;quot;Contact form 1&amp;quot;]
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;By default, the information in the text-fields are mailed to the admin user's email-address when a user submits this form. You can change all this by editing the default form that you find in the "Contact" tab of your dashboard. You can add/remove the text-fields, add validation and much &lt;a href="http://contactform7.com/tag-syntax/"&gt;more&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Another plugin that works in combination with this is the &lt;a href="http://wordpress.org/plugins/flamingo"&gt;flamingo plugin&lt;/a&gt;. It is useful in case you want to store the contact information in the wordpress database in addition to getting it mailed to your email address.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;4: Change the footer notices (such as "Powered by Wordpress", etc..):&lt;/em&gt;&lt;/strong&gt; Just open your footer.php from editor and try to find a snippet such as this:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nx"&gt;footer&lt;/span&gt; &lt;span class="nx"&gt;id&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;colophon&amp;quot;&lt;/span&gt; &lt;span class="nx"&gt;role&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;contentinfo&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+ &lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="nx"&gt;div&lt;/span&gt; &lt;span class="kr"&gt;class&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;site-info&amp;quot;&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+ &lt;span class="cp"&gt;&amp;lt;?php&lt;/span&gt; &lt;span class="nx"&gt;do_action&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;twentytwelve_credits&amp;#39;&lt;/span&gt; &lt;span class="p"&gt;);&lt;/span&gt; &lt;span class="cp"&gt;?&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Change it accordingly to suit your needs.&lt;/p&gt;
+&lt;p&gt;&lt;strong&gt;&lt;em&gt;References:&lt;/em&gt;&lt;/strong&gt;&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;http://www.cryoutcreations.eu/forums/t/breadcrumbs-how-to-show-home-instead-of-site-title-in-the-breadcrumbs&lt;/li&gt;
+&lt;li&gt;http://wordpress.org/plugins/contact-form-7/&lt;/li&gt;
+&lt;li&gt;http://www.wpsquared.com/top-10-wordpress-contact-form-plugins/&lt;/li&gt;
+&lt;li&gt;http://wordpress.org/support/topic/plugin-contact-form-7-16?replies=5&lt;/li&gt;
+&lt;li&gt;http://contactform7.com/text-fields/&lt;/li&gt;
+&lt;li&gt;http://contactform7.com/tag-syntax/&lt;/li&gt;
+&lt;/ul&gt;</content></entry></feed>

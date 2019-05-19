@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="english">
+<head>
+        <meta charset="utf-8" />
+        <title>How to create a Google Drive App in PHP</title>
+        <link rel="stylesheet" href="/theme/css/main.css" />
+        <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Prahlad Yeri - Freelance Programmer Atom Feed" />
+</head>
+
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <h1><a href="/">Prahlad Yeri - Freelance Programmer </a></h1>
+                <nav><ul>
+				<li><a href="/">Home</a></li> <!--hard coded-->
+                    <li><a href="/about">About</a></li>
+                    <li><a href="/projects">Projects</a></li>
+                    <li><a href="/hire-me">Hire Me</a></li>
+                </ul></nav>
+        </header><!-- /#banner -->
+<section id="content" class="body">
+  <article>
+    <header>
+      <h1 class="entry-title">
+        <a href="/blog/2017/01/how-to-create-google-drive-app-php.html" rel="bookmark"
+           title="Permalink to How to create a Google Drive App in PHP">How to create a Google Drive App in PHP</a></h1>
+<a href="https://twitter.com/share" class="twitter-share-button" data-count="horizontal" data-via="prahladyeri">Tweet</a><script type="text/javascript" src="https://platform.twitter.com/widgets.js"></script>
+    </header>
+
+    <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2017-01-02T04:21:00+05:30">
+                Published: Mon 02 January 2017
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="/author/prahlad-yeri.html">Prahlad Yeri</a>
+        </address>
+<p>In <a href="/category/php.html">PHP</a>.</p>
+<p>tags: <a href="/tag/google-drive.html">Google Drive</a> <a href="/tag/php.html">PHP</a> </p>
+</footer><!-- /.post-info -->      <p>This is the second article in the drive series for web programmers that aims to explain how to use the Google Drive API in your web applications to access files/folders on behalf of your logged-in users.<!--more--></p>
+<p>One of the basic tasks here is to authenticate to google and access the drive on the user’s behalf once they grant permission to your app. This method of authentication is called <a href="https://en.wikipedia.org/wiki/OAuth">OAuth</a> and is very much needed for implementing the drive api.</p>
+<p>However, a good documentation to implement this in a backend app, especially a php app is very much lacking. The so called <a href="https://developers.google.com/drive/v3/web/quickstart/php">quickstart for drive api</a> and the web based example <a href="https://developers.google.com/api-client-library/php/auth/web-app">here</a> show some example code, but what a lot of beginner programmers need is a step-by-step tutorial of how to go about doing it.</p>
+<h3>I: Register a google app by visiting the <a href="https://console.developers.google.com/">Google API console</a>:</h3>
+<p>The way the latest version (V3) of drive API works is only through OAuth. It means you cannot put a password or API key inside your code and access the drive files. You need to register your backend app and generate OAuth credentials for the app, so that it can access the drive on the user’s behalf once the user grants permission to the app. So the first step is going to the <a href="https://console.developers.google.com/">Google API console</a>, registering the app itself and generating OAuth credentials. The registration process is pretty straightforward, we just select “Create Project” from the dropdown and give a nice name for the project such as <code class="highlighter-rouge">Drive Example App</code> in our case.</p>
+<p><img alt="Register Google App" src="/uploads/old/google-apis/drive_api_steps.png"></p>
+<h3 id="ii-configure-the-credentials-and-download-the-client_idjson-file">II: Configure the credentials and download the client_id.json file:</h3>
+<p>This is the credential file that validates to Google who you are (as a developer) and also your app that acts on your behalf. Download and save it as <code class="highlighter-rouge">client_id.json</code> in the same directory as your app.</p>
+<p><img alt="Configure Credentials" src="/uploads/old/google-apis/configuration_steps_generic1.png"></p>
+<h3>III: Write your back-end app:</h3>
+<p>First of all, you have to add the dependency of google-api php library to your project. If you are using composer, all you need to do is add this package to the composer.json:</p>
+<p>::: {.highlighter-rouge}</p>
+<div class="highlight"><pre><span></span>&quot;require&quot;: {
+  &quot;google/apiclient&quot;: &quot;^2.0&quot;
+}
+</pre></div>
+
+
+<p>:::</p>
+<p>If you don’t use composer, you can just download the latest version of library from <a href="https://github.com/google/google-api-php-client">their repo</a>, and just <code class="highlighter-rouge">require_once</code> it in your code like this:</p>
+<p>::: {.highlighter-rouge}</p>
+<div class="highlight"><pre><span></span>require_once &#39;/path/to/google-api-php-client/vendor/autoload.php&#39;;
+</pre></div>
+
+
+<p>:::</p>
+<p>You can follow this pattern for any kind of php project, be it based on Symfony, Laravel, CodeIgniter or even a pure php project. But this tutorial and code example is based on a pure php project.</p>
+<p>The first thing to do now is to handle the home page url (index.php).</p>
+<figure class="highlight">
+    $client = new Google_Client();
+    $client->setAuthConfig('client_id.json');
+    $client->addScope(Google_Service_Drive::DRIVE);
+
+    if (file_exists("credentials.json")) {
+        $access_token = (file_get_contents("credentials.json"));
+        $client->setAccessToken($access_token);
+        //Refresh the token if it's expired.
+        if ($client->isAccessTokenExpired()) {
+            $client->fetchAccessTokenWithRefreshToken($client->getRefreshToken());
+            file_put_contents($credentialsPath, json_encode($client->getAccessToken()));
+        }
+        $drive_service = new Google_Service_Drive($client);
+        $files_list = $drive_service->files->listFiles(array())->getFiles(); 
+        echo json_encode($files_list);
+    } else {
+      $redirect_uri = 'http://' . $_SERVER['HTTP_HOST'] . '/oauth2callback.php';
+      header('Location: ' . filter_var($redirect_uri, FILTER_SANITIZE_URL));
+    }
+
+</figure>
+
+<p>We first check whether we have the drive access credentials for the user locally stored in a file called credentials.json (not to be confused with client_id.json we downloaded earlier which is for developer credentials). Again, we are assuming a single user scenario here. If your drive app needs to authenticate with multiple users, you’ll have to store separate credentials.json for each logged-in user in the database, and access that through a session or something.</p>
+<p>Further, if credentials aren’t found locally, we direct them to <code class="highlighter-rouge">/oauth2callback.php</code>, so google will authenticate them and send us the token for accessing the drive, and after that, we will put that token into the local file, credentials.json and redirect the user back to the index.php. Finally, we call the <code class="highlighter-rouge">listFiles()</code> method that displays the list of all files and folders in that user’s drive. Here is the code for <code class="highlighter-rouge">oauth2callback.php</code>:</p>
+<figure class="highlight">
+    $client = new Google_Client();
+    $client->setAuthConfigFile('client_id.json');
+    $client->setRedirectUri('http://' . $_SERVER['HTTP_HOST'] . '/oauth2callback.php');
+    $client->addScope(Google_Service_Drive::DRIVE); //::DRIVE_METADATA_READONLY
+
+    if (! isset($_GET['code'])) {
+      $auth_url = $client->createAuthUrl();
+      header('Location: ' . filter_var($auth_url, FILTER_SANITIZE_URL));
+    } else {
+      $client->authenticate($_GET['code']);
+      $access_token = $client->getAccessToken();
+      file_put_contents("credentials.json", json_encode($access_token));
+
+      $redirect_uri = 'http://' . $_SERVER['HTTP_HOST'] . '/';
+      header('Location: ' . filter_var($redirect_uri, FILTER_SANITIZE_URL));
+    }
+
+</figure>
+
+<p>Once you have the credentials locally (in the form of <code class="highlighter-rouge">credentials.json</code>), you can just use it to access the drive API. Thus, the result of this whole exercise is that only on first page load is the user redirected to google site to authenticate themselves. Once the app has the access token (credentials.json), its no longer required, the drive can be accessed directly by the app from then on. If all goes well, you should be able to see a screen such as this when you test this example app for the first time:</p>
+<p><img alt="Google OAuth Screen" src="/uploads/old/google-apis/oauth_screen_generic.png"></p>
+<p>I’ll leave the more comprehensive use of this API as an exercise to the reader who wants to develop a more fully featured app out of this. Click the below link to download the source for this example implementation from the Github repo:</p>
+<p><a class="btn btn-md btn-success" href="https://github.com/prahladyeri/php-drive-example/"> php_drive_example</a></p>
+<p>Note:</p>
+<p>If you are getting an SSL certificate error while testing this on Windows, have a look at <a href="http://stackoverflow.com/questions/29822686/curl-error-60-ssl-certificate-unable-to-get-local-issuer-certificate">this</a>.</p>
+    </div><!-- /.entry-content -->
+
+  </article>
+</section>
+        <section id="extras" class="body">
+                <div class="blogroll">
+                        <h2>links</h2>
+                        <ul>
+                            <li><a href="mailto:prahladyeri@yahoo.com">Email</a></li>
+                            <li><a href="https://github.com/prahladyeri/">Github</a></li>
+                            <li><a href="https://stackoverflow.com/users/849365/prahlad-yeri/">StackOverflow</a></li>
+                            <li><a href="https://www.quora.com/profile/Prahlad-Yeri-%E0%A4%AA%E0%A5%8D%E0%A4%B0%E0%A4%B9%E0%A5%8D%E0%A4%B2%E0%A4%BE%E0%A4%A6-%E0%A4%AF%E0%A5%87%E0%A4%B0%E0%A5%80">Quora</a></li>
+                            <li><a href="https://mastodon.social/@prahladyeri">Mastodon.Social</a></li>
+                            <li><a href="https://www.blogger.com/profile/12769325975373447545">Blogger</a></li>
+                        </ul>
+                </div><!-- /.blogroll -->
+                <div class="social">
+                        <h2>social</h2>
+                        <ul>
+                            <li><a href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
+
+                            <li><a href="https://www.linkedin.com/in/prahlad-yeri-243a5316">Linkedin</a></li>
+                            <li><a href="https://www.facebook.com/prahladyeri14">Facebook</a></li>
+                            <li><a href="https://twitter.com/prahladyeri">Twitter</a></li>
+                        </ul>
+                </div><!-- /.social -->
+        </section><!-- /#extras -->
+
+        <footer id="contentinfo" class="body">
+                <address id="about" class="vcard body">
+                Copyright (c) 2013-2019 <a href="/">Prahlad Yeri</a>.
+				<br>
+				This work is licensed under a [Creative Commons Attribution 4.0 International License](http://creativecommons.org/licenses/by/4.0/).
+                </address><!-- /#about -->
+        </footer><!-- /#contentinfo -->
+
+<script type="text/javascript">
+    var disqus_shortname = 'https://prahladyeri-blog.disqus.com';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = 'https://' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+</body>
+</html>

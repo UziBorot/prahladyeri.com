@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="english">
+<head>
+        <meta charset="utf-8" />
+        <title>How to make your ubuntu machine thank you for its battery life!</title>
+        <link rel="stylesheet" href="/theme/css/main.css" />
+        <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Prahlad Yeri - Freelance Programmer Atom Feed" />
+</head>
+
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <h1><a href="/">Prahlad Yeri - Freelance Programmer </a></h1>
+                <nav><ul>
+				<li><a href="/">Home</a></li> <!--hard coded-->
+                    <li><a href="/about">About</a></li>
+                    <li><a href="/projects">Projects</a></li>
+                    <li><a href="/hire-me">Hire Me</a></li>
+                </ul></nav>
+        </header><!-- /#banner -->
+<section id="content" class="body">
+  <article>
+    <header>
+      <h1 class="entry-title">
+        <a href="/blog/2014/04/how-to-make-your-ubuntu-machine-thank-you-for-its-battery-life.html" rel="bookmark"
+           title="Permalink to How to make your ubuntu machine thank you for its battery life!">How to make your ubuntu machine thank you for its battery life!</a></h1>
+<a href="https://twitter.com/share" class="twitter-share-button" data-count="horizontal" data-via="prahladyeri">Tweet</a><script type="text/javascript" src="https://platform.twitter.com/widgets.js"></script>
+    </header>
+
+    <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2014-04-21T04:18:00+05:30">
+                Published: Mon 21 April 2014
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="/author/prahlad-yeri.html">Prahlad Yeri</a>
+        </address>
+<p>In <a href="/category/uncategorized.html">Uncategorized</a>.</p>
+
+</footer><!-- /.post-info -->      <p>Ever since I bought my Toshiba Dual-core Notebook and installed ubuntu on it, I was disappointed by the fact that how quickly it used to heat up and the battery started draining. Add to the equation, the Indian summer of 40 degrees Celsius plus, and you soon have your fans crying with agony.<!--more--></p>
+<p>Of course,  the Toshiba CD comes with all the bells and whistles for power saving, but thats only for the Windows users, what about us Linuxers? After some <a href="http://www.noobslab.com/2013/10/enable-laptop-mode-and-other-tweaks-to.html">research</a>, I came to know about some tweaks I can perform on my ubuntu system so that my laptop not only heats less, but also gets its battery life expanded!</p>
+<p>The fact is that one of the most power hungry component of your machine is the CPU (apart from your LCD/screen). Assuming that you are already sane enough not to keep your screen brightness at its max, here is an important tweak that you may perform to prolong the life of your battery. If you are having any issues with your CPU fan making a lot of <a href="http://lifehacker.com/5813003/how-can-i-quiet-a-noisy-computer-fan">noise</a>, this will help with that issue too, (since by lowering your CPU consumption you will make your fan work less).</p>
+<p><a href="http://www.prahladyeri.com/uploads/2014/04/indicator-cpufreq.png"><img alt="indicator-cpufreq - An ubuntu app" class="size-full wp-image-2524" height="221" src="/uploads/old/indicator-cpufreq.png" width="173"></a></p>
+<p><em>indicator-cpufreq - An ubuntu app</em></p>
+<p>This small wonder of an app can be installed on ubuntu by issuing "<strong><em>sudo apt-get install indicator-cpufreq</em></strong>".</p>
+<p>Once it is installed just add the command "indicator-cpufreq" to your startup applications, and you will see the above applet in your ubuntu system tray! You may now choose to set your CPU scaling mode to "Powersave" whenever you are performing any less cpu-intensive task (like most of us) such as editing a Libreoffice document or a spreadsheet. On the other hand, you may occasionally set the scaling mode to "Performance" when you are doing some cpu-intensive task such as playing a 3D game.</p>
+<p>By default, the applet starts in "<strong>Ondemand</strong>" mode. To, set the default to "<strong>Powersave</strong>", all you have to do is make a small edit to script <em>/etc/init.d/ondemand</em> as follows:</p>
+<div class="highlight"><pre><span></span>    ....
+    <span class="k">for</span> CPUFREQ in /sys/devices/system/cpu/cpu*/cpufreq/scaling_governor
+    <span class="k">do</span>
+        <span class="o">[</span> -f <span class="nv">$CPUFREQ</span> <span class="o">]</span> <span class="o">||</span> <span class="k">continue</span>
+        <span class="c1">#changed by Prahlad from ondemand to powersave</span>
+        <span class="nb">echo</span> -n powersave &gt; <span class="nv">$CPUFREQ</span>
+    <span class="k">done</span>
+    ....
+</pre></div>
+
+
+<p>Take this small step (if you already haven't) and see how your battery life prolongs, as your electricity bill falls!!</p>
+<address>
+**References:**
+
+</address>
+
+<ol>
+<li><address>
+    http://www.noobslab.com/2013/10/enable-laptop-mode-and-other-tweaks-to.html
+    </address></li>
+<li><address>
+    http://askubuntu.com/questions/223250/how-to-tweak-powertop-to-reduce-power-consumption?rq=1
+    </address></li>
+<li><address>
+    http://lifehacker.com/5866009/control-your-computers-fan-speeds-for-better-performance-when-you-need-it-silence-when-you-dont
+    </address></li>
+<li><address>
+    http://lifehacker.com/5813003/how-can-i-quiet-a-noisy-computer-fan
+    </address></li>
+<li><address>
+    https://bugs.launchpad.net/indicator-cpufreq/+bug/1082868
+    </address></li>
+</ol>
+    </div><!-- /.entry-content -->
+
+  </article>
+</section>
+        <section id="extras" class="body">
+                <div class="blogroll">
+                        <h2>links</h2>
+                        <ul>
+                            <li><a href="mailto:prahladyeri@yahoo.com">Email</a></li>
+                            <li><a href="https://github.com/prahladyeri/">Github</a></li>
+                            <li><a href="https://stackoverflow.com/users/849365/prahlad-yeri/">StackOverflow</a></li>
+                            <li><a href="https://www.quora.com/profile/Prahlad-Yeri-%E0%A4%AA%E0%A5%8D%E0%A4%B0%E0%A4%B9%E0%A5%8D%E0%A4%B2%E0%A4%BE%E0%A4%A6-%E0%A4%AF%E0%A5%87%E0%A4%B0%E0%A5%80">Quora</a></li>
+                            <li><a href="https://mastodon.social/@prahladyeri">Mastodon.Social</a></li>
+                            <li><a href="https://www.blogger.com/profile/12769325975373447545">Blogger</a></li>
+                        </ul>
+                </div><!-- /.blogroll -->
+                <div class="social">
+                        <h2>social</h2>
+                        <ul>
+                            <li><a href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
+
+                            <li><a href="https://www.linkedin.com/in/prahlad-yeri-243a5316">Linkedin</a></li>
+                            <li><a href="https://www.facebook.com/prahladyeri14">Facebook</a></li>
+                            <li><a href="https://twitter.com/prahladyeri">Twitter</a></li>
+                        </ul>
+                </div><!-- /.social -->
+        </section><!-- /#extras -->
+
+        <footer id="contentinfo" class="body">
+                <address id="about" class="vcard body">
+                Copyright (c) 2013-2019 <a href="/">Prahlad Yeri</a>.
+				<br>
+				This work is licensed under a [Creative Commons Attribution 4.0 International License](http://creativecommons.org/licenses/by/4.0/).
+                </address><!-- /#about -->
+        </footer><!-- /#contentinfo -->
+
+<script type="text/javascript">
+    var disqus_shortname = 'https://prahladyeri-blog.disqus.com';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = 'https://' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+</body>
+</html>

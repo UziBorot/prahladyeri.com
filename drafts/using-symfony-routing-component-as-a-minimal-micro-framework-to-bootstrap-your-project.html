@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="english">
+<head>
+        <meta charset="utf-8" />
+        <title>Using Symfony Routing component as a minimal micro framework to bootstrap your project</title>
+        <link rel="stylesheet" href="/theme/css/main.css" />
+        <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Prahlad Yeri - Freelance Programmer Atom Feed" />
+</head>
+
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <h1><a href="/">Prahlad Yeri - Freelance Programmer </a></h1>
+                <nav><ul>
+				<li><a href="/">Home</a></li> <!--hard coded-->
+                    <li><a href="/about">About</a></li>
+                    <li><a href="/projects">Projects</a></li>
+                    <li><a href="/hire-me">Hire Me</a></li>
+                </ul></nav>
+        </header><!-- /#banner -->
+<section id="content" class="body">
+  <article>
+    <header>
+      <h1 class="entry-title">
+        <a href="/drafts/using-symfony-routing-component-as-a-minimal-micro-framework-to-bootstrap-your-project.html" rel="bookmark"
+           title="Permalink to Using Symfony Routing component as a minimal micro framework to bootstrap your project">Using Symfony Routing component as a minimal micro framework to bootstrap your project</a></h1>
+<a href="https://twitter.com/share" class="twitter-share-button" data-count="horizontal" data-via="prahladyeri">Tweet</a><script type="text/javascript" src="https://platform.twitter.com/widgets.js"></script>
+    </header>
+
+    <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2019-02-07T23:10:00+05:30">
+                Published: Thu 07 February 2019
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="/author/prahlad-yeri.html">Prahlad Yeri</a>
+        </address>
+<p>In <a href="/category/php.html">PHP</a>.</p>
+<p>tags: <a href="/tag/php.html">PHP</a> <a href="/tag/symfony.html">Symfony</a> </p>
+</footer><!-- /.post-info -->      <p>The world of PHP frameworks is divided into too complex and opinionated (Laravel, Symfony, Zend, etc.) and too bare bones and opinionated (Fat Free, Slim, Silex, etc.). What most people need is a bare bones micro framework but a non-opinionated one! Something which is small to start with, but is scalable using the lego blocks approach. In the Python world, Flask is one such framework. Its a micro framework, no doubt, but it is scalable enough to build large and complex apps such as Airbnb and Reddit and Netflix.<!--more--></p>
+<p>In the PHP world, the best approach to lego blocks is Symfony components (not the framework itself). In this article, we will learn how to setup a minimal but non-opinionated PHP project using symfony/routing component and a few other useful ones such as symfony/http-foundation, symfony/yaml and symfony/config.</p>
+<p>Firstly, create a source folder for your project and add a simple composer.json file with below contents:</p>
+<div class="highlight"><pre><span></span>{
+&quot;name&quot;: &quot;My Test Project&quot;,
+&quot;description&quot;: &quot;Hello, World&quot;,
+&quot;keywords&quot;: [&quot;learn&quot;, &quot;php&quot;, &quot;web-dev&quot;],
+&quot;license&quot;: &quot;MIT&quot;,
+&quot;authors&quot;: [
+{
+&quot;name&quot;: &quot;Prahlad Yeri&quot;,
+&quot;email&quot;: &quot;prahladyeri@yahoo.com&quot;,
+&quot;role&quot;: &quot;Creator / Main Developer&quot;
+}
+],
+&quot;require&quot;: {
+&quot;php&quot;: &quot;&gt;=7.0.0&quot;
+},
+&quot;autoload&quot;: {
+  &quot;psr-4&quot;: { &quot;PrahladYeri\\TestProject\\&quot;: &quot;app/&quot; }
+}
+}
+</pre></div>
+
+
+<p>Replace project name, description, etc. with whatever you like, save the file and then run the following commands one by one:</p>
+<div class="highlight"><pre><span></span>composer.phar require symfony/routing
+composer.phar require symfony/http-foundation
+composer.phar require symfony/yaml
+composer.phar require symfony/config
+</pre></div>
+
+
+<p>These four are the only components we need to setup a very basic and functional web app. The above commands will add the dependencies to your <strong>./vendor</strong> sub folder, now go check its size. It'll be approximately 2.5 MB, even smaller than CodeIgniter! What you have now is roughly comparable to Flask.</p>
+<p>Let's start writing the app, now. Create a file named <strong>routes.yaml</strong> with below contents:</p>
+<div class="highlight"><pre><span></span><span class="n">foo_route</span><span class="o">:</span>
+  <span class="n">path</span><span class="o">:</span>     <span class="o">/</span><span class="n">foo</span>
+  <span class="n">defaults</span><span class="o">:</span> <span class="o">{</span> <span class="n">controller</span><span class="o">:</span> <span class="s1">&#39;FooController::indexAction&#39;</span> <span class="o">}</span>
+<span class="n">foo_placeholder_route</span><span class="o">:</span>
+  <span class="n">path</span><span class="o">:</span> <span class="sr">/foo/</span><span class="o">{</span><span class="n">id</span><span class="o">}</span>
+  <span class="n">defaults</span><span class="o">:</span> <span class="o">{</span> <span class="n">controller</span><span class="o">:</span> <span class="s1">&#39;FooController::loadAction&#39;</span> <span class="o">}</span>
+  <span class="n">requirements</span><span class="o">:</span>
+    <span class="n">id</span><span class="o">:</span> <span class="s1">&#39;[0-9]+&#39;</span>
+</pre></div>
+
+
+<p>This way is much cleaner as you don't have to clutter your PHP code with routing paths. After that, all that is left is to wire the routes inside a <strong>routes.php</strong> which will bootstrap your app:</p>
+<div class="highlight"><pre><span></span><span class="cp">&lt;?php</span>
+<span class="k">require_once</span> <span class="s1">&#39;./vendor/autoload.php&#39;</span><span class="p">;</span>
+
+<span class="k">use</span> <span class="nx">Symfony\Component\Routing\RequestContext</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Symfony\Component\Routing\Router</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Symfony\Component\HttpFoundation\Request</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Symfony\Component\Routing\Generator\UrlGenerator</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Symfony\Component\Config\FileLocator</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Symfony\Component\Routing\Loader\YamlFileLoader</span><span class="p">;</span>
+<span class="k">use</span> <span class="nx">Symfony\Component\Routing\Exception\ResourceNotFoundException</span><span class="p">;</span>
+
+<span class="k">try</span>
+<span class="p">{</span>
+    <span class="nv">$fileLocator</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">FileLocator</span><span class="p">(</span><span class="k">array</span><span class="p">(</span><span class="no">__DIR__</span><span class="p">));</span>
+    <span class="nv">$requestContext</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">RequestContext</span><span class="p">();</span>
+    <span class="nv">$requestContext</span><span class="o">-&gt;</span><span class="na">fromRequest</span><span class="p">(</span><span class="nx">Request</span><span class="o">::</span><span class="na">createFromGlobals</span><span class="p">());</span>
+
+    <span class="nv">$router</span> <span class="o">=</span> <span class="k">new</span> <span class="nx">Router</span><span class="p">(</span>
+        <span class="k">new</span> <span class="nx">YamlFileLoader</span><span class="p">(</span><span class="nv">$fileLocator</span><span class="p">),</span>
+        <span class="s1">&#39;routes.yaml&#39;</span><span class="p">,</span>
+        <span class="k">array</span><span class="p">(</span><span class="s1">&#39;cache_dir&#39;</span> <span class="o">=&gt;</span> <span class="no">__DIR__</span><span class="o">.</span><span class="s1">&#39;/cache&#39;</span><span class="p">),</span>
+        <span class="nv">$requestContext</span>
+    <span class="p">);</span>
+
+    <span class="c1">// Find the current route</span>
+    <span class="nv">$parameters</span> <span class="o">=</span> <span class="nv">$router</span><span class="o">-&gt;</span><span class="na">match</span><span class="p">(</span><span class="nv">$requestContext</span><span class="o">-&gt;</span><span class="na">getPathInfo</span><span class="p">());</span>
+    <span class="nb">print_r</span><span class="p">(</span><span class="nv">$parameters</span><span class="p">);</span>
+    <span class="k">exit</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="k">catch</span> <span class="p">(</span><span class="nx">ResourceNotFoundException</span> <span class="nv">$e</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">echo</span> <span class="s2">&quot;Resource not found&quot;</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+
+
+<p>Finally, create an <strong>index.php</strong> which acts as the front controller and merely calls the routes.php. For security, you can add apache/nginx rules to allow direct access of only this file:</p>
+<div class="highlight"><pre><span></span><span class="cp">&lt;?php</span>
+<span class="k">require_once</span> <span class="s1">&#39;./vendor/autoload.php&#39;</span><span class="p">;</span>
+<span class="k">require_once</span><span class="p">(</span><span class="s1">&#39;routes.php&#39;</span><span class="p">);</span>
+</pre></div>
+    </div><!-- /.entry-content -->
+
+  </article>
+</section>
+        <section id="extras" class="body">
+                <div class="blogroll">
+                        <h2>links</h2>
+                        <ul>
+                            <li><a href="mailto:prahladyeri@yahoo.com">Email</a></li>
+                            <li><a href="https://github.com/prahladyeri/">Github</a></li>
+                            <li><a href="https://stackoverflow.com/users/849365/prahlad-yeri/">StackOverflow</a></li>
+                            <li><a href="https://www.quora.com/profile/Prahlad-Yeri-%E0%A4%AA%E0%A5%8D%E0%A4%B0%E0%A4%B9%E0%A5%8D%E0%A4%B2%E0%A4%BE%E0%A4%A6-%E0%A4%AF%E0%A5%87%E0%A4%B0%E0%A5%80">Quora</a></li>
+                            <li><a href="https://mastodon.social/@prahladyeri">Mastodon.Social</a></li>
+                            <li><a href="https://www.blogger.com/profile/12769325975373447545">Blogger</a></li>
+                        </ul>
+                </div><!-- /.blogroll -->
+                <div class="social">
+                        <h2>social</h2>
+                        <ul>
+                            <li><a href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
+
+                            <li><a href="https://www.linkedin.com/in/prahlad-yeri-243a5316">Linkedin</a></li>
+                            <li><a href="https://www.facebook.com/prahladyeri14">Facebook</a></li>
+                            <li><a href="https://twitter.com/prahladyeri">Twitter</a></li>
+                        </ul>
+                </div><!-- /.social -->
+        </section><!-- /#extras -->
+
+        <footer id="contentinfo" class="body">
+                <address id="about" class="vcard body">
+                Copyright (c) 2013-2019 <a href="/">Prahlad Yeri</a>.
+				<br>
+				This work is licensed under a [Creative Commons Attribution 4.0 International License](http://creativecommons.org/licenses/by/4.0/).
+                </address><!-- /#about -->
+        </footer><!-- /#contentinfo -->
+
+<script type="text/javascript">
+    var disqus_shortname = 'https://prahladyeri-blog.disqus.com';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = 'https://' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+</body>
+</html>

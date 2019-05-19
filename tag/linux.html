@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html lang="english">
+<head>
+        <meta charset="utf-8" />
+        <title>Prahlad Yeri - Freelance Programmer - Linux</title>
+        <link rel="stylesheet" href="/theme/css/main.css" />
+        <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Prahlad Yeri - Freelance Programmer Atom Feed" />
+</head>
+
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <h1><a href="/">Prahlad Yeri - Freelance Programmer </a></h1>
+                <nav><ul>
+				<li><a href="/">Home</a></li> <!--hard coded-->
+                    <li><a href="/about">About</a></li>
+                    <li><a href="/projects">Projects</a></li>
+                    <li><a href="/hire-me">Hire Me</a></li>
+                </ul></nav>
+        </header><!-- /#banner -->
+
+            <aside id="featured" class="body">
+                <article>
+                    <h1 class="entry-title"><a href="/blog/2018/09/docker-trick-running-containers-efficiently-using-a-bash-script.html">Docker Trick: Running Containers Efficiently Using A Bash Script</a></h1>
+<footer class="post-info">
+        <abbr class="published" title="2018-09-14T10:59:00+05:30">
+                Published: Fri 14 September 2018
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="/author/prahlad-yeri.html">Prahlad Yeri</a>
+        </address>
+<p>In <a href="/category/technology.html">Technology</a>.</p>
+<p>tags: <a href="/tag/docker.html">Docker</a> <a href="/tag/linux.html">Linux</a> </p>
+</footer><!-- /.post-info --><p>One of the basic problems with running a docker image is that its too easy to spew up multiple instances or containers of the same image. Consider running the following container for instance:</p>
+<div class="highlight"><pre><span></span>docker run -it -e AWS_ACCESS_KEY_ID=&quot;test&quot; -e AWS_SECRET_ACCESS_KEY=&quot;test&quot; \
+--net=host &quot;prahladyeri/testimage:latest&quot; /bin/bash
+</pre></div>
+
+
+<p>This will start a fresh container instance from image <strong>prahladyeri/testimage:latest</strong> and you may optionally pass environment variables (using -e switch), and the /bin/bash argument to manually trigger a command inside the container instead of running the default one. However, once you exit the container, you don't have any control over that container <em>instance</em>. Running the same "docker run" command as above is just going to spew another container instance for the same image, while the old one still stays in memory. Repeating this process multiple times is a wastage of invaluable memory and cores which isn't the goal of using docker at all!</p>
+<p><img alt="docker-logo" class="alignnone size-medium wp-image-1073" height="232" src="/uploads/2018/09/docker-logo-300x232.png" width="300"></p>
+<p>A more efficient way of handling things is to check the existence of a container instance already running for the image, and restart that one if required:</p>
+<div class="highlight"><pre><span></span>docker ps -a -f &quot;ancestor=prahladyeri/testimage:latest&quot; -q -l
+f7261ea890ce
+</pre></div>
+
+
+<p>The above command returns the id of an already running container (if any), so using that you can just restart that same container without passing all the parameters again as follows:</p>
+<div class="highlight"><pre><span></span>docker start -i f7261ea890ce
+</pre></div>
+
+
+<p>Of course, you can automate this whole process by writing a single bash script called <em>start_container:</em></p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
+<span class="nv">imgname</span><span class="o">=</span><span class="s2">&quot;prahladyeri/testimage:latest&quot;</span>
+<span class="nv">imgid</span><span class="o">=</span><span class="k">$(</span>docker ps -a -f <span class="s2">&quot;ancestor=</span><span class="nv">$imgname</span><span class="s2">&quot;</span> -q -l<span class="k">)</span>
+
+<span class="k">if</span> <span class="o">[</span> -z <span class="s2">&quot;</span><span class="nv">$imgid</span><span class="s2">&quot;</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+  <span class="nb">echo</span> <span class="s2">&quot;creating new instance for </span><span class="nv">$imgname</span><span class="s2">&quot;</span>
+  docker run -it -e <span class="nv">AWS_ACCESS_KEY_ID</span><span class="o">=</span><span class="s2">&quot;test&quot;</span> -e <span class="nv">AWS_SECRET_ACCESS_KEY</span><span class="o">=</span><span class="s2">&quot;test&quot;</span> --net<span class="o">=</span>host <span class="s2">&quot;</span><span class="nv">$imgname</span><span class="s2">&quot;</span> /bin/bash
+<span class="k">else</span>
+  <span class="nb">echo</span> <span class="s2">&quot;instance found&quot;</span>
+  docker start -i <span class="k">$(</span>docker ps -a -f <span class="s2">&quot;ancestor=</span><span class="nv">$imgname</span><span class="s2">&quot;</span> -q -l<span class="k">)</span>
+<span class="k">fi</span>
+</pre></div>
+</td></tr></table>
+
+<p>Just replace the \$<em>imgname</em> variable with that of your own image name, and pass any arguments you want (for example, <strong><em>-e AWS_KEY_ID</em></strong>) to the container on line 7. This script will start a new container only if none are found already, otherwise, it will just restart an existing one!</p>
+<p>Hope you find this useful.</p><p>There are <a href="/blog/2018/09/docker-trick-running-containers-efficiently-using-a-bash-script.html#disqus_thread">comments</a>.</p>                </article>
+            </aside><!-- /#featured -->
+                <section id="content" class="body">
+                    <h1>Other articles</h1>
+                    <hr />
+                    <ol id="posts-list" class="hfeed">
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="/blog/2018/09/docker-is-the-best-thing-to-happen-to-linux-since-the-gnu-bread.html" rel="bookmark"
+                           title="Permalink to Docker is the best thing to happen to Linux since the GNU bread">Docker is the best thing to happen to Linux since the GNU bread</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2018-09-13T09:00:00+05:30">
+                Published: Thu 13 September 2018
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="/author/prahlad-yeri.html">Prahlad Yeri</a>
+        </address>
+<p>In <a href="/category/technology.html">Technology</a>.</p>
+<p>tags: <a href="/tag/docker.html">Docker</a> <a href="/tag/linux.html">Linux</a> </p>
+</footer><!-- /.post-info -->                <p>Its has become an oft-repeated cliche now that docker has become the latest buzzword, both in DevOps circles as well as the open source community. But being the ever cynic and contrarian, I wasn't quite convinced of its merits until quite recently, I thought it was just another hype that …</p>
+                <a class="readmore" href="/blog/2018/09/docker-is-the-best-thing-to-happen-to-linux-since-the-gnu-bread.html">read more</a>
+<p>There are <a href="/blog/2018/09/docker-is-the-best-thing-to-happen-to-linux-since-the-gnu-bread.html#disqus_thread">comments</a>.</p>                </div><!-- /.entry-content -->
+            </article></li>
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="/blog/2018/09/performing-a-little-usability-tweak-on-the-xfce-window-recycler-in-greybird-theme.html" rel="bookmark"
+                           title="Permalink to Performing A Little Usability Tweak On The XFCE Window Recycler in Greybird Theme">Performing A Little Usability Tweak On The XFCE Window Recycler in Greybird Theme</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2018-09-11T09:44:00+05:30">
+                Published: Tue 11 September 2018
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="/author/prahlad-yeri.html">Prahlad Yeri</a>
+        </address>
+<p>In <a href="/category/linux.html">Linux</a>.</p>
+<p>tags: <a href="/tag/linux.html">Linux</a> <a href="/tag/xfce.html">XFCE</a> </p>
+</footer><!-- /.post-info -->                <p>Xubuntu is my favorite distro, hands down and the default Greybird theme is just wonderful! There used to be a time when I liked Ubuntu-MATE too, but not so much since they took the road to GTK+3! Coming back to the topic, XFCE works great but it has a …</p>
+                <a class="readmore" href="/blog/2018/09/performing-a-little-usability-tweak-on-the-xfce-window-recycler-in-greybird-theme.html">read more</a>
+<p>There are <a href="/blog/2018/09/performing-a-little-usability-tweak-on-the-xfce-window-recycler-in-greybird-theme.html#disqus_thread">comments</a>.</p>                </div><!-- /.entry-content -->
+            </article></li>
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="/blog/2018/09/linux-diy-creating-a-multiboot-usb-drive-with-iso-images-of-multiple-distros.html" rel="bookmark"
+                           title="Permalink to Linux DIY: Creating a Multiboot USB Drive With ISO Images Of Multiple Distros">Linux DIY: Creating a Multiboot USB Drive With ISO Images Of Multiple Distros</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2018-09-11T04:32:00+05:30">
+                Published: Tue 11 September 2018
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="/author/prahlad-yeri.html">Prahlad Yeri</a>
+        </address>
+<p>In <a href="/category/linux.html">Linux</a>.</p>
+<p>tags: <a href="/tag/linux.html">Linux</a> </p>
+</footer><!-- /.post-info -->                <p>Though I'm not a distro-hopper exactly, I keep trying live versions of popular linux distros like <strong>debian</strong> and <strong>ubuntu</strong> every now and then, and while I generally use the "dd" command which works right out of the box, today I thought that instead of burning a new ISO image each …</p>
+                <a class="readmore" href="/blog/2018/09/linux-diy-creating-a-multiboot-usb-drive-with-iso-images-of-multiple-distros.html">read more</a>
+<p>There are <a href="/blog/2018/09/linux-diy-creating-a-multiboot-usb-drive-with-iso-images-of-multiple-distros.html#disqus_thread">comments</a>.</p>                </div><!-- /.entry-content -->
+            </article></li>
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="/blog/2018/07/how-to-make-your-xubuntu-desktop-look-and-behave-like-ubuntu-mate.html" rel="bookmark"
+                           title="Permalink to How to make your Xubuntu 16.04 Desktop look and behave like Ubuntu-MATE">How to make your Xubuntu 16.04 Desktop look and behave like Ubuntu-MATE</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2018-07-18T19:40:00+05:30">
+                Published: Wed 18 July 2018
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="/author/prahlad-yeri.html">Prahlad Yeri</a>
+        </address>
+<p>In <a href="/category/linux.html">Linux</a>.</p>
+<p>tags: <a href="/tag/linux.html">Linux</a> <a href="/tag/ubuntu.html">Ubuntu</a> <a href="/tag/ubuntu-mate.html">Ubuntu-MATE</a> <a href="/tag/xubuntu.html">Xubuntu</a> </p>
+</footer><!-- /.post-info -->                <p>Xubuntu is one of the most popular among the "lighter" distros as it hardly consumes 200MB when idle and even older machines are able to run with acceptable performance. Ubuntu-MATE which is based on MATE Desktop (a GNOME-2 fork) is also a similar competing distro though its debatable whether its …</p>
+                <a class="readmore" href="/blog/2018/07/how-to-make-your-xubuntu-desktop-look-and-behave-like-ubuntu-mate.html">read more</a>
+<p>There are <a href="/blog/2018/07/how-to-make-your-xubuntu-desktop-look-and-behave-like-ubuntu-mate.html#disqus_thread">comments</a>.</p>                </div><!-- /.entry-content -->
+            </article></li>
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="/blog/2018/06/microsofts-github-acquisition-an-unbiased-perspective.html" rel="bookmark"
+                           title="Permalink to Microsoft's Github Acquisition - An Unbiased Perspective">Microsoft's Github Acquisition - An Unbiased Perspective</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2018-06-08T17:04:00+05:30">
+                Published: Fri 08 June 2018
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="/author/prahlad-yeri.html">Prahlad Yeri</a>
+        </address>
+<p>In <a href="/category/open-source.html">Open Source</a>.</p>
+<p>tags: <a href="/tag/github.html">Github</a> <a href="/tag/gitlab.html">Gitlab</a> <a href="/tag/linux.html">Linux</a> <a href="/tag/microsoft.html">Microsoft</a> </p>
+</footer><!-- /.post-info -->                <p>As someone who has worked on Microsoft tooling since the days of Foxpro 2.6 to Visual Studio 2010 in IT career, and yet ditched them all for PHP, Python and open source years later, I think I am qualified to offer a somewhat neutral or objective perspective on this …</p>
+                <a class="readmore" href="/blog/2018/06/microsofts-github-acquisition-an-unbiased-perspective.html">read more</a>
+<p>There are <a href="/blog/2018/06/microsofts-github-acquisition-an-unbiased-perspective.html#disqus_thread">comments</a>.</p>                </div><!-- /.entry-content -->
+            </article></li>
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="/blog/2018/03/how-to-use-bashrsync-to-automate-your-periodical-backups-on-linux.html" rel="bookmark"
+                           title="Permalink to How to use Bash+rsync to automate your periodical backups on Linux">How to use Bash+rsync to automate your periodical backups on Linux</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2018-03-04T13:05:00+05:30">
+                Published: Sun 04 March 2018
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="/author/prahlad-yeri.html">Prahlad Yeri</a>
+        </address>
+<p>In <a href="/category/linux.html">Linux</a>.</p>
+<p>tags: <a href="/tag/backup.html">Backup</a> <a href="/tag/linux.html">Linux</a> <a href="/tag/ubuntu.html">Ubuntu</a> </p>
+</footer><!-- /.post-info -->                <p><strong>Linux</strong> is all about simplicity. Simple and time-tested tools like <code>iptables</code>, <code>netstat</code> and <code>rsync</code> can be called for help for basic tasks instead of untrusted third-party tools as happens in case of Windows. If you are a desktop user, then taking frequent backups of your data to a pen-drive or …</p>
+                <a class="readmore" href="/blog/2018/03/how-to-use-bashrsync-to-automate-your-periodical-backups-on-linux.html">read more</a>
+<p>There are <a href="/blog/2018/03/how-to-use-bashrsync-to-automate-your-periodical-backups-on-linux.html#disqus_thread">comments</a>.</p>                </div><!-- /.entry-content -->
+            </article></li>
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="/blog/2017/09/introducing-tuxdrive-a-command-line-tool-to-access-google-drive-from-linux.html" rel="bookmark"
+                           title="Permalink to Tux Drive - A Command Line Tool to Access Google Drive from Linux">Tux Drive - A Command Line Tool to Access Google Drive from Linux</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2017-09-20T00:03:00+05:30">
+                Published: Wed 20 September 2017
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="/author/prahlad-yeri.html">Prahlad Yeri</a>
+        </address>
+<p>In <a href="/category/linux.html">Linux</a>.</p>
+<p>tags: <a href="/tag/google-drive.html">Google Drive</a> <a href="/tag/linux.html">Linux</a> <a href="/tag/python.html">Python</a> </p>
+</footer><!-- /.post-info -->                <p>One of the most boring things we need to perform in life is using the <a href="https://drive.google.com/drive/">Google Drive</a>. On one hand, so useful is this tool provided by Google (so many cloud GBs for free, yay!). But on the other hand, the web interface to access those files is not quite …</p>
+                <a class="readmore" href="/blog/2017/09/introducing-tuxdrive-a-command-line-tool-to-access-google-drive-from-linux.html">read more</a>
+<p>There are <a href="/blog/2017/09/introducing-tuxdrive-a-command-line-tool-to-access-google-drive-from-linux.html#disqus_thread">comments</a>.</p>                </div><!-- /.entry-content -->
+            </article></li>
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="/blog/2017/09/how-to-trim-your-new-ubuntu-installation-of-extra-fat-and-make-it-faster.html" rel="bookmark"
+                           title="Permalink to Some tips to lighten your Ubuntu Desktop and make it Faster">Some tips to lighten your Ubuntu Desktop and make it Faster</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2017-09-19T13:11:00+05:30">
+                Published: Tue 19 September 2017
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="/author/prahlad-yeri.html">Prahlad Yeri</a>
+        </address>
+<p>In <a href="/category/linux.html">Linux</a>.</p>
+<p>tags: <a href="/tag/linux.html">Linux</a> <a href="/tag/ubuntu.html">Ubuntu</a> <a href="/tag/xubuntu.html">Xubuntu</a> </p>
+</footer><!-- /.post-info -->                <p>The usual advice you get when seeking a more resource conserving distro is to use a lighter spin-off such as Xubuntu, Lubuntu, or a Debian with Openbox, etc. However, not many people know that even a "heavy" distro such as Ubuntu 16.04 LTS with the default Unity Desktop could …</p>
+                <a class="readmore" href="/blog/2017/09/how-to-trim-your-new-ubuntu-installation-of-extra-fat-and-make-it-faster.html">read more</a>
+<p>There are <a href="/blog/2017/09/how-to-trim-your-new-ubuntu-installation-of-extra-fat-and-make-it-faster.html#disqus_thread">comments</a>.</p>                </div><!-- /.entry-content -->
+            </article></li>
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="/blog/2017/09/ubuntu-17-10-artful-aardvark-an-objective-review.html" rel="bookmark"
+                           title="Permalink to Ubuntu 17.10 (Artful Aardvark) - An Objective Review">Ubuntu 17.10 (Artful Aardvark) - An Objective Review</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2017-09-16T18:29:00+05:30">
+                Published: Sat 16 September 2017
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="/author/prahlad-yeri.html">Prahlad Yeri</a>
+        </address>
+<p>In <a href="/category/linux-technology.html">Linux, Technology</a>.</p>
+<p>tags: <a href="/tag/linux.html">Linux</a> <a href="/tag/ubuntu.html">Ubuntu</a> </p>
+</footer><!-- /.post-info -->                <p>Today, I installed the <a href="http://cdimage.ubuntu.com/daily-live/current/">Daily Build</a> of the upcoming Ubuntu 17.10 in VirtualBox and gave it a try. This was supposed to be the first one that replaced <strong>Unity Desktop</strong> with <strong>GNOME</strong>. After having used 16.04 LTS for a long time, I felt that this version is quite …</p>
+                <a class="readmore" href="/blog/2017/09/ubuntu-17-10-artful-aardvark-an-objective-review.html">read more</a>
+<p>There are <a href="/blog/2017/09/ubuntu-17-10-artful-aardvark-an-objective-review.html#disqus_thread">comments</a>.</p>                </div><!-- /.entry-content -->
+            </article></li>
+                </ol><!-- /#posts-list -->
+<p class="paginator">
+    Page 1 / 2
+        <a href="/tag/linux2.html">&raquo;</a>
+</p>
+                </section><!-- /#content -->
+        <section id="extras" class="body">
+                <div class="blogroll">
+                        <h2>links</h2>
+                        <ul>
+                            <li><a href="mailto:prahladyeri@yahoo.com">Email</a></li>
+                            <li><a href="https://github.com/prahladyeri/">Github</a></li>
+                            <li><a href="https://stackoverflow.com/users/849365/prahlad-yeri/">StackOverflow</a></li>
+                            <li><a href="https://www.quora.com/profile/Prahlad-Yeri-%E0%A4%AA%E0%A5%8D%E0%A4%B0%E0%A4%B9%E0%A5%8D%E0%A4%B2%E0%A4%BE%E0%A4%A6-%E0%A4%AF%E0%A5%87%E0%A4%B0%E0%A5%80">Quora</a></li>
+                            <li><a href="https://mastodon.social/@prahladyeri">Mastodon.Social</a></li>
+                            <li><a href="https://www.blogger.com/profile/12769325975373447545">Blogger</a></li>
+                        </ul>
+                </div><!-- /.blogroll -->
+                <div class="social">
+                        <h2>social</h2>
+                        <ul>
+                            <li><a href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
+
+                            <li><a href="https://www.linkedin.com/in/prahlad-yeri-243a5316">Linkedin</a></li>
+                            <li><a href="https://www.facebook.com/prahladyeri14">Facebook</a></li>
+                            <li><a href="https://twitter.com/prahladyeri">Twitter</a></li>
+                        </ul>
+                </div><!-- /.social -->
+        </section><!-- /#extras -->
+
+        <footer id="contentinfo" class="body">
+                <address id="about" class="vcard body">
+                Copyright (c) 2013-2019 <a href="/">Prahlad Yeri</a>.
+				<br>
+				This work is licensed under a [Creative Commons Attribution 4.0 International License](http://creativecommons.org/licenses/by/4.0/).
+                </address><!-- /#about -->
+        </footer><!-- /#contentinfo -->
+
+<script type="text/javascript">
+    var disqus_shortname = 'https://prahladyeri-blog.disqus.com';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = 'https://' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+</body>
+</html>

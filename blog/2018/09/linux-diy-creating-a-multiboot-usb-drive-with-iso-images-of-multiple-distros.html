@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="english">
+<head>
+        <meta charset="utf-8" />
+        <title>Linux DIY: Creating a Multiboot USB Drive With ISO Images Of Multiple Distros</title>
+        <link rel="stylesheet" href="/theme/css/main.css" />
+        <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Prahlad Yeri - Freelance Programmer Atom Feed" />
+</head>
+
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <h1><a href="/">Prahlad Yeri - Freelance Programmer </a></h1>
+                <nav><ul>
+				<li><a href="/">Home</a></li> <!--hard coded-->
+                    <li><a href="/about">About</a></li>
+                    <li><a href="/projects">Projects</a></li>
+                    <li><a href="/hire-me">Hire Me</a></li>
+                </ul></nav>
+        </header><!-- /#banner -->
+<section id="content" class="body">
+  <article>
+    <header>
+      <h1 class="entry-title">
+        <a href="/blog/2018/09/linux-diy-creating-a-multiboot-usb-drive-with-iso-images-of-multiple-distros.html" rel="bookmark"
+           title="Permalink to Linux DIY: Creating a Multiboot USB Drive With ISO Images Of Multiple Distros">Linux DIY: Creating a Multiboot USB Drive With ISO Images Of Multiple Distros</a></h1>
+<a href="https://twitter.com/share" class="twitter-share-button" data-count="horizontal" data-via="prahladyeri">Tweet</a><script type="text/javascript" src="https://platform.twitter.com/widgets.js"></script>
+    </header>
+
+    <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2018-09-11T04:32:00+05:30">
+                Published: Tue 11 September 2018
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="/author/prahlad-yeri.html">Prahlad Yeri</a>
+        </address>
+<p>In <a href="/category/linux.html">Linux</a>.</p>
+<p>tags: <a href="/tag/linux.html">Linux</a> </p>
+</footer><!-- /.post-info -->      <p>Though I'm not a distro-hopper exactly, I keep trying live versions of popular linux distros like <strong>debian</strong> and <strong>ubuntu</strong> every now and then, and while I generally use the "dd" command which works right out of the box, today I thought that instead of burning a new ISO image each time, why not create a single 16GB USB stick which can boot multiple distro images!<!--more--></p>
+<div class="highlight"><pre><span></span>dd if=xubuntu-18.04.1-desktop-amd64.iso of=/dev/sdb bs=1M
+</pre></div>
+
+
+<p>This simple dd command does the job, but you are left with a single ISO image occupying the entire disk space which is an inefficiency if you have a larger drive that can hold multiple images. So, let's learn how to reclaim all that space by creating a single USB which can boot multiple ISO images. Though the process is a bit more involved than the dd command, the reward is obviously worth it too.</p>
+<p><strong>Step-1: Format your USB drive to FAT32, there should be a single partition on the drive with boot flag enabled.</strong> - Also, label the drive as MULTIBOOT or something for recognizing it easier. Though the linked article below uses the fdisk/mkfs.vfat commands, you can even use graphical tools like <strong>gparted</strong> to make this process simpler.</p>
+<p><img alt="Gparted" class="alignnone size-full wp-image-1020" height="520" src="/uploads/2018/09/gparted.png" width="774"></p>
+<p><strong>Step-2: Install grub2 on the newly formatted drive, create a boilerplate grub.cfg file:</strong></p>
+<ol>
+<li>Close the gparted window if its open, otherwise the drive won't be mounted.</li>
+<li>Type <code>sudo grub-install --force --no-floppy --boot-directory=/media/prahlad/MULTIBOOT/boot /dev/sdx</code> (replacing path with yours, <strong>x</strong> with your actual USB device)</li>
+<li>Type <code>cd /media/prahlad/MULTIBOOT/boot/grub</code> (or whatever your path is)</li>
+<li>Type <code>wget http://pendrivelinux.com/downloads/multibootlinux/grub.cfg</code> (to get the grub.cfg file)</li>
+</ol>
+<p><strong>Step-3: Copy whatever ISOs you want into the root folder of your drive.</strong> For the purposes of this example, let's consider latest LTS releases of Ubuntu and Xubuntu (swap with any other flavors or debian too if you prefer):</p>
+<div class="highlight"><pre><span></span>cp ubuntu-18.04.1-desktop-amd64.iso /media/prahlad/MULTIBOOT/
+cp xubuntu-18.04.1-desktop-amd64.iso /media/prahlad/MULTIBOOT/
+</pre></div>
+
+
+<p><strong>Step-4: Edit the grub.cfg you just downloaded, and configure entries for your ISOs accordingly.</strong> Its important that you do this carefully:</p>
+<div class="highlight"><pre><span></span># This grub.cfg file was created by Lance http://www.pendrivelinux.com
+# Suggested Entries and the suggestor, if available, will also be noted.
+
+set timeout=10
+set default=0
+
+menuentry &quot;Ubuntu Desktop ISO&quot; {
+ loopback loop /ubuntu-18.04.1-desktop-amd64.iso
+ linux (loop)/casper/vmlinuz boot=casper iso-scan/filename=/ubuntu-18.04.1-desktop-amd64.iso noeject noprompt splash --
+ initrd (loop)/casper/initrd.lz
+}
+
+menuentry &quot;Xubuntu Desktop ISO&quot; {
+ loopback loop /xubuntu-18.04.1-desktop-amd64.iso
+ linux (loop)/casper/vmlinuz boot=casper iso-scan/filename=/xubuntu-18.04.1-desktop-amd64.iso noeject noprompt splash --
+ initrd (loop)/casper/initrd
+}
+</pre></div>
+
+
+<p>As you can see, I've changed only the menu entries to keep things simple. The arguments are also self apparent. For instance, <em>loopback</em> and <em>loop</em> attributes are used because we aren't booting directly from the USB, but mounting the virtual loop device (ISO file) instead.</p>
+<p>However, note that there could be subtle differences between distros, xubuntu uses <strong><em>/casper/initrd</em></strong> instead of <strong><em>/casper/initrd.lz</em></strong>, for instance. To know the right entry for your own distro, compare the "<em>/boot/grub/grub.cfg" file</em> of your distro ISO to get a hint about what menu entry to add. If your ISO isn't one of the 'buntus or a debian, then it might get trickier.</p>
+<p><strong>Step-5: Boot from your USB drive and ensure that it works.</strong></p>
+<p>Make sure that you boot from your newly created USB drive, not from the hard drive as usual. If everything goes right, you should be able to see a grub boot screen with the two menus for Ubuntu and Xubuntu.</p>
+<p>Once this process is successful, adding new ISOs to your drive is only too easy. Just copy the brand new ISO to your drive's root directory and just add the necessary entry in <em>/boot/grub/grub.cfg</em>, that's it!</p>
+<p>Finally, you'll have to enable legacy boot option if not already done in your bios settings, this process won't work with EFI/UEFI systems since the drive doesn't have an EFI partition. I might do another post about creating a similar drive for EFI/UEFI setups in future, until then you can refer to <a href="https://old.reddit.com/r/linux/comments/9es7j1/linux_diy_creating_a_multiboot_usb_drive_with_iso/e5sa5d8/">this reddit post</a> by <a href="https://old.reddit.com/user/need2burn">/u/need2burn</a>.</p>
+<p>Best of luck, and let me know how it goes in comments below.</p>
+<p><strong><em>Reference:</em></strong></p>
+<p>http://www.pendrivelinux.com/boot-multiple-iso-from-usb-via-grub2-using-linux/</p>
+    </div><!-- /.entry-content -->
+
+  </article>
+</section>
+        <section id="extras" class="body">
+                <div class="blogroll">
+                        <h2>links</h2>
+                        <ul>
+                            <li><a href="mailto:prahladyeri@yahoo.com">Email</a></li>
+                            <li><a href="https://github.com/prahladyeri/">Github</a></li>
+                            <li><a href="https://stackoverflow.com/users/849365/prahlad-yeri/">StackOverflow</a></li>
+                            <li><a href="https://www.quora.com/profile/Prahlad-Yeri-%E0%A4%AA%E0%A5%8D%E0%A4%B0%E0%A4%B9%E0%A5%8D%E0%A4%B2%E0%A4%BE%E0%A4%A6-%E0%A4%AF%E0%A5%87%E0%A4%B0%E0%A5%80">Quora</a></li>
+                            <li><a href="https://mastodon.social/@prahladyeri">Mastodon.Social</a></li>
+                            <li><a href="https://www.blogger.com/profile/12769325975373447545">Blogger</a></li>
+                        </ul>
+                </div><!-- /.blogroll -->
+                <div class="social">
+                        <h2>social</h2>
+                        <ul>
+                            <li><a href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
+
+                            <li><a href="https://www.linkedin.com/in/prahlad-yeri-243a5316">Linkedin</a></li>
+                            <li><a href="https://www.facebook.com/prahladyeri14">Facebook</a></li>
+                            <li><a href="https://twitter.com/prahladyeri">Twitter</a></li>
+                        </ul>
+                </div><!-- /.social -->
+        </section><!-- /#extras -->
+
+        <footer id="contentinfo" class="body">
+                <address id="about" class="vcard body">
+                Copyright (c) 2013-2019 <a href="/">Prahlad Yeri</a>.
+				<br>
+				This work is licensed under a [Creative Commons Attribution 4.0 International License](http://creativecommons.org/licenses/by/4.0/).
+                </address><!-- /#about -->
+        </footer><!-- /#contentinfo -->
+
+<script type="text/javascript">
+    var disqus_shortname = 'https://prahladyeri-blog.disqus.com';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = 'https://' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+</body>
+</html>

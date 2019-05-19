@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="english">
+<head>
+        <meta charset="utf-8" />
+        <title>Windows Recipe: How to quickly track your active network connections using Resmon Utility</title>
+        <link rel="stylesheet" href="/theme/css/main.css" />
+        <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Prahlad Yeri - Freelance Programmer Atom Feed" />
+</head>
+
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <h1><a href="/">Prahlad Yeri - Freelance Programmer </a></h1>
+                <nav><ul>
+				<li><a href="/">Home</a></li> <!--hard coded-->
+                    <li><a href="/about">About</a></li>
+                    <li><a href="/projects">Projects</a></li>
+                    <li><a href="/hire-me">Hire Me</a></li>
+                </ul></nav>
+        </header><!-- /#banner -->
+<section id="content" class="body">
+  <article>
+    <header>
+      <h1 class="entry-title">
+        <a href="/blog/2018/08/windows-recipe-how-to-quickly-track-your-active-network-connections-using-resmon-utility.html" rel="bookmark"
+           title="Permalink to Windows Recipe: How to quickly track your active network connections using Resmon Utility">Windows Recipe: How to quickly track your active network connections using Resmon Utility</a></h1>
+<a href="https://twitter.com/share" class="twitter-share-button" data-count="horizontal" data-via="prahladyeri">Tweet</a><script type="text/javascript" src="https://platform.twitter.com/widgets.js"></script>
+    </header>
+
+    <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2018-08-28T10:58:00+05:30">
+                Published: Tue 28 August 2018
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="/author/prahlad-yeri.html">Prahlad Yeri</a>
+        </address>
+<p>In <a href="/category/windows.html">Windows</a>.</p>
+<p>tags: <a href="/tag/windows.html">windows</a> <a href="/tag/windows-utility.html">windows utility</a> </p>
+</footer><!-- /.post-info -->      <p>Windows 10 is a great operating system when its clean and well-maintained but once you start cluttering it with more and more apps, your Internet speed typically starts to slow down and it becomes increasingly difficult to find out which background app is consuming your bandwidth.<!--more--></p>
+<p>One way of tackling this is to harden the windows firewall by restricting outgoing TCP connections too (incoming are already restricted by default). But this is quite cumbersome in the long run as you will have to whitelist each and every executable that needs to access the internet which can be a difficult and time consuming task.</p>
+<p>Another quick way of finding out which app is consuming your most bandwidth (whether on the background or foreground) is to fire up the <strong>Windows Resource Monitor</strong> by running <strong>resmon.exe</strong> which is a nice Windows utility program that comes by default. By clicking on the Network tab and expanding the Network Activity pane, you'll come to know exactly how much bandwidth each executable is eating on your system!</p>
+<p>[caption id="attachment_1005" align="alignnone" width="935"]<img alt="Resource Monitor" class="size-full wp-image-1005" height="593" src="/uploads/2018/08/resmon.png" width="935"> Resource Monitor (resmon.exe) running on Windows[/caption]</p>
+<p>Once you know the culprit EXE causing the bandwidth drain, you can either uninstall that app or block it in the windows firewall. All in all, resmon.exe is a great utility in the hands of the Windows power user who wants to take control of his/her operating system. I hope you find this utility useful.</p>
+    </div><!-- /.entry-content -->
+
+  </article>
+</section>
+        <section id="extras" class="body">
+                <div class="blogroll">
+                        <h2>links</h2>
+                        <ul>
+                            <li><a href="mailto:prahladyeri@yahoo.com">Email</a></li>
+                            <li><a href="https://github.com/prahladyeri/">Github</a></li>
+                            <li><a href="https://stackoverflow.com/users/849365/prahlad-yeri/">StackOverflow</a></li>
+                            <li><a href="https://www.quora.com/profile/Prahlad-Yeri-%E0%A4%AA%E0%A5%8D%E0%A4%B0%E0%A4%B9%E0%A5%8D%E0%A4%B2%E0%A4%BE%E0%A4%A6-%E0%A4%AF%E0%A5%87%E0%A4%B0%E0%A5%80">Quora</a></li>
+                            <li><a href="https://mastodon.social/@prahladyeri">Mastodon.Social</a></li>
+                            <li><a href="https://www.blogger.com/profile/12769325975373447545">Blogger</a></li>
+                        </ul>
+                </div><!-- /.blogroll -->
+                <div class="social">
+                        <h2>social</h2>
+                        <ul>
+                            <li><a href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
+
+                            <li><a href="https://www.linkedin.com/in/prahlad-yeri-243a5316">Linkedin</a></li>
+                            <li><a href="https://www.facebook.com/prahladyeri14">Facebook</a></li>
+                            <li><a href="https://twitter.com/prahladyeri">Twitter</a></li>
+                        </ul>
+                </div><!-- /.social -->
+        </section><!-- /#extras -->
+
+        <footer id="contentinfo" class="body">
+                <address id="about" class="vcard body">
+                Copyright (c) 2013-2019 <a href="/">Prahlad Yeri</a>.
+				<br>
+				This work is licensed under a [Creative Commons Attribution 4.0 International License](http://creativecommons.org/licenses/by/4.0/).
+                </address><!-- /#about -->
+        </footer><!-- /#contentinfo -->
+
+<script type="text/javascript">
+    var disqus_shortname = 'https://prahladyeri-blog.disqus.com';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = 'https://' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+</body>
+</html>

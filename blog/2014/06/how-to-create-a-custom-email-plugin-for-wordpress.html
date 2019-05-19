@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="english">
+<head>
+        <meta charset="utf-8" />
+        <title>How to create a custom email plugin for Wordpress</title>
+        <link rel="stylesheet" href="/theme/css/main.css" />
+        <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Prahlad Yeri - Freelance Programmer Atom Feed" />
+</head>
+
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <h1><a href="/">Prahlad Yeri - Freelance Programmer </a></h1>
+                <nav><ul>
+				<li><a href="/">Home</a></li> <!--hard coded-->
+                    <li><a href="/about">About</a></li>
+                    <li><a href="/projects">Projects</a></li>
+                    <li><a href="/hire-me">Hire Me</a></li>
+                </ul></nav>
+        </header><!-- /#banner -->
+<section id="content" class="body">
+  <article>
+    <header>
+      <h1 class="entry-title">
+        <a href="/blog/2014/06/how-to-create-a-custom-email-plugin-for-wordpress.html" rel="bookmark"
+           title="Permalink to How to create a custom email plugin for Wordpress">How to create a custom email plugin for Wordpress</a></h1>
+<a href="https://twitter.com/share" class="twitter-share-button" data-count="horizontal" data-via="prahladyeri">Tweet</a><script type="text/javascript" src="https://platform.twitter.com/widgets.js"></script>
+    </header>
+
+    <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2014-06-07T10:39:00+05:30">
+                Published: Sat 07 June 2014
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="/author/prahlad-yeri.html">Prahlad Yeri</a>
+        </address>
+<p>In <a href="/category/uncategorized.html">Uncategorized</a>.</p>
+
+</footer><!-- /.post-info -->      <p>Last week, I suddenly stopped receiving email notifications for my <a href="https://www.openshift.com/">openshift</a> hosted blog. I came to know after some <a href="http://stackoverflow.com/questions/17583205/sendmail-on-openshift-php-codeigniter/17598537#17598537">reading</a> that commonly used cloud hosts such as openshift, aws, etc. are usually blacklisted by most email servers, hence its not a good idea to use them to send mails.<!--more--></p>
+<p>In any case, why should I depend on my hosting provider for email sending. Until now, I had never bothered about how mail sending worked in wordpress as it used to work out of the box. So last week, I pulled up my socks and decided to put my php <a href="http://en.wikipedia.org/wiki/Geany">IDE</a> and <a href="http://en.wikipedia.org/wiki/Xdebug">debugger</a> to some good work.</p>
+<p>I decided to use my <a href="https://sendgrid.com">sendgrid</a> account to send mails. All that`s needed now is calling the web service with the credentials they've provided. But how to integrate this with my wordpress blog?</p>
+<p>Once I located <strong><em>where</em></strong> the mail sending functionality is there in wordpress code, adding a new method was a piece of cake!! Turns out that wordpress, by default, just executes the "mail" command which is usually just a symlink on unix boxes actually pointing to <em>/usr/bin/sendmail</em> or something. I found it in a pluggable function <em>wp_mail()</em>. (see <em>/wp-includes/pluggable.php</em>). I also came to know from the codex that <a href="http://codex.wordpress.org/Pluggable_Functions">pluggable functions</a> can be easily overridden by plugins.</p>
+<p>Now all I had to do was write a small plugin in the /wp-content/plugins/sendgrid/ folder and override this wp_mail() function with whatever I want.</p>
+<p>Lo and behold! I started receiving notifications for all comments and contact forms filled, by just writing this one plugin. I found the process so simple and easy to integrate with wordpress that I couldn't help sharing with you. Here are the two php snippets that you need to place in /wp-content/plugins/<em>your-plugin-name</em>/ and activate it. <em>Wordpress</em> will do the rest!</p>
+<p>(First one is the main plugin php file that displays the plugin in your admin menu and overrides the wp_mail function. The second php file contains the actual custom function that sends email via sendgrid.)</p>
+<p><em>wp-content/plugins/sendgrid/myplugin.php:</em></p>
+<figure class="highlight">
+    <?php /**
+     * Plugin Name: Sendgrid Plugin
+     * Plugin URI:  http://www.prahladyeri.com
+     * Description: Mail sending using Sendgrid Web API
+     * Version:     0.1
+     * Author:      Prahlad Yeri
+     * Author URI:  http://www.prahladyeri.com
+     * License:     MIT
+     */
+
+    //namespace MailDemo;
+    require_once('sendgrid.php');
+
+    add_action( 'init', 'plugin_init' );
+
+    /**
+     * Plugin Name: Prahlad's mail
+     * Description: Alternative way to send a mail
+     */
+    if (!function_exists('wp_mail')) 
+    {
+        function wp_mail($to, $subject, $message, $headers = '', $attachments = array())
+        {
+            $sto = '';
+            if (is_array($to))
+            {
+                $sto = implode(',',$to);
+            } else {
+                $sto = $to;
+            }
+            sendgridmail('wpadmin@mywebsite.com', $sto, $subject, $message, $headers);
+        }
+    }
+
+    function plugin_init()
+    {
+    }
+
+</figure>
+
+<p><em>wp-content/plugins/sendgrid/sendgrid.php:</em></p>
+<figure class="highlight">
+    <?php //wp-content/plugins/sendgrid/sendgrid.php
+    function sendgridmail($from, $to, $subject, $message, $headers) {        
+    $url = 'https://api.sendgrid.com/';
+    $user='your-sendgrid-username';   
+    $pass='your-sendgrid-password';
+
+    $params = array(       
+    'api_user'  ?> $user,
+            'api_key'   => $pass,
+            'to'        => $to,
+            'subject'   => $subject,
+            'html'      => '',
+            'text'      => $message,
+            'from'      => $from,
+          );
+
+
+        $request =  $url.'api/mail.send.json';
+
+        // Generate curl request
+        $session = curl_init($request);
+        // Tell curl to use HTTP POST
+        curl_setopt ($session, CURLOPT_POST, true);
+        // Tell curl that this is the body of the POST
+        curl_setopt ($session, CURLOPT_POSTFIELDS, $params);
+        // Tell curl not to return headers, but do return the response
+        curl_setopt($session, CURLOPT_HEADER, false);
+        curl_setopt($session, CURLOPT_RETURNTRANSFER, true);
+
+        print_r('obtaining the response');
+        // obtain response
+        $response = curl_exec($session);
+        print_r('closing curl session');
+        curl_close($session);
+
+        // print everything out
+        //print_r($response);
+    }
+
+    //only for testing:
+    /*$to      = 'prahladyeri@yahoo.com';
+    $subject = 'Testemail';
+    $message = 'It works!!';
+    echo 'To is: ' + $to;
+    #wp_mail($to, $subject, $message, array() );
+    sendgridmail($to, $subject, $message, array());
+    print_r('Just sent!');*/
+
+</figure>
+
+<p>References:</p>
+<ol>
+<li><a href="http://codex.wordpress.org/Pluggable_Functions">http://codex.wordpress.org/Pluggable_Functions</a></li>
+<li><a href="http://codex.wordpress.org/Pluggable_Functions">http://stackoverflow.com/questions/17583205/sendmail-on-openshift-php-codeigniter/17598537#17598537</a></li>
+<li><a href="http://en.wikipedia.org/wiki/Geany">http://en.wikipedia.org/wiki/Geany</a></li>
+<li><a href="http://en.wikipedia.org/wiki/Xdebug">http://en.wikipedia.org/wiki/Xdebug</a></li>
+<li><a href="https://sendgrid.com">https://sendgrid.com</a></li>
+<li><a href="https://sendgrid.com/docs/">https://sendgrid.com/docs/</a></li>
+<li><a href="https://www.openshift.com/">https://www.openshift.com/</a></li>
+</ol>
+    </div><!-- /.entry-content -->
+
+  </article>
+</section>
+        <section id="extras" class="body">
+                <div class="blogroll">
+                        <h2>links</h2>
+                        <ul>
+                            <li><a href="mailto:prahladyeri@yahoo.com">Email</a></li>
+                            <li><a href="https://github.com/prahladyeri/">Github</a></li>
+                            <li><a href="https://stackoverflow.com/users/849365/prahlad-yeri/">StackOverflow</a></li>
+                            <li><a href="https://www.quora.com/profile/Prahlad-Yeri-%E0%A4%AA%E0%A5%8D%E0%A4%B0%E0%A4%B9%E0%A5%8D%E0%A4%B2%E0%A4%BE%E0%A4%A6-%E0%A4%AF%E0%A5%87%E0%A4%B0%E0%A5%80">Quora</a></li>
+                            <li><a href="https://mastodon.social/@prahladyeri">Mastodon.Social</a></li>
+                            <li><a href="https://www.blogger.com/profile/12769325975373447545">Blogger</a></li>
+                        </ul>
+                </div><!-- /.blogroll -->
+                <div class="social">
+                        <h2>social</h2>
+                        <ul>
+                            <li><a href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
+
+                            <li><a href="https://www.linkedin.com/in/prahlad-yeri-243a5316">Linkedin</a></li>
+                            <li><a href="https://www.facebook.com/prahladyeri14">Facebook</a></li>
+                            <li><a href="https://twitter.com/prahladyeri">Twitter</a></li>
+                        </ul>
+                </div><!-- /.social -->
+        </section><!-- /#extras -->
+
+        <footer id="contentinfo" class="body">
+                <address id="about" class="vcard body">
+                Copyright (c) 2013-2019 <a href="/">Prahlad Yeri</a>.
+				<br>
+				This work is licensed under a [Creative Commons Attribution 4.0 International License](http://creativecommons.org/licenses/by/4.0/).
+                </address><!-- /#about -->
+        </footer><!-- /#contentinfo -->
+
+<script type="text/javascript">
+    var disqus_shortname = 'https://prahladyeri-blog.disqus.com';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = 'https://' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+</body>
+</html>

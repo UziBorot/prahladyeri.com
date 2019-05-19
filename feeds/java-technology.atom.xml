@@ -1,0 +1,370 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Prahlad Yeri - Freelance Programmer - Java, Technology</title><link href="/" rel="alternate"></link><link href="/feeds/java-technology.atom.xml" rel="self"></link><id>/</id><updated>2015-12-30T22:36:00+05:30</updated><entry><title>Eclipse Mars - Not ready for Linux Yet</title><link href="/blog/2015/12/eclipse-mars-not-ready-for-linux.html" rel="alternate"></link><published>2015-12-30T22:36:00+05:30</published><updated>2015-12-30T22:36:00+05:30</updated><author><name>Prahlad Yeri</name></author><id>tag:None,2015-12-30:/blog/2015/12/eclipse-mars-not-ready-for-linux.html</id><summary type="html">&lt;p&gt;So after hearing about all the hype and praises about this Eclipse new release called &lt;a href="https://projects.eclipse.org/releases/mars"&gt;Mars&lt;/a&gt;, I decided to give it a try on my Ubuntu laptop yesterday. Since I already use &lt;code class="highlighter-rouge"&gt;Kepler&lt;/code&gt; the older version, I was looking for some big positives like performance improvements (most often talked about …&lt;/p&gt;</summary><content type="html">&lt;p&gt;So after hearing about all the hype and praises about this Eclipse new release called &lt;a href="https://projects.eclipse.org/releases/mars"&gt;Mars&lt;/a&gt;, I decided to give it a try on my Ubuntu laptop yesterday. Since I already use &lt;code class="highlighter-rouge"&gt;Kepler&lt;/code&gt; the older version, I was looking for some big positives like performance improvements (most often talked about by a lot of Eclipse fans lately).&lt;!--more--&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Eclipse Red Logo" src="/uploads/old/eclipse-red.png"&gt;&lt;/p&gt;
+&lt;p&gt;When I started this new &lt;code class="highlighter-rouge"&gt;eclipse&lt;/code&gt; on ubuntu, I first had a faint hope that it was running faster (maybe a trick of the mind instilled by the new red logo!). But the true test of any software is how it performs under REAL world conditions. Alas! As I had expected, I was only to be disappointed on the performance front. Unless there is a drastic change in underlying core components such as a code refactoring or an improvement of graphic toolkit/library, the “performance” can only get worse, not better. After I created a simple &lt;em&gt;HelloADT&lt;/em&gt; project, here is what happened when I clicked on an Android Activity layout screen:&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Eclipse Mars" src="/uploads/old/Eclipse_Mars.png"&gt;&lt;/p&gt;
+&lt;p&gt;And this is a modern &lt;em&gt;Intel core i3&lt;/em&gt; machine we are talking about with 4 GB RAM, not some old device. Just after this disaster of an IDE happened, I started my good old &lt;code class="highlighter-rouge"&gt;kepler&lt;/code&gt; version and opened the same ADT project which ran without any problems:&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Eclipse Kepler" src="/uploads/old/Eclipse_Kepler.png"&gt;&lt;/p&gt;
+&lt;p&gt;It was good that I had kept my kepler installation folder intact, so I was able to revert. So moral of the story is:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Take all claims about this “big improvement” with a pinch of salt, especially if it is a Java based software.&lt;/li&gt;
+&lt;li&gt;Wait for &lt;code class="highlighter-rouge"&gt;Eclipse mars&lt;/code&gt; to get more stable before using it for production work.&lt;/li&gt;
+&lt;/ol&gt;</content><category term="Eclipse"></category><category term="Java"></category></entry><entry><title>Rockstar Java Series: Learn type annotations and be a better coder</title><link href="/blog/2015/12/rockstar-java-dev-series-learn-type-annotations.html" rel="alternate"></link><published>2015-12-24T21:23:00+05:30</published><updated>2015-12-24T21:23:00+05:30</updated><author><name>Prahlad Yeri</name></author><id>tag:None,2015-12-24:/blog/2015/12/rockstar-java-dev-series-learn-type-annotations.html</id><summary type="html">&lt;p&gt;&lt;em&gt;Java SE 8&lt;/em&gt; comes with a bundle of new features, and not many of them catch the attention of coders until they learn what they are and realize their usefulness. One such feature that can help you become a better Java coder is the ability to declare &lt;em&gt;type annotations&lt;/em&gt; to …&lt;/p&gt;</summary><content type="html">&lt;p&gt;&lt;em&gt;Java SE 8&lt;/em&gt; comes with a bundle of new features, and not many of them catch the attention of coders until they learn what they are and realize their usefulness. One such feature that can help you become a better Java coder is the ability to declare &lt;em&gt;type annotations&lt;/em&gt; to any type use.&lt;!--more--&gt;&lt;/p&gt;
+&lt;p&gt;Before &lt;em&gt;Java SE 8&lt;/em&gt; came out, &lt;em&gt;type annotations&lt;/em&gt; could only be applied to declarations, but now they can be applied to any type use such as declarations of variables or methods, &lt;em&gt;class instance&lt;/em&gt; creation, &lt;em&gt;casts&lt;/em&gt;, &lt;em&gt;interface&lt;/em&gt; creation, &lt;em&gt;implements&lt;/em&gt; clauses, &lt;em&gt;throws&lt;/em&gt; clauses, etc.&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Type annotations&lt;/em&gt; were created to support improved analysis of Java programs by introducing stronger type checking. The more the &lt;em&gt;Java compiler&lt;/em&gt; and &lt;em&gt;JVM&lt;/em&gt; knows about your &lt;code class="highlighter-rouge"&gt;bytecode&lt;/code&gt;, the more equipped they are to perform better in the real world across all platforms.&lt;/p&gt;
+&lt;h2&gt;What are Type Annotations?&lt;/h2&gt;
+&lt;p&gt;In its basic form, an annotation looks like the following:&lt;/p&gt;
+&lt;p&gt;::: {.highlighter-rouge}&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;@entity
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;:::&lt;/p&gt;
+&lt;p&gt;The variable after &lt;code class="highlighter-rouge"&gt;@&lt;/code&gt; symbol tells the Java compiler that what follows is a type annotation. A standard example of a built-in type annotation is &lt;code class="highlighter-rouge"&gt;@Override&lt;/code&gt;:&lt;/p&gt;
+&lt;p&gt;::: {.highlighter-rouge}&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;@Override
+public void talk()
+{
+    System.out.println(&amp;quot;I am an overridden method&amp;quot;);
+}
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;:::&lt;/p&gt;
+&lt;p&gt;The &lt;code class="highlighter-rouge"&gt;@Override&lt;/code&gt; type annotation tells the Java compiler that what follows is an overridden method from the base class. Of course, you can even place multiple type annotations for the same declaration:&lt;/p&gt;
+&lt;p&gt;::: {.highlighter-rouge}&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;@Override
+@SuppressWarnings(&amp;quot;unchecked&amp;quot;)
+void myMethod() { ... }
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;:::&lt;/p&gt;
+&lt;p&gt;&lt;em&gt;Java SE 8&lt;/em&gt; is so flexible that it allows you to define your own type annotations!&lt;/p&gt;
+&lt;h2&gt;How to create your own Type Annotations?&lt;/h2&gt;
+&lt;p&gt;Imagine there is a Software firm called &lt;em&gt;Acme Corporation&lt;/em&gt; that develops Java software for its large number of clients. The standard Java practice there is to declare header files in each and every Java source file (*.java) like this:&lt;/p&gt;
+&lt;figure class="highlight"&gt;
+    /**
+     * @copyright Amce Corporation Inc.
+     * @author Prahlad Yeri
+     * @date 25-12-2015
+     * @version 1.1
+     * */
+    class Duck 
+    {
+        public void talk() {}
+    }
+
+&lt;/figure&gt;
+
+&lt;p&gt;Sound familiar? This is a pretty much common header style nowadays. This same information could be structured by using your own type annotation and it becomes so, so simple:&lt;/p&gt;
+&lt;figure class="highlight"&gt;
+    @Classinfo(
+        author = "Prahlad Yeri",
+        date = "25-12-2015"
+    )
+    class Duck 
+    {
+        public void talk() {}
+    }
+
+&lt;/figure&gt;
+
+&lt;p&gt;In order to use your &lt;code class="highlighter-rouge"&gt;@Classinfo&lt;/code&gt; type annotation, you must declare it. Annotation declaration in Java is similar to how interfaces are declared. In fact, annotations are a kind of interface themselves:&lt;/p&gt;
+&lt;figure class="highlight"&gt;
+
+    @interface Classinfo 
+    {
+        String copyright() default "Acme Corporation Inc.";
+        String author();
+        String date();
+        String version() default "1.1";
+        String lastModified() default "";
+        String lastModifiedBy() default "";
+        String codeReviewBy() default ""; 
+    }
+
+&lt;/figure&gt;
+
+&lt;p&gt;You can see that default values are given for &lt;code class="highlighter-rouge"&gt;copyright&lt;/code&gt;, &lt;code class="highlighter-rouge"&gt;version&lt;/code&gt;, &lt;code class="highlighter-rouge"&gt;lastModifiedBy&lt;/code&gt;, etc. so they are not basically required. If you need multiple author declaration, you can turn it into a list:&lt;/p&gt;
+&lt;p&gt;::: {.highlighter-rouge}&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;String[] author();
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;:::&lt;/p&gt;
+&lt;p&gt;And then proceed to define multiple authors when using the type annotation in this manner:&lt;/p&gt;
+&lt;figure class="highlight"&gt;
+    @Classinfo(
+        author = {"Prahlad Yeri", "John Doe"},
+        date = "25-12-2015"
+    )
+
+&lt;/figure&gt;
+
+&lt;h2&gt;Built-in type annotations in Java&lt;/h2&gt;
+&lt;p&gt;Java comes with a bunch of type annotations pre defined. The ones we saw in this tutorial were &lt;code class="highlighter-rouge"&gt;@Override&lt;/code&gt; and &lt;code class="highlighter-rouge"&gt;@SuppressWarnings&lt;/code&gt;. Here is the entire list:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;\@Deprecated annotation indicates that the marked element is deprecated and should no longer be used.&lt;/li&gt;
+&lt;li&gt;\@Override annotation informs the compiler that the element is meant to override an element declared in a superclass.&lt;/li&gt;
+&lt;li&gt;\@SuppressWarnings annotation tells the compiler to suppress specific warnings that it would otherwise generate.&lt;/li&gt;
+&lt;li&gt;\@SafeVarargs annotation, when applied to a method or constructor, asserts that the code does not perform potentially unsafe operations on its varargs parameter.&lt;/li&gt;
+&lt;li&gt;\@FunctionalInterface annotation, introduced in Java SE 8, indicates that the type declaration is intended to be a functional interface, as defined by the Java Language Specification.&lt;/li&gt;
+&lt;li&gt;\@Documented annotation (&lt;em&gt;only to be used in case of annotation declaration&lt;/em&gt;) indicates that whenever the specified annotation is used those elements should be documented using the Javadoc tool. (By default, annotations are not included in Javadoc.)&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;References:\
+&lt;a href="https://docs.oracle.com/javase/tutorial/java/annotations/index.html"&gt;Official Oracle docs - Type Annotations&lt;/a&gt;\
+&lt;a href="https://docs.oracle.com/javase/tutorial/java/annotations/basics.html"&gt;Official Oracle docs - Type Annotations Basics&lt;/a&gt;\
+&lt;a href="https://docs.oracle.com/javase/tutorial/java/annotations/predefined.html"&gt;Official Oracle docs - Predefined Type Annotations&lt;/a&gt;&lt;/p&gt;</content><category term="Java"></category></entry><entry><title>Rockstar Java Series: Use default methods and be a better coder</title><link href="/blog/2015/12/rockstar-java-series-use-default-methods-and-be-a-better-coder.html" rel="alternate"></link><published>2015-12-21T21:23:00+05:30</published><updated>2015-12-21T21:23:00+05:30</updated><author><name>Prahlad Yeri</name></author><id>tag:None,2015-12-21:/blog/2015/12/rockstar-java-series-use-default-methods-and-be-a-better-coder.html</id><summary type="html">&lt;p&gt;&lt;strong&gt;Java 8&lt;/strong&gt; comes with a lot more improvements and features than most people seem to realize. One such feature that can help you become a better Java coder is &lt;strong&gt;Default methods&lt;/strong&gt;.&lt;!--more--&gt;&lt;/p&gt;
+&lt;p&gt;To learn just how useful this feature is, lets take a very plain simple example: A &lt;code class="highlighter-rouge"&gt;Product Interface&lt;/code&gt;. Suppose …&lt;/p&gt;</summary><content type="html">&lt;p&gt;&lt;strong&gt;Java 8&lt;/strong&gt; comes with a lot more improvements and features than most people seem to realize. One such feature that can help you become a better Java coder is &lt;strong&gt;Default methods&lt;/strong&gt;.&lt;!--more--&gt;&lt;/p&gt;
+&lt;p&gt;To learn just how useful this feature is, lets take a very plain simple example: A &lt;code class="highlighter-rouge"&gt;Product Interface&lt;/code&gt;. Suppose that you are a Java Engineer who is just appointed as the Backend Developer in Acme Trading Corporation to develop their new eCommerce system. Suppose Acme has a range of electronic products ranging from computers to cell phones and hard drives to printers. Being a design-oriented programmer, you develop a &lt;code class="highlighter-rouge"&gt;Product&lt;/code&gt; Interface and a generic &lt;code class="highlighter-rouge"&gt;BaseProduct&lt;/code&gt; class for all products:&lt;/p&gt;
+&lt;figure class="highlight"&gt;
+    //Product.java
+    interface Product
+    {
+        String getName();
+        void setName(String value);
+
+        String getDescription();
+        void setDescription(String value);
+
+        double getRate();
+        void setRate(double value);
+
+    }
+
+    //BaseProduct.java
+    class BaseProduct implements Product
+    {
+        private String name;
+        private String description;
+        private double rate;
+
+
+        public void setDescription(String value) {
+            description = value;
+        }
+
+        public String getDescription() {
+            return description;
+        }
+
+        public void setName(String value) {
+            name = value;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setRate(double value) {
+            rate = value;
+        }
+
+        public double getRate() {
+            return rate;
+        }
+
+        public static void main(String[] args)
+        {
+            BaseProduct product = new BaseProduct();
+            product.setName("Foo");
+            System.out.println(product.getName());
+        }
+    }
+
+&lt;/figure&gt;
+
+&lt;p&gt;You realize that all products have at least these three things in common: &lt;code class="highlighter-rouge"&gt;Name&lt;/code&gt;, &lt;code class="highlighter-rouge"&gt;Description&lt;/code&gt; and &lt;code class="highlighter-rouge"&gt;Rate&lt;/code&gt;. Then, you start implementing the &lt;code class="highlighter-rouge"&gt;Laptop&lt;/code&gt; class based on the &lt;code class="highlighter-rouge"&gt;BaseProduct&lt;/code&gt; class:&lt;/p&gt;
+&lt;figure class="highlight"&gt;
+    //Laptop.java
+    class Laptop extends BaseProduct
+    {
+        private String cpuType;
+        private int usbPorts;
+
+        public String getCpuType() {
+            return cpuType;
+        }
+
+        public void setCpuType(String value) {
+            cpuType = value;
+        }
+
+        public int getUsbPorts() {
+            return usbPorts;
+        }
+
+        public void setUsbPorts(int value) {
+            usbPorts = value;
+        }
+
+
+        public static void main(String[] args)
+        {
+            Laptop laptop = new Laptop();
+            laptop.setName("Dell Inspiron");
+            System.out.println(laptop.getName());
+        }
+    }
+
+&lt;/figure&gt;
+
+&lt;p&gt;Now imagine that you have created lots of classes for all Acme products in this manner including &lt;code class="highlighter-rouge"&gt;Television&lt;/code&gt;, &lt;code class="highlighter-rouge"&gt;Refregerator&lt;/code&gt;, &lt;code class="highlighter-rouge"&gt;Keyboard&lt;/code&gt;, etc.&lt;/p&gt;
+&lt;p&gt;Now, you are just 10 days from releasing the final version of your mind-blowing Product Management System when suddenly your boss tells you that you also need a &lt;code class="highlighter-rouge"&gt;Rating&lt;/code&gt;, but only for some products. Naturally, you being a techie who just sips coffee in front of the computer screen the whole day just didn’t realize how the end customers might interact with your system. So, how will you add &lt;code class="highlighter-rouge"&gt;Rating&lt;/code&gt; to the system now?&lt;/p&gt;
+&lt;p&gt;The classic approach in Java is to just add a &lt;code class="highlighter-rouge"&gt;Rating&lt;/code&gt; property to each and every individual product class of yours that needs a &lt;code class="highlighter-rouge"&gt;Rating&lt;/code&gt;:&lt;/p&gt;
+&lt;figure class="highlight"&gt;
+    //Laptop.java
+    class Laptop
+    {
+        //Classic Java Programmer Approach
+        public String getRating() {}
+        public void setRating(float value) {}
+
+        //.....
+    }
+
+&lt;/figure&gt;
+
+&lt;p&gt;This is a pretty naive approach to this problem. For one, you already have about 100 classes for various products and you will have to go to each one and implement this method. Secondly, you will also break binary compatability with existing versions of your system, so you cannot release this one backend class without replacing your entire system. Another approach is to convert the &lt;code class="highlighter-rouge"&gt;Product&lt;/code&gt; interface to an abstract class, but again, why unnecessarily involve private state when it isn’t needed in the first place. Secondly, a &lt;code class="highlighter-rouge"&gt;BaseProduct&lt;/code&gt; can derive from only one abstract-class but multiple interfaces, so what will you do when you will have to implement more interfaces in future?&lt;/p&gt;
+&lt;p&gt;The most apt solution to this problem is that provided by &lt;code class="highlighter-rouge"&gt;Java 8&lt;/code&gt;: &lt;em&gt;default method&lt;/em&gt;. Just add default methods for &lt;code class="highlighter-rouge"&gt;Rating&lt;/code&gt; to your interface as follows and problem solved!&lt;/p&gt;
+&lt;figure class="highlight"&gt;
+    //Product.java
+    interface Product
+    {
+        //Rockstar Java Programmer Approach
+        default String getRating() {
+            System.out.println("I am the default method for getRating!");
+            return "";
+        }
+
+        default void setRating(String value) {
+            System.out.println("I am the default method for setRating!");
+        }
+
+        String getName();
+        void setName(String value);
+
+        String getDescription();
+        void setDescription(String value);
+
+        double getRate();
+        void setRate(double value);
+    }
+
+&lt;/figure&gt;
+
+&lt;p&gt;The single most important advantage of &lt;code class="highlighter-rouge"&gt;default method&lt;/code&gt; is &lt;code class="highlighter-rouge"&gt;interface evolution&lt;/code&gt; - meaning that your existing code won’t loose ABI (&lt;code class="highlighter-rouge"&gt;Application Binary Interface&lt;/code&gt;) with the new class. If your interface is a part of a libary jar that you distribute to your users, you can release the newer version without affecting the already running code that might be referring to older jars.&lt;/p&gt;
+&lt;p&gt;The inspiration for this came when Oracle themselves had to extend the &lt;code class="highlighter-rouge"&gt;Collection&lt;/code&gt; interface and add a new &lt;code class="highlighter-rouge"&gt;stream&lt;/code&gt; method in &lt;code class="highlighter-rouge"&gt;Java 8&lt;/code&gt;. The &lt;code class="highlighter-rouge"&gt;Collection&lt;/code&gt; interface is very generic and a large number of classes implement that. If Oracle had to implement a &lt;code class="highlighter-rouge"&gt;stream&lt;/code&gt; method in each and every class derived from &lt;code class="highlighter-rouge"&gt;Collection&lt;/code&gt; interface, it would have taken them ages to release Java 8! Rather, they invented this helpful new feature, &lt;code class="highlighter-rouge"&gt;default method&lt;/code&gt; to extend their &lt;code class="highlighter-rouge"&gt;Collection&lt;/code&gt; interface. And now, they don’t have to worry about ABI. Old code referring to JDK 8 libraries will not fail because they are now binary compatible thanks to default methods!&lt;/p&gt;
+&lt;p&gt;References:\
+&lt;a href="http://stackoverflow.com/questions/19998454/interface-with-default-methods-vs-abstract-class-in-java-8"&gt;http://stackoverflow.com/questions/19998454/interface-with-default-methods-vs-abstract-class-in-java-8&lt;/a&gt;\
+&lt;a href="http://programmers.stackexchange.com/questions/233053/why-were-default-and-static-methods-added-to-interfaces-in-java-8-when-we-alread"&gt;http://programmers.stackexchange.com/questions/233053/why-were-default-and-static-methods-added-to-interfaces-in-java-8-when-we-alread&lt;/a&gt;\
+&lt;a href="http://examples.javacodegeeks.com/java-basics/java-8-default-methods-tutorial/"&gt;http://examples.javacodegeeks.com/java-basics/java-8-default-methods-tutorial/&lt;/a&gt;&lt;/p&gt;</content><category term="Java"></category></entry><entry><title>Rockstar Java Series: Using Lambda expressions to up your game</title><link href="/blog/2015/12/rockstar-java-dev-series-using-lambda-expressions.html" rel="alternate"></link><published>2015-12-16T21:23:00+05:30</published><updated>2015-12-16T21:23:00+05:30</updated><author><name>Prahlad Yeri</name></author><id>tag:None,2015-12-16:/blog/2015/12/rockstar-java-dev-series-using-lambda-expressions.html</id><summary type="html">&lt;p&gt;&lt;strong&gt;Java 8&lt;/strong&gt; comes with a lot more improvements and features than most people seem to realize. One such feature that can boost your productivity as a Java Programmer is &lt;strong&gt;Lambda expressions&lt;/strong&gt;.&lt;!--more--&gt;&lt;/p&gt;
+&lt;p&gt;To learn just how beneficial this oft less understood feature is, lets take a very simple example: A &lt;code class="highlighter-rouge"&gt;Product …&lt;/code&gt;&lt;/p&gt;</summary><content type="html">&lt;p&gt;&lt;strong&gt;Java 8&lt;/strong&gt; comes with a lot more improvements and features than most people seem to realize. One such feature that can boost your productivity as a Java Programmer is &lt;strong&gt;Lambda expressions&lt;/strong&gt;.&lt;!--more--&gt;&lt;/p&gt;
+&lt;p&gt;To learn just how beneficial this oft less understood feature is, lets take a very simple example: A &lt;code class="highlighter-rouge"&gt;Product search function&lt;/code&gt;, and see how various traditional approaches to this problem fare out. Since eCommerce stores and shopping cart apps have become quite a buzzword of late, lets make a simple implementation of product search by name:&lt;/p&gt;
+&lt;figure class="highlight"&gt;
+    //Navie approach
+    public static List&lt;Product&gt; search(List&lt;Product&gt; stock, String name) 
+    {
+        ArrayList&lt;Product&gt; r = new ArrayList&lt;Product&gt;();
+        for (Product p : stock)
+        {
+            if (p.name.compareTo(name)==0) {
+                r.add(p);
+            }
+        }
+        return r;
+    }
+
+&lt;/figure&gt;
+
+&lt;p&gt;This is the naivest approach a programmer can possibly take when writing a product search method. The assumption here is that name is going to be the only criteria to search the product catalog. Suppose, you were working as a Java Programmer for a small eCommerce store and you wrote this function, only to realize that your users want a price comparison feature too. So, you add two extra parameters for price range to the search method like this:&lt;/p&gt;
+&lt;figure class="highlight"&gt;
+    //Classic Java Programmer approach
+    public static List&lt;Product&gt; searchWithRange(List&lt;Product&gt; stock, String name, double minValue, double maxValue)
+    {
+        ArrayList&lt;Product&gt; r = new ArrayList&lt;Product&gt;();
+        for (Product p : stock)
+        {
+            if (p.name.compareTo(name)==0 &amp;&amp; (p.price&gt;=minValue &amp;&amp; p.price&lt;=maxValue)) {
+                r.add(p);
+            }
+        }
+        return r;
+    }
+
+&lt;/figure&gt;
+
+&lt;p&gt;This is the classic Java Programmer pattern - if you want to change behavior of a class, just add more parameters to methods. Even a lot of experts do this forgetting the repercussions. For one, each and every change impacts the &lt;code class="highlighter-rouge"&gt;public interface&lt;/code&gt; of your class. Meaning, if you have distributed this class as part of a library &lt;code class="highlighter-rouge"&gt;jar&lt;/code&gt; to any fellow programmers, you must recompile your library package again just for adding one extra parameter. Expert programmers realize this, so they come up with &lt;code class="highlighter-rouge"&gt;Interfaces&lt;/code&gt;. In this example, an Expert programmer will try to separate out the search comparison logic from the search scanning (for loop) and define a &lt;code class="highlighter-rouge"&gt;ProductFilter&lt;/code&gt; interface such as this:&lt;/p&gt;
+&lt;figure class="highlight"&gt;
+    interface ProductFilter
+    {
+        public boolean run(Product p);
+    }
+
+&lt;/figure&gt;
+
+&lt;p&gt;This interface is just a “contract” that asks users to define a &lt;code class="highlighter-rouge"&gt;run&lt;/code&gt; method for comparing a product and return a matching boolean result to include it in the result or not. With this interface, our search method becomes lot more flexible:&lt;/p&gt;
+&lt;figure class="highlight"&gt;
+    //Expert Java Programmer approach
+    public static List&lt;Product&gt; searchWithInterface(List&lt;Product&gt; stock, ProductFilter filter)
+    {
+        ArrayList&lt;Product&gt; r = new ArrayList&lt;Product&gt;();
+        for (Product p : stock)
+        {
+            if (filter.run(p)) {
+                r.add(p);
+            }
+        }
+        return r;
+    }
+
+&lt;/figure&gt;
+
+&lt;p&gt;You see, the class is more generic and flexible now. It can take up whatever new criteria like product size (“15+ inch LCD screens”) or product ratings (“four stars plus”) you come up with. Here is a simple example of using this search method:&lt;/p&gt;
+&lt;figure class="highlight"&gt;
+    List&lt;Product&gt; r =  Product.searchWithInterface(list,new ProductFilter(){
+        public boolean run(Product p) {
+                return (p.name=="foo" &amp;&amp; (p.price&gt;=10 &amp;&amp; p.price&lt;=50) &amp;&amp; p.size=="15in");
+            }
+        });
+
+&lt;/figure&gt;
+
+&lt;p&gt;This is how you would have done things if you were an Expert Java programmer until JDK 7.0, but JDK 8.0 has changed everything! With &lt;em&gt;lambdas&lt;/em&gt;, the above implementation becomes even more flexible and powerful. Firstly, because the interface &lt;code class="highlighter-rouge"&gt;ProductFilter&lt;/code&gt; has only one method, it is a &lt;code class="highlighter-rouge"&gt;functional interface&lt;/code&gt;. With functional interfaces, you can directly assign them &lt;code class="highlighter-rouge"&gt;lambda expressions&lt;/code&gt;, so the above search application becomes as simple as this:&lt;/p&gt;
+&lt;figure class="highlight"&gt;
+      List&lt;Product&gt; r =  Product.searchWithLambda(list,
+        (Product p) -&gt; (p.name.equals("foo") &amp;&amp; (p.price&gt;=10 &amp;&amp; p.price&lt;=50) &amp;&amp; p.size.equals("15in"))); //rockstar2
+
+&lt;/figure&gt;
+
+&lt;p&gt;The syntax for a lamdba is as follows: Arguments in braces, followed by the arrow symbol, followed by statements that return a value:&lt;/p&gt;
+&lt;p&gt;::: {.highlighter-rouge}&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;(arguments) -&amp;gt; (statements)
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;:::&lt;/p&gt;
+&lt;p&gt;In fact, a Rockstar Java programmer will think that he/she no longer needs the &lt;code class="highlighter-rouge"&gt;ProductFilter&lt;/code&gt; interface now. That’s because the package &lt;code class="highlighter-rouge"&gt;java.util.function&lt;/code&gt; comes bundled with several generic interfaces that are pretty easy to use with lambdas. For instance, using the &lt;code class="highlighter-rouge"&gt;Predicate&amp;lt;T&amp;gt;&lt;/code&gt; Interface, our search method no longer needs an interface now!&lt;/p&gt;
+&lt;figure class="highlight"&gt;
+    //Rockstar Java Programmer approach
+    public static List&lt;Product&gt;  searchWithLambda(List&lt;Product&gt; stock, Predicate&lt;Product&gt; filter) 
+    {
+        ArrayList&lt;Product&gt; r = new ArrayList&lt;Product&gt;();
+        for (Product p : stock)
+        {
+            if (filter.test(p)) {
+                r.add(p);
+            }
+        }
+        return r;
+    }
+
+&lt;/figure&gt;
+
+&lt;p&gt;The interface &lt;code class="highlighter-rouge"&gt;java.util.function.Predicate&lt;/code&gt; is a generic interface that contains a generic method named &lt;code class="highlighter-rouge"&gt;test()&lt;/code&gt; (notice we changed &lt;code class="highlighter-rouge"&gt;run&lt;/code&gt; to &lt;code class="highlighter-rouge"&gt;test&lt;/code&gt; in order to use this interface). The package &lt;code class="highlighter-rouge"&gt;java.util.function.*&lt;/code&gt; contains several other useful interfaces like &lt;code class="highlighter-rouge"&gt;Predicate&lt;/code&gt; that can help you in many such situations.&lt;/p&gt;
+&lt;p&gt;Good programming is all about minimalism and reducing code-bloat. Whilst implementing a new paradigm in your existing code might sometime clash with your other constraints like delivery time and number of available developers, I personally think that in the long run, all these efforts spent usually pay off. The pay-off could be in the form of more re-usability, more readability of code, fewer bugs and in most cases all of them.&lt;/p&gt;
+&lt;p&gt;&lt;a href="https://gist.github.com/prahladyeri/0577b5a01ccaa8206e80"&gt;Here&lt;/a&gt; is the complete implementation of &lt;code class="highlighter-rouge"&gt;Product.java&lt;/code&gt;. Today we learned about Lambda expressions, an important new feature in Java 8. In the next part of the series we will learn about &lt;code class="highlighter-rouge"&gt;default methods&lt;/code&gt;, another great Java feature to make your life easier!&lt;/p&gt;
+&lt;p&gt;References:\
+&lt;a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/Predicate.html"&gt;https://docs.oracle.com/javase/8/docs/api/java/util/function/Predicate.html&lt;/a&gt;\
+&lt;a href="https://docs.oracle.com/javase/tutorial/java/javaOO/lambdaexpressions.html"&gt;https://docs.oracle.com/javase/tutorial/java/javaOO/lambdaexpressions.html&lt;/a&gt;&lt;/p&gt;</content><category term="Java"></category></entry></feed>

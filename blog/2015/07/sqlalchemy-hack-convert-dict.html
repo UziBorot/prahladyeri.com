@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="english">
+<head>
+        <meta charset="utf-8" />
+        <title>Sqlalchemy Hack - How to convert a table to dict on the fly</title>
+        <link rel="stylesheet" href="/theme/css/main.css" />
+        <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Prahlad Yeri - Freelance Programmer Atom Feed" />
+</head>
+
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <h1><a href="/">Prahlad Yeri - Freelance Programmer </a></h1>
+                <nav><ul>
+				<li><a href="/">Home</a></li> <!--hard coded-->
+                    <li><a href="/about">About</a></li>
+                    <li><a href="/projects">Projects</a></li>
+                    <li><a href="/hire-me">Hire Me</a></li>
+                </ul></nav>
+        </header><!-- /#banner -->
+<section id="content" class="body">
+  <article>
+    <header>
+      <h1 class="entry-title">
+        <a href="/blog/2015/07/sqlalchemy-hack-convert-dict.html" rel="bookmark"
+           title="Permalink to Sqlalchemy Hack - How to convert a table to dict on the fly">Sqlalchemy Hack - How to convert a table to dict on the fly</a></h1>
+<a href="https://twitter.com/share" class="twitter-share-button" data-count="horizontal" data-via="prahladyeri">Tweet</a><script type="text/javascript" src="https://platform.twitter.com/widgets.js"></script>
+    </header>
+
+    <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2015-07-04T18:36:00+05:30">
+                Published: Sat 04 July 2015
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="/author/prahlad-yeri.html">Prahlad Yeri</a>
+        </address>
+<p>In <a href="/category/uncategorized.html">Uncategorized</a>.</p>
+
+</footer><!-- /.post-info -->      <p>In on of my recent projects, I came across the need to develop a JSON based REST API to fetch data from the <code class="highlighter-rouge">sqlalchemy</code> objects. Now, the <code class="highlighter-rouge">Query</code> object is a great way to access data using the powerful <code class="highlighter-rouge">sqlalchemy orm</code>, but it doesn’t give any built-in way to convert the result-set into a python <code class="highlighter-rouge">dict</code>.<!--more--></p>
+<p>For instance, I have a <code class="highlighter-rouge">Professor</code> table in my <code class="highlighter-rouge">models.py</code>. Here is what I get when I query the <code class="highlighter-rouge">Professor</code> model using <code class="highlighter-rouge">sqlalchemy</code> ORM:</p>
+<p>::: {.language-python .highlighter-rouge}</p>
+<div class="highlight"><pre><span></span>&gt;&gt;&gt; session.query(models.Professor).all()
+2015-07-05 11:07:57,282 INFO sqlalchemy.engine.base.Engine SELECT professors.id AS professors_id, professors.name AS professors_name,
+partment, professors.email AS professors_email, professors.password AS professors_password, professors.phone AS professors_phone
+FROM professors
+2015-07-05 11:07:57,282 INFO sqlalchemy.engine.base.Engine ()
+[&lt;Professor(name=`Albus Dumbledore`)&gt;, &lt;Professor(name=`Severus Snape`)&gt;]
+</pre></div>
+
+
+<p>:::</p>
+<p>At the end, I got the two Professors’ name in a collection, but they are still <code class="highlighter-rouge">sqlalchemy</code> objects. How can I convert it to a python dict, so that it can be deserialized to JSON or be used for any other purpose. To solve this, just add the below code to your <code class="highlighter-rouge">models.py</code> module, and just call the <code class="highlighter-rouge">models.to_dict()</code> method to convert an sqlalchemy models collection to a dict (or alternatively, call <code class="highlighter-rouge">models.from_dict()</code> to build the model object collection from an existing dict!):</p>
+<p>::: {.language-python .highlighter-rouge}</p>
+<div class="highlight"><pre><span></span>def to_dict(model_instance, query_instance=None):
+    if hasattr(model_instance, &#39;__table__&#39;):
+        return {c.name: str(getattr(model_instance, c.name)) for c in model_instance.__table__.columns}
+    else:
+        cols = query_instance.column_descriptions
+        return { cols[i][&#39;name&#39;] : model_instance[i]  for i in range(len(cols)) }
+
+def from_dict(dict, model_instance):
+    for c in model_instance.__table__.columns:
+        setattr(model_instance, c.name, dict[c.name])
+</pre></div>
+
+
+<p>:::</p>
+<p>The usage is as follows:</p>
+<figure class="highlight">
+    q = dbsession.query(models.Application).filter(models.Application.id==id)
+    professors = q.all()
+    di = models.to_dict(professors) #for converting a single table resultset
+
+    q = dbsession.query(models.Application)
+    application = q.first()
+    dd = models.to_dict(app)
+    dd['student'] = models.to_dict(application.student, q) #for converting a relationship object which refers to another table. 
+
+</figure>
+
+<p>The reason we have to use a slightly different approach for the relationship objects (like <code class="highlighter-rouge">application.student</code> which refers to the <code class="highlighter-rouge">student</code> model) is that the instance doesn’t have an <code class="highlighter-rouge">__table__</code> object which is required to build the dict. Hence, the query instance is passed. This is just one approach I’ve used to convert <code class="highlighter-rouge">sqlalchemy</code> objects to <code class="highlighter-rouge">dict</code>. If you have any other approach, please let me know.</p>
+    </div><!-- /.entry-content -->
+
+  </article>
+</section>
+        <section id="extras" class="body">
+                <div class="blogroll">
+                        <h2>links</h2>
+                        <ul>
+                            <li><a href="mailto:prahladyeri@yahoo.com">Email</a></li>
+                            <li><a href="https://github.com/prahladyeri/">Github</a></li>
+                            <li><a href="https://stackoverflow.com/users/849365/prahlad-yeri/">StackOverflow</a></li>
+                            <li><a href="https://www.quora.com/profile/Prahlad-Yeri-%E0%A4%AA%E0%A5%8D%E0%A4%B0%E0%A4%B9%E0%A5%8D%E0%A4%B2%E0%A4%BE%E0%A4%A6-%E0%A4%AF%E0%A5%87%E0%A4%B0%E0%A5%80">Quora</a></li>
+                            <li><a href="https://mastodon.social/@prahladyeri">Mastodon.Social</a></li>
+                            <li><a href="https://www.blogger.com/profile/12769325975373447545">Blogger</a></li>
+                        </ul>
+                </div><!-- /.blogroll -->
+                <div class="social">
+                        <h2>social</h2>
+                        <ul>
+                            <li><a href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
+
+                            <li><a href="https://www.linkedin.com/in/prahlad-yeri-243a5316">Linkedin</a></li>
+                            <li><a href="https://www.facebook.com/prahladyeri14">Facebook</a></li>
+                            <li><a href="https://twitter.com/prahladyeri">Twitter</a></li>
+                        </ul>
+                </div><!-- /.social -->
+        </section><!-- /#extras -->
+
+        <footer id="contentinfo" class="body">
+                <address id="about" class="vcard body">
+                Copyright (c) 2013-2019 <a href="/">Prahlad Yeri</a>.
+				<br>
+				This work is licensed under a [Creative Commons Attribution 4.0 International License](http://creativecommons.org/licenses/by/4.0/).
+                </address><!-- /#about -->
+        </footer><!-- /#contentinfo -->
+
+<script type="text/javascript">
+    var disqus_shortname = 'https://prahladyeri-blog.disqus.com';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = 'https://' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+</body>
+</html>

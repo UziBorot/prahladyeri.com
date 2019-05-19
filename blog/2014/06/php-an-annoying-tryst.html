@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="english">
+<head>
+        <meta charset="utf-8" />
+        <title>PHP - An Annoying Tryst</title>
+        <link rel="stylesheet" href="/theme/css/main.css" />
+        <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Prahlad Yeri - Freelance Programmer Atom Feed" />
+</head>
+
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <h1><a href="/">Prahlad Yeri - Freelance Programmer </a></h1>
+                <nav><ul>
+				<li><a href="/">Home</a></li> <!--hard coded-->
+                    <li><a href="/about">About</a></li>
+                    <li><a href="/projects">Projects</a></li>
+                    <li><a href="/hire-me">Hire Me</a></li>
+                </ul></nav>
+        </header><!-- /#banner -->
+<section id="content" class="body">
+  <article>
+    <header>
+      <h1 class="entry-title">
+        <a href="/blog/2014/06/php-an-annoying-tryst.html" rel="bookmark"
+           title="Permalink to PHP - An Annoying Tryst">PHP - An Annoying Tryst</a></h1>
+<a href="https://twitter.com/share" class="twitter-share-button" data-count="horizontal" data-via="prahladyeri">Tweet</a><script type="text/javascript" src="https://platform.twitter.com/widgets.js"></script>
+    </header>
+
+    <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2014-06-30T06:34:00+05:30">
+                Published: Mon 30 June 2014
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="/author/prahlad-yeri.html">Prahlad Yeri</a>
+        </address>
+<p>In <a href="/category/uncategorized.html">Uncategorized</a>.</p>
+
+</footer><!-- /.post-info -->      <p>It has been a few months since I've started working primarily in PHP and I am actually liking the language a lot! I like the simplicity and symmetry found in C style of solving problems, and PHP has got liberal amounts of that kind of resemblance. I have even come to terms with the clutter of all unorganized functions, considering all the positive aspects of PHP programming.<!--more--></p>
+<p>But an annoying incident happened today with PHP. I had been testing and developing my PHP app over the past few weeks now. Everything worked wonders really, until I deployed the code on client's staging server that is. One of the scripts started giving errors while running, and after some debugging, I found that these two lines were the culprit:</p>
+<p>``` {lang="php"}
+$result = $result-&gt;fetchAll()[0][0];  //doesn't work in PHP 5.3, only in 5.4!
+//$result = $result-&gt;fetchAll();$result=$result[0][0];  //works in both 5.3 and 5.4!</p>
+<div class="highlight"><pre><span></span>``` {lang=&quot;php&quot;}
+$states = [&#39;QLD&#39;, &#39;SA&#39;, &#39;NT&#39;, &#39;WA&#39;];    //doesn&#39;t work in PHP 5.3!
+//$states = array(&#39;QLD&#39;, &#39;SA&#39;, &#39;NT&#39;, &#39;WA&#39;); //works in both 5.3 and 5.4!
+</pre></div>
+
+
+<p>The comments are the after-effects of my analysis, of course. The reason my code broke was that I was running PHP 5.4 and the client had PHP 5.3. I generally prefer programming short-cuts, so in the first instance, I used it for fetching the results of an sqlite table query.\
+<a href="http://stackoverflow.com/questions/742764/php-syntax-for-dereferencing-function-result">Turned out</a>, this way of directly de-referencing an array is not allowed in PHP 5.3! You need another place-holder variable to keep this value.</p>
+<p>Now there is nothing wrong in breaking compatibility between PHP versions if it is REALLy crucial to implement a functionality. But for basic things like array declarations? Its a different matter that almost every other language nowadays allow de-referencing of arrays, but PHP doesn't. Buy why break compatibility all of a sudden? I was quite annoyed by this. Other languages like python do their utmost to keep existing code from breaking, and upgrades to newer versions are in a phased manner.</p>
+<p>Again in the second case, the array declaration synatx ([x, y, z, ...]) works only in 5.4 and not in 5.3. Now I can understand the frustrations of all the developers who were happy moving to python and python-based frameworks. For a language already suffering from defects such as lack of organization in its functions and class-libraries, the designers' strategy to break code compatibility between PHP versions only for aesthetic reasons (array(a,b,c) vs [a, b, c]) is bound to lose the confidence of its users sooner or later.</p>
+    </div><!-- /.entry-content -->
+
+  </article>
+</section>
+        <section id="extras" class="body">
+                <div class="blogroll">
+                        <h2>links</h2>
+                        <ul>
+                            <li><a href="mailto:prahladyeri@yahoo.com">Email</a></li>
+                            <li><a href="https://github.com/prahladyeri/">Github</a></li>
+                            <li><a href="https://stackoverflow.com/users/849365/prahlad-yeri/">StackOverflow</a></li>
+                            <li><a href="https://www.quora.com/profile/Prahlad-Yeri-%E0%A4%AA%E0%A5%8D%E0%A4%B0%E0%A4%B9%E0%A5%8D%E0%A4%B2%E0%A4%BE%E0%A4%A6-%E0%A4%AF%E0%A5%87%E0%A4%B0%E0%A5%80">Quora</a></li>
+                            <li><a href="https://mastodon.social/@prahladyeri">Mastodon.Social</a></li>
+                            <li><a href="https://www.blogger.com/profile/12769325975373447545">Blogger</a></li>
+                        </ul>
+                </div><!-- /.blogroll -->
+                <div class="social">
+                        <h2>social</h2>
+                        <ul>
+                            <li><a href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
+
+                            <li><a href="https://www.linkedin.com/in/prahlad-yeri-243a5316">Linkedin</a></li>
+                            <li><a href="https://www.facebook.com/prahladyeri14">Facebook</a></li>
+                            <li><a href="https://twitter.com/prahladyeri">Twitter</a></li>
+                        </ul>
+                </div><!-- /.social -->
+        </section><!-- /#extras -->
+
+        <footer id="contentinfo" class="body">
+                <address id="about" class="vcard body">
+                Copyright (c) 2013-2019 <a href="/">Prahlad Yeri</a>.
+				<br>
+				This work is licensed under a [Creative Commons Attribution 4.0 International License](http://creativecommons.org/licenses/by/4.0/).
+                </address><!-- /#about -->
+        </footer><!-- /#contentinfo -->
+
+<script type="text/javascript">
+    var disqus_shortname = 'https://prahladyeri-blog.disqus.com';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = 'https://' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+</body>
+</html>

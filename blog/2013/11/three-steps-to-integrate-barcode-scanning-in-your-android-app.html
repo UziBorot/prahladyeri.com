@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="english">
+<head>
+        <meta charset="utf-8" />
+        <title>3 Steps to integrate barcode scanning in your Android app</title>
+        <link rel="stylesheet" href="/theme/css/main.css" />
+        <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Prahlad Yeri - Freelance Programmer Atom Feed" />
+</head>
+
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <h1><a href="/">Prahlad Yeri - Freelance Programmer </a></h1>
+                <nav><ul>
+				<li><a href="/">Home</a></li> <!--hard coded-->
+                    <li><a href="/about">About</a></li>
+                    <li><a href="/projects">Projects</a></li>
+                    <li><a href="/hire-me">Hire Me</a></li>
+                </ul></nav>
+        </header><!-- /#banner -->
+<section id="content" class="body">
+  <article>
+    <header>
+      <h1 class="entry-title">
+        <a href="/blog/2013/11/three-steps-to-integrate-barcode-scanning-in-your-android-app.html" rel="bookmark"
+           title="Permalink to 3 Steps to integrate barcode scanning in your Android app">3 Steps to integrate barcode scanning in your Android app</a></h1>
+<a href="https://twitter.com/share" class="twitter-share-button" data-count="horizontal" data-via="prahladyeri">Tweet</a><script type="text/javascript" src="https://platform.twitter.com/widgets.js"></script>
+    </header>
+
+    <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2013-11-24T14:50:00+05:30">
+                Published: Sun 24 November 2013
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="/author/prahlad-yeri.html">Prahlad Yeri</a>
+        </address>
+<p>In <a href="/category/uncategorized.html">Uncategorized</a>.</p>
+
+</footer><!-- /.post-info -->      <p>Whilst barcode scanning is a pretty complex and non-trivial task in itself, it could be overwhelming sometimes with android programming. Lucky for us, there exists an opensource project called <a href="https://github.com/zxing/zxing"><em>ZXing (pronounced Zebra-crossing)</em></a> that solves this problem for us.<!--more--></p>
+<p><a href="/uploads/old/barcode.png"><img alt="Barcode" class="wp-image-152 alignnone" height="77" src="/uploads/old/barcode.png" width="108"></a></p>
+<p>The ZXing project has already done the heavy lifting by programming the core java components required to scan a 1d/2d barcode or even a PR-code in the form of a <a href="https://play.google.com/store/apps/details?id=com.google.zxing.client.android">Google-play app</a>. All you have to do is send an intent to this app and receive the scanned results that you may use in your app.</p>
+<p>The ZXing project is Apache licensed, so it is free to use without any kind of restrictions. Follow these steps to integrate ZXing with your app:</p>
+<p><strong><em>Step 1:</em></strong> Download the source for IntentIntegrator.java and IntentResult.java from <a href="http://code.google.com/p/zxing/source/browse/trunk#trunk%2Fandroid-integration%2Fsrc%2Fmain%2Fjava%2Fcom%2Fgoogle%2Fzxing%2Fintegration%2Fandroid">here</a> and add the files to your android project sources.</p>
+<p><strong><em>Step 2:</em></strong> Start an intent in that part of your code where you would like to initiate the barcode scanning (such as a menu handler):</p>
+<p>``` {lang="java"}
+IntentIntegrator integrator = new IntentIntegrator(yourActivity);
+integrator.initiateScan();</p>
+<div class="highlight"><pre><span></span><span class="o">***</span><span class="nt">Step</span> <span class="nt">3</span><span class="o">:***</span> <span class="nt">All</span> <span class="nt">that</span> <span class="nt">remains</span> <span class="nt">now</span> <span class="nt">is</span> <span class="nt">to</span> <span class="nt">handle</span> <span class="nt">the</span> <span class="nt">result</span> <span class="nt">of</span> <span class="nt">this</span> <span class="nt">activity</span> <span class="nt">in</span> <span class="nt">your</span> <span class="nt">onActivityResult</span><span class="o">()</span> <span class="nt">handler</span><span class="o">.</span> <span class="nt">This</span> <span class="nt">is</span> <span class="nt">how</span> <span class="nt">I</span> <span class="nt">did</span> <span class="nt">it</span> <span class="nt">in</span> <span class="nt">my</span> <span class="nt">code</span><span class="o">:</span>
+
+<span class="err">```</span> <span class="p">{</span><span class="err">lang=&quot;java&quot;</span><span class="p">}</span>
+<span class="nt">if</span> <span class="o">(</span><span class="nt">requestCode</span><span class="o">==</span><span class="nt">IntentIntegrator</span><span class="p">.</span><span class="nc">REQUEST_CODE</span><span class="o">)</span>
+<span class="p">{</span>
+    <span class="err">IntentResult</span> <span class="err">scanResult</span> <span class="err">=</span> <span class="err">IntentIntegrator.parseActivityResult(requestCode,</span> <span class="err">resultCode,</span> <span class="err">data)</span><span class="p">;</span>
+    <span class="err">if</span> <span class="err">(scanResult</span> <span class="err">!=</span> <span class="err">null)</span>
+    <span class="err">{</span>
+        <span class="err">//</span> <span class="err">handle</span> <span class="err">scan</span> <span class="err">result</span>
+        <span class="err">//MessageBox.run(this,</span> <span class="err">&quot;&quot;,</span> <span class="err">&quot;toString()</span> <span class="n">returns</span><span class="p">:</span> <span class="s2">&quot; + scanResult.toString());</span>
+<span class="s2">    }</span>
+<span class="s2">    else</span>
+<span class="s2">    {</span>
+<span class="s2">        // else continue with any other code you need in the method</span>
+<span class="s2">        MessageBox.run(this, &quot;&quot;, &quot;</span><span class="n">scanResult</span> <span class="n">is</span> <span class="n">null</span><span class="o">.</span><span class="err">&quot;</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="err">}</span>
+</pre></div>
+
+
+<p>That`s all! The above code not only returns the barcode scanning result to your app, but even prompts the user to install a barcode scanner app in case one isn't there. This is the easiest and recommended way of integrating barcode scanning in your android app.</p>
+<p>In case you want to embed the entire ZXing component in your app and don't want to install an app separately for it, refer to the relevant links in the references section. However, this method is not recommended as your app won't get the updates from ZXing.</p>
+<address>
+References:
+
+</address>
+
+<address>
+<http://stackoverflow.com/questions/11205183/integrating-zxing-barcode-scanner?rq=1>
+
+</address>
+
+<address>
+<http://stackoverflow.com/questions/4854442/embed-zxing-library-without-using-barcode-scanner-app/4854637#4854637>
+
+</address>
+
+<address>
+<http://stackoverflow.com/questions/16433860/how-to-use-zxing-library-wihtout-installing-barcodescanner-app>
+
+</address>
+
+<address>
+<https://github.com/zxing/zxing>
+
+</address>
+
+<address>
+<http://code.google.com/p/zxing/wiki/ScanningViaIntent>
+
+</address>
+
+<address>
+
+</address>
+    </div><!-- /.entry-content -->
+
+  </article>
+</section>
+        <section id="extras" class="body">
+                <div class="blogroll">
+                        <h2>links</h2>
+                        <ul>
+                            <li><a href="mailto:prahladyeri@yahoo.com">Email</a></li>
+                            <li><a href="https://github.com/prahladyeri/">Github</a></li>
+                            <li><a href="https://stackoverflow.com/users/849365/prahlad-yeri/">StackOverflow</a></li>
+                            <li><a href="https://www.quora.com/profile/Prahlad-Yeri-%E0%A4%AA%E0%A5%8D%E0%A4%B0%E0%A4%B9%E0%A5%8D%E0%A4%B2%E0%A4%BE%E0%A4%A6-%E0%A4%AF%E0%A5%87%E0%A4%B0%E0%A5%80">Quora</a></li>
+                            <li><a href="https://mastodon.social/@prahladyeri">Mastodon.Social</a></li>
+                            <li><a href="https://www.blogger.com/profile/12769325975373447545">Blogger</a></li>
+                        </ul>
+                </div><!-- /.blogroll -->
+                <div class="social">
+                        <h2>social</h2>
+                        <ul>
+                            <li><a href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
+
+                            <li><a href="https://www.linkedin.com/in/prahlad-yeri-243a5316">Linkedin</a></li>
+                            <li><a href="https://www.facebook.com/prahladyeri14">Facebook</a></li>
+                            <li><a href="https://twitter.com/prahladyeri">Twitter</a></li>
+                        </ul>
+                </div><!-- /.social -->
+        </section><!-- /#extras -->
+
+        <footer id="contentinfo" class="body">
+                <address id="about" class="vcard body">
+                Copyright (c) 2013-2019 <a href="/">Prahlad Yeri</a>.
+				<br>
+				This work is licensed under a [Creative Commons Attribution 4.0 International License](http://creativecommons.org/licenses/by/4.0/).
+                </address><!-- /#about -->
+        </footer><!-- /#contentinfo -->
+
+<script type="text/javascript">
+    var disqus_shortname = 'https://prahladyeri-blog.disqus.com';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = 'https://' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+</body>
+</html>

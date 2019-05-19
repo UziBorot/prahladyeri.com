@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="english">
+<head>
+        <meta charset="utf-8" />
+        <title>Rockstar Java Series: Using Lambda expressions to up your game</title>
+        <link rel="stylesheet" href="/theme/css/main.css" />
+        <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Prahlad Yeri - Freelance Programmer Atom Feed" />
+</head>
+
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <h1><a href="/">Prahlad Yeri - Freelance Programmer </a></h1>
+                <nav><ul>
+				<li><a href="/">Home</a></li> <!--hard coded-->
+                    <li><a href="/about">About</a></li>
+                    <li><a href="/projects">Projects</a></li>
+                    <li><a href="/hire-me">Hire Me</a></li>
+                </ul></nav>
+        </header><!-- /#banner -->
+<section id="content" class="body">
+  <article>
+    <header>
+      <h1 class="entry-title">
+        <a href="/blog/2015/12/rockstar-java-dev-series-using-lambda-expressions.html" rel="bookmark"
+           title="Permalink to Rockstar Java Series: Using Lambda expressions to up your game">Rockstar Java Series: Using Lambda expressions to up your game</a></h1>
+<a href="https://twitter.com/share" class="twitter-share-button" data-count="horizontal" data-via="prahladyeri">Tweet</a><script type="text/javascript" src="https://platform.twitter.com/widgets.js"></script>
+    </header>
+
+    <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2015-12-16T21:23:00+05:30">
+                Published: Wed 16 December 2015
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="/author/prahlad-yeri.html">Prahlad Yeri</a>
+        </address>
+<p>In <a href="/category/java-technology.html">Java, Technology</a>.</p>
+<p>tags: <a href="/tag/java.html">Java</a> </p>
+</footer><!-- /.post-info -->      <p><strong>Java 8</strong> comes with a lot more improvements and features than most people seem to realize. One such feature that can boost your productivity as a Java Programmer is <strong>Lambda expressions</strong>.<!--more--></p>
+<p>To learn just how beneficial this oft less understood feature is, lets take a very simple example: A <code class="highlighter-rouge">Product search function</code>, and see how various traditional approaches to this problem fare out. Since eCommerce stores and shopping cart apps have become quite a buzzword of late, lets make a simple implementation of product search by name:</p>
+<figure class="highlight">
+    //Navie approach
+    public static List<Product> search(List<Product> stock, String name) 
+    {
+        ArrayList<Product> r = new ArrayList<Product>();
+        for (Product p : stock)
+        {
+            if (p.name.compareTo(name)==0) {
+                r.add(p);
+            }
+        }
+        return r;
+    }
+
+</figure>
+
+<p>This is the naivest approach a programmer can possibly take when writing a product search method. The assumption here is that name is going to be the only criteria to search the product catalog. Suppose, you were working as a Java Programmer for a small eCommerce store and you wrote this function, only to realize that your users want a price comparison feature too. So, you add two extra parameters for price range to the search method like this:</p>
+<figure class="highlight">
+    //Classic Java Programmer approach
+    public static List<Product> searchWithRange(List<Product> stock, String name, double minValue, double maxValue)
+    {
+        ArrayList<Product> r = new ArrayList<Product>();
+        for (Product p : stock)
+        {
+            if (p.name.compareTo(name)==0 && (p.price>=minValue && p.price<=maxValue)) {
+                r.add(p);
+            }
+        }
+        return r;
+    }
+
+</figure>
+
+<p>This is the classic Java Programmer pattern - if you want to change behavior of a class, just add more parameters to methods. Even a lot of experts do this forgetting the repercussions. For one, each and every change impacts the <code class="highlighter-rouge">public interface</code> of your class. Meaning, if you have distributed this class as part of a library <code class="highlighter-rouge">jar</code> to any fellow programmers, you must recompile your library package again just for adding one extra parameter. Expert programmers realize this, so they come up with <code class="highlighter-rouge">Interfaces</code>. In this example, an Expert programmer will try to separate out the search comparison logic from the search scanning (for loop) and define a <code class="highlighter-rouge">ProductFilter</code> interface such as this:</p>
+<figure class="highlight">
+    interface ProductFilter
+    {
+        public boolean run(Product p);
+    }
+
+</figure>
+
+<p>This interface is just a “contract” that asks users to define a <code class="highlighter-rouge">run</code> method for comparing a product and return a matching boolean result to include it in the result or not. With this interface, our search method becomes lot more flexible:</p>
+<figure class="highlight">
+    //Expert Java Programmer approach
+    public static List<Product> searchWithInterface(List<Product> stock, ProductFilter filter)
+    {
+        ArrayList<Product> r = new ArrayList<Product>();
+        for (Product p : stock)
+        {
+            if (filter.run(p)) {
+                r.add(p);
+            }
+        }
+        return r;
+    }
+
+</figure>
+
+<p>You see, the class is more generic and flexible now. It can take up whatever new criteria like product size (“15+ inch LCD screens”) or product ratings (“four stars plus”) you come up with. Here is a simple example of using this search method:</p>
+<figure class="highlight">
+    List<Product> r =  Product.searchWithInterface(list,new ProductFilter(){
+        public boolean run(Product p) {
+                return (p.name=="foo" && (p.price>=10 && p.price<=50) && p.size=="15in");
+            }
+        });
+
+</figure>
+
+<p>This is how you would have done things if you were an Expert Java programmer until JDK 7.0, but JDK 8.0 has changed everything! With <em>lambdas</em>, the above implementation becomes even more flexible and powerful. Firstly, because the interface <code class="highlighter-rouge">ProductFilter</code> has only one method, it is a <code class="highlighter-rouge">functional interface</code>. With functional interfaces, you can directly assign them <code class="highlighter-rouge">lambda expressions</code>, so the above search application becomes as simple as this:</p>
+<figure class="highlight">
+      List<Product> r =  Product.searchWithLambda(list,
+        (Product p) -> (p.name.equals("foo") && (p.price>=10 && p.price<=50) && p.size.equals("15in"))); //rockstar2
+
+</figure>
+
+<p>The syntax for a lamdba is as follows: Arguments in braces, followed by the arrow symbol, followed by statements that return a value:</p>
+<p>::: {.highlighter-rouge}</p>
+<div class="highlight"><pre><span></span>(arguments) -&gt; (statements)
+</pre></div>
+
+
+<p>:::</p>
+<p>In fact, a Rockstar Java programmer will think that he/she no longer needs the <code class="highlighter-rouge">ProductFilter</code> interface now. That’s because the package <code class="highlighter-rouge">java.util.function</code> comes bundled with several generic interfaces that are pretty easy to use with lambdas. For instance, using the <code class="highlighter-rouge">Predicate&lt;T&gt;</code> Interface, our search method no longer needs an interface now!</p>
+<figure class="highlight">
+    //Rockstar Java Programmer approach
+    public static List<Product>  searchWithLambda(List<Product> stock, Predicate<Product> filter) 
+    {
+        ArrayList<Product> r = new ArrayList<Product>();
+        for (Product p : stock)
+        {
+            if (filter.test(p)) {
+                r.add(p);
+            }
+        }
+        return r;
+    }
+
+</figure>
+
+<p>The interface <code class="highlighter-rouge">java.util.function.Predicate</code> is a generic interface that contains a generic method named <code class="highlighter-rouge">test()</code> (notice we changed <code class="highlighter-rouge">run</code> to <code class="highlighter-rouge">test</code> in order to use this interface). The package <code class="highlighter-rouge">java.util.function.*</code> contains several other useful interfaces like <code class="highlighter-rouge">Predicate</code> that can help you in many such situations.</p>
+<p>Good programming is all about minimalism and reducing code-bloat. Whilst implementing a new paradigm in your existing code might sometime clash with your other constraints like delivery time and number of available developers, I personally think that in the long run, all these efforts spent usually pay off. The pay-off could be in the form of more re-usability, more readability of code, fewer bugs and in most cases all of them.</p>
+<p><a href="https://gist.github.com/prahladyeri/0577b5a01ccaa8206e80">Here</a> is the complete implementation of <code class="highlighter-rouge">Product.java</code>. Today we learned about Lambda expressions, an important new feature in Java 8. In the next part of the series we will learn about <code class="highlighter-rouge">default methods</code>, another great Java feature to make your life easier!</p>
+<p>References:\
+<a href="https://docs.oracle.com/javase/8/docs/api/java/util/function/Predicate.html">https://docs.oracle.com/javase/8/docs/api/java/util/function/Predicate.html</a>\
+<a href="https://docs.oracle.com/javase/tutorial/java/javaOO/lambdaexpressions.html">https://docs.oracle.com/javase/tutorial/java/javaOO/lambdaexpressions.html</a></p>
+    </div><!-- /.entry-content -->
+
+  </article>
+</section>
+        <section id="extras" class="body">
+                <div class="blogroll">
+                        <h2>links</h2>
+                        <ul>
+                            <li><a href="mailto:prahladyeri@yahoo.com">Email</a></li>
+                            <li><a href="https://github.com/prahladyeri/">Github</a></li>
+                            <li><a href="https://stackoverflow.com/users/849365/prahlad-yeri/">StackOverflow</a></li>
+                            <li><a href="https://www.quora.com/profile/Prahlad-Yeri-%E0%A4%AA%E0%A5%8D%E0%A4%B0%E0%A4%B9%E0%A5%8D%E0%A4%B2%E0%A4%BE%E0%A4%A6-%E0%A4%AF%E0%A5%87%E0%A4%B0%E0%A5%80">Quora</a></li>
+                            <li><a href="https://mastodon.social/@prahladyeri">Mastodon.Social</a></li>
+                            <li><a href="https://www.blogger.com/profile/12769325975373447545">Blogger</a></li>
+                        </ul>
+                </div><!-- /.blogroll -->
+                <div class="social">
+                        <h2>social</h2>
+                        <ul>
+                            <li><a href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
+
+                            <li><a href="https://www.linkedin.com/in/prahlad-yeri-243a5316">Linkedin</a></li>
+                            <li><a href="https://www.facebook.com/prahladyeri14">Facebook</a></li>
+                            <li><a href="https://twitter.com/prahladyeri">Twitter</a></li>
+                        </ul>
+                </div><!-- /.social -->
+        </section><!-- /#extras -->
+
+        <footer id="contentinfo" class="body">
+                <address id="about" class="vcard body">
+                Copyright (c) 2013-2019 <a href="/">Prahlad Yeri</a>.
+				<br>
+				This work is licensed under a [Creative Commons Attribution 4.0 International License](http://creativecommons.org/licenses/by/4.0/).
+                </address><!-- /#about -->
+        </footer><!-- /#contentinfo -->
+
+<script type="text/javascript">
+    var disqus_shortname = 'https://prahladyeri-blog.disqus.com';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = 'https://' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+</body>
+</html>

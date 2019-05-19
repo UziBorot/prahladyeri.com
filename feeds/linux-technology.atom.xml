@@ -1,0 +1,447 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Prahlad Yeri - Freelance Programmer - Linux, Technology</title><link href="/" rel="alternate"></link><link href="/feeds/linux-technology.atom.xml" rel="self"></link><id>/</id><updated>2017-09-16T18:29:00+05:30</updated><entry><title>Ubuntu 17.10 (Artful Aardvark) - An Objective Review</title><link href="/blog/2017/09/ubuntu-17-10-artful-aardvark-an-objective-review.html" rel="alternate"></link><published>2017-09-16T18:29:00+05:30</published><updated>2017-09-16T18:29:00+05:30</updated><author><name>Prahlad Yeri</name></author><id>tag:None,2017-09-16:/blog/2017/09/ubuntu-17-10-artful-aardvark-an-objective-review.html</id><summary type="html">&lt;p&gt;Today, I installed the &lt;a href="http://cdimage.ubuntu.com/daily-live/current/"&gt;Daily Build&lt;/a&gt; of the upcoming Ubuntu 17.10 in VirtualBox and gave it a try. This was supposed to be the first one that replaced &lt;strong&gt;Unity Desktop&lt;/strong&gt; with &lt;strong&gt;GNOME&lt;/strong&gt;. After having used 16.04 LTS for a long time, I felt that this version is quite …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Today, I installed the &lt;a href="http://cdimage.ubuntu.com/daily-live/current/"&gt;Daily Build&lt;/a&gt; of the upcoming Ubuntu 17.10 in VirtualBox and gave it a try. This was supposed to be the first one that replaced &lt;strong&gt;Unity Desktop&lt;/strong&gt; with &lt;strong&gt;GNOME&lt;/strong&gt;. After having used 16.04 LTS for a long time, I felt that this version is quite stable but still lacking in some respects from what I consider to be a &lt;em&gt;proper&lt;/em&gt; Ubuntu OS. Below are my observations:&lt;!--more--&gt;&lt;/p&gt;
+&lt;p&gt;[caption id="attachment_466" align="alignnone" width="640"]&lt;a href="/uploads/2017/09/artful.png"&gt;&lt;img alt="Ubuntu 17.10 (Artful Aardwork)" class="wp-image-466 size-large" height="361" src="/uploads/2017/09/artful-1024x578.png" width="640"&gt;&lt;/a&gt; &lt;strong&gt;Ubuntu 17.10 (Artful Aardwark)&lt;/strong&gt;[/caption]&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;strong&gt;Slightly Higher Memory Consumption in Idle Mode:&lt;/strong&gt; One of the first things I've observed is that Artful eats a bigger chunk of memory than its predecessors. The 16.04 LTS typically consumes in the range of 400-450 MB at rest, whereas Artful consumed a good 639 MB which is slightly higher. The gnome process itself accounted for more than 300 MB at rest, which is a bit higher when compared to the original GNOME Desktop. Maybe, they'll fix this in the final release version.&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Shortcuts Dialog Missing:&lt;/strong&gt; In the Unity Desktop, I very much depend on the "Shortcuts Dialog" which is a dialog that pops up when you long press the &lt;strong&gt;Super&lt;/strong&gt; key on the Desktop:&lt;/p&gt;
+&lt;p&gt;[caption id="attachment_467" align="alignnone" width="942"]&lt;a href="/uploads/2017/09/keyboard_shortcuts_dialog.png"&gt;&lt;img alt="Ubuntu Keyboard Shortcuts Dialog" class="wp-image-467 size-full" height="600" src="/uploads/2017/09/keyboard_shortcuts_dialog.png" width="942"&gt;&lt;/a&gt; Unity Keyboard Shortcuts Dialog[/caption]&lt;/p&gt;
+&lt;p&gt;As you can see, this gives a good overview of various shortcut keys and comes in very handy for many Ubuntu users. Perhaps, the devs have forgotten to add this feature when they transitioned Ubuntu to the GNOME desktop.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Many Shortcuts Missing:&lt;/strong&gt; There are many actual shortcuts too which are missing in this version. One of the important ones for example is &lt;strong&gt;HUD&lt;/strong&gt; which is a quite well known feature. Another one is the &lt;strong&gt;"Super+Tab"&lt;/strong&gt; shortcut which allows you to cycle through the dock menu in Unity.&lt;/p&gt;
+&lt;p&gt;[caption id="attachment_468" align="alignnone" width="108"]&lt;a href="/uploads/2017/09/dock.png"&gt;&lt;img alt="Ubuntu Dock" class="size-full wp-image-468" height="356" src="/uploads/2017/09/dock.png" width="108"&gt;&lt;/a&gt; Ubuntu Dock[/caption]&lt;/p&gt;
+&lt;p&gt;Again, this important shortcut is missing which contributes much to the usability of a typical Ubuntu user. Maybe, this is all right from a GNOME user's perspective but we are talking about Ubuntu here and not Ubuntu-GNOME, so the features of the former should have a priority and not the latter. If this turns out to be just another clone of Ubuntu-GNOME, then what's the use of having Ubuntu, people can already use the Ubuntu-GNOME Desktop for that.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;strong&gt;Stable Performance:&lt;/strong&gt; Other than the points described above, Ubuntu 17.10 seems ready for the prime time. But having said that, I haven't come across any drastic feature addition to 16.04 LTS yet, so I'm not going to switch just yet. If &lt;strong&gt;Wayland&lt;/strong&gt; improves over the years and  makes a drastic improvement in performance (as they had originally promised), then lets see! Until then, its just wait and watch.&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;</content><category term="Linux"></category><category term="Ubuntu"></category></entry><entry><title>How to install Debian+LXDE on ANY Android Tablet</title><link href="/blog/2017/07/install-debian-lxde-on-tablet.html" rel="alternate"></link><published>2017-07-05T04:21:00+05:30</published><updated>2017-07-05T04:21:00+05:30</updated><author><name>Prahlad Yeri</name></author><id>tag:None,2017-07-05:/blog/2017/07/install-debian-lxde-on-tablet.html</id><summary type="html">&lt;p&gt;Running a linux distro on android devices is a hot topic these days, and why not? After all, android is already based on linux kernel, but a pretty much locked-down and dumbed-down version of it. The OEM doesn’t give you root and in most cases, not even an open …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Running a linux distro on android devices is a hot topic these days, and why not? After all, android is already based on linux kernel, but a pretty much locked-down and dumbed-down version of it. The OEM doesn’t give you root and in most cases, not even an open source bootloader or kernel.&lt;!--more--&gt;&lt;/p&gt;
+&lt;p&gt;That way, its good for maybe the most average user who doesn’t care about the OS and just want to use their phones. But for a power user, that’s not enough.&lt;/p&gt;
+&lt;p&gt;[caption id="attachment_553" align="alignnone"]&lt;a href="/uploads/2017/07/debian_xfce_tablet.jpg"&gt;&lt;img alt="Debian (LXDE) running on Xiaomi MiPad" class="size-full wp-image-553" src="/uploads/2017/07/debian_xfce_tablet.jpg"&gt;&lt;/a&gt; Debian (LXDE) running on Xiaomi MiPad Tablet[/caption]&lt;/p&gt;
+&lt;p&gt;The so called apps available in the Play Store don’t allow you to utilize the full power of your linux device. A power user always wants to have the power of a full linux distro (such as Debian or Ubuntu or Fedora) on his/her device.&lt;/p&gt;
+&lt;p&gt;For a long time, I researched for the best way to install a linux distro on a tablet, preferably one that didn’t involve rooting or partitioning the device. The &lt;a href="https://wiki.debian.org/ChrootOnAndroid"&gt;debian guide&lt;/a&gt; lists down several methods and apps to do this such as Linux Deploy, GNURoot, Termux, etc. Out of them, the least risky and one that supports most android devices (including my KitKat tablet) is &lt;a href="https://play.google.com/store/apps/details?id=com.gnuroot.debian"&gt;GNURoot-Debian&lt;/a&gt;.&lt;/p&gt;
+&lt;p&gt;Once you install this app on your tablet, it creates a self-contained &lt;code class="highlighter-rouge"&gt;chroot&lt;/code&gt; install of debian using a tool called &lt;a href="https://wiki.archlinux.org/index.php/Proot"&gt;Proot&lt;/a&gt;. Once that is done, all you need to do is open up the app terminal and just start using it:&lt;/p&gt;
+&lt;p&gt;::: {.highlighter-rouge}&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;apt-get update
+apt-get install tmux vim gcc python python3 python3-pip
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;:::&lt;/p&gt;
+&lt;p&gt;Of course, these are just some of the packages that I’ve installed, you can do whatever you want with your linux installation. The only limitation is regarding multiple user logins. By default, the app will login you as &lt;code class="highlighter-rouge"&gt;root&lt;/code&gt; and while you can create additional users using &lt;code class="highlighter-rouge"&gt;useradd&lt;/code&gt; command, don’t expect things like &lt;code class="highlighter-rouge"&gt;setuid&lt;/code&gt; and &lt;code class="highlighter-rouge"&gt;setgid&lt;/code&gt; to work. The only way to switch user is using the &lt;code class="highlighter-rouge"&gt;su - yourLogin&lt;/code&gt; command (whilst the &lt;code class="highlighter-rouge"&gt;login&lt;/code&gt; command should work too in theory, I’m having a few problems with it presently, it might need some fixing in /etc/pam.d/* configuration files).&lt;/p&gt;
+&lt;p&gt;Further, if you have good amount of RAM on your tablet, you may consider using a desktop environment along with your headless installation (LXDE is recommended as it performs best on minimal resources). In order to do that, you’ll need two things:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;a href="https://play.google.com/store/apps/details?id=x.org.server&amp;amp;hl=en"&gt;XServer-XSDL app&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;LXDE/XFCE desktop installed.&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;The former is used to interact with the headless XServer installation of your debian and provide you a graphical desktop environment. For the latter, you’ll have to just &lt;code class="highlighter-rouge"&gt;apt-get install lxde&lt;/code&gt; (or lxde-core depending on your choice). Then, in order to use the desktop any time on your tablet:&lt;/p&gt;
+&lt;p&gt;1) Open XServer-XSDL app, follow the instructions until you reach a blue screen.&lt;/p&gt;
+&lt;p&gt;2) Go to the debian installation and run:\
+export DISPLAY=:0 PULSE_SERVER=tcp:127.0.0.1:4712\
+startlxde &amp;amp;&lt;/p&gt;
+&lt;p&gt;3) Go back to XServer-XSDL app to interact with the desktop.&lt;/p&gt;
+&lt;p&gt;If all goes well, you should be able to see an lxde desktop like the one shown in the above screen. Coupled with the keyboard case and a bunch of great linux apps (such as vim, emacs, geany, inkscape, eclipse, etc.), you should be able to convert your mobile tablet into a great development machine on wheels.&lt;/p&gt;
+&lt;p&gt;References:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://www.xda-developers.com/guide-installing-and-running-a-gnulinux-environment-on-any-android-device/"&gt;https://www.xda-developers.com/guide-installing-and-running-a-gnulinux-environment-on-any-android-device/&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://wiki.debian.org/ChrootOnAndroid"&gt;https://wiki.debian.org/ChrootOnAndroid&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://play.google.com/store/apps/details?id=com.gnuroot.debian"&gt;https://play.google.com/store/apps/details?id=com.gnuroot.debian&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://play.google.com/store/apps/details?id=x.org.server&amp;amp;hl=en"&gt;https://play.google.com/store/apps/details?id=x.org.server&amp;amp;hl=en&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://wiki.archlinux.org/index.php/Proot"&gt;https://wiki.archlinux.org/index.php/Proot&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</content><category term="Android"></category><category term="Debian"></category><category term="LXDE"></category></entry><entry><title>Ten useful LibreOffice Macro Recipes</title><link href="/blog/2016/02/ten-libreoffice-macro-recipes.html" rel="alternate"></link><published>2016-02-26T02:23:00+05:30</published><updated>2016-02-26T02:23:00+05:30</updated><author><name>Prahlad Yeri</name></author><id>tag:None,2016-02-26:/blog/2016/02/ten-libreoffice-macro-recipes.html</id><summary type="html">&lt;p&gt;Macros are a great way to automate tasks in Spreadsheet applications, be it the good old Microsoft Excel or the equally efficient FOSS alternative, LibreOffice Calc. The best thing about macros is that they are written in a very easy language called &lt;a href="https://en.wikipedia.org/wiki/BASIC"&gt;Basic&lt;/a&gt;.&lt;!--more--&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="LibreOffice Logo" src="/uploads/old/libreofficeCalcLogo.jpg"&gt;\
+&lt;small&gt;© The LibreOffice Project&lt;/small&gt;&lt;/p&gt;
+&lt;p&gt;As it’s very …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Macros are a great way to automate tasks in Spreadsheet applications, be it the good old Microsoft Excel or the equally efficient FOSS alternative, LibreOffice Calc. The best thing about macros is that they are written in a very easy language called &lt;a href="https://en.wikipedia.org/wiki/BASIC"&gt;Basic&lt;/a&gt;.&lt;!--more--&gt;&lt;/p&gt;
+&lt;p&gt;&lt;img alt="LibreOffice Logo" src="/uploads/old/libreofficeCalcLogo.jpg"&gt;\
+&lt;small&gt;© The LibreOffice Project&lt;/small&gt;&lt;/p&gt;
+&lt;p&gt;As it’s very name suggests, Basic is a lenient programming language actually designed with ease of use in mind. For instance, upper/lower case doesn’t matter for variable names or keywords (&lt;code class="highlighter-rouge"&gt;if/IF&lt;/code&gt;, &lt;code class="highlighter-rouge"&gt;sub/Sub&lt;/code&gt;, &lt;code class="highlighter-rouge"&gt;function/Function&lt;/code&gt; are equivalents), function braces are optional like Ruby and type-conversion happens automatically. This makes Basic equally useful for both power users and programmers. A LibreOffice Basic macro is just a function or sub procedure which does a specific useful task. In this tutorial, we will see ten such useful macros that can help you with various automation tasks.&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;&lt;a href="#howto"&gt;Recipe 0: How to create a LibreOffice macro&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#readcell"&gt;Recipe 1: Read cell contents&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#changecell"&gt;Recipe 2: Change cell contents&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#searchandrepl"&gt;Recipe 3: Search and Replace text&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#regex"&gt;Recipe 4: Regular Expressions&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#showopendialog"&gt;Recipe 5: Show File-open dialog&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#showsavedialog"&gt;Recipe 6: Show File-save dialog&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#readfromfiles"&gt;Recipe 7: File I/O: Read from files&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#writetofiles"&gt;Recipe 8: File I/O: Write to files&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#loadfromcsv"&gt;Recipe 9: Load data from a CSV file&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#copytoclipboard"&gt;Recipe 10: Copy text to clipboard&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#demo"&gt;Demo&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="#references"&gt;References&lt;/a&gt;&lt;/li&gt;
+&lt;/ol&gt;
+&lt;h2 id="recipe-0-how-to-create-a-libreoffice-macro-"&gt;Recipe 0: How to create a LibreOffice macro []{#howto}&lt;/h2&gt;
+&lt;p&gt;Whilst macros can be created in Writer and Draw too, in this specific tutorial, we will restrict ourselves to spreadsheets (Calc). To create a macro, just open the spreadsheet in LibreOffice and go to &lt;code class="highlighter-rouge"&gt;Tools-&amp;gt;Macros-&amp;gt;Organize Macros-&amp;gt;LibreOffice Basic&lt;/code&gt; menu. After that, if you want to create a macro specific to your spreadsheet (as usually is the case), expand your spreadsheet file on left and select &lt;code class="highlighter-rouge"&gt;Standard&lt;/code&gt; and click &lt;code class="highlighter-rouge"&gt;New&lt;/code&gt;. This will open the LibreOffice Macro Editor as a separate window.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Macros Menu" src="/uploads/old/macros_menu.png"&gt;&lt;/p&gt;
+&lt;h2 id="recipe-1-read-cell-contents-"&gt;Recipe 1: Read cell contents []{#readcell}&lt;/h2&gt;
+&lt;p&gt;One of the most basic things needed for automation is reading a cell’s contents. The following piece of code does exactly this:&lt;/p&gt;
+&lt;figure class="highlight"&gt;
+    Sub read_cell
+        dim document as object
+        document = ThisComponent
+        sheet = document.Sheets(0)
+        MsgBox(sheet.getCellByPosition(0, 0).String)
+    End Sub
+
+&lt;/figure&gt;
+
+&lt;p&gt;&lt;code class="highlighter-rouge"&gt;dim&lt;/code&gt; is a keyword used to declare a variable but declaration is totally optional unless &lt;code class="highlighter-rouge"&gt;Option Explicit&lt;/code&gt; is specified at the beginning of the module. &lt;code class="highlighter-rouge"&gt;ThisComponent&lt;/code&gt; is the LibreOffice object that references the current spreadsheet (or a written document in case of Writer). The important thing here is the expression, &lt;code class="highlighter-rouge"&gt;sheet.getCellByPosition(0, 0).String&lt;/code&gt; which gets the contents of first cell in the first row. Cells can be referenced using the co-ordinate system where (0,0) refers to cell at row-0 and column-0. Thus, any value across the entire spreadsheet can be fetched using this simple method.&lt;/p&gt;
+&lt;p&gt;To run a macro from the editor, just place the cursor inside the &lt;code class="highlighter-rouge"&gt;sub&lt;/code&gt; or &lt;code class="highlighter-rouge"&gt;function&lt;/code&gt; body of any macro and press &lt;code class="highlighter-rouge"&gt;F5&lt;/code&gt; (or alternatively, click the &lt;code class="highlighter-rouge"&gt;Run BASIC&lt;/code&gt; icon on the toolbar).&lt;/p&gt;
+&lt;h2 id="recipe-2-change-cell-contents-"&gt;Recipe 2: Change cell contents []{#changecell}&lt;/h2&gt;
+&lt;p&gt;Another often needed thing is the ability to change the cell contents. The following code sets the first cell in the first row to “Hola! Mundo”, the Spanish expression for “Hello! World”:&lt;/p&gt;
+&lt;figure class="highlight"&gt;
+    Sub change_cell
+        dim document as object
+        document = ThisComponent
+        sheet = document.Sheets(0)
+        sheet.getCellByPosition(0, 0).String = "Hola Mundo!"
+        MsgBox("Done")
+    End Sub
+
+&lt;/figure&gt;
+
+&lt;h2 id="recipe-3-search-and-replace-"&gt;Recipe 3: Search and Replace []{#searchandrepl}&lt;/h2&gt;
+&lt;p&gt;Searching and replacing specific strings could be an important part of your automation routine. Below is a fun macro that searches for the first names of some Linux experts (like Linus, Richard, Peter, etc.) and replaces it with their last names (Torvalds, Stallman, Anvin):&lt;/p&gt;
+&lt;figure class="highlight"&gt;
+    Sub replace_text
+      Dim names() As String
+      Dim surnames() As String
+      Dim n As Long
+      Dim document As Object
+      Dim sheets as Object
+      Dim sheet as Object
+      Dim replace As Object
+
+      names() = Array("Linus", "Richard", "Peter", "Greg", "Bill")
+      surnames() = Array("Torvalds", "Stallman", "Anvin", "Kroah", "Gates")
+      document = ThisComponent rem .CurrentController.Frame
+      rem sheet = doc.CurrentSelection.Spreadsheet
+      sheets = document.getSheets()
+      sheet = sheets.getByIndex(0)
+      replace = sheet.createReplaceDescriptor rem document.createReplaceDescriptor in case of Writer
+      rem replace.SearchRegularExpression = True
+      For n = lbound(names()) To ubound(names())
+        replace.SearchString = names(n)
+        replace.ReplaceString = surnames(n)
+        sheet.replaceAll(replace)
+      Next n
+      MsgBox("Done")
+    End Sub
+
+&lt;/figure&gt;
+
+&lt;p&gt;&lt;code class="highlighter-rouge"&gt;names()&lt;/code&gt; and &lt;code class="highlighter-rouge"&gt;surnames()&lt;/code&gt; are actually arrays. Unlike C and Java, arrays in Basic are declared and accessed using round braces and not square ones. Also, what gets declared in an array declaration is the upper-bound, not the total size. Thus, &lt;code class="highlighter-rouge"&gt;foo(2)&lt;/code&gt; is actually a size-3 array ranging from indices 0 to 2.&lt;/p&gt;
+&lt;h2 id="recipe-4-regular-expressions-"&gt;Recipe 4: Regular Expressions []{#regex}&lt;/h2&gt;
+&lt;p&gt;Regular expressions are very useful in searching and replacing text based on specific patterns. The following macro searches for all the email addresses in your spreadsheet and replaces each one with &lt;code class="highlighter-rouge"&gt;foo@bar.com&lt;/code&gt;:&lt;/p&gt;
+&lt;figure class="highlight"&gt;
+    Sub replace_with_regex
+      Dim names() As String
+      Dim surnames() As String
+      Dim n As Long
+      Dim document As Object
+      Dim sheets as Object
+      Dim sheet as Object
+      Dim replace As Object
+
+      pattern = "\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\b" rem regex pattern to match any email address
+      document = ThisComponent rem .CurrentController.Frame
+      sheets = document.getSheets()
+      sheet = sheets.getByIndex(0)
+      replace = sheet.createReplaceDescriptor rem document.createReplaceDescriptor in case of Writer
+      replace.SearchRegularExpression = True
+      replace.SearchString = pattern
+      replace.ReplaceString = "foo@bar.com"
+      sheet.replaceAll(replace)
+
+      MsgBox("Done")
+    End Sub
+
+&lt;/figure&gt;
+
+&lt;h2 id="recipe-5-show-file-open-dialog-"&gt;Recipe 5: Show File-open dialog []{#showopendialog}&lt;/h2&gt;
+&lt;p&gt;Showing the File-open dialog is a very common requirement, especially when you want to open an external file for processing. The below code uses the &lt;code class="highlighter-rouge"&gt;FilePicker&lt;/code&gt; object to show the file-open dialog and return the selected file-name:&lt;/p&gt;
+&lt;figure class="highlight"&gt;
+    function show_open_dialog
+        dim aurl as object
+        dim s as string
+        dim oDlg as object
+
+        oDlg = createUnoService("com.sun.star.ui.dialogs.FilePicker")
+        oDlg.setMultiSelectionMode(false)
+        oDlg.appendFilter("CSV Files (.csv)", "*.csv" ) 
+        oDlg.execute
+        aUrl = oDlg.getFiles()
+
+        s = aUrl(0)
+        if len(s) &gt; 0 then
+            MsgBox("File Selected: " &amp; s &amp; chr(13))
+        end if
+        show_open_dialog = s
+    end function
+
+&lt;/figure&gt;
+
+&lt;p&gt;&lt;code class="highlighter-rouge"&gt;createUnoService&lt;/code&gt; is a LibreOffice specific method for creating helper objects like &lt;code class="highlighter-rouge"&gt;FilePicker&lt;/code&gt; in this example. The &lt;code class="highlighter-rouge"&gt;appendFilter&lt;/code&gt; method is used to filter out only &lt;code class="highlighter-rouge"&gt;CSV&lt;/code&gt; files in the dialog.&lt;/p&gt;
+&lt;h2 id="recipe-6-show-file-save-dialog-"&gt;Recipe 6: Show File-save dialog []{#showsavedialog}&lt;/h2&gt;
+&lt;p&gt;For showing a File-save dialog, the same &lt;code class="highlighter-rouge"&gt;FilePicker&lt;/code&gt; object is used, initializing it with the &lt;code class="highlighter-rouge"&gt;FILESAVE_AUTOEXTENSION&lt;/code&gt; argument:&lt;/p&gt;
+&lt;figure class="highlight"&gt;
+    function show_save_dialog
+        dim aurl as object
+        dim s as string
+        dim oDlg as object
+
+        sFilePickerArgs = Array(_
+        com.sun.star.ui.dialogs.TemplateDescription.FILESAVE_AUTOEXTENSION )    
+        oDlg = createUnoService("com.sun.star.ui.dialogs.FilePicker")
+        oDlg.initialize(sFilePickerArgs())
+        oDlg.setMultiSelectionMode(false)
+        oDlg.appendFilter("CSV Files (.csv)", "*.csv" ) 
+        oDlg.setTitle("Save As....")
+
+        if oDlg.execute() then
+            aUrl = oDlg.getFiles()
+            s = aUrl(0)
+            if len(s) &gt; 0 then
+                MsgBox("File Selected: " &amp; s &amp; chr(13))
+            end if
+        else
+            s = ""
+        end if
+        show_save_dialog = s
+    end function
+
+&lt;/figure&gt;
+
+&lt;h2 id="recipe-7-file-io-read-from-files-"&gt;Recipe 7: File I/O: Read from files []{#readfromfiles}&lt;/h2&gt;
+&lt;p&gt;Raw file I/O is a feature provided by almost every language and Basic macros make it almost too easy. Below code is used to read a CSV file with three columns. Name of the file is set in the &lt;code class="highlighter-rouge"&gt;filename&lt;/code&gt; variable. The variable &lt;code class="highlighter-rouge"&gt;num&lt;/code&gt; is a numerical tag used to reference the file-handler and &lt;code class="highlighter-rouge"&gt;FreeFile()&lt;/code&gt; returns a free available number that can be used for tagging. The &lt;code class="highlighter-rouge"&gt;open&lt;/code&gt; statement is self-explanatory. In Basic, files can be opened in Input, Output and Binary modes. Finally, the &lt;code class="highlighter-rouge"&gt;input&lt;/code&gt; statement is used to actually read the file into the variables line after line.&lt;/p&gt;
+&lt;figure class="highlight"&gt;
+    sub file_io_read
+        dim v1, v2, v3
+        filename = "/home/prahlad/data/test.csv"
+        num = FreeFile()
+        open filename for input as #num 
+        do while not eof(num)
+            input #num, v1, v2, v3
+            print v1 &amp; "::" &amp; v2 &amp; "::" &amp; v3
+        loop
+        close #num
+        msgbox "Done"
+    end sub
+
+&lt;/figure&gt;
+
+&lt;h2 id="recipe-8-file-io-write-to-files-"&gt;Recipe 8: File I/O: Write to files []{#writetofiles}&lt;/h2&gt;
+&lt;p&gt;For writing to files, a handler is opened in &lt;code class="highlighter-rouge"&gt;output&lt;/code&gt; mode instead of &lt;code class="highlighter-rouge"&gt;input&lt;/code&gt;, and the &lt;code class="highlighter-rouge"&gt;write&lt;/code&gt; statement is used to actually write the variables to a file.&lt;/p&gt;
+&lt;figure class="highlight"&gt;
+    sub file_io_write
+        filename = "/home/prahlad/data/dummy.csv"
+        num = FreeFile()
+        open filename for output as #num 
+        write #num, "col1", "col2", "col3"
+        write #num, "1", "2", "3"
+        write #num, "4", "5", "6"
+        close #num
+        msgbox "Done"
+    end sub
+
+&lt;/figure&gt;
+
+&lt;h2 id="recipe-9-load-data-from-a-csv-file-"&gt;Recipe 9: Load data from a CSV file []{#loadfromcsv}&lt;/h2&gt;
+&lt;p&gt;Apart from working in raw I/O mode, it is sometimes required to load a complete CSV as a sheet in the current document. Using the &lt;code class="highlighter-rouge"&gt;show_open_dialog&lt;/code&gt; function that we studied earlier, the following macro first prompts a user with a File-open dialog and then loads the specified CSV file as a new sheet:&lt;/p&gt;
+&lt;figure class="highlight"&gt;
+    sub load_from_csv
+        fname = show_open_dialog
+        if len(fname)&gt;0 then
+            dim fileProps(1) as new com.sun.star.beans.PropertyValue
+            fileProps(0).Name = "FilterName"
+            fileProps(0).Value = "Text - txt - csv (StarCalc)"
+            fileProps(1).Name = "FilterOptions"
+            fileProps(1).Value = "44,34,76,1,,0,false,true,true,false"
+            document = StarDesktop.loadComponentFromURL(fname, "_blank", 0, fileProps())        
+        end if
+        msgbox "Done"
+    end sub
+
+&lt;/figure&gt;
+
+&lt;p&gt;&lt;code class="highlighter-rouge"&gt;fileProps(0)&lt;/code&gt; is a property variable used for specifying the CSV file format, while &lt;code class="highlighter-rouge"&gt;fileProps(1)&lt;/code&gt; specifies the default formatting options for the CSV (such as a delimiter, charset, etc.)&lt;/p&gt;
+&lt;h2 id="recipe-10-copy-text-to-clipboard-"&gt;Recipe 10: Copy text to clipboard []{#copytoclipboard}&lt;/h2&gt;
+&lt;p&gt;Your custom processing might involve putting a specific text to the clipboard from LibreOffice Calc. Following code shows how to put the string “Hola!” to the system clipboard:&lt;/p&gt;
+&lt;figure class="highlight"&gt;
+    sub copy_to_clipboard
+        oClip = CreateUnoService("com.sun.star.datatransfer.clipboard.SystemClipboard")
+        oTR = createUnoListener("TR_", "com.sun.star.datatransfer.XTransferable")
+        oClip.setContents(oTR, null)
+        msgbox "Done"
+    end sub
+
+    Function TR_getTransferData( aFlavor As com.sun.star.datatransfer.DataFlavor ) As Any
+        If (aFlavor.MimeType = "text/plain;charset=utf-16") Then
+            TR_getTransferData = "Hola!"
+        EndIf
+    End Function
+
+    Function TR_getTransferDataFlavors() As Any
+        Dim aF As new com.sun.star.datatransfer.DataFlavor
+        aF.MimeType = "text/plain;charset=utf-16"
+        aF.HumanPresentableName = "Unicode-Text"
+        TR_getTransferDataFlavors = Array(aF)
+    End Function
+
+    Function TR_isDataFlavorSupported( aFlavor As com.sun.star.datatransfer.DataFlavor ) As Boolean
+        TR_isDataFlavorSupported = (aFlavor.MimeType = "text/plain;charset=utf-16")
+    End Function
+
+&lt;/figure&gt;
+
+&lt;p&gt;Second function is a callback and is used for storing the string to clipboard. The last two are helper functions used by the &lt;code class="highlighter-rouge"&gt;SystemClipboard&lt;/code&gt; and &lt;code class="highlighter-rouge"&gt;XTransferable&lt;/code&gt; helper objects and are required.&lt;/p&gt;
+&lt;h2 id="demo-"&gt;Demo []{#demo}&lt;/h2&gt;
+&lt;p&gt;Finally, the working LibreOffice Calc spreadsheet implementing all these examples can be found &lt;a href="/uploads/old/macro_recipes.ods"&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;h2 id="references-"&gt;References []{#references}&lt;/h2&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="http://api.libreoffice.org/examples/examples.html#Basic_examples"&gt;http://api.libreoffice.org/examples/examples.html#Basic_examples&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://forum.openoffice.org/en/forum/viewtopic.php?f=25&amp;amp;t=36441"&gt;https://forum.openoffice.org/en/forum/viewtopic.php?f=25&amp;amp;t=36441&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://ask.libreoffice.org/en/question/39940/calc-open-and-save-csv-file-with-given-filter-options/"&gt;https://ask.libreoffice.org/en/question/39940/calc-open-and-save-csv-file-with-given-filter-options/&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://wiki.openoffice.org/wiki/Documentation/DevGuide/OpenOffice.org_Developers_Guide"&gt;https://wiki.openoffice.org/wiki/Documentation/DevGuide/OpenOffice.org_Developers_Guide&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://wiki.openoffice.org/wiki/Documentation/BASIC_Guide/Cells_and_Ranges"&gt;https://wiki.openoffice.org/wiki/Documentation/BASIC_Guide/Cells_and_Ranges&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="http://www.excel-spreadsheet.com/vba/inputoutput.htm"&gt;http://www.excel-spreadsheet.com/vba/inputoutput.htm&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://forum.openoffice.org/en/forum/viewtopic.php?f=45&amp;amp;t=13783"&gt;https://forum.openoffice.org/en/forum/viewtopic.php?f=45&amp;amp;t=13783&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</content><category term="LibreOffice"></category><category term="Linux"></category></entry><entry><title>How to assemble a fast and minimal Debian Desktop using Openbox</title><link href="/blog/2016/02/minimal-debian-desktop-setup.html" rel="alternate"></link><published>2016-02-16T07:23:00+05:30</published><updated>2016-02-16T07:23:00+05:30</updated><author><name>Prahlad Yeri</name></author><id>tag:None,2016-02-16:/blog/2016/02/minimal-debian-desktop-setup.html</id><summary type="html">&lt;p&gt;Being a web developer, one of the nagging things to do is keeping your hardware in sync with your performance requirements. In the good old times, a &lt;code class="highlighter-rouge"&gt;P4&lt;/code&gt; or even a &lt;code class="highlighter-rouge"&gt;Celeron&lt;/code&gt; based PC or laptop was enough for programming. But with changing times, the required investment to get a …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Being a web developer, one of the nagging things to do is keeping your hardware in sync with your performance requirements. In the good old times, a &lt;code class="highlighter-rouge"&gt;P4&lt;/code&gt; or even a &lt;code class="highlighter-rouge"&gt;Celeron&lt;/code&gt; based PC or laptop was enough for programming. But with changing times, the required investment to get a sane performance has increased to astronomical levels.&lt;!--more--&gt;&lt;/p&gt;
+&lt;p&gt;Problem is not just with the limitations of hardware, but our requirements too have increased. Apart from the tons of most needed apps like &lt;code class="highlighter-rouge"&gt;eclipse&lt;/code&gt;, &lt;code class="highlighter-rouge"&gt;firefox&lt;/code&gt;, &lt;code class="highlighter-rouge"&gt;libreoffice&lt;/code&gt;, &lt;code class="highlighter-rouge"&gt;thunderbird&lt;/code&gt;, etc., you now have to keep VMs running in &lt;code class="highlighter-rouge"&gt;virtualbox&lt;/code&gt; at the same time you are having a chat on &lt;code class="highlighter-rouge"&gt;skype&lt;/code&gt; with your client. Add to that, &lt;em&gt;heavy&lt;/em&gt; things like &lt;code class="highlighter-rouge"&gt;eclipse&lt;/code&gt; or &lt;code class="highlighter-rouge"&gt;Android Emulator&lt;/code&gt; and your linux (or even Windows) desktop will start to buckle under the pressure.&lt;/p&gt;
+&lt;p&gt;All in all, even an Intel &lt;em&gt;i5&lt;/em&gt; or &lt;em&gt;i7&lt;/em&gt; chip isn’t sufficient today to handle multiple heavy or memory consuming apps. The only solution I have found is to use a lighter window-manager like &lt;code class="highlighter-rouge"&gt;Openbox&lt;/code&gt;, &lt;code class="highlighter-rouge"&gt;Fluxbox&lt;/code&gt; or &lt;code class="highlighter-rouge"&gt;IceWM&lt;/code&gt; instead of a heavy Desktop Environment like &lt;code class="highlighter-rouge"&gt;GNOME&lt;/code&gt;, &lt;code class="highlighter-rouge"&gt;Unity&lt;/code&gt; or &lt;code class="highlighter-rouge"&gt;KDE&lt;/code&gt;. This tutorial contains all the steps needed to assemble on your own light-weight DE based on &lt;code class="highlighter-rouge"&gt;Openbox&lt;/code&gt; on Debian (or one of its compatible derivatives like Ubuntu or Linux Mint).&lt;/p&gt;
+&lt;p&gt;[caption id="attachment_498" align="alignnone" width="956"]&lt;a href="/uploads/2016/02/openbox.png"&gt;&lt;img alt="Openbox" class="size-full wp-image-498" height="537" src="/uploads/2016/02/openbox.png" width="956"&gt;&lt;/a&gt; Openbox[/caption]&lt;/p&gt;
+&lt;p&gt;&lt;a href="http://openbox.org"&gt;Openbox&lt;/a&gt; is an open source project (GPL licensed) based on the good old blackbox. It provides just the minimal framework to build a no-flashy, sane desktop environment that gets out of your way, so most resources are used for running the &lt;em&gt;actual apps&lt;/em&gt; that you use. Openbox occupies less than 8 MB of RAM on your machine. Again, this kind of setup is not for everyone, in case you are a huge fan of the Unity dash or GNOME dash, you may not like Openbox at all. On the other hand, if you like the new MATE Desktop which is based on the old GNOME 2, you may find this approach interesting. In fact, Openbox is the window manager used by &lt;code class="highlighter-rouge"&gt;LXDE&lt;/code&gt;, the DE most famous for being light on resources. You are, in fact, going to create something like your own version of &lt;code class="highlighter-rouge"&gt;LXDE&lt;/code&gt; by following this tutorial, only its even more minimal and custom to your requirements. Here is how to do it:&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Download the Debian minimal net-install ISO from &lt;a href="https://www.debian.org/CD/netinst/"&gt;here&lt;/a&gt;. It is roughly 150-200 MB in size.&lt;/li&gt;
+&lt;li&gt;Either burn the &lt;code class="highlighter-rouge"&gt;ISO&lt;/code&gt; to a USB drive or try it out in a VM first.&lt;/li&gt;
+&lt;li&gt;Use the text based or graphical installer to complete the installation.&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Once you land on the command line, login as the superuser (&lt;code class="highlighter-rouge"&gt;su&lt;/code&gt;) and install these packages:
+    ::: {.highlighter-rouge}
+    &lt;code&gt;{.highlight}
+     apt-get install network-manager
+     apt-get install xorg openbox xdm
+     apt-get install xbacklight pcmanfm lxappearance lxpanel gmrun gnome-terminal&lt;/code&gt;
+    :::&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;To make the panel automatically show up, add this to &lt;code class="highlighter-rouge"&gt;~/.config/openbox/autostart&lt;/code&gt; file using &lt;code class="highlighter-rouge"&gt;nano&lt;/code&gt; or &lt;code class="highlighter-rouge"&gt;vim&lt;/code&gt; editors:
+    ::: {.highlighter-rouge}
+    &lt;code&gt;{.highlight}
+     lxpanel &amp;amp;&lt;/code&gt;
+    :::&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Restart&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;Note that this will create only a &lt;em&gt;bare minimum&lt;/em&gt;, workable DE with just a File Manager and no other usable apps. lxpanel is a “Windows-98 style” panel that sits on top/bottom of your desktop and gives a “start-menu” in which your programs are organized. lxappearance is a handy tool to switch GTK themes which comes very useful. You still have to install &lt;code class="highlighter-rouge"&gt;evince&lt;/code&gt; to read PDF books, &lt;code class="highlighter-rouge"&gt;geany&lt;/code&gt; or &lt;code class="highlighter-rouge"&gt;gedit&lt;/code&gt; for a GUI text editor, &lt;code class="highlighter-rouge"&gt;iceweasel&lt;/code&gt; and &lt;code class="highlighter-rouge"&gt;icedove&lt;/code&gt; for a browser and mail client respectively, and &lt;code class="highlighter-rouge"&gt;libreoffice-calc&lt;/code&gt; for a spreadsheet.&lt;/p&gt;
+&lt;p&gt;But the good thing is that you are the &lt;em&gt;master&lt;/em&gt; of your desktop world now. You don’t have to live with that extra load of bloated baggage that heavy DEs usually come with. If you follow the above process correctly, you will end up with an installation size of less than 500 MB! And your own custom-made DE that works!&lt;/p&gt;
+&lt;p&gt;As for customization, &lt;code class="highlighter-rouge"&gt;Openbox&lt;/code&gt; is &lt;a href="http://openbox.org/wiki/Help:Configuration"&gt;highly customizable&lt;/a&gt;. Arch Linux also has a wonderful &lt;a href="https://wiki.archlinux.org/index.php/openbox"&gt;documentation&lt;/a&gt; on this topic, and &lt;a href="https://www.maketecheasier.com/configure-andcustomize-openbox/"&gt;here&lt;/a&gt; is another brief guide. For menus, you can either install &lt;code class="highlighter-rouge"&gt;obmenu&lt;/code&gt; or if you are a simplicity fan like me, you can just edit your way through &lt;code class="highlighter-rouge"&gt;~/.config/openbox/menu.xml&lt;/code&gt;. This, and the other file, &lt;code class="highlighter-rouge"&gt;~/.config/openbox/rc.xml&lt;/code&gt; are the only two Openbox configuration files and they have all the needed options. In fact, if you decide to make use of the &lt;code class="highlighter-rouge"&gt;lxpanel&lt;/code&gt; main menu, you don’t even have to edit the &lt;code class="highlighter-rouge"&gt;menu.xml&lt;/code&gt; of Openbox.&lt;/p&gt;
+&lt;hr&gt;
+&lt;p&gt;Notes:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;code class="highlighter-rouge"&gt;lxpanel&lt;/code&gt; is not the only option for installing a Desktop panel, there are others too like &lt;code class="highlighter-rouge"&gt;fbpanel&lt;/code&gt;, &lt;code class="highlighter-rouge"&gt;tint2&lt;/code&gt; and &lt;code class="highlighter-rouge"&gt;xfce4-panel&lt;/code&gt;. Read &lt;a href="https://www.maketecheasier.com/configure-andcustomize-openbox/"&gt;this&lt;/a&gt; for more details.&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;To add a battery indicator to the &lt;code class="highlighter-rouge"&gt;lxpanel&lt;/code&gt;, add this to the &lt;code class="highlighter-rouge"&gt;~/.config/lxpanel/default/panels/panel&lt;/code&gt;
+    ::: {.highlighter-rouge}
+    &lt;code&gt;{.highlight}
+      Plugin {
+          type = batt
+      }&lt;/code&gt;
+    :::&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;To save your openbox customizations between sessions (which is a basic requirement), copy the &lt;code class="highlighter-rouge"&gt;rc.xml&lt;/code&gt; and &lt;code class="highlighter-rouge"&gt;menu.xml&lt;/code&gt; from &lt;code class="highlighter-rouge"&gt;/etc/X11/openbox&lt;/code&gt; to &lt;code class="highlighter-rouge"&gt;~/.config/openbox/&lt;/code&gt; (create this folder if it doesn’t exist).&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code class="highlighter-rouge"&gt;gmrun&lt;/code&gt; is needed to show the run dialog that pops up when you press &lt;code class="highlighter-rouge"&gt;Alt+F2&lt;/code&gt; in any “normal” DE. Once you install &lt;code class="highlighter-rouge"&gt;gmrun&lt;/code&gt;, just add below code to &lt;code class="highlighter-rouge"&gt;~/.config/openbox/rc.xml&lt;/code&gt; somewhere in the &lt;code class="highlighter-rouge"&gt;&amp;lt;keyboard&amp;gt;&lt;/code&gt; section, in order to make the keys work:
+    ::: {.highlighter-rouge}
+    &lt;code&gt;{.highlight}
+      &amp;lt;!--start: Prahlad--&amp;gt;
+      &amp;lt;keybind key="A-F2"&amp;gt;
+        &amp;lt;action name="Execute"&amp;gt;
+          &amp;lt;command&amp;gt;gmrun&amp;lt;/command&amp;gt;
+        &amp;lt;/action&amp;gt;
+      &amp;lt;/keybind&amp;gt;
+      &amp;lt;!--end: Prahlad--&amp;gt;&lt;/code&gt;
+    :::&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code class="highlighter-rouge"&gt;xdm&lt;/code&gt; is optional, but helpful if you don’t want to do a lot of configuration changes in &lt;code class="highlighter-rouge"&gt;xorg&lt;/code&gt; files to show up the desktop automatically each time you login. Of course, you can use &lt;code class="highlighter-rouge"&gt;lightdm&lt;/code&gt; too if you want.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;I don’t use bluetooth a lot and haven’t included any of those packages, but there are many of them such as &lt;code class="highlighter-rouge"&gt;bluez&lt;/code&gt; in case you need one.&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;References:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="http://openbox.org/wiki/Help:Configuration"&gt;Openbox Wiki - Configuration&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://wiki.archlinux.org/index.php/openbox"&gt;Arch Linux Openbox docs&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.maketecheasier.com/configure-andcustomize-openbox/"&gt;Make Tech Easier - Openbox configuration guide&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://www.debian.org/CD/netinst/"&gt;Debian Netinstall Download&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://bbs.archlinux.org/viewtopic.php?id=156272"&gt;lxpanel Battery Indicator installation&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</content><category term="Debian"></category><category term="Linux"></category></entry><entry><title>Linux Desktop Survey Project - Feb/2016</title><link href="/blog/2016/02/linux-desktop-survey-project-feb2016.html" rel="alternate"></link><published>2016-02-07T21:23:00+05:30</published><updated>2016-02-07T21:23:00+05:30</updated><author><name>Prahlad Yeri</name></author><id>tag:None,2016-02-07:/blog/2016/02/linux-desktop-survey-project-feb2016.html</id><summary type="html">&lt;p&gt;I will start this post by thanking the kind folks at the Reddit’s &lt;a href="https://www.reddit.com/r/linux"&gt;linux subreddit&lt;/a&gt; and Voat’s &lt;a href="https://www.voat.co/v/linux"&gt;linux subverse&lt;/a&gt; who wholeheartedly participated in this survey. &lt;a href="http://lws-rmsreturns.rhcloud.com/limesurvey/index.php/statistics_user/action/surveyid/556933/language/en"&gt;Here&lt;/a&gt; are the results and they are pretty insightful. For a developer who builds apps targetting the linux platform, it helps to know …&lt;/p&gt;</summary><content type="html">&lt;p&gt;I will start this post by thanking the kind folks at the Reddit’s &lt;a href="https://www.reddit.com/r/linux"&gt;linux subreddit&lt;/a&gt; and Voat’s &lt;a href="https://www.voat.co/v/linux"&gt;linux subverse&lt;/a&gt; who wholeheartedly participated in this survey. &lt;a href="http://lws-rmsreturns.rhcloud.com/limesurvey/index.php/statistics_user/action/surveyid/556933/language/en"&gt;Here&lt;/a&gt; are the results and they are pretty insightful. For a developer who builds apps targetting the linux platform, it helps to know what are the preferences of users who run those apps on a desktop. Not understanding these requirements beforehand has caused a lot of &lt;a href="https://en.wikipedia.org/wiki/Unity_%28user_interface%29"&gt;unneeded backlash&lt;/a&gt; in the history of linux desktop development and a lot many forks were created which ended up causing a division of focus.&lt;!--more--&gt;&lt;/p&gt;
+&lt;p&gt;Not only did I learn a lot about what the linux desktop users want in general, but the survey also threw some light on what distros or desktop environments are generally perceived to be either giving a better performance or providing a better user experience.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2&gt;What is the most important factor when choosing a Distro?&lt;/h2&gt;
+&lt;p&gt;&lt;img alt="Linux Desktop Survey Project" src="http://lws-rmsreturns.rhcloud.com/limesurvey/tmp/ec2d620c7c97d4d351ad3553d3dc4161.png"&gt;&lt;/p&gt;
+&lt;p&gt;These were the options I had set:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;Better Performance and speed&lt;/li&gt;
+&lt;li&gt;Better User Experience&lt;/li&gt;
+&lt;li&gt;A Mix of both&lt;/li&gt;
+&lt;/ul&gt;
+&lt;p&gt;The prevailing assumption of a lot many people is that linux users are usually those “super nerdy” tech geeks who are only interested in arcane things like computing performance and speed. But on the contrary, we learn that linux users are just like &lt;code class="highlighter-rouge"&gt;Windows&lt;/code&gt; or &lt;code class="highlighter-rouge"&gt;OSX&lt;/code&gt; users for that matter, and they prefer a better user experience over performance!&lt;/p&gt;
+&lt;p&gt;As you can see, most of the folks preferred a balance of both performance and user experience. In fact, &lt;code class="highlighter-rouge"&gt;Better Performance and speed&lt;/code&gt; was the least favored factor for most people who chose their distros, which implies that how wrong our assumptions sometimes could be! As one redditor said, I should have included &lt;code class="highlighter-rouge"&gt;Software Freedom&lt;/code&gt; as an option since that is also quite a motivating factor for a lot many linux users.&lt;/p&gt;
+&lt;p&gt;Here are two comments from participants who chose the middle-path, &lt;code class="highlighter-rouge"&gt;A Mix of both&lt;/code&gt;:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;I don’t feel I have to compromise on one or the other. A good user experience also encompasses acceptable performance.&lt;/p&gt;
+&lt;p&gt;A good UX is crucial for my own comfort, but the speed and performance must be reliable.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Here is what the undecided folks (Other) have to say:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;While user experience is very important, I feel this is for nought if it is not matched with upstream packages. I find it terribly tedious to find myself on a distro which is lagging behind on the likes of gnome-shell and firefox.&lt;/p&gt;
+&lt;p&gt;Full choice over programs and user interface; my own OS&lt;/p&gt;
+&lt;p&gt;Stability and security are the most important factors for me.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;Another option I should have added here was &lt;code class="highlighter-rouge"&gt;Stability and security&lt;/code&gt; since these are the very foundations upon which linux sits.&lt;/p&gt;
+&lt;hr&gt;
+&lt;h2&gt;People’s Favorite Distro&lt;/h2&gt;
+&lt;p&gt;&lt;img alt="Most Popular Distro" src="http://lws-rmsreturns.rhcloud.com/limesurvey/tmp/dfdd05e767cc742c456552f065121e8c.png"&gt;&lt;/p&gt;
+&lt;p&gt;Ubuntu’s popularity is pretty well-known in the linux world, but what surprised me was Arch. Perhaps, it was the bias effect of lot many people on linux subbredit being Arch fans, or maybe Arch users have actually increased relative to Ubuntu during recent years, who knows! In any case, this survey result does indicate to me that if tomorrow I were to develop a linux destop app, then which distros should I test on with some priority. This is just one of the benefits of conducting this survey.&lt;/p&gt;
+&lt;p&gt;Here are a few user comments in this category:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Actually Arch derivative Antergos. This distribution has good a user experience and it is performant. It also delivers fresh software.&lt;/p&gt;
+&lt;p&gt;I use Debian on my desktop, Arch as a DOM0 on my server, and RHEL/CENTOS at work.&lt;/p&gt;
+&lt;p&gt;I honestly hate the linux desktop. It has so many bugs and is visually very hard to parse.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;hr&gt;
+&lt;h2&gt;The Distro with Best Performance&lt;/h2&gt;
+&lt;p&gt;&lt;img alt="The Distro with Best Performance" src="http://lws-rmsreturns.rhcloud.com/limesurvey/tmp/2784dfd5801a114e64e2de0393a8d1e9.png"&gt;&lt;/p&gt;
+&lt;p&gt;Unlike the Phronix arcane performance benchmarks, I thought about asking the users directly which Distro gave them the best performance. I don’t doubt the benchmarks, but computing is such a complex phenomena that raw performance isn’t as much an indicator of overall performance as it used to be in the past. Besides, the best proof of pudding is in the eating. Linux enthusiasts distro-hop a lot and in that process learn about the distros a lot.&lt;/p&gt;
+&lt;p&gt;Again, Arch was at top here, followed by Gentoo. Debian came third which was not at all surprising. In fact, I expected this vanilla of a distro to be on the top. Perhaps the “Arch fans” effect of linux subreddit again! What surprised me, however, was Fedora coming such low on performance score. Here is what the participants had to say:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Crunchbang (development started so name changed to Busenlabs)&lt;/p&gt;
+&lt;p&gt;no idea but xubuntu runs ok on a dual core laptop from 2007 with 2gb of ram.&lt;/p&gt;
+&lt;p&gt;First benchmarks, then if no existing distro fits the bill, Gentoo, Yocto project, or LFS.&lt;/p&gt;
+&lt;p&gt;I tested a number of distros on a very slow AMD netbook and Mint with Cinnamon was faster than itself and others with XFCE and MATE.&lt;/p&gt;
+&lt;p&gt;If performance was the only criteria, I would use windows.&lt;/p&gt;
+&lt;p&gt;Probably, arch. Whichever one isn’t in the hands of the NSA.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;hr&gt;
+&lt;h2&gt;Which Distro gives the Best User Experience&lt;/h2&gt;
+&lt;p&gt;&lt;img alt="Which Distro gives the Best User Experience" src="http://lws-rmsreturns.rhcloud.com/limesurvey/tmp/43ddb58e40e9ececf0e0ed58c106e182.png"&gt;&lt;/p&gt;
+&lt;p&gt;Ubuntu is most people’s favorite in this area, but Ubuntu’s community clone &lt;code class="highlighter-rouge"&gt;Linux Mint&lt;/code&gt; bagging away the top position is also a fitting thing. Like Ubuntu, Mint is a distro which happens to “just work” according to most users. Though I personally don’t like all the extra amount of non-free codecs and plugins it comes pre-bundled with (such as Flash and Adobe), it is a good distro for existing Windows users to hop on. Here is what participants have to say about choosing the distro which provides the best user experience:&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;Mint is great out of the box and requires minimal configuration to “just work”.&lt;/p&gt;
+&lt;p&gt;Enhanced user experience means more convenience and more toys; Ubuntu repos cover both.&lt;/p&gt;
+&lt;p&gt;Arch derivative Antergos. Just enough training wheels to be easy, still all the goodness of Arch. Why not Ubuntu? Ubuntu is bloated and stale and only has the name of being easiest. While once true, the competition has caught up.&lt;/p&gt;
+&lt;p&gt;Windows (See the same answer under the “performance” question.)&lt;/p&gt;
+&lt;p&gt;Mint does a very good job of providing the right apps to control settings, out of the box.&lt;/p&gt;
+&lt;p&gt;Easy to use (Linux Mint), comes with programs that I’m familiar with (Firefox, Thunderbird, LibreOffice) and the interface is simple but also powerful.&lt;/p&gt;
+&lt;p&gt;Allows heavy customization to how I want it (Gentoo).&lt;/p&gt;
+&lt;p&gt;Purely for ease of use/install (Ubuntu).&lt;/p&gt;
+&lt;p&gt;Haven’t tried that many but of of the few that I have tried Mint has had the most clear and logical meny items.&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;hr&gt;
+&lt;p&gt;Along with the many enthusiastic distro-hoppers, my search for the discovery of best linux desktop continues.&lt;/p&gt;</content><category term="Linux"></category></entry></feed>

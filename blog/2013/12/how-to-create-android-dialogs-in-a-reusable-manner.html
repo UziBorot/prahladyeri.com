@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="english">
+<head>
+        <meta charset="utf-8" />
+        <title>How to create android dialogs in a reusable manner</title>
+        <link rel="stylesheet" href="/theme/css/main.css" />
+        <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Prahlad Yeri - Freelance Programmer Atom Feed" />
+</head>
+
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <h1><a href="/">Prahlad Yeri - Freelance Programmer </a></h1>
+                <nav><ul>
+				<li><a href="/">Home</a></li> <!--hard coded-->
+                    <li><a href="/about">About</a></li>
+                    <li><a href="/projects">Projects</a></li>
+                    <li><a href="/hire-me">Hire Me</a></li>
+                </ul></nav>
+        </header><!-- /#banner -->
+<section id="content" class="body">
+  <article>
+    <header>
+      <h1 class="entry-title">
+        <a href="/blog/2013/12/how-to-create-android-dialogs-in-a-reusable-manner.html" rel="bookmark"
+           title="Permalink to How to create android dialogs in a reusable manner">How to create android dialogs in a reusable manner</a></h1>
+<a href="https://twitter.com/share" class="twitter-share-button" data-count="horizontal" data-via="prahladyeri">Tweet</a><script type="text/javascript" src="https://platform.twitter.com/widgets.js"></script>
+    </header>
+
+    <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2013-12-01T04:55:00+05:30">
+                Published: Sun 01 December 2013
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="/author/prahlad-yeri.html">Prahlad Yeri</a>
+        </address>
+<p>In <a href="/category/uncategorized.html">Uncategorized</a>.</p>
+
+</footer><!-- /.post-info -->      <p>Creating dialogs is a very common need in your app to show a dialog box to the user in order to fetch a value, be it a mobile, desktop or even a web application. Furthermore, the values can range from anything like simple <em>OK-Cancel</em> dialog results to a list of "check-able" values or even a date-range.<!--more--></p>
+<p><a href="http://www.prahladyeri.com/uploads/2013/11/droid-man.png"><img alt="droid-man" class="alignnone wp-image-209" height="70" src="/uploads/old/droid-man.png" width="60"></a></p>
+<p>I experienced the need to create an android dialog for each one of those for showing reports in a recent android app project. [Whilst the java api offers maximum flexibility in creating dialog interface elements, there is no ready-made method that can be called to get, say a result for a message-dialog like this:]{style="line-height: 1.714285714; font-size: 1rem;"}</p>
+<p>``` {lang="java"}
+result = MessageBox.Show();</p>
+<div class="highlight"><pre><span></span>Other languages like C\# and VB provide such methods to show modal dialog boxes that return values after waiting for a modal dialog. But unfortunately, there is no concept of &quot;modal&quot; in android. A thread cannot just sit idle waiting for input as the resources are too valuable for that. Instead, there is the concept of callbacks, so that instead of you waiting for the dialog to return, the method calls back a function reference you have passed it:
+
+``` {lang=&quot;java&quot;}
+AlertDialog.Builder builder=new AlertDialog.Builder(context);
+builder.setTitle(&quot;Milk supply tracker&quot;);
+builder.setMessage(message);
+builder.setPositiveButton(&quot;Yes&quot;,listener);
+builder.setNegativeButton(&quot;No&quot;,listener);
+builder.create().show();
+</pre></div>
+
+
+<p>The listener here is the referece to a function that will be called when the Yes or No button will be clicked. This not only complicates your code, but makes it very difficult to reuse code for handling different situations like getting a selection from a range of values or getting a date/time range. To solve this problem, I created a separate java class called Dialog and added variations of ShowDialog() methods to handle each type of dialog:</p>
+<p>``` {lang="java"}
+class Dialog
+{
+    public static void ShowMessageDialog(Context context, String message)
+    {
+        ShowDialog(context,message,MessageBoxType.OKOnly,new String[]{},false, null,null);
+    }</p>
+<div class="highlight"><pre><span></span>public static void ShowMessageDialog(Context context, String message, MessageBoxType type , OnClickListener listener)
+ {
+     ShowDialog(context,message,type,new String[]{},false, listener,null);
+ }
+
+public static void ShowListDialog(Context context, String message, String[] listItems, boolean isMultiChoice, OnClickListener listener)
+ {
+ if (isMultiChoice)
+     ShowDialog(context, message, MessageBoxType.OkCancel , listItems, isMultiChoice, listener,null);
+ else
+     ShowDialog(context, message, MessageBoxType.OKOnly , listItems, isMultiChoice, null,listener);
+ }
+
+public static void ShowDateDialog(Context context,String message,OnDateSetListener listener)
+{
+    Calendar c=Calendar.getInstance();
+    int y=c.get(Calendar.YEAR);
+    int m=c.get(Calendar.MONTH);
+    int d=c.get(Calendar.DAY_OF_MONTH);
+
+    DatePickerDialog dlg=new DatePickerDialog(context, listener, y, m, d);
+    dlg.setTitle(message);
+    dlg.show();
+}
+</pre></div>
+
+
+<p>}</p>
+<div class="highlight"><pre><span></span>As you can see, the ShowMessageDialog() accepts different parameters depending on whether a listener is required or not. ShowListDialog(), on the other hand passes an array of strings to create a dialog displaying a list of values from which a user may select. The isMultiChoice parameter tells whether a checkbox is required or not against each value in the select list. All this is actually implemented in the ShowDialog() private method, whereas the ShowDateDialog() has its own implementation. Here is the source for ShowDialog():
+
+``` {lang=&quot;java&quot;}
+private static void ShowDialog(Context context, String message, MessageBoxType type , String[] listItems, boolean isMultiChoice, OnClickListener listener,OnClickListener selectedItemListener)
+{
+    AlertDialog.Builder builder=new AlertDialog.Builder(context);
+
+    if (listItems.length&gt;0 &amp;&amp; isMultiChoice==false)
+    {
+        CheckedItems=new ArrayList();//won&#39;t be used in this case.
+        builder.setTitle(message);
+
+        builder.setItems(listItems, selectedItemListener);
+    }
+    else if (listItems.length&gt;0 &amp;&amp; isMultiChoice==true)
+    {
+        CheckedItems=new ArrayList();
+        builder.setTitle(message);
+
+        builder.setMultiChoiceItems(listItems, null, new OnMultiChoiceClickListener() 
+        {
+            @Override
+            public void onClick(DialogInterface dialog, int which, boolean checked) 
+            {
+                if (checked)
+                    CheckedItems.add(which);
+                else
+                {
+                    if (CheckedItems.contains(which))
+                        CheckedItems.remove(which);
+                }
+            }
+        });
+    }
+    else
+    {
+        builder.setTitle(&quot;Milk supply tracker&quot;);
+        builder.setMessage(message);
+    }
+
+    if (listItems.length==0 || isMultiChoice)
+    {
+        switch(type)
+        {
+        case OKOnly:
+            builder.setPositiveButton(&quot;OK&quot;,listener);
+            break;
+        case OkCancel:
+            builder.setPositiveButton(&quot;OK&quot;,listener);
+            builder.setNegativeButton(&quot;Cancel&quot;,listener);
+            break;
+        case YesNo:
+            builder.setPositiveButton(&quot;Yes&quot;,listener);
+            builder.setNegativeButton(&quot;No&quot;,listener);
+            break;
+        }           
+    }
+
+    builder.create().show();
+}
+</pre></div>
+
+
+<p>So hopefully, this class should suffice all your needs related to showing a dialog on your android app. Here is a working example of how the ShowListDialog() is actually called with checkboxes on:</p>
+<p>``` {lang="java"}
+selItems=new String[]{"apples","oranges","grapes"};
+Device.ShowListDialog(this,"Select a fruit" ,this.selItems, true, new DialogInterface.OnClickListener() {</p>
+<div class="highlight"><pre><span></span>    <span class="p">@</span><span class="k">Override</span>
+    <span class="nt">public</span> <span class="nt">void</span> <span class="nt">onClick</span><span class="o">(</span><span class="nt">DialogInterface</span> <span class="nt">dialog</span><span class="o">,</span> <span class="nt">int</span> <span class="nt">which</span><span class="o">)</span> 
+    <span class="p">{</span>
+        <span class="nt">if</span> <span class="o">(</span><span class="nt">which</span><span class="o">==</span><span class="nt">DialogInterface</span><span class="p">.</span><span class="nc">BUTTON_POSITIVE</span><span class="o">)</span>
+        <span class="p">{</span>
+            <span class="err">for(int</span> <span class="n">i</span><span class="p">:</span><span class="n">Device</span><span class="o">.</span><span class="n">CheckedItems</span><span class="p">)</span>
+            <span class="n">Dialog</span><span class="o">.</span><span class="nf">ShowMessageDialog</span><span class="p">(</span><span class="n">ReportsActivity</span><span class="err">.</span><span class="n">this</span><span class="p">,</span> <span class="s2">&quot;selected:&quot;</span> <span class="o">+</span> <span class="n">selItems</span><span class="cp">[</span><span class="nx">i</span><span class="cp">]</span><span class="p">);</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="err">}</span><span class="o">);</span>
+</pre></div>
+
+
+<p>}
+```</p>
+    </div><!-- /.entry-content -->
+
+  </article>
+</section>
+        <section id="extras" class="body">
+                <div class="blogroll">
+                        <h2>links</h2>
+                        <ul>
+                            <li><a href="mailto:prahladyeri@yahoo.com">Email</a></li>
+                            <li><a href="https://github.com/prahladyeri/">Github</a></li>
+                            <li><a href="https://stackoverflow.com/users/849365/prahlad-yeri/">StackOverflow</a></li>
+                            <li><a href="https://www.quora.com/profile/Prahlad-Yeri-%E0%A4%AA%E0%A5%8D%E0%A4%B0%E0%A4%B9%E0%A5%8D%E0%A4%B2%E0%A4%BE%E0%A4%A6-%E0%A4%AF%E0%A5%87%E0%A4%B0%E0%A5%80">Quora</a></li>
+                            <li><a href="https://mastodon.social/@prahladyeri">Mastodon.Social</a></li>
+                            <li><a href="https://www.blogger.com/profile/12769325975373447545">Blogger</a></li>
+                        </ul>
+                </div><!-- /.blogroll -->
+                <div class="social">
+                        <h2>social</h2>
+                        <ul>
+                            <li><a href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
+
+                            <li><a href="https://www.linkedin.com/in/prahlad-yeri-243a5316">Linkedin</a></li>
+                            <li><a href="https://www.facebook.com/prahladyeri14">Facebook</a></li>
+                            <li><a href="https://twitter.com/prahladyeri">Twitter</a></li>
+                        </ul>
+                </div><!-- /.social -->
+        </section><!-- /#extras -->
+
+        <footer id="contentinfo" class="body">
+                <address id="about" class="vcard body">
+                Copyright (c) 2013-2019 <a href="/">Prahlad Yeri</a>.
+				<br>
+				This work is licensed under a [Creative Commons Attribution 4.0 International License](http://creativecommons.org/licenses/by/4.0/).
+                </address><!-- /#about -->
+        </footer><!-- /#contentinfo -->
+
+<script type="text/javascript">
+    var disqus_shortname = 'https://prahladyeri-blog.disqus.com';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = 'https://' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+</body>
+</html>

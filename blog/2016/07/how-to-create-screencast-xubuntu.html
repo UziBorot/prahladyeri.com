@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="english">
+<head>
+        <meta charset="utf-8" />
+        <title>How to create a screencast in Xubuntu using ffmpeg</title>
+        <link rel="stylesheet" href="/theme/css/main.css" />
+        <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Prahlad Yeri - Freelance Programmer Atom Feed" />
+</head>
+
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <h1><a href="/">Prahlad Yeri - Freelance Programmer </a></h1>
+                <nav><ul>
+				<li><a href="/">Home</a></li> <!--hard coded-->
+                    <li><a href="/about">About</a></li>
+                    <li><a href="/projects">Projects</a></li>
+                    <li><a href="/hire-me">Hire Me</a></li>
+                </ul></nav>
+        </header><!-- /#banner -->
+<section id="content" class="body">
+  <article>
+    <header>
+      <h1 class="entry-title">
+        <a href="/blog/2016/07/how-to-create-screencast-xubuntu.html" rel="bookmark"
+           title="Permalink to How to create a screencast in Xubuntu using ffmpeg">How to create a screencast in Xubuntu using ffmpeg</a></h1>
+<a href="https://twitter.com/share" class="twitter-share-button" data-count="horizontal" data-via="prahladyeri">Tweet</a><script type="text/javascript" src="https://platform.twitter.com/widgets.js"></script>
+    </header>
+
+    <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2016-07-19T04:21:00+05:30">
+                Published: Tue 19 July 2016
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="/author/prahlad-yeri.html">Prahlad Yeri</a>
+        </address>
+<p>In <a href="/category/linux.html">Linux</a>.</p>
+<p>tags: <a href="/tag/linux.html">Linux</a> <a href="/tag/xubuntu.html">Xubuntu</a> </p>
+</footer><!-- /.post-info -->      <p>In this article, I’m going to describe how to create a desktop screencast recording with or without audio in Xubuntu 16.04. With little changes, however, it should work on other distros too.<!--more--></p>
+<p>The first thing to do is to ensure that your headphone microphone is enabled in Xubuntu audio settings. For some reasons, Xubuntu doesn’t seem to do this by default. Just click that tray icon top-right corner and click on <code class="highlighter-rouge">Sound Settings</code>. Then click on <code class="highlighter-rouge">Input Devices</code> tab and select <code class="highlighter-rouge">Headset Microphone</code> or something from the list, and unmute the device by clicking the grey color audio icon:</p>
+<p><img alt="Xubuntu Mic Unmute" src="/uploads/old/xubuntu_mic_unmute.png"></p>
+<p>And of course, you’ll need <code class="highlighter-rouge">ffmpeg</code> to do this, its a small command line audio utility in linux. Its only a <code class="highlighter-rouge">sudo apt-get</code> away in case you don’t have it already. After that, all you have to do is run this command:</p>
+<p>::: {.highlighter-rouge}</p>
+<div class="highlight"><pre><span></span>ffmpeg -video_size 1024x767 -framerate 25 -f x11grab -i :0.0+0,0 -f alsa -ac 2 -i default output.mkv
+</pre></div>
+
+
+<p>:::</p>
+<p>To stop the screen recording, just press <code class="highlighter-rouge">Ctrl+C</code>. This command uses the <code class="highlighter-rouge">alsa</code> module to record audio. The <code class="highlighter-rouge">-ac 2</code> parameter specifies the audio channel (stereo as opposed to mono). If you want, you can also specify an audio sampling rate using <code class="highlighter-rouge">-ar</code> option which is usually 44100 by default. The <code class="highlighter-rouge">-i default</code> refers to the default available audio device. It usually works, but in case it doesn’t, you can specify the exact input device you want to use. In order to do that, run this command:</p>
+<p>::: {.highlighter-rouge}</p>
+<div class="highlight"><pre><span></span>arecord -L
+</pre></div>
+
+
+<p>:::</p>
+<p>And you will get an output such as this one:</p>
+<p>::: {.highlighter-rouge}</p>
+<div class="highlight"><pre><span></span><span class="n">dmix</span><span class="o">:</span><span class="n">CARD</span><span class="o">=</span><span class="n">PCH</span><span class="o">,</span><span class="n">DEV</span><span class="o">=</span><span class="mi">0</span>
+    <span class="n">HDA</span> <span class="n">Intel</span> <span class="n">PCH</span><span class="o">,</span> <span class="n">ALC3234</span> <span class="n">Analog</span>
+    <span class="n">Direct</span> <span class="n">sample</span> <span class="n">mixing</span> <span class="n">device</span>
+<span class="n">dsnoop</span><span class="o">:</span><span class="n">CARD</span><span class="o">=</span><span class="n">PCH</span><span class="o">,</span><span class="n">DEV</span><span class="o">=</span><span class="mi">0</span>
+    <span class="n">HDA</span> <span class="n">Intel</span> <span class="n">PCH</span><span class="o">,</span> <span class="n">ALC3234</span> <span class="n">Analog</span>
+    <span class="n">Direct</span> <span class="n">sample</span> <span class="n">snooping</span> <span class="n">device</span>
+<span class="n">hw</span><span class="o">:</span><span class="n">CARD</span><span class="o">=</span><span class="n">PCH</span><span class="o">,</span><span class="n">DEV</span><span class="o">=</span><span class="mi">0</span>
+    <span class="n">HDA</span> <span class="n">Intel</span> <span class="n">PCH</span><span class="o">,</span> <span class="n">ALC3234</span> <span class="n">Analog</span>
+    <span class="n">Direct</span> <span class="n">hardware</span> <span class="n">device</span> <span class="n">without</span> <span class="n">any</span> <span class="n">conversions</span>
+<span class="n">plughw</span><span class="o">:</span><span class="n">CARD</span><span class="o">=</span><span class="n">PCH</span><span class="o">,</span><span class="n">DEV</span><span class="o">=</span><span class="mi">0</span>
+    <span class="n">HDA</span> <span class="n">Intel</span> <span class="n">PCH</span><span class="o">,</span> <span class="n">ALC3234</span> <span class="n">Analog</span>
+    <span class="n">Hardware</span> <span class="n">device</span> <span class="k">with</span> <span class="n">all</span> <span class="n">software</span> <span class="n">conversions</span>
+</pre></div>
+
+
+<p>:::</p>
+<p>In the above, you can see the plugged-in available sound card at the end. So you can take that device and specify it in this way instead of the <code class="highlighter-rouge">default</code> device:</p>
+<p>::: {.highlighter-rouge}</p>
+<div class="highlight"><pre><span></span>ffmpeg -video_size 1024x767 -framerate 25 -f x11grab -i :0.0+0,0 -f alsa -ac 2 -i plughw:CARD=PCH,DEV=0 output.mkv
+</pre></div>
+
+
+<p>:::</p>
+<p>If you don’t want audio in the screencast, however, then omit the alsa module and just run this instead:</p>
+<p>::: {.highlighter-rouge}</p>
+<div class="highlight"><pre><span></span>ffmpeg -video_size 1024x767 -framerate 25 -f x11grab -i :0.0+0,0 output.mkv
+</pre></div>
+
+
+<p>:::</p>
+<p>I’ve used other screencasting software in Linux before such as the <code class="highlighter-rouge">RecordMyDesktop</code> tool and the built-in <code class="highlighter-rouge">Ctrl+Shift+Alt+R</code> screencasting in GNOME. But this method of using <code class="highlighter-rouge">ffmpeg</code> was what I found to be the most speedy and configurable. Try it and do let me know how your screencasting goes!</p>
+    </div><!-- /.entry-content -->
+
+  </article>
+</section>
+        <section id="extras" class="body">
+                <div class="blogroll">
+                        <h2>links</h2>
+                        <ul>
+                            <li><a href="mailto:prahladyeri@yahoo.com">Email</a></li>
+                            <li><a href="https://github.com/prahladyeri/">Github</a></li>
+                            <li><a href="https://stackoverflow.com/users/849365/prahlad-yeri/">StackOverflow</a></li>
+                            <li><a href="https://www.quora.com/profile/Prahlad-Yeri-%E0%A4%AA%E0%A5%8D%E0%A4%B0%E0%A4%B9%E0%A5%8D%E0%A4%B2%E0%A4%BE%E0%A4%A6-%E0%A4%AF%E0%A5%87%E0%A4%B0%E0%A5%80">Quora</a></li>
+                            <li><a href="https://mastodon.social/@prahladyeri">Mastodon.Social</a></li>
+                            <li><a href="https://www.blogger.com/profile/12769325975373447545">Blogger</a></li>
+                        </ul>
+                </div><!-- /.blogroll -->
+                <div class="social">
+                        <h2>social</h2>
+                        <ul>
+                            <li><a href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
+
+                            <li><a href="https://www.linkedin.com/in/prahlad-yeri-243a5316">Linkedin</a></li>
+                            <li><a href="https://www.facebook.com/prahladyeri14">Facebook</a></li>
+                            <li><a href="https://twitter.com/prahladyeri">Twitter</a></li>
+                        </ul>
+                </div><!-- /.social -->
+        </section><!-- /#extras -->
+
+        <footer id="contentinfo" class="body">
+                <address id="about" class="vcard body">
+                Copyright (c) 2013-2019 <a href="/">Prahlad Yeri</a>.
+				<br>
+				This work is licensed under a [Creative Commons Attribution 4.0 International License](http://creativecommons.org/licenses/by/4.0/).
+                </address><!-- /#about -->
+        </footer><!-- /#contentinfo -->
+
+<script type="text/javascript">
+    var disqus_shortname = 'https://prahladyeri-blog.disqus.com';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = 'https://' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+</body>
+</html>

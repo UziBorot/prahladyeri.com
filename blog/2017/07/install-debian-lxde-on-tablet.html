@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="english">
+<head>
+        <meta charset="utf-8" />
+        <title>How to install Debian+LXDE on ANY Android Tablet</title>
+        <link rel="stylesheet" href="/theme/css/main.css" />
+        <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Prahlad Yeri - Freelance Programmer Atom Feed" />
+</head>
+
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <h1><a href="/">Prahlad Yeri - Freelance Programmer </a></h1>
+                <nav><ul>
+				<li><a href="/">Home</a></li> <!--hard coded-->
+                    <li><a href="/about">About</a></li>
+                    <li><a href="/projects">Projects</a></li>
+                    <li><a href="/hire-me">Hire Me</a></li>
+                </ul></nav>
+        </header><!-- /#banner -->
+<section id="content" class="body">
+  <article>
+    <header>
+      <h1 class="entry-title">
+        <a href="/blog/2017/07/install-debian-lxde-on-tablet.html" rel="bookmark"
+           title="Permalink to How to install Debian+LXDE on ANY Android Tablet">How to install Debian+LXDE on ANY Android Tablet</a></h1>
+<a href="https://twitter.com/share" class="twitter-share-button" data-count="horizontal" data-via="prahladyeri">Tweet</a><script type="text/javascript" src="https://platform.twitter.com/widgets.js"></script>
+    </header>
+
+    <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2017-07-05T04:21:00+05:30">
+                Published: Wed 05 July 2017
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="/author/prahlad-yeri.html">Prahlad Yeri</a>
+        </address>
+<p>In <a href="/category/linux-technology.html">Linux, Technology</a>.</p>
+<p>tags: <a href="/tag/android.html">Android</a> <a href="/tag/debian.html">Debian</a> <a href="/tag/lxde.html">LXDE</a> </p>
+</footer><!-- /.post-info -->      <p>Running a linux distro on android devices is a hot topic these days, and why not? After all, android is already based on linux kernel, but a pretty much locked-down and dumbed-down version of it. The OEM doesn’t give you root and in most cases, not even an open source bootloader or kernel.<!--more--></p>
+<p>That way, its good for maybe the most average user who doesn’t care about the OS and just want to use their phones. But for a power user, that’s not enough.</p>
+<p>[caption id="attachment_553" align="alignnone"]<a href="/uploads/2017/07/debian_xfce_tablet.jpg"><img alt="Debian (LXDE) running on Xiaomi MiPad" class="size-full wp-image-553" src="/uploads/2017/07/debian_xfce_tablet.jpg"></a> Debian (LXDE) running on Xiaomi MiPad Tablet[/caption]</p>
+<p>The so called apps available in the Play Store don’t allow you to utilize the full power of your linux device. A power user always wants to have the power of a full linux distro (such as Debian or Ubuntu or Fedora) on his/her device.</p>
+<p>For a long time, I researched for the best way to install a linux distro on a tablet, preferably one that didn’t involve rooting or partitioning the device. The <a href="https://wiki.debian.org/ChrootOnAndroid">debian guide</a> lists down several methods and apps to do this such as Linux Deploy, GNURoot, Termux, etc. Out of them, the least risky and one that supports most android devices (including my KitKat tablet) is <a href="https://play.google.com/store/apps/details?id=com.gnuroot.debian">GNURoot-Debian</a>.</p>
+<p>Once you install this app on your tablet, it creates a self-contained <code class="highlighter-rouge">chroot</code> install of debian using a tool called <a href="https://wiki.archlinux.org/index.php/Proot">Proot</a>. Once that is done, all you need to do is open up the app terminal and just start using it:</p>
+<p>::: {.highlighter-rouge}</p>
+<div class="highlight"><pre><span></span>apt-get update
+apt-get install tmux vim gcc python python3 python3-pip
+</pre></div>
+
+
+<p>:::</p>
+<p>Of course, these are just some of the packages that I’ve installed, you can do whatever you want with your linux installation. The only limitation is regarding multiple user logins. By default, the app will login you as <code class="highlighter-rouge">root</code> and while you can create additional users using <code class="highlighter-rouge">useradd</code> command, don’t expect things like <code class="highlighter-rouge">setuid</code> and <code class="highlighter-rouge">setgid</code> to work. The only way to switch user is using the <code class="highlighter-rouge">su - yourLogin</code> command (whilst the <code class="highlighter-rouge">login</code> command should work too in theory, I’m having a few problems with it presently, it might need some fixing in /etc/pam.d/* configuration files).</p>
+<p>Further, if you have good amount of RAM on your tablet, you may consider using a desktop environment along with your headless installation (LXDE is recommended as it performs best on minimal resources). In order to do that, you’ll need two things:</p>
+<ol>
+<li><a href="https://play.google.com/store/apps/details?id=x.org.server&amp;hl=en">XServer-XSDL app</a></li>
+<li>LXDE/XFCE desktop installed.</li>
+</ol>
+<p>The former is used to interact with the headless XServer installation of your debian and provide you a graphical desktop environment. For the latter, you’ll have to just <code class="highlighter-rouge">apt-get install lxde</code> (or lxde-core depending on your choice). Then, in order to use the desktop any time on your tablet:</p>
+<p>1) Open XServer-XSDL app, follow the instructions until you reach a blue screen.</p>
+<p>2) Go to the debian installation and run:\
+export DISPLAY=:0 PULSE_SERVER=tcp:127.0.0.1:4712\
+startlxde &amp;</p>
+<p>3) Go back to XServer-XSDL app to interact with the desktop.</p>
+<p>If all goes well, you should be able to see an lxde desktop like the one shown in the above screen. Coupled with the keyboard case and a bunch of great linux apps (such as vim, emacs, geany, inkscape, eclipse, etc.), you should be able to convert your mobile tablet into a great development machine on wheels.</p>
+<p>References:</p>
+<ul>
+<li><a href="https://www.xda-developers.com/guide-installing-and-running-a-gnulinux-environment-on-any-android-device/">https://www.xda-developers.com/guide-installing-and-running-a-gnulinux-environment-on-any-android-device/</a></li>
+<li><a href="https://wiki.debian.org/ChrootOnAndroid">https://wiki.debian.org/ChrootOnAndroid</a></li>
+<li><a href="https://play.google.com/store/apps/details?id=com.gnuroot.debian">https://play.google.com/store/apps/details?id=com.gnuroot.debian</a></li>
+<li><a href="https://play.google.com/store/apps/details?id=x.org.server&amp;hl=en">https://play.google.com/store/apps/details?id=x.org.server&amp;hl=en</a></li>
+<li><a href="https://wiki.archlinux.org/index.php/Proot">https://wiki.archlinux.org/index.php/Proot</a></li>
+</ul>
+    </div><!-- /.entry-content -->
+
+  </article>
+</section>
+        <section id="extras" class="body">
+                <div class="blogroll">
+                        <h2>links</h2>
+                        <ul>
+                            <li><a href="mailto:prahladyeri@yahoo.com">Email</a></li>
+                            <li><a href="https://github.com/prahladyeri/">Github</a></li>
+                            <li><a href="https://stackoverflow.com/users/849365/prahlad-yeri/">StackOverflow</a></li>
+                            <li><a href="https://www.quora.com/profile/Prahlad-Yeri-%E0%A4%AA%E0%A5%8D%E0%A4%B0%E0%A4%B9%E0%A5%8D%E0%A4%B2%E0%A4%BE%E0%A4%A6-%E0%A4%AF%E0%A5%87%E0%A4%B0%E0%A5%80">Quora</a></li>
+                            <li><a href="https://mastodon.social/@prahladyeri">Mastodon.Social</a></li>
+                            <li><a href="https://www.blogger.com/profile/12769325975373447545">Blogger</a></li>
+                        </ul>
+                </div><!-- /.blogroll -->
+                <div class="social">
+                        <h2>social</h2>
+                        <ul>
+                            <li><a href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
+
+                            <li><a href="https://www.linkedin.com/in/prahlad-yeri-243a5316">Linkedin</a></li>
+                            <li><a href="https://www.facebook.com/prahladyeri14">Facebook</a></li>
+                            <li><a href="https://twitter.com/prahladyeri">Twitter</a></li>
+                        </ul>
+                </div><!-- /.social -->
+        </section><!-- /#extras -->
+
+        <footer id="contentinfo" class="body">
+                <address id="about" class="vcard body">
+                Copyright (c) 2013-2019 <a href="/">Prahlad Yeri</a>.
+				<br>
+				This work is licensed under a [Creative Commons Attribution 4.0 International License](http://creativecommons.org/licenses/by/4.0/).
+                </address><!-- /#about -->
+        </footer><!-- /#contentinfo -->
+
+<script type="text/javascript">
+    var disqus_shortname = 'https://prahladyeri-blog.disqus.com';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = 'https://' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+</body>
+</html>

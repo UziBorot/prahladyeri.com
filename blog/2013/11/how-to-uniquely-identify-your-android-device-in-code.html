@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="english">
+<head>
+        <meta charset="utf-8" />
+        <title>How to uniquely identify your Android device in code</title>
+        <link rel="stylesheet" href="/theme/css/main.css" />
+        <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Prahlad Yeri - Freelance Programmer Atom Feed" />
+</head>
+
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <h1><a href="/">Prahlad Yeri - Freelance Programmer </a></h1>
+                <nav><ul>
+				<li><a href="/">Home</a></li> <!--hard coded-->
+                    <li><a href="/about">About</a></li>
+                    <li><a href="/projects">Projects</a></li>
+                    <li><a href="/hire-me">Hire Me</a></li>
+                </ul></nav>
+        </header><!-- /#banner -->
+<section id="content" class="body">
+  <article>
+    <header>
+      <h1 class="entry-title">
+        <a href="/blog/2013/11/how-to-uniquely-identify-your-android-device-in-code.html" rel="bookmark"
+           title="Permalink to How to uniquely identify your Android device in code">How to uniquely identify your Android device in code</a></h1>
+<a href="https://twitter.com/share" class="twitter-share-button" data-count="horizontal" data-via="prahladyeri">Tweet</a><script type="text/javascript" src="https://platform.twitter.com/widgets.js"></script>
+    </header>
+
+    <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2013-11-28T02:17:00+05:30">
+                Published: Thu 28 November 2013
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="/author/prahlad-yeri.html">Prahlad Yeri</a>
+        </address>
+<p>In <a href="/category/uncategorized.html">Uncategorized</a>.</p>
+
+</footer><!-- /.post-info -->      <p>My last android project involved tracking each device where the app is installed and storing the information to a database. It is quite a common need to uniquely identify your android device in code.<!--more--></p>
+<p><a href="/uploads/old/droid-man.png"><img alt="droid-man" class="alignnone wp-image-209" height="70" src="/uploads/old/droid-man.png" width="60"></a></p>
+<p>Now, had it been a PC, it would have been easy to track the MAC-address of the NIC or an HDD serial to uniquely identify and track that device. But what is the equivalent for android?</p>
+<p>My research first led me to IMEI number (<em>TelephonyManager.getDeviceId()</em>). IMEI is a unique number associated with your device (pretty much like a vehicle's chassis number) and is widely used for tracking cellphones. The android API provides this ready-made function to uniquely identify your device if you wish to go this route:</p>
+<p>``` {lang="java"}
+public static String getDeviceIdTm(Context context)
+{
+    TelephonyManager tm=(TelephonyManager)context.getSystemService(Context.TELEPHONY_SERVICE);
+    return tm.getDeviceId();
+}</p>
+<div class="highlight"><pre><span></span>But wait, not all devices are equipped with Telephony. What about tablets and amazon kindle devices? It so happens, that this is just one way to track your device, but it is not full-proof. It will work only for phones and for other devices this function will return null.
+
+This led me to another way of tracking an Android device: An in-built variable that the Android system itself provides you: ANDROID\_ID. In theory, this variable is all you need to know to identify your device uniquely:
+
+``` {lang=&quot;java&quot;}
+public static String getDeviceIdAndroid(Context context)
+{
+    return Secure.getString(context.getContentResolver(),Secure.ANDROID_ID);
+}
+</pre></div>
+
+
+<p>But Alas! Even this is not full-proof. It will work on most modern versions of android (HoneyComb and above). Again, due to a manufacturer bug, it will not return a unique value, but a constant value "9774d56d682e549c" on some handsets.</p>
+<p>This led me to a third way of identifying my device which was a bit hackish. I prefer not to use this method if any of the prior two methods worked.</p>
+<p>``` {lang="java"}
+public static String getDeviceIdPseudo(Context context)
+ {
+     String tstr="";
+     if (Build.VERSION.SDK_INT &gt; Build.VERSION_CODES.FROYO) {
+         tstr+= Build.SERIAL;
+         tstr += "::" + (Build.PRODUCT.length() % 10) + (Build.BOARD.length() % 10) + (Build.BRAND.length() % 10) + (Build.CPU_ABI.length() % 10) + (Build.DEVICE.length() % 10) + (Build.MANUFACTURER.length() % 10) + (Build.MODEL.length() % 10);
+         return tstr;
+    }
+ }</p>
+<div class="highlight"><pre><span></span>This method computes a Pseudo-id for your device taking reference to some hardware values. If the previous two methods don&#39;t work, then this is all you are left with for device identification.
+
+I then integrated the above three methods to create a generic method called ***getDeviceIdUnique()*** that will work on all android devices - irrespective of whether its a phone/tablet or what make it is:
+
+``` {lang=&quot;java&quot;}
+public static String getDeviceIdUnique(Context context)
+ {
+     try {
+         String a = getDeviceIdTm(context);
+         String b = getDeviceIdAndroid(context);
+         String c = getDeviceIdPseudo(context);
+
+         if (a!=null &amp;&amp; a.length()&gt;0 &amp;&amp; a.replace(&quot;0&quot;, &quot;&quot;).length()&gt;0) 
+             return a;
+         else if (b!=null &amp;&amp; b.length()&gt;0 &amp;&amp; b.equals(&quot;9774d56d682e549c&quot;)==false) 
+             return b;
+         else if (c!=null &amp;&amp; c.length()&gt;0) 
+             return c;
+         else
+             return &quot;&quot;;
+         }
+     catch(Exception ex)
+     {
+         return &quot;&quot;;
+     }
+ }
+</pre></div>
+
+
+<address>
+References:
+
+</address>
+
+<address>
+<http://stackoverflow.com/questions/2785485/is-there-a-unique-android-device-id>
+
+</address>
+
+<address>
+<http://stackoverflow.com/questions/4468248/unique-id-of-android-device>
+
+</address>
+    </div><!-- /.entry-content -->
+
+  </article>
+</section>
+        <section id="extras" class="body">
+                <div class="blogroll">
+                        <h2>links</h2>
+                        <ul>
+                            <li><a href="mailto:prahladyeri@yahoo.com">Email</a></li>
+                            <li><a href="https://github.com/prahladyeri/">Github</a></li>
+                            <li><a href="https://stackoverflow.com/users/849365/prahlad-yeri/">StackOverflow</a></li>
+                            <li><a href="https://www.quora.com/profile/Prahlad-Yeri-%E0%A4%AA%E0%A5%8D%E0%A4%B0%E0%A4%B9%E0%A5%8D%E0%A4%B2%E0%A4%BE%E0%A4%A6-%E0%A4%AF%E0%A5%87%E0%A4%B0%E0%A5%80">Quora</a></li>
+                            <li><a href="https://mastodon.social/@prahladyeri">Mastodon.Social</a></li>
+                            <li><a href="https://www.blogger.com/profile/12769325975373447545">Blogger</a></li>
+                        </ul>
+                </div><!-- /.blogroll -->
+                <div class="social">
+                        <h2>social</h2>
+                        <ul>
+                            <li><a href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
+
+                            <li><a href="https://www.linkedin.com/in/prahlad-yeri-243a5316">Linkedin</a></li>
+                            <li><a href="https://www.facebook.com/prahladyeri14">Facebook</a></li>
+                            <li><a href="https://twitter.com/prahladyeri">Twitter</a></li>
+                        </ul>
+                </div><!-- /.social -->
+        </section><!-- /#extras -->
+
+        <footer id="contentinfo" class="body">
+                <address id="about" class="vcard body">
+                Copyright (c) 2013-2019 <a href="/">Prahlad Yeri</a>.
+				<br>
+				This work is licensed under a [Creative Commons Attribution 4.0 International License](http://creativecommons.org/licenses/by/4.0/).
+                </address><!-- /#about -->
+        </footer><!-- /#contentinfo -->
+
+<script type="text/javascript">
+    var disqus_shortname = 'https://prahladyeri-blog.disqus.com';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = 'https://' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+</body>
+</html>

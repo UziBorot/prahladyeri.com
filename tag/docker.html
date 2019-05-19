@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="english">
+<head>
+        <meta charset="utf-8" />
+        <title>Prahlad Yeri - Freelance Programmer - Docker</title>
+        <link rel="stylesheet" href="/theme/css/main.css" />
+        <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Prahlad Yeri - Freelance Programmer Atom Feed" />
+</head>
+
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <h1><a href="/">Prahlad Yeri - Freelance Programmer </a></h1>
+                <nav><ul>
+				<li><a href="/">Home</a></li> <!--hard coded-->
+                    <li><a href="/about">About</a></li>
+                    <li><a href="/projects">Projects</a></li>
+                    <li><a href="/hire-me">Hire Me</a></li>
+                </ul></nav>
+        </header><!-- /#banner -->
+
+            <aside id="featured" class="body">
+                <article>
+                    <h1 class="entry-title"><a href="/blog/2018/09/docker-trick-running-containers-efficiently-using-a-bash-script.html">Docker Trick: Running Containers Efficiently Using A Bash Script</a></h1>
+<footer class="post-info">
+        <abbr class="published" title="2018-09-14T10:59:00+05:30">
+                Published: Fri 14 September 2018
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="/author/prahlad-yeri.html">Prahlad Yeri</a>
+        </address>
+<p>In <a href="/category/technology.html">Technology</a>.</p>
+<p>tags: <a href="/tag/docker.html">Docker</a> <a href="/tag/linux.html">Linux</a> </p>
+</footer><!-- /.post-info --><p>One of the basic problems with running a docker image is that its too easy to spew up multiple instances or containers of the same image. Consider running the following container for instance:</p>
+<div class="highlight"><pre><span></span>docker run -it -e AWS_ACCESS_KEY_ID=&quot;test&quot; -e AWS_SECRET_ACCESS_KEY=&quot;test&quot; \
+--net=host &quot;prahladyeri/testimage:latest&quot; /bin/bash
+</pre></div>
+
+
+<p>This will start a fresh container instance from image <strong>prahladyeri/testimage:latest</strong> and you may optionally pass environment variables (using -e switch), and the /bin/bash argument to manually trigger a command inside the container instead of running the default one. However, once you exit the container, you don't have any control over that container <em>instance</em>. Running the same "docker run" command as above is just going to spew another container instance for the same image, while the old one still stays in memory. Repeating this process multiple times is a wastage of invaluable memory and cores which isn't the goal of using docker at all!</p>
+<p><img alt="docker-logo" class="alignnone size-medium wp-image-1073" height="232" src="/uploads/2018/09/docker-logo-300x232.png" width="300"></p>
+<p>A more efficient way of handling things is to check the existence of a container instance already running for the image, and restart that one if required:</p>
+<div class="highlight"><pre><span></span>docker ps -a -f &quot;ancestor=prahladyeri/testimage:latest&quot; -q -l
+f7261ea890ce
+</pre></div>
+
+
+<p>The above command returns the id of an already running container (if any), so using that you can just restart that same container without passing all the parameters again as follows:</p>
+<div class="highlight"><pre><span></span>docker start -i f7261ea890ce
+</pre></div>
+
+
+<p>Of course, you can automate this whole process by writing a single bash script called <em>start_container:</em></p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
+<span class="nv">imgname</span><span class="o">=</span><span class="s2">&quot;prahladyeri/testimage:latest&quot;</span>
+<span class="nv">imgid</span><span class="o">=</span><span class="k">$(</span>docker ps -a -f <span class="s2">&quot;ancestor=</span><span class="nv">$imgname</span><span class="s2">&quot;</span> -q -l<span class="k">)</span>
+
+<span class="k">if</span> <span class="o">[</span> -z <span class="s2">&quot;</span><span class="nv">$imgid</span><span class="s2">&quot;</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+  <span class="nb">echo</span> <span class="s2">&quot;creating new instance for </span><span class="nv">$imgname</span><span class="s2">&quot;</span>
+  docker run -it -e <span class="nv">AWS_ACCESS_KEY_ID</span><span class="o">=</span><span class="s2">&quot;test&quot;</span> -e <span class="nv">AWS_SECRET_ACCESS_KEY</span><span class="o">=</span><span class="s2">&quot;test&quot;</span> --net<span class="o">=</span>host <span class="s2">&quot;</span><span class="nv">$imgname</span><span class="s2">&quot;</span> /bin/bash
+<span class="k">else</span>
+  <span class="nb">echo</span> <span class="s2">&quot;instance found&quot;</span>
+  docker start -i <span class="k">$(</span>docker ps -a -f <span class="s2">&quot;ancestor=</span><span class="nv">$imgname</span><span class="s2">&quot;</span> -q -l<span class="k">)</span>
+<span class="k">fi</span>
+</pre></div>
+</td></tr></table>
+
+<p>Just replace the \$<em>imgname</em> variable with that of your own image name, and pass any arguments you want (for example, <strong><em>-e AWS_KEY_ID</em></strong>) to the container on line 7. This script will start a new container only if none are found already, otherwise, it will just restart an existing one!</p>
+<p>Hope you find this useful.</p><p>There are <a href="/blog/2018/09/docker-trick-running-containers-efficiently-using-a-bash-script.html#disqus_thread">comments</a>.</p>                </article>
+            </aside><!-- /#featured -->
+                <section id="content" class="body">
+                    <h1>Other articles</h1>
+                    <hr />
+                    <ol id="posts-list" class="hfeed">
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="/blog/2018/09/docker-is-the-best-thing-to-happen-to-linux-since-the-gnu-bread.html" rel="bookmark"
+                           title="Permalink to Docker is the best thing to happen to Linux since the GNU bread">Docker is the best thing to happen to Linux since the GNU bread</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2018-09-13T09:00:00+05:30">
+                Published: Thu 13 September 2018
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="/author/prahlad-yeri.html">Prahlad Yeri</a>
+        </address>
+<p>In <a href="/category/technology.html">Technology</a>.</p>
+<p>tags: <a href="/tag/docker.html">Docker</a> <a href="/tag/linux.html">Linux</a> </p>
+</footer><!-- /.post-info -->                <p>Its has become an oft-repeated cliche now that docker has become the latest buzzword, both in DevOps circles as well as the open source community. But being the ever cynic and contrarian, I wasn't quite convinced of its merits until quite recently, I thought it was just another hype that …</p>
+                <a class="readmore" href="/blog/2018/09/docker-is-the-best-thing-to-happen-to-linux-since-the-gnu-bread.html">read more</a>
+<p>There are <a href="/blog/2018/09/docker-is-the-best-thing-to-happen-to-linux-since-the-gnu-bread.html#disqus_thread">comments</a>.</p>                </div><!-- /.entry-content -->
+            </article></li>
+                </ol><!-- /#posts-list -->
+                </section><!-- /#content -->
+        <section id="extras" class="body">
+                <div class="blogroll">
+                        <h2>links</h2>
+                        <ul>
+                            <li><a href="mailto:prahladyeri@yahoo.com">Email</a></li>
+                            <li><a href="https://github.com/prahladyeri/">Github</a></li>
+                            <li><a href="https://stackoverflow.com/users/849365/prahlad-yeri/">StackOverflow</a></li>
+                            <li><a href="https://www.quora.com/profile/Prahlad-Yeri-%E0%A4%AA%E0%A5%8D%E0%A4%B0%E0%A4%B9%E0%A5%8D%E0%A4%B2%E0%A4%BE%E0%A4%A6-%E0%A4%AF%E0%A5%87%E0%A4%B0%E0%A5%80">Quora</a></li>
+                            <li><a href="https://mastodon.social/@prahladyeri">Mastodon.Social</a></li>
+                            <li><a href="https://www.blogger.com/profile/12769325975373447545">Blogger</a></li>
+                        </ul>
+                </div><!-- /.blogroll -->
+                <div class="social">
+                        <h2>social</h2>
+                        <ul>
+                            <li><a href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
+
+                            <li><a href="https://www.linkedin.com/in/prahlad-yeri-243a5316">Linkedin</a></li>
+                            <li><a href="https://www.facebook.com/prahladyeri14">Facebook</a></li>
+                            <li><a href="https://twitter.com/prahladyeri">Twitter</a></li>
+                        </ul>
+                </div><!-- /.social -->
+        </section><!-- /#extras -->
+
+        <footer id="contentinfo" class="body">
+                <address id="about" class="vcard body">
+                Copyright (c) 2013-2019 <a href="/">Prahlad Yeri</a>.
+				<br>
+				This work is licensed under a [Creative Commons Attribution 4.0 International License](http://creativecommons.org/licenses/by/4.0/).
+                </address><!-- /#about -->
+        </footer><!-- /#contentinfo -->
+
+<script type="text/javascript">
+    var disqus_shortname = 'https://prahladyeri-blog.disqus.com';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = 'https://' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+</body>
+</html>

@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="english">
+<head>
+        <meta charset="utf-8" />
+        <title>A collection of random hacks - Ubuntu</title>
+        <link rel="stylesheet" href="/theme/css/main.css" />
+        <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Prahlad Yeri - Freelance Programmer Atom Feed" />
+</head>
+
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <h1><a href="/">Prahlad Yeri - Freelance Programmer </a></h1>
+                <nav><ul>
+				<li><a href="/">Home</a></li> <!--hard coded-->
+                    <li><a href="/about">About</a></li>
+                    <li><a href="/projects">Projects</a></li>
+                    <li><a href="/hire-me">Hire Me</a></li>
+                </ul></nav>
+        </header><!-- /#banner -->
+<section id="content" class="body">
+  <article>
+    <header>
+      <h1 class="entry-title">
+        <a href="/blog/2015/07/a-collection-of-random-hacks-ubuntu.html" rel="bookmark"
+           title="Permalink to A collection of random hacks - Ubuntu">A collection of random hacks - Ubuntu</a></h1>
+<a href="https://twitter.com/share" class="twitter-share-button" data-count="horizontal" data-via="prahladyeri">Tweet</a><script type="text/javascript" src="https://platform.twitter.com/widgets.js"></script>
+    </header>
+
+    <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2015-07-06T21:36:00+05:30">
+                Published: Mon 06 July 2015
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="/author/prahlad-yeri.html">Prahlad Yeri</a>
+        </address>
+<p>In <a href="/category/uncategorized.html">Uncategorized</a>.</p>
+
+</footer><!-- /.post-info -->      <p>Whether you are a sysadmin, developer or just a user, if you face a non-trivial issue while setting up any software, you generally head over to sites like <code class="highlighter-rouge">stackoverflow.com</code> to find any solutions. If the problem is solved and you are happy, you generally do two things: Bookmark/Star that post, and secondly make a note to your own workflow about that issue for future references. For what its worth, here is the collection of such notes prepared by me for <code class="highlighter-rouge">ubuntu 12.04 LTS</code>. However, most solutions should work on <code class="highlighter-rouge">14.04</code> too.<!--more--></p>
+<p><img alt="Ubuntu Logo" src="/uploads/old/3D_Ubuntu_7.jpg"></p>
+<h2>To boot ubuntu to <a href="http://askubuntu.com/questions/52089/how-do-i-boot-to-a-command-line-interface-instead-of-a-gui">command prompt intead of GUI</a></h2>
+<ol>
+<li>
+<p>Modify your file <code class="highlighter-rouge">/etc/default/grub</code> with <code class="highlighter-rouge">GRUB_CMDLINE_LINUX_DEFAULT="text"</code>. Optionally, also uncomment this line:</p>
+<p>#GRUB_TERMINAL=console</p>
+<p>and do <code class="highlighter-rouge">sudo update-grub</code>. The machine will boot in text mode.</p>
+</li>
+<li>
+<p>To start the graphical interface just do</p>
+<p>sudo service lightdm start #could be gdm or startx in some situations</p>
+</li>
+</ol>
+<h2 id="create-a-private-repo-based-on-a-previously-burned-aptoncd-backup-iso-file">Create a private repo based on a previously burned aptoncd backup (.ISO file)</h2>
+<ol>
+<li>Create a mount point in /etc/fstab that points to that ISO file on your file system:\
+    <code class="highlighter-rouge">/path/to/iso    /media/mount-point  auto    defaults 0 0</code></li>
+<li>Add this line in /etc/apt/sources.list: <code class="highlighter-rouge">deb [arch=i386] file:/media/repo-name/ /</code></li>
+<li>Just perform a <code class="highlighter-rouge">sudo apt-get update</code></li>
+<li>To upgrade packages, don’t use the ubuntu GUI, instead do <code class="highlighter-rouge">sudo apt-get upgrade</code></li>
+</ol>
+<h2>Add a user to a group</h2>
+<ol>
+<li>Edit <code class="highlighter-rouge">/etc/group</code> file and add the user after the <code class="highlighter-rouge">&lt;groupName&gt;:</code></li>
+</ol>
+<h2>Virtualbox (ubuntu guest configuration)</h2>
+<ol>
+<li>Insert VBoxGuestAdditions ISO CD and auto run the script file.</li>
+<li>Share folders from host machine (Shares are auto-mounted in /media/sf_* folders</li>
+<li>Add user: <code class="highlighter-rouge">sudo usermod -aG vboxsf $(whoami)</code></li>
+</ol>
+<h2>Ubuntu performance tweaks</h2>
+<ol>
+<li><code class="highlighter-rouge">/etc/sysctl.conf =&gt; vm.swappiness=10</code></li>
+<li><code class="highlighter-rouge">/etc/apt/apt.conf.d/00aptitude   =&gt;  Acquire::Languages "none";</code></li>
+<li><code class="highlighter-rouge">/etc/fstab  =&gt; set noatime</code>, for example:\
+    <code class="highlighter-rouge">/dev/sda7          /chroot          ext2          defaults,noatime          1  2</code></li>
+</ol>
+<h2>Making Geany the default editor (<a href="http://askubuntu.com/questions/194712/how-do-i-make-geany-my-default-editor-on-ubuntu">source</a>)</h2>
+<ul>
+<li><code class="highlighter-rouge">xdg-mime default geany.desktop $(grep MimeType /usr/share/applications/geany.desktop | sed 's/MimeType=//' | sed 's/;/ /g')</code></li>
+</ul>
+<h2>To create an ssh tunnel between local port 9999 and a remote server (dynamic port forwarding/socks)</h2>
+<p>::: {.highlighter-rouge}</p>
+<div class="highlight"><pre><span></span>ssh -C -ND 9999 username@sshserver.com
+</pre></div>
+
+
+<p>:::</p>
+<h2>Graphics</h2>
+<p>To check whether we are using sna or uxa:\
+<code class="highlighter-rouge">apt-cache policy xserver-xorg-video-intel* | grep Installed</code></p>
+<p>If the results of Installed are under 2.20 (e.g. 2:2.17.0-1ubuntu4 0), it means we are using the older uxa drivers.\
+Proceed with the ppa installataion steps in the link.</p>
+<p>References:\
+<a href="http://askubuntu.com/questions/225356/how-can-i-enable-the-sna-acceleration-method-for-intel-cards-under-ubuntu-12-04">ubuntu</a>\
+<a href="https://ask.fedoraproject.org/en/question/39843/how-to-enable-sna-acceleration-method-for-intel-cards-in-fedora-20/">fedora</a></p>
+<h2>Resetting a modem/usb-device using usb-modeswitch</h2>
+<p>We can try if a reset of our USB device helps resurrecting it. We first need to find out the vendor ID, and the product ID easiest by\
+lsusb.</p>
+<p>This will give information e.g. like follows:\
+Bus 003 Device 002: ID 04f9:0224 Brother Industries, Ltd</p>
+<p>In this example the vendor ID is 04f9, product ID is 0224 (right, its my printer).\
+To reset the device we may then issue\
+sudo usb_modeswitch -R -v -p</p>
+<h2>cpu-scaling/battery-saving</h2>
+<ul>
+<li>install indicator-cpufreq package</li>
+<li>[Edit file <code class="highlighter-rouge">/etc/init.d/ondemand</code> and set default from ondemand to powersave]</li>
+</ul>
+<p>References:</p>
+<ul>
+<li>https://bugs.launchpad.net/indicator-cpufreq/+bug/1082868</li>
+<li>https://wiki.debian.org/HowTo/CpuFrequencyScaling</li>
+</ul>
+<h2>laptop mode</h2>
+<ul>
+<li>package: pm-powersave (see manpages)</li>
+<li>check: cat /proc/sys/vm/laptop_mode</li>
+</ul>
+<p>References:</p>
+<ul>
+<li>http://askubuntu.com/questions/312005/is-laptop-mode-tools-still-relevant-on-13-04</li>
+<li>http://askubuntu.com/questions/172391/is-laptop-mode-tools-still-relevant-for-12-04-and-the-3-x-kernels\
+    http://askubuntu.com/questions/170667/how-to-analysis-the-output-of-powertop-to-increase-battery-lifetime</li>
+</ul>
+<h2>apt tweaks</h2>
+<ul>
+<li>Removing translations:<ul>
+<li>create a file named <code class="highlighter-rouge">/etc/apt/apt.conf.d/99translations</code> &amp; put the following in it: <code class="highlighter-rouge">Acquire::Languages "none";</code></li>
+<li>You may also need to remove existing translation files in <code class="highlighter-rouge">/var/lib/apt/lists/</code> - filter by <code class="highlighter-rouge">*Translation*</code></li>
+<li>References:<ul>
+<li>http://askubuntu.com/questions/74653/how-can-i-remove-the-translation-entries-in-apt</li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Reconfigure locales:<ul>
+<li><code class="highlighter-rouge">dpkg --reconfigure locales</code></li>
+</ul>
+</li>
+<li>Search for a package:<ul>
+<li><code class="highlighter-rouge">apt-cache search pygame</code></li>
+<li><code class="highlighter-rouge">- dpkg --search pygame</code></li>
+</ul>
+</li>
+<li>Show package status: <code class="highlighter-rouge">dpkg --list python-pygame</code></li>
+<li>Show package details: <code class="highlighter-rouge">apt-cache show python-pygame</code></li>
+<li>Search for a package’s dependency (Ex: python-pygame): <code class="highlighter-rouge">apt-cache depends python-pygame</code></li>
+</ul>
+<h2>git basics</h2>
+<ul>
+<li>clone a url:\
+    <code class="highlighter-rouge">git clone url-name</code></li>
+<li>check status:\
+    <code class="highlighter-rouge">git status</code></li>
+<li>add/remove files:</li>
+</ul>
+<figure class="highlight">
+        git add <file-name>
+        git add .
+        git rm <file-name>
+        git rm .
+
+</figure>
+
+<ul>
+<li>commit:\
+    <code class="highlighter-rouge">git commit -m "message"</code></li>
+<li>exclude/include file:<ul>
+<li><code class="highlighter-rouge">git update-index --assume-unchanged path/to/file</code></li>
+<li><code class="highlighter-rouge">git update-index --no-assume-unchanged path/to/file</code></li>
+</ul>
+</li>
+</ul>
+<h2>Set ubuntu/debian to use bios time instead of converting as per timezones</h2>
+<ul>
+<li>option1: open: <code class="highlighter-rouge">/etc/default/rcS</code> and add/change this line:</li>
+</ul>
+<figure class="highlight">
+
+        # Set UTC=yes if your hardware clock is set to UTC (GMT)
+        UTC=no
+
+
+</figure>
+
+<ul>
+<li>option 2: open /etc/adjtime and change <code class="highlighter-rouge">'UTC'</code> to <code class="highlighter-rouge">'LOCAL'</code></li>
+<li>option 3: <code class="highlighter-rouge">hwclock --systohc --localtime #(Explore these options)</code></li>
+</ul>
+<h2>greeter configuration on ubuntu</h2>
+<p>::: {.highlighter-rouge}</p>
+<div class="highlight"><pre><span></span>view defaults: /etc/lightdm/lightdm.conf
+set defaults: /usr/lib/lightdm/lightdm-set-defaults
+</pre></div>
+
+
+<p>:::</p>
+<h2>start/disable init services</h2>
+<p>Refer http://askubuntu.com/questions/138487/how-to-keep-apache-and-mysql-from-starting-automatically</p>
+<h2>LAMP (debian/ubuntu)</h2>
+<ul>
+<li>disable apache at boot:\
+    <code class="highlighter-rouge">sudo update-rc.d apache2 disable</code></li>
+<li>enable apache at boot:\
+    <code class="highlighter-rouge">sudo update-rc.d apache2 enable</code></li>
+<li>start/stop at will:\
+    <code class="highlighter-rouge">sudo update-rc.d service start</code></li>
+<li>list available apache modules:\
+    <code class="highlighter-rouge">apache2ctl -M</code></li>
+<li>enable a module:\
+    <code class="highlighter-rouge">a2enmod &lt;modulename&gt;</code></li>
+<li>disable a module:\
+    <code class="highlighter-rouge">a2dismod &lt;modulename&gt;</code></li>
+</ul>
+<h2>Service control:</h2>
+<ul>
+<li>services (Traditional):<ul>
+<li><code class="highlighter-rouge">/etc/init.d/apache2 restart</code></li>
+<li><code class="highlighter-rouge">/etc/init.d/apache2</code> (TO show a list of all command options)</li>
+<li><code class="highlighter-rouge">update-rc.d</code> (or in RedHat based distros, <code class="highlighter-rouge">chkconfig</code>)</li>
+</ul>
+</li>
+<li>services (Upstart):<ul>
+<li><code class="highlighter-rouge">status apache2</code></li>
+<li><code class="highlighter-rouge">service apache2 status</code></li>
+<li><code class="highlighter-rouge">service mysql status</code></li>
+<li><code class="highlighter-rouge">service apache2 restart</code></li>
+</ul>
+</li>
+<li>services (systemd):\
+    <code class="highlighter-rouge">systemctl disable apache2</code></li>
+<li>
+<p>Disable/Enable services (ubuntu/debian) - works for any service with .conf configured. example: <code class="highlighter-rouge">/etc/init/mysql.conf</code></p>
+<ul>
+<li>
+<p>method-1:
+    ::: {.highlighter-rouge}
+    <code>{.highlight}
+      #disable service at startup
+      sudo sh -c "echo 'manual' &gt;&gt; /etc/init/mysql.override"
+      sudo sh -c "echo 'manual' &gt;&gt; /etc/init/bluetooth.override"
+      #enable service at startup
+      sudo rm /etc/init/mysql.override</code>
+    ```
+    :::</p>
+</li>
+<li>
+<p>method-2 (for ubuntu 12.04):</p>
+</li>
+</ul>
+</li>
+</ul>
+<figure class="highlight">
+          sudo nano /etc/init/mysql.conf #Then comment out the hashing section like this:
+            #start on (net-device-up
+                      #and local-filesystems
+                      #and runlevel [2345])
+
+</figure>
+
+<ul>
+<li>list all services: <code class="highlighter-rouge">initctl list</code></li>
+</ul>
+<h2>iptables basics:</h2>
+<ul>
+<li>Save/Restore state:\
+    iptables-save > /etc/iptables.rules #save current state to file\
+    iptables-restore \&lt; /etc/iptables.rules #restore state from file</li>
+<li>Save state (using iptables-persistent package):<ul>
+<li>method-1: install the package and run: <code class="highlighter-rouge">sudo /etc/init.d/iptables-persistent save</code></li>
+<li>method-2 for IPv4 rules: sudo su -c <code class="highlighter-rouge">iptables-save &gt; /etc/iptables/rules.v4</code></li>
+<li>method-3 for IPv6 rules: sudo su -c <code class="highlighter-rouge">ip6tables-save &gt; /etc/iptables/rules.v6</code></li>
+</ul>
+</li>
+<li>Auto load on network up - Append this command to an iface config in <code class="highlighter-rouge">/etc/network/interfaces</code>:\
+    post-up iptables-restore \&lt; /etc/iptables.rules</li>
+</ul>
+<p><a href="http://askubuntu.com/questions/119393/how-to-save-rules-of-the-iptables">reference</a></p>
+<h2>network/tcp tweaks:</h2>
+<p>::: {.highlighter-rouge}</p>
+<div class="highlight"><pre><span></span>sysctl -w net.ipv4.tcp_timestamps=0
+</pre></div>
+
+
+<p>:::</p>
+<h2>Add/Edit Unity Launcher shortcut:</h2>
+<ul>
+<li>.desktop files are stored: globally in /usr/share/applications, locally in \~/.local/share/applications.</li>
+<li>create a file named <code class="highlighter-rouge">~/.local/share/applications/[name].desktop</code>:</li>
+</ul>
+<figure class="highlight">
+      [Desktop Entry]
+        Encoding=UTF-8
+        Name=PyCharm 3.0
+        Comment=Jetbrains Python IDE
+        Exec=/home/sysadmin/programs/pycharm-community-3.0/bin
+        Icon=/home/sysadmin/programs/pycharm-community-3.0/bin/pycharm.png
+        Categories=Application;Development;Python;IDE
+        Version=1.0
+        Type=Application
+        Terminal=0
+
+</figure>
+
+<ul>
+<li>Do this only if required: add this entry using dconf-editor: desktop-> unity-> launcher -> favourites</li>
+</ul>
+<p>Reset Unity (12.10 or later, but not tested!!)</p>
+<figure class="highlight">
+    dconf reset -f /org/compiz/
+    logoff and back in
+    unity --reset-icons &disown
+
+</figure>
+
+<p>Reset Unity (12.04 or earlier):</p>
+<figure class="highlight">
+    unity --reset &disown
+    logoff and back in
+
+</figure>
+
+<p>Start python web server module:</p>
+<figure class="highlight">
+    python -m SimpleHTTPServer 8000
+
+</figure>
+
+<p>wifi commands:\
+show available wifi interfaces:\
+<code class="highlighter-rouge">iwconfig</code></p>
+<p>Ubuntu window buttons messed up:</p>
+<ul>
+<li>Open gconf-editor and go to key: <code class="highlighter-rouge">/apps/metacity/general/button_layout</code></li>
+<li>to set controls on right side, set value to <code class="highlighter-rouge">:minimize,maximize,close</code></li>
+<li>to set controls on left side (defaults in 12.04), set value to <code class="highlighter-rouge">close,maximize,minimize:</code></li>
+</ul>
+<p>Start Netbeans with –cp option:\
+<code class="highlighter-rouge">netbeans -cp:a /usr/share/java/xercesImpl.jar</code>\
+To add above command to netbeans startup, edit <code class="highlighter-rouge">/etc/netbeans.conf</code></p>
+<p>Grub: Solve brightness and other issues:\
+Add this to <code class="highlighter-rouge">/etc/default/grub</code>: <code class="highlighter-rouge">GRUB_CMDLINE_LINUX="acpi_osi=Linux acpi_backlight=Vendor"</code>\
+and run <code class="highlighter-rouge">update-grub</code></p>
+<p>Ubuntu brightness issue: set to max on startup:</p>
+<p>Solution-1 (http://ubuntuforums.org/showthread.php?t=1976157):</p>
+<p>edit <code class="highlighter-rouge">/etc/rc.local</code> and add one of the below commands:</p>
+<ul>
+<li><code class="highlighter-rouge">#echo 334665 &gt; /sys/class/backlight/intel_backlight/brightness</code></li>
+<li><code class="highlighter-rouge">#echo 2 &gt; /sys/class/backlight/acpi_video0/brightness</code></li>
+<li><code class="highlighter-rouge">#(sleep 3 &amp;&amp; echo 2 &gt; /sys/class/backlight/acpi_video0/brightness) &amp; #</code> this one actually worked for me, as it delayed setting the value by 3 seconds:</li>
+<li><code class="highlighter-rouge">#xbacklight -set 30</code></li>
+</ul>
+<h2 id="solution-2-from-httpsbugslaunchpadnetubuntusourcegnome-power-managerbug923940">Solution-2 (From https://bugs.launchpad.net/ubuntu/+source/gnome-power-manager/+bug/923940):</h2>
+<p>As a temporary patch, you can try the following:</p>
+<ul>
+<li>Create a file (any name) under <code class="highlighter-rouge">/etc/pm/power.d</code> with the following content:</li>
+</ul>
+<figure class="highlight">
+    # Brightness adjustment
+    case $1 in
+            true)
+
+                    # 20% screen brightness on battery
+                    echo 2 > /sys/class/backlight/acpi_video0/brightness
+            ;;
+            false)
+                    # 80% screen brightness on AC
+                    echo 3 > /sys/class/backlight/acpi_video0/brightness
+            ;;
+    esac
+
+    exit 0
+
+</figure>
+
+<ul>
+<li>Make it executable by <code class="highlighter-rouge">chmod +x myscript</code> assuming “myscript” is the name of your file.</li>
+</ul>
+<p>Of course, you will need to reboot. This will adjust the brightness at 20 % when on battery and 80% when on AC power.</p>
+<p>Change grub boot order:</p>
+<ul>
+<li>open <code class="highlighter-rouge">/etc/default/grub</code> in editor and change GRUB_DEFAULT parameter</li>
+<li>run <code class="highlighter-rouge">update-grub</code></li>
+<li>(Also set GRUB_SAVEDEFAULT=true if GRUB_DEFAULT equals saved)</li>
+</ul>
+<p>Get X logs: See <code class="highlighter-rouge">/var/log/Xorg.0.log</code></p>
+<p>To switch between gdm, kdm, etc:\
+<code class="highlighter-rouge">dpkg-reconfigure gdm</code>\
+or\
+<code class="highlighter-rouge">dpkg-reconfigure lightdm</code></p>
+<p>Disable KMS (/etc/modprobe.d/i915-kms.conf):\
+options i915 modeset=0</p>
+<p>Check hardware configuration:\
+<code class="highlighter-rouge">lspci</code>\
+<code class="highlighter-rouge">lsusb</code></p>
+<p>Create an xorg.conf configuration:</p>
+<ul>
+<li>login as root</li>
+<li>Xorg -configure</li>
+<li>mv /root/xorg.conf.new /etc/X11/xorg.conf</li>
+</ul>
+<p>Local mirror of a web-site:</p>
+<figure class="highlight">
+    wget -mkp -np -nc -nd -E --continue http://www.brpreiss.com/books/opus7
+        -p = get page requisites (css, etc)
+        -k = convert links
+        -r = recursive   
+        -m = turn on options suitable for mirroring (such as -r)
+        -nc = no clobber
+        -nd = no directoriy hierarchy
+        -c = continue with partially downloaded
+        -w n = wait for n seconds between requests
+        -np = no parent
+        -E = rename to proper .html/.css extensions if the page isn't
+        --accept patternlist = accept only certain patterns (eg. Admin*)
+        --reject patternlist = opposite of accept
+
+</figure>
+
+<p>Watch CPU Temperatures:</p>
+<ul>
+<li><code class="highlighter-rouge">cat /sys/bus/acpi/devices/LNXTHERM:00/thermal_zone/temp</code> (need lm-sensors package installed):</li>
+<li>watch -n 1 -d sensors</li>
+<li>sensors</li>
+<li>sensors-detect (dangerous/need more info)</li>
+</ul>
+<p>Fill a usb/device with zeros:</p>
+<ul>
+<li><code class="highlighter-rouge">sudo dd if=/dev/zero of=/dev/sdb bs=1M</code></li>
+</ul>
+<p>List all devices on the machine:</p>
+<ul>
+<li><code class="highlighter-rouge">sudo fdisk -l</code></li>
+</ul>
+<p>Write an iso image to usb/device: (sdx is the name of device)</p>
+<ul>
+<li><code class="highlighter-rouge">sudo dd if=/path_to_iso of=/dev/sdx bs=1M</code></li>
+</ul>
+<p>Install grub to a specific device: (For usb devices, ext2 is ideal)</p>
+<ul>
+<li><code class="highlighter-rouge">sudo grub-install --root-directory=/media/USBFolderName /dev/sdx</code></li>
+</ul>
+<p>Find a file on disk:</p>
+<ul>
+<li>/usr -xdev -name *.wav</li>
+</ul>
+<p>Show all apps in startup dialog (not just a few that come with stock ubuntu):</p>
+<ul>
+<li>sudo sed -i ‘s/NoDisplay=true/NoDisplay=false/g’ /etc/xdg/autostart/*.desktop</li>
+</ul>
+<p>view tcp communication logs:</p>
+<ul>
+<li><code class="highlighter-rouge">/proc/net/tcp</code></li>
+</ul>
+<p>recordMyDesktop cli:</p>
+<ul>
+<li><code class="highlighter-rouge">recordMyDesktop --width 1360 --height 768 --v_bitrate 2000000</code></li>
+</ul>
+<p>resize unity-2d launcher:</p>
+<ul>
+<li>take backup: <code class="highlighter-rouge">tar cvfz ~/Documents/unity-2d-shell-backup.tar.gz /usr/share/unity-2d/shell/*</code></li>
+<li>edit Shell.qml and change width: 65 to 50</li>
+<li>edit common/IconTile.qml:<ul>
+<li>sourceSize.width: 48 to sourceSize.width: 32</li>
+<li>sourceSize.height: 48 to sourceSize.height: 32</li>
+</ul>
+</li>
+<li>edit launcher/LauncherList.qml:<ul>
+<li>property int tileSize: 54 to property int tileSize: 38</li>
+<li>property int selectionOutlineSize: 65 to</li>
+<li>property int selectionOutlineSize: 50</li>
+</ul>
+</li>
+<li>logout &amp; back in.</li>
+</ul>
+    </div><!-- /.entry-content -->
+
+  </article>
+</section>
+        <section id="extras" class="body">
+                <div class="blogroll">
+                        <h2>links</h2>
+                        <ul>
+                            <li><a href="mailto:prahladyeri@yahoo.com">Email</a></li>
+                            <li><a href="https://github.com/prahladyeri/">Github</a></li>
+                            <li><a href="https://stackoverflow.com/users/849365/prahlad-yeri/">StackOverflow</a></li>
+                            <li><a href="https://www.quora.com/profile/Prahlad-Yeri-%E0%A4%AA%E0%A5%8D%E0%A4%B0%E0%A4%B9%E0%A5%8D%E0%A4%B2%E0%A4%BE%E0%A4%A6-%E0%A4%AF%E0%A5%87%E0%A4%B0%E0%A5%80">Quora</a></li>
+                            <li><a href="https://mastodon.social/@prahladyeri">Mastodon.Social</a></li>
+                            <li><a href="https://www.blogger.com/profile/12769325975373447545">Blogger</a></li>
+                        </ul>
+                </div><!-- /.blogroll -->
+                <div class="social">
+                        <h2>social</h2>
+                        <ul>
+                            <li><a href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
+
+                            <li><a href="https://www.linkedin.com/in/prahlad-yeri-243a5316">Linkedin</a></li>
+                            <li><a href="https://www.facebook.com/prahladyeri14">Facebook</a></li>
+                            <li><a href="https://twitter.com/prahladyeri">Twitter</a></li>
+                        </ul>
+                </div><!-- /.social -->
+        </section><!-- /#extras -->
+
+        <footer id="contentinfo" class="body">
+                <address id="about" class="vcard body">
+                Copyright (c) 2013-2019 <a href="/">Prahlad Yeri</a>.
+				<br>
+				This work is licensed under a [Creative Commons Attribution 4.0 International License](http://creativecommons.org/licenses/by/4.0/).
+                </address><!-- /#about -->
+        </footer><!-- /#contentinfo -->
+
+<script type="text/javascript">
+    var disqus_shortname = 'https://prahladyeri-blog.disqus.com';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = 'https://' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+</body>
+</html>

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="english">
+<head>
+        <meta charset="utf-8" />
+        <title>Are your Firefox addons really that safe? - An Insider Story</title>
+        <link rel="stylesheet" href="/theme/css/main.css" />
+        <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Prahlad Yeri - Freelance Programmer Atom Feed" />
+</head>
+
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <h1><a href="/">Prahlad Yeri - Freelance Programmer </a></h1>
+                <nav><ul>
+				<li><a href="/">Home</a></li> <!--hard coded-->
+                    <li><a href="/about">About</a></li>
+                    <li><a href="/projects">Projects</a></li>
+                    <li><a href="/hire-me">Hire Me</a></li>
+                </ul></nav>
+        </header><!-- /#banner -->
+<section id="content" class="body">
+  <article>
+    <header>
+      <h1 class="entry-title">
+        <a href="/blog/2015/11/are-your-firefox-addons-really-that-safe-an-insider-story.html" rel="bookmark"
+           title="Permalink to Are your Firefox addons really that safe? - An Insider Story">Are your Firefox addons really that safe? - An Insider Story</a></h1>
+<a href="https://twitter.com/share" class="twitter-share-button" data-count="horizontal" data-via="prahladyeri">Tweet</a><script type="text/javascript" src="https://platform.twitter.com/widgets.js"></script>
+    </header>
+
+    <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2015-11-09T22:36:00+05:30">
+                Published: Mon 09 November 2015
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="/author/prahlad-yeri.html">Prahlad Yeri</a>
+        </address>
+<p>In <a href="/category/linux.html">Linux</a>.</p>
+
+</footer><!-- /.post-info -->      <p>Firefox is one of the most competitive FOSS browsers out there, there is no denying it. Mozilla also has strict guidelines regarding what goes into their repos. And in the spirit of all things open source, you may naturally tend to believe that developers who have written your coolest new <em>million ratings plus</em> addon are also held to Mozilla’s high standards and subject to all quality audits.<!--more--></p>
+<p>Well, read this short story before subjecting yourself to that blind faith and just clicking on every <code class="highlighter-rouge">Add to Firefox</code> button in your browser.</p>
+<p><img alt="Mozilla plugins" src="/uploads/old/Mozilla_plugins.png"></p>
+<p>This story is about two popular firefox addons, <em>Adblock-Plus</em> and <em>Noscript</em>. A few years ago, the Noscript addon was at least partially funded by advertisements. To make a long tale short, the Noscript developer, Giorgio Maone decided to make Noscript meddle with the settings of ABP plugin to whitelist his own sites that earned him advertisement revenue. Of course, this attracted a lot of <a href="https://adblockplus.org/blog/attention-noscript-users">unwanted attention</a> and a code war ensued between the ABP dev Wladimir Palantir and Giorgio. Things would not have gone that far, had Giorgio just “whitelisted” his advert websites using ABP’s API or other open methods. The fact that he actually hacked into Firefox internals to make his own addon override Wladimir’s ABP is what made all hell break loose.</p>
+<p>The most ironical about this is the fact that <em>Noscript</em> itself is a security-plugin, meaning it is used to block adware to keep the user safe! If the developer of a plugin like <em>Noscript</em> would do this, then just think about what all stupid things those random developers of funky little addons might be doing. Of course, Giorgio <a href="http://hackademix.net/2009/05/04/dear-adblock-plus-and-noscript-users-dear-mozilla-community/">publicly apologized</a> for the debacle he had caused and reading his sincere apology might almost make you forget all qualms about addon security. But the issue here is not about this little turf war between ABP and Noscript, nor is it about what Giorgio did was right or wrong, he handled the situation correctly, regardless. The larger issue here is the security architecture in the entire firefox ecosystem.</p>
+<p>You see, when I install a Chrome addon, it asks me as a user what all permissions it needs to be granted. I will know at once, whether it is going to write to my file system, or access the HTML tags in the browser, and it most certainly tells me whether it could play havoc with the other installed addons or not (as happened in this case). Its high time that Firefox too needs to come up with such granular security levels when it comes to installing addons. Only then, incidents like the Noscript debacle can be safely prevented.</p>
+<p>So, next time when you click on that <em>Add to Firefox</em> button on the install page, just think about what all goes in a developer’s mind when they write those plugins. I know there are a lot of great FOSS developers (Wladimir and Giorgio included) who selflessly contribute to the open source software, but it is not always apparent whether it is purely out of selflessness or there is an insidious motive on their part to make money by using the users of their addons.</p>
+<p>References:</p>
+<p><a href="https://adblockplus.org/blog/attention-noscript-users">https://adblockplus.org/blog/attention-noscript-users</a>\
+<a href="http://hackademix.net/2009/05/04/dear-adblock-plus-and-noscript-users-dear-mozilla-community">http://hackademix.net/2009/05/04/dear-adblock-plus-and-noscript-users-dear-mozilla-community</a></p>
+    </div><!-- /.entry-content -->
+
+  </article>
+</section>
+        <section id="extras" class="body">
+                <div class="blogroll">
+                        <h2>links</h2>
+                        <ul>
+                            <li><a href="mailto:prahladyeri@yahoo.com">Email</a></li>
+                            <li><a href="https://github.com/prahladyeri/">Github</a></li>
+                            <li><a href="https://stackoverflow.com/users/849365/prahlad-yeri/">StackOverflow</a></li>
+                            <li><a href="https://www.quora.com/profile/Prahlad-Yeri-%E0%A4%AA%E0%A5%8D%E0%A4%B0%E0%A4%B9%E0%A5%8D%E0%A4%B2%E0%A4%BE%E0%A4%A6-%E0%A4%AF%E0%A5%87%E0%A4%B0%E0%A5%80">Quora</a></li>
+                            <li><a href="https://mastodon.social/@prahladyeri">Mastodon.Social</a></li>
+                            <li><a href="https://www.blogger.com/profile/12769325975373447545">Blogger</a></li>
+                        </ul>
+                </div><!-- /.blogroll -->
+                <div class="social">
+                        <h2>social</h2>
+                        <ul>
+                            <li><a href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
+
+                            <li><a href="https://www.linkedin.com/in/prahlad-yeri-243a5316">Linkedin</a></li>
+                            <li><a href="https://www.facebook.com/prahladyeri14">Facebook</a></li>
+                            <li><a href="https://twitter.com/prahladyeri">Twitter</a></li>
+                        </ul>
+                </div><!-- /.social -->
+        </section><!-- /#extras -->
+
+        <footer id="contentinfo" class="body">
+                <address id="about" class="vcard body">
+                Copyright (c) 2013-2019 <a href="/">Prahlad Yeri</a>.
+				<br>
+				This work is licensed under a [Creative Commons Attribution 4.0 International License](http://creativecommons.org/licenses/by/4.0/).
+                </address><!-- /#about -->
+        </footer><!-- /#contentinfo -->
+
+<script type="text/javascript">
+    var disqus_shortname = 'https://prahladyeri-blog.disqus.com';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = 'https://' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+</body>
+</html>

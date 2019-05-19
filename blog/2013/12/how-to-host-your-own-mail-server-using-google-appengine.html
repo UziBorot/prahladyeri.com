@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="english">
+<head>
+        <meta charset="utf-8" />
+        <title>How to host your own mail server using Google appengine</title>
+        <link rel="stylesheet" href="/theme/css/main.css" />
+        <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Prahlad Yeri - Freelance Programmer Atom Feed" />
+</head>
+
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <h1><a href="/">Prahlad Yeri - Freelance Programmer </a></h1>
+                <nav><ul>
+				<li><a href="/">Home</a></li> <!--hard coded-->
+                    <li><a href="/about">About</a></li>
+                    <li><a href="/projects">Projects</a></li>
+                    <li><a href="/hire-me">Hire Me</a></li>
+                </ul></nav>
+        </header><!-- /#banner -->
+<section id="content" class="body">
+  <article>
+    <header>
+      <h1 class="entry-title">
+        <a href="/blog/2013/12/how-to-host-your-own-mail-server-using-google-appengine.html" rel="bookmark"
+           title="Permalink to How to host your own mail server using Google appengine">How to host your own mail server using Google appengine</a></h1>
+<a href="https://twitter.com/share" class="twitter-share-button" data-count="horizontal" data-via="prahladyeri">Tweet</a><script type="text/javascript" src="https://platform.twitter.com/widgets.js"></script>
+    </header>
+
+    <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2013-12-30T21:23:00+05:30">
+                Published: Mon 30 December 2013
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="/author/prahlad-yeri.html">Prahlad Yeri</a>
+        </address>
+<p>In <a href="/category/uncategorized.html">Uncategorized</a>.</p>
+
+</footer><!-- /.post-info -->      <p>Google has an outstanding habit of bringing the power of elites to the masses. Firstly, they took over the world of smartphones with android, and now the buzzword everywhere is Google Appengine.<!--more--></p>
+<p>Once you get the basics of GAE and start looking beyond your first <a href="/blog/2013/12/how-to-create-a-pythonic-app-in-google-app-engine/" title="How to create a Python app in Google App Engine">HelloWorld</a> application, you will start appreciating the sheer power it provides compared to other paid hosting providers. GAE provides you the ability to send mails from your app without paying a single penny. Only if your app starts exceeding the usage quotas, you will have to pay in order to continue using the services.</p>
+<p>An application of the above is creating and hosting your own email server through your app. Below is a single python script which acts as an http mail server that can route your email requests. It also doubles up as a test server so you can test the hosted service by appending the "/test" subdirectory to the url. You may pass http POST requests to your app including fields like username, to, cc, subject etc. once you build this script and host your app in the google cloud.</p>
+<figure class="highlight">
+    #main.py
+    import webapp2
+    import urllib2
+    from google.appengine.api import users,mail
+
+    class TestPage(webapp2.RequestHandler):
+        def get(self):
+            body = """
+            &lt;form method="post" action="http://your-app-id.appspot.com">
+            Full Name: &lt;input name="fullname" />&lt;br />
+            user: &lt;input name="username" />&lt;br />
+            to: &lt;input name="to" />&lt;br />
+            cc: &lt;input name="cc" />&lt;br />
+            bcc: &lt;input name="bcc" />&lt;br />
+            subject: &lt;input name="subject" />&lt;br />
+            body: &lt;textarea name="body">&lt;/textarea>&lt;br />
+            &lt;input type="submit" />
+            &lt;/form>
+            """
+            self.response.write(body)
+
+    class MainPage(webapp2.RequestHandler):
+        def post(self):
+            #TODO: check if password is correct.
+
+            #From will actually be a placeholder, since only your own appspotmail addresses would be allowed.
+            tfullname = self.request.get('fullname')
+            tusername = self.request.get('username')
+            tto = self.request.get('to')
+            tcc = self.request.get('cc')
+            tbcc = self.request.get('bcc')
+            tsubject = self.request.get('subject')
+            tbody = self.request.get('body')
+            tattachment = self.request.get('attachment')
+            send_mail(fullname=tfullname,username=tusername,to=tto,subject=tsubject,body=tbody,cc=tcc,bcc=tbcc,attachment=tattachment)
+            self.response.write("success")
+            #self.response.write(tto)
+
+        def get(self):
+            #self.response.headers['Content-Type'] = 'text/plain'
+            self.response.out.write("""your-app-id http mail service version 1.0.&lt;br />
+            post vars:
+            [password]
+            [fullname]
+            [username]
+            [to]
+            [cc]
+            [bcc]
+            [subject]
+            [body]
+            [attachment]
+
+            &lt;br />
+            &lt;br />
+
+            &lt;a type="button" href="test">Click here for a demo&lt;/a>
+            """)
+
+    def send_mail(fullname,username,to,subject,body,cc=None,bcc=None,attachment=None):
+        sender=fullname + " &lt;" + username + "@your-app-id.appspotmail.com>"
+        message = mail.EmailMessage(sender=sender)
+        message.to = to
+        if cc!=None and cc!='':
+            message.cc=cc
+        if bcc!=None and bcc!='':
+            message.bcc = bcc
+        message.subject = subject
+        message.body = body
+        message.send()
+
+    application = webapp2.WSGIApplication([
+                                           ('/', MainPage),
+                                           ('/test', TestPage)
+                                           ], debug=True)
+
+</figure>
+
+<p>So now, you may bid farewell to third party mail services like mail-chimp and others - since you have your own mail server.</p>
+    </div><!-- /.entry-content -->
+
+  </article>
+</section>
+        <section id="extras" class="body">
+                <div class="blogroll">
+                        <h2>links</h2>
+                        <ul>
+                            <li><a href="mailto:prahladyeri@yahoo.com">Email</a></li>
+                            <li><a href="https://github.com/prahladyeri/">Github</a></li>
+                            <li><a href="https://stackoverflow.com/users/849365/prahlad-yeri/">StackOverflow</a></li>
+                            <li><a href="https://www.quora.com/profile/Prahlad-Yeri-%E0%A4%AA%E0%A5%8D%E0%A4%B0%E0%A4%B9%E0%A5%8D%E0%A4%B2%E0%A4%BE%E0%A4%A6-%E0%A4%AF%E0%A5%87%E0%A4%B0%E0%A5%80">Quora</a></li>
+                            <li><a href="https://mastodon.social/@prahladyeri">Mastodon.Social</a></li>
+                            <li><a href="https://www.blogger.com/profile/12769325975373447545">Blogger</a></li>
+                        </ul>
+                </div><!-- /.blogroll -->
+                <div class="social">
+                        <h2>social</h2>
+                        <ul>
+                            <li><a href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
+
+                            <li><a href="https://www.linkedin.com/in/prahlad-yeri-243a5316">Linkedin</a></li>
+                            <li><a href="https://www.facebook.com/prahladyeri14">Facebook</a></li>
+                            <li><a href="https://twitter.com/prahladyeri">Twitter</a></li>
+                        </ul>
+                </div><!-- /.social -->
+        </section><!-- /#extras -->
+
+        <footer id="contentinfo" class="body">
+                <address id="about" class="vcard body">
+                Copyright (c) 2013-2019 <a href="/">Prahlad Yeri</a>.
+				<br>
+				This work is licensed under a [Creative Commons Attribution 4.0 International License](http://creativecommons.org/licenses/by/4.0/).
+                </address><!-- /#about -->
+        </footer><!-- /#contentinfo -->
+
+<script type="text/javascript">
+    var disqus_shortname = 'https://prahladyeri-blog.disqus.com';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = 'https://' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+</body>
+</html>

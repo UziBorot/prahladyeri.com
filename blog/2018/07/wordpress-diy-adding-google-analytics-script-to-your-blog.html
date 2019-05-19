@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="english">
+<head>
+        <meta charset="utf-8" />
+        <title>Wordpress DIY: Adding Google Analytics Script to your Blog Without using an External Plugin</title>
+        <link rel="stylesheet" href="/theme/css/main.css" />
+        <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Prahlad Yeri - Freelance Programmer Atom Feed" />
+</head>
+
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <h1><a href="/">Prahlad Yeri - Freelance Programmer </a></h1>
+                <nav><ul>
+				<li><a href="/">Home</a></li> <!--hard coded-->
+                    <li><a href="/about">About</a></li>
+                    <li><a href="/projects">Projects</a></li>
+                    <li><a href="/hire-me">Hire Me</a></li>
+                </ul></nav>
+        </header><!-- /#banner -->
+<section id="content" class="body">
+  <article>
+    <header>
+      <h1 class="entry-title">
+        <a href="/blog/2018/07/wordpress-diy-adding-google-analytics-script-to-your-blog.html" rel="bookmark"
+           title="Permalink to Wordpress DIY: Adding Google Analytics Script to your Blog Without using an External Plugin">Wordpress DIY: Adding Google Analytics Script to your Blog Without using an External Plugin</a></h1>
+<a href="https://twitter.com/share" class="twitter-share-button" data-count="horizontal" data-via="prahladyeri">Tweet</a><script type="text/javascript" src="https://platform.twitter.com/widgets.js"></script>
+    </header>
+
+    <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2018-07-07T12:36:00+05:30">
+                Published: Sat 07 July 2018
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="/author/prahlad-yeri.html">Prahlad Yeri</a>
+        </address>
+<p>In <a href="/category/php.html">PHP</a>.</p>
+<p>tags: <a href="/tag/diy.html">DIY</a> <a href="/tag/php.html">PHP</a> <a href="/tag/wordpress.html">Wordpress</a> </p>
+</footer><!-- /.post-info -->      <p>Adding a custom script element to your Wordpress blog is really straightforward if you know what you are doing and there isn't any need to install a third-party plugin for this.<!--more--></p>
+<p>Now, for something like spam protection (Akismet) or adding contact forms (Contact Form Seven), its quite understandable, but if you take the approach of adding third party plugins for every little plus and minus operation (such as adding a Google Analytics script), then its neither good for the maintenance nor security of your Wordpress blog.</p>
+<p>In this article, I'm going to explain how to create a simple custom plugin for your Wordpress blog that you'll hand-code yourself. The custom plugin will be quite generic and can be later used for adding other elements too such as maybe twitter card attributes, etc.</p>
+<p>Create the following PHP Plugin file in the code editor of your choice and save it as <strong>/wp-content/plugins/custom_headers.php</strong> in your Wordpress installation.</p>
+<div class="highlight"><pre><span></span><span class="o">&lt;?</span><span class="nx">php</span> 
+<span class="cm">/**</span>
+<span class="cm"> * @package Custom Headers</span>
+<span class="cm"> * @version 0.1.0</span>
+<span class="cm"> */</span>
+<span class="cm">/*</span>
+<span class="cm">Plugin Name: Custom Headers</span>
+<span class="cm">Plugin URI: http://github.com/prahladyeri/custom-headers/</span>
+<span class="cm">Description: Add a bunch of custom headers before the head tag.</span>
+<span class="cm">Author: Prahlad Yeri</span>
+<span class="cm">Version: 0.1.0</span>
+<span class="cm">Author URI: https://www.prahladyeri.com/</span>
+<span class="cm">*/</span>
+
+<span class="kd">function</span> <span class="nx">add_analytics_header() {</span>
+<span class="nx">$analytics</span><span class="o">=&lt;&lt;&lt;</span><span class="nx">EOD</span>
+<span class="o">&lt;--</span> <span class="nx">Global</span> <span class="nx">site</span> <span class="nx">tag</span> <span class="p">(</span><span class="nx">gtag</span><span class="p">.</span><span class="nx">js</span><span class="p">)</span> <span class="o">-</span> <span class="nx">Google</span> <span class="nx">Analytics</span> <span class="o">--&gt;</span>
+<span class="o">&lt;</span><span class="nx">script</span> <span class="nx">async</span> <span class="nx">src</span><span class="o">=</span><span class="s2">&quot;https://www.googletagmanager.com/gtag/js?id=UA-XXXXXXX-X&quot;</span><span class="o">&gt;</span>
+<span class="o">&lt;</span><span class="nx">script</span><span class="o">&gt;</span>
+  <span class="nb">window</span><span class="p">.</span><span class="nx">dataLayer</span> <span class="o">=</span> <span class="nb">window</span><span class="p">.</span><span class="nx">dataLayer</span> <span class="o">||</span> <span class="p">[];</span>
+  <span class="kd">function</span> <span class="nx">gtag</span><span class="p">(){</span><span class="nx">dataLayer</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">arguments</span><span class="p">);}</span>
+  <span class="nx">gtag</span><span class="p">(</span><span class="s1">&#39;js&#39;</span><span class="p">,</span> <span class="k">new</span> <span class="nb">Date</span><span class="p">());</span>
+
+  <span class="nx">gtag</span><span class="p">(</span><span class="s1">&#39;config&#39;</span><span class="p">,</span> <span class="s1">&#39;UA-XXXXXXX-X&#39;</span><span class="p">);</span>
+<span class="o">&lt;</span><span class="err">/script&gt;</span>
+<span class="nx">EOD</span><span class="p">;</span>
+    <span class="nx">echo</span> <span class="nx">$analytics</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="nx">add_action</span><span class="p">(</span><span class="s1">&#39;wp_head&#39;</span><span class="p">,</span> <span class="s1">&#39;add_analytics_header&#39;</span><span class="p">);</span>
+</pre></div>
+
+
+<p>Just remember to update the package meta stuff (Plugin Name, Author, etc.) as it suits you and put your own Analytics ID in place of UA-XXXXXXX-X.</p>
+<p>Its as simple as that, your plugin is ready! Just enable this plugin by going to Plugins->Installed Plugins in your Wordpress admin panel.</p>
+    </div><!-- /.entry-content -->
+
+  </article>
+</section>
+        <section id="extras" class="body">
+                <div class="blogroll">
+                        <h2>links</h2>
+                        <ul>
+                            <li><a href="mailto:prahladyeri@yahoo.com">Email</a></li>
+                            <li><a href="https://github.com/prahladyeri/">Github</a></li>
+                            <li><a href="https://stackoverflow.com/users/849365/prahlad-yeri/">StackOverflow</a></li>
+                            <li><a href="https://www.quora.com/profile/Prahlad-Yeri-%E0%A4%AA%E0%A5%8D%E0%A4%B0%E0%A4%B9%E0%A5%8D%E0%A4%B2%E0%A4%BE%E0%A4%A6-%E0%A4%AF%E0%A5%87%E0%A4%B0%E0%A5%80">Quora</a></li>
+                            <li><a href="https://mastodon.social/@prahladyeri">Mastodon.Social</a></li>
+                            <li><a href="https://www.blogger.com/profile/12769325975373447545">Blogger</a></li>
+                        </ul>
+                </div><!-- /.blogroll -->
+                <div class="social">
+                        <h2>social</h2>
+                        <ul>
+                            <li><a href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
+
+                            <li><a href="https://www.linkedin.com/in/prahlad-yeri-243a5316">Linkedin</a></li>
+                            <li><a href="https://www.facebook.com/prahladyeri14">Facebook</a></li>
+                            <li><a href="https://twitter.com/prahladyeri">Twitter</a></li>
+                        </ul>
+                </div><!-- /.social -->
+        </section><!-- /#extras -->
+
+        <footer id="contentinfo" class="body">
+                <address id="about" class="vcard body">
+                Copyright (c) 2013-2019 <a href="/">Prahlad Yeri</a>.
+				<br>
+				This work is licensed under a [Creative Commons Attribution 4.0 International License](http://creativecommons.org/licenses/by/4.0/).
+                </address><!-- /#about -->
+        </footer><!-- /#contentinfo -->
+
+<script type="text/javascript">
+    var disqus_shortname = 'https://prahladyeri-blog.disqus.com';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = 'https://' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+</body>
+</html>
