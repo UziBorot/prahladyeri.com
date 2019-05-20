@@ -28,7 +28,87 @@
 
             <aside id="featured" class="body">
                 <article>
-                    <h1 class="entry-title"><a href="https://prahladyeri.com/blog/2019/05/growing-intolerance-and-lack-of-compassion-towards-new-developers-on-stackoverflow.html">Growing intolerance and lack of compassion towards new developers on StackOverflow</a></h1>
+                    <h1 class="entry-title"><a href="https://prahladyeri.com/blog/2019/05/wordpress-to-pelican-in-24-hours.html">Wordpress to Pelican in 24 Hours</a></h1>
+<footer class="post-info">
+        <abbr class="published" title="2019-05-21T00:58:00+05:30">
+                Published: Tue 21 May 2019
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="https://prahladyeri.com/author/prahlad-yeri.html">Prahlad Yeri</a>
+        </address>
+<p>In <a href="https://prahladyeri.com/category/php.html">PHP</a>.</p>
+<p>tags: <a href="https://prahladyeri.com/tag/wordpress.html">Wordpress</a> <a href="https://prahladyeri.com/tag/php.html">PHP</a> <a href="https://prahladyeri.com/tag/python.html">Python</a> </p>
+</footer><!-- /.post-info --><p>Today, I finished migration of my blog <a href="https://prahladyeri.com">https://prahladyeri.com</a> from a self-hosted Wordpress site to a statically hosted Github Pages site. For the static site generator, instead of choosing Jekyll which is a hot favorite of rubyists, I went for <a href="https://github.com/getpelican/pelican/">Pelican</a> instead as I figured my Python skills might be somewhat useful in dealing with that. Having used Jekyll earlier, I felt that Pelican is pretty much the same thing. There is a configuration file in which you define your site parameters, a folder hierarchy for defining your posts and pages, and a bunch of templates (<code>pelican theme</code>) to make some serious customizations.</p>
+<p>In this post, I'd like to briefly go through the migration process in case its useful to someone.</p>
+<p><img alt="Laptop" src="/uploads/cover.jpg"></p>
+<ol>
+<li>Run the standard Wordpress import tool and backup all your posts and comments. Its better if you disable comments on your site (or maybe even take it down entirely for maintenance until the migration is complete).</li>
+<li>Copy the <code>uploads</code> containing your images through FTP/SFTP.</li>
+<li>Install Python on your machine if not already.</li>
+<li>
+<p>Install the Pelican and Markdown packages:</p>
+<div class="highlight"><pre><span></span>pip install pelican markdown
+</pre></div>
+
+
+</li>
+<li>
+<p>Install additional packages for importing the Wordpress XML:</p>
+<div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">pelican</span><span class="o">-</span><span class="kn">import</span> <span class="nn">BeautifulSoup4</span> <span class="nn">lxml</span>
+</pre></div>
+
+
+</li>
+<li>
+<p>Install <code>pandoc</code> as its needed for <code>markdown-xml</code> conversion during the Wordpress import. Instructions for installing it for your OS can be found <a href="https://pandoc.org/">here</a>.</p>
+</li>
+<li>Create a new folder (such as <code>PRAHLADYERI.COM</code>) for your new blog writing/publishing.</li>
+<li>
+<p>Traverse to that folder through command line and run <code>pelican-quickstart</code>. It'll ask some basic questions like your blog name, title, etc. You can leave most to their defaults. Once done, it'll create a folder structure like below:</p>
+<p>d:\source\PRAHLADYERI.COM
+├───content                                          <br>
+│   ├───pages                                        <br>
+│   ├───uploads                                      <br>
+│   │   ├───2016
+pelicanconf.py
+tasks.py
+MakeFile</p>
+</li>
+<li>
+<p><code>tasks.py</code> and <code>MakeFile</code> are something you can ignore unless you want to automate site generation. Now you can copy the <code>uploads</code> folder brought from Wordpress inside the <code>content</code> folder (its the place where your posts will now reside in either markdown (<code>.md</code>) or reStructured Text (<code>.rst</code>) formats).</p>
+</li>
+<li>Copy the XML file imported from Wordpress inside the main folder (<code>PRAHLADYERI.COM</code> in my case).</li>
+<li>
+<p>Now simply run <code>pelican-import</code>:</p>
+<p>pelican-import --wpfile -m markdown <your-file.xml></p>
+</li>
+<li>
+<p>The above command converts all your Wordpress posts (not comments) into markdown format and copies it to the content folder. Your old site is now imported to the pelcian system and is ready for generation!</p>
+</li>
+<li>
+<p>To generate the new site, simply run:</p>
+<p>pelican content</p>
+</li>
+<li>
+<p>This will generate a folder called <code>output</code> which you can directly serve through github pages! You can also go to the output folder and test it locally by running this command and checking in your browser:</p>
+<p>python -m http.server</p>
+</li>
+</ol>
+<p>This is the very simplest of use-cases, of course. For other advanced things like changing the theme templates and CSS, migrating to <a href="https://disqus.com">disqus comments</a>, etc., I'll make another post later. If you are in a hurry, then you can refer the <a href="https://docs.getpelican.com/">official pelican docs</a> which has all these details and a lot of other useful information.</p><p>There are <a href="https://prahladyeri.com/blog/2019/05/wordpress-to-pelican-in-24-hours.html#disqus_thread">comments</a>.</p>                </article>
+            </aside><!-- /#featured -->
+                <section id="content" class="body">
+                    <h1>Other articles</h1>
+                    <hr />
+                    <ol id="posts-list" class="hfeed">
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="https://prahladyeri.com/blog/2019/05/growing-intolerance-and-lack-of-compassion-towards-new-developers-on-stackoverflow.html" rel="bookmark"
+                           title="Permalink to Growing intolerance and lack of compassion towards new developers on StackOverflow">Growing intolerance and lack of compassion towards new developers on StackOverflow</a></h1>
+                </header>
+
+                <div class="entry-content">
 <footer class="post-info">
         <abbr class="published" title="2019-05-16T19:59:00+05:30">
                 Published: Thu 16 May 2019
@@ -39,19 +119,11 @@
         </address>
 <p>In <a href="https://prahladyeri.com/category/technology.html">Technology</a>.</p>
 <p>tags: <a href="https://prahladyeri.com/tag/flask.html">Flask</a> <a href="https://prahladyeri.com/tag/javascript.html">JavaScript</a> <a href="https://prahladyeri.com/tag/web-development.html">Web Development</a> <a href="https://prahladyeri.com/tag/social-networking.html">Social Networking</a> </p>
-</footer><!-- /.post-info --><p>StackOverflow is the digital equivalent of the Holy See or the Holy Mecca when it comes to programming. It is that place where developers go visit when they don't have answers to their coding problems in a hope that the Gods of StackOverflow will help them solve it.<!--more--></p>
-<p>But lately, the Gods of StackOverflow seem to be exhibiting a lot of intolerance and impatience towards those who are still learning the craft of programming and new to it. There seems to be a growing belief or consensus that unless you already have a certain level of expertise, you don't belong here in our chamber.</p>
-<p>Take the example of this dude today who had <a href="https://stackoverflow.com/questions/56167254/disable-enable-submit-button-when-clicking-on-checkbox-using-jinja2-templating">a very simple question about jinja2 templates</a>, a topic related to flask, a python web framework.</p>
-<p><img alt="A question about jinja2, abruptly closed as a duplicate" class="wp-image-1132 size-large" height="458" src="/uploads/2019/05/so_closed_incorrectly-1024x458.png" width="1024"></p>
-<p><strong>A question about jinja2 abruptly closed as a duplicate</strong></p>
-<p>I was about to answer this question when it was abruptly closed for being a duplicate. The person who closed this didn't even consider that a beginner coder (considering the reputation score) may not even know what the capabilities of jinja2 were. How the heck was s/he supposed to know that the answer to this question was to be found outside the context of jinja2? Everyone on this planet isn't a born expert in web development. The coder expected a solution in the context of jinja2 templates itself and the right way would have been to guide him/her and explain that this isn't possible through jinja2 but front-end scripting is required here. Then the answering post could proceed to provide a few helpful example links from StackOverflow or someplace else.</p>
-<p>I want to ask those intolerant ones: consider that you yourself could have needed this hand-holding and guidance when you were beginning to code some years earlier? Just because coding has become so easy and second nature to you now, it doesn't give you any right to behave with arrogance. Knowledge needs to be used with grace and caution, with power comes the responsibility of using that power.</p>
-<p>This kind of behavior is quite common from what I've been reading lately on social media too and my observation today just confirms it. I hope that more and more senior developers develop compassion towards others and treat this site as the temple of knowledge which it really is, not an egotistical chamber to shut down other programmers.</p><p>There are <a href="https://prahladyeri.com/blog/2019/05/growing-intolerance-and-lack-of-compassion-towards-new-developers-on-stackoverflow.html#disqus_thread">comments</a>.</p>                </article>
-            </aside><!-- /#featured -->
-                <section id="content" class="body">
-                    <h1>Other articles</h1>
-                    <hr />
-                    <ol id="posts-list" class="hfeed">
+</footer><!-- /.post-info -->                <p>StackOverflow is the digital equivalent of the Holy See or the Holy Mecca when it comes to programming. It is that place where developers go visit when they don't have answers to their coding problems in a hope that the Gods of StackOverflow will help them solve it.<!--more--></p>
+<p>But lately …</p>
+                <a class="readmore" href="https://prahladyeri.com/blog/2019/05/growing-intolerance-and-lack-of-compassion-towards-new-developers-on-stackoverflow.html">read more</a>
+<p>There are <a href="https://prahladyeri.com/blog/2019/05/growing-intolerance-and-lack-of-compassion-towards-new-developers-on-stackoverflow.html#disqus_thread">comments</a>.</p>                </div><!-- /.entry-content -->
+            </article></li>
 
             <li><article class="hentry">
                 <header>
@@ -235,28 +307,6 @@
 <p>One way of tackling …</p>
                 <a class="readmore" href="https://prahladyeri.com/blog/2018/08/windows-recipe-how-to-quickly-track-your-active-network-connections-using-resmon-utility.html">read more</a>
 <p>There are <a href="https://prahladyeri.com/blog/2018/08/windows-recipe-how-to-quickly-track-your-active-network-connections-using-resmon-utility.html#disqus_thread">comments</a>.</p>                </div><!-- /.entry-content -->
-            </article></li>
-
-            <li><article class="hentry">
-                <header>
-                    <h1><a href="https://prahladyeri.com/blog/2018/07/beware-of-ubers-vomit-fraud-when-booking-a-cab-next-time.html" rel="bookmark"
-                           title="Permalink to Beware of Uber's vomit fraud when booking a cab next time">Beware of Uber's vomit fraud when booking a cab next time</a></h1>
-                </header>
-
-                <div class="entry-content">
-<footer class="post-info">
-        <abbr class="published" title="2018-07-24T10:51:00+05:30">
-                Published: Tue 24 July 2018
-        </abbr>
-
-        <address class="vcard author">
-                By                         <a class="url fn" href="https://prahladyeri.com/author/prahlad-yeri.html">Prahlad Yeri</a>
-        </address>
-<p>In <a href="https://prahladyeri.com/category/technology.html">Technology</a>.</p>
-<p>tags: <a href="https://prahladyeri.com/tag/uber.html">Uber</a> </p>
-</footer><!-- /.post-info -->                <p>According to some recent reports by top technology blogs, Uber drivers have been reportedly engaging in an activity called "vomit fraud". Basically, Uber (and many other cab services too) allow their drivers to collect a fine of up to \$150 if their customer creates a mess in the cab (such …</p>
-                <a class="readmore" href="https://prahladyeri.com/blog/2018/07/beware-of-ubers-vomit-fraud-when-booking-a-cab-next-time.html">read more</a>
-<p>There are <a href="https://prahladyeri.com/blog/2018/07/beware-of-ubers-vomit-fraud-when-booking-a-cab-next-time.html#disqus_thread">comments</a>.</p>                </div><!-- /.entry-content -->
             </article></li>
                 </ol><!-- /#posts-list -->
 <p class="paginator">

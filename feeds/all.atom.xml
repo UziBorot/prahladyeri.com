@@ -1,5 +1,61 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Prahlad Yeri - Freelance Programmer</title><link href="https://prahladyeri.com/" rel="alternate"></link><link href="https://prahladyeri.com/feeds/all.atom.xml" rel="self"></link><id>https://prahladyeri.com/</id><updated>2019-05-16T19:59:00+05:30</updated><entry><title>Growing intolerance and lack of compassion towards new developers on StackOverflow</title><link href="https://prahladyeri.com/blog/2019/05/growing-intolerance-and-lack-of-compassion-towards-new-developers-on-stackoverflow.html" rel="alternate"></link><published>2019-05-16T19:59:00+05:30</published><updated>2019-05-16T19:59:00+05:30</updated><author><name>Prahlad Yeri</name></author><id>tag:prahladyeri.com,2019-05-16:/blog/2019/05/growing-intolerance-and-lack-of-compassion-towards-new-developers-on-stackoverflow.html</id><summary type="html">&lt;p&gt;StackOverflow is the digital equivalent of the Holy See or the Holy Mecca when it comes to programming. It is that place where developers go visit when they don't have answers to their coding problems in a hope that the Gods of StackOverflow will help them solve it.&lt;!--more--&gt;&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Prahlad Yeri - Freelance Programmer</title><link href="https://prahladyeri.com/" rel="alternate"></link><link href="https://prahladyeri.com/feeds/all.atom.xml" rel="self"></link><id>https://prahladyeri.com/</id><updated>2019-05-21T00:58:00+05:30</updated><entry><title>Wordpress to Pelican in 24 Hours</title><link href="https://prahladyeri.com/blog/2019/05/wordpress-to-pelican-in-24-hours.html" rel="alternate"></link><published>2019-05-21T00:58:00+05:30</published><updated>2019-05-21T00:58:00+05:30</updated><author><name>Prahlad Yeri</name></author><id>tag:prahladyeri.com,2019-05-21:/blog/2019/05/wordpress-to-pelican-in-24-hours.html</id><summary type="html">&lt;p&gt;Today, I finished migration of my blog &lt;a href="https://prahladyeri.com"&gt;https://prahladyeri.com&lt;/a&gt; from a self-hosted Wordpress site to a statically hosted Github Pages site. For the static site generator, instead of choosing Jekyll which is a hot favorite of rubyists, I went for &lt;a href="https://github.com/getpelican/pelican/"&gt;Pelican&lt;/a&gt; instead as I figured my Python skills might …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Today, I finished migration of my blog &lt;a href="https://prahladyeri.com"&gt;https://prahladyeri.com&lt;/a&gt; from a self-hosted Wordpress site to a statically hosted Github Pages site. For the static site generator, instead of choosing Jekyll which is a hot favorite of rubyists, I went for &lt;a href="https://github.com/getpelican/pelican/"&gt;Pelican&lt;/a&gt; instead as I figured my Python skills might be somewhat useful in dealing with that. Having used Jekyll earlier, I felt that Pelican is pretty much the same thing. There is a configuration file in which you define your site parameters, a folder hierarchy for defining your posts and pages, and a bunch of templates (&lt;code&gt;pelican theme&lt;/code&gt;) to make some serious customizations.&lt;/p&gt;
+&lt;p&gt;In this post, I'd like to briefly go through the migration process in case its useful to someone.&lt;/p&gt;
+&lt;p&gt;&lt;img alt="Laptop" src="/uploads/cover.jpg"&gt;&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;Run the standard Wordpress import tool and backup all your posts and comments. Its better if you disable comments on your site (or maybe even take it down entirely for maintenance until the migration is complete).&lt;/li&gt;
+&lt;li&gt;Copy the &lt;code&gt;uploads&lt;/code&gt; containing your images through FTP/SFTP.&lt;/li&gt;
+&lt;li&gt;Install Python on your machine if not already.&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Install the Pelican and Markdown packages:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;pip install pelican markdown
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Install additional packages for importing the Wordpress XML:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;pip&lt;/span&gt; &lt;span class="n"&gt;install&lt;/span&gt; &lt;span class="n"&gt;pelican&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;BeautifulSoup4&lt;/span&gt; &lt;span class="nn"&gt;lxml&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Install &lt;code&gt;pandoc&lt;/code&gt; as its needed for &lt;code&gt;markdown-xml&lt;/code&gt; conversion during the Wordpress import. Instructions for installing it for your OS can be found &lt;a href="https://pandoc.org/"&gt;here&lt;/a&gt;.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;Create a new folder (such as &lt;code&gt;PRAHLADYERI.COM&lt;/code&gt;) for your new blog writing/publishing.&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Traverse to that folder through command line and run &lt;code&gt;pelican-quickstart&lt;/code&gt;. It'll ask some basic questions like your blog name, title, etc. You can leave most to their defaults. Once done, it'll create a folder structure like below:&lt;/p&gt;
+&lt;p&gt;d:\source\PRAHLADYERI.COM
+├───content                                          &lt;br&gt;
+│   ├───pages                                        &lt;br&gt;
+│   ├───uploads                                      &lt;br&gt;
+│   │   ├───2016
+pelicanconf.py
+tasks.py
+MakeFile&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;&lt;code&gt;tasks.py&lt;/code&gt; and &lt;code&gt;MakeFile&lt;/code&gt; are something you can ignore unless you want to automate site generation. Now you can copy the &lt;code&gt;uploads&lt;/code&gt; folder brought from Wordpress inside the &lt;code&gt;content&lt;/code&gt; folder (its the place where your posts will now reside in either markdown (&lt;code&gt;.md&lt;/code&gt;) or reStructured Text (&lt;code&gt;.rst&lt;/code&gt;) formats).&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;Copy the XML file imported from Wordpress inside the main folder (&lt;code&gt;PRAHLADYERI.COM&lt;/code&gt; in my case).&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;Now simply run &lt;code&gt;pelican-import&lt;/code&gt;:&lt;/p&gt;
+&lt;p&gt;pelican-import --wpfile -m markdown &lt;your-file.xml&gt;&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;The above command converts all your Wordpress posts (not comments) into markdown format and copies it to the content folder. Your old site is now imported to the pelcian system and is ready for generation!&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;To generate the new site, simply run:&lt;/p&gt;
+&lt;p&gt;pelican content&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;This will generate a folder called &lt;code&gt;output&lt;/code&gt; which you can directly serve through github pages! You can also go to the output folder and test it locally by running this command and checking in your browser:&lt;/p&gt;
+&lt;p&gt;python -m http.server&lt;/p&gt;
+&lt;/li&gt;
+&lt;/ol&gt;
+&lt;p&gt;This is the very simplest of use-cases, of course. For other advanced things like changing the theme templates and CSS, migrating to &lt;a href="https://disqus.com"&gt;disqus comments&lt;/a&gt;, etc., I'll make another post later. If you are in a hurry, then you can refer the &lt;a href="https://docs.getpelican.com/"&gt;official pelican docs&lt;/a&gt; which has all these details and a lot of other useful information.&lt;/p&gt;</content><category term="Wordpress"></category><category term="PHP"></category><category term="Python"></category></entry><entry><title>Growing intolerance and lack of compassion towards new developers on StackOverflow</title><link href="https://prahladyeri.com/blog/2019/05/growing-intolerance-and-lack-of-compassion-towards-new-developers-on-stackoverflow.html" rel="alternate"></link><published>2019-05-16T19:59:00+05:30</published><updated>2019-05-16T19:59:00+05:30</updated><author><name>Prahlad Yeri</name></author><id>tag:prahladyeri.com,2019-05-16:/blog/2019/05/growing-intolerance-and-lack-of-compassion-towards-new-developers-on-stackoverflow.html</id><summary type="html">&lt;p&gt;StackOverflow is the digital equivalent of the Holy See or the Holy Mecca when it comes to programming. It is that place where developers go visit when they don't have answers to their coding problems in a hope that the Gods of StackOverflow will help them solve it.&lt;!--more--&gt;&lt;/p&gt;
 &lt;p&gt;But lately …&lt;/p&gt;</summary><content type="html">&lt;p&gt;StackOverflow is the digital equivalent of the Holy See or the Holy Mecca when it comes to programming. It is that place where developers go visit when they don't have answers to their coding problems in a hope that the Gods of StackOverflow will help them solve it.&lt;!--more--&gt;&lt;/p&gt;
 &lt;p&gt;But lately, the Gods of StackOverflow seem to be exhibiting a lot of intolerance and impatience towards those who are still learning the craft of programming and new to it. There seems to be a growing belief or consensus that unless you already have a certain level of expertise, you don't belong here in our chamber.&lt;/p&gt;
 &lt;p&gt;Take the example of this dude today who had &lt;a href="https://stackoverflow.com/questions/56167254/disable-enable-submit-button-when-clicking-on-checkbox-using-jinja2-templating"&gt;a very simple question about jinja2 templates&lt;/a&gt;, a topic related to flask, a python web framework.&lt;/p&gt;
