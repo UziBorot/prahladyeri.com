@@ -3,25 +3,26 @@
 <head>
         <meta charset="utf-8" />
         <title>A collection of random hacks - Ubuntu</title>
-        <link rel="stylesheet" href="/theme/css/main.css" />
-        <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Prahlad Yeri - Freelance Programmer Atom Feed" />
+        <link rel="stylesheet" href="https://prahladyeri.com/theme/css/main.css" />
+        <link href="https://prahladyeri.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Prahlad Yeri - Freelance Programmer Atom Feed" />
 </head>
 
 <body id="index" class="home">
         <header id="banner" class="body">
-                <h1><a href="/">Prahlad Yeri - Freelance Programmer </a></h1>
+                <h1><a href="https://prahladyeri.com/">Prahlad Yeri - Freelance Programmer </a></h1>
                 <nav><ul>
 				<li><a href="/">Home</a></li> <!--hard coded-->
-                    <li><a href="/about/">About</a></li>
-                    <li><a href="/projects/">Projects</a></li>
-                    <li><a href="/hire-me/">Hire Me</a></li>
+                    <li><a href="https://prahladyeri.com/about/">About</a></li>
+                    <li><a href="https://prahladyeri.com/projects/">Projects</a></li>
+                    <li><a href="https://prahladyeri.com/hire-me/">Hire Me</a></li>
+				<li><a href="https://github.com/prahladyeri/resmue">Resume</a></li> <!--hard coded-->
                 </ul></nav>
         </header><!-- /#banner -->
 <section id="content" class="body">
   <article>
     <header>
       <h1 class="entry-title">
-        <a href="/drafts/a-collection-of-random-hacks-ubuntu.html" rel="bookmark"
+        <a href="https://prahladyeri.com/drafts/a-collection-of-random-hacks-ubuntu.html" rel="bookmark"
            title="Permalink to A collection of random hacks - Ubuntu">A collection of random hacks - Ubuntu</a></h1>
 <a href="https://twitter.com/share" class="twitter-share-button" data-count="horizontal" data-via="prahladyeri">Tweet</a><script type="text/javascript" src="https://platform.twitter.com/widgets.js"></script>
     </header>
@@ -33,10 +34,10 @@
         </abbr>
 
         <address class="vcard author">
-                By                         <a class="url fn" href="/author/prahlad-yeri.html">Prahlad Yeri</a>
+                By                         <a class="url fn" href="https://prahladyeri.com/author/prahlad-yeri.html">Prahlad Yeri</a>
         </address>
-<p>In <a href="/category/linux.html">Linux</a>.</p>
-<p>tags: <a href="/tag/linux.html">Linux</a> <a href="/tag/ubuntu.html">Ubuntu</a> </p>
+<p>In <a href="https://prahladyeri.com/category/linux.html">Linux</a>.</p>
+<p>tags: <a href="https://prahladyeri.com/tag/linux.html">Linux</a> <a href="https://prahladyeri.com/tag/ubuntu.html">Ubuntu</a> </p>
 </footer><!-- /.post-info -->      <p>Whether you are a sysadmin, developer or just a user, if you face a non-trivial issue while setting up any software, you generally head over to sites like <code class="highlighter-rouge">stackoverflow.com</code> to find any solutions. If the problem is solved and you are happy, you generally do two things: Bookmark/Star that post, and secondly make a note to your own workflow about that issue for future references. For what its worth, here is the collection of such notes prepared by me for <code class="highlighter-rouge">ubuntu 12.04 LTS</code>. However, most solutions should work on <code class="highlighter-rouge">14.04</code> too.<!--more--></p>
 <p><img alt="Ubuntu Logo" src="/uploads/old/3D_Ubuntu_7.jpg"></p>
 <h2>To boot ubuntu to <a href="http://askubuntu.com/questions/52089/how-do-i-boot-to-a-command-line-interface-instead-of-a-gui">command prompt intead of GUI</a></h2>
@@ -152,19 +153,20 @@ sudo usb_modeswitch -R -v -p</p>
     <code class="highlighter-rouge">git clone url-name</code></li>
 <li>check status:\
     <code class="highlighter-rouge">git status</code></li>
-<li>add/remove files:</li>
-</ul>
-<figure class="highlight">
-        git add <file-name>
-        git add .
-        git rm <file-name>
-        git rm .
+<li>
+<p>add/remove files:</p>
+<div class="highlight"><pre><span></span>git add &lt;file-name&gt;
+git add .
+git rm &lt;file-name&gt;
+git rm .
+</pre></div>
 
-</figure>
 
-<ul>
-<li>commit:\
-    <code class="highlighter-rouge">git commit -m "message"</code></li>
+</li>
+<li>
+<p>commit:\
+    <code class="highlighter-rouge">git commit -m "message"</code></p>
+</li>
 <li>exclude/include file:<ul>
 <li><code class="highlighter-rouge">git update-index --assume-unchanged path/to/file</code></li>
 <li><code class="highlighter-rouge">git update-index --no-assume-unchanged path/to/file</code></li>
@@ -239,20 +241,16 @@ sudo sh -c "echo 'manual' &gt;&gt; /etc/init/bluetooth.override"</p>
 </li>
 <li>
 <p>method-2 (for ubuntu 12.04):</p>
+<p>sudo nano /etc/init/mysql.conf #Then comment out the hashing section like this:
+    #start on (net-device-up
+              #and local-filesystems
+              #and runlevel [2345])</p>
 </li>
 </ul>
 </li>
-</ul>
-<figure class="highlight">
-          sudo nano /etc/init/mysql.conf #Then comment out the hashing section like this:
-            #start on (net-device-up
-                      #and local-filesystems
-                      #and runlevel [2345])
-
-</figure>
-
-<ul>
-<li>list all services: <code class="highlighter-rouge">initctl list</code></li>
+<li>
+<p>list all services: <code class="highlighter-rouge">initctl list</code></p>
+</li>
 </ul>
 <h2>iptables basics:</h2>
 <ul>
@@ -279,45 +277,40 @@ sudo sh -c "echo 'manual' &gt;&gt; /etc/init/bluetooth.override"</p>
 <h2>Add/Edit Unity Launcher shortcut:</h2>
 <ul>
 <li>.desktop files are stored: globally in /usr/share/applications, locally in \~/.local/share/applications.</li>
-<li>create a file named <code class="highlighter-rouge">~/.local/share/applications/[name].desktop</code>:</li>
-</ul>
-<figure class="highlight">
-      [Desktop Entry]
-        Encoding=UTF-8
-        Name=PyCharm 3.0
-        Comment=Jetbrains Python IDE
-        Exec=/home/sysadmin/programs/pycharm-community-3.0/bin
-        Icon=/home/sysadmin/programs/pycharm-community-3.0/bin/pycharm.png
-        Categories=Application;Development;Python;IDE
-        Version=1.0
-        Type=Application
-        Terminal=0
-
-</figure>
-
-<ul>
-<li>Do this only if required: add this entry using dconf-editor: desktop-> unity-> launcher -> favourites</li>
+<li>
+<p>create a file named <code class="highlighter-rouge">~/.local/share/applications/[name].desktop</code>:</p>
+<p>[Desktop Entry]
+Encoding=UTF-8
+Name=PyCharm 3.0
+Comment=Jetbrains Python IDE
+Exec=/home/sysadmin/programs/pycharm-community-3.0/bin
+Icon=/home/sysadmin/programs/pycharm-community-3.0/bin/pycharm.png
+Categories=Application;Development;Python;IDE
+Version=1.0
+Type=Application
+Terminal=0</p>
+</li>
+<li>
+<p>Do this only if required: add this entry using dconf-editor: desktop-> unity-> launcher -> favourites</p>
+</li>
 </ul>
 <p>Reset Unity (12.10 or later, but not tested!!)</p>
-<figure class="highlight">
-    dconf reset -f /org/compiz/
-    logoff and back in
-    unity --reset-icons &disown
+<div class="highlight"><pre><span></span>dconf reset -f /org/compiz/
+logoff and back in
+unity --reset-icons &amp;disown
+</pre></div>
 
-</figure>
 
 <p>Reset Unity (12.04 or earlier):</p>
-<figure class="highlight">
-    unity --reset &disown
-    logoff and back in
+<div class="highlight"><pre><span></span>unity --reset &amp;disown
+logoff and back in
+</pre></div>
 
-</figure>
 
 <p>Start python web server module:</p>
-<figure class="highlight">
-    python -m SimpleHTTPServer 8000
+<div class="highlight"><pre><span></span>python -m SimpleHTTPServer 8000
+</pre></div>
 
-</figure>
 
 <p>wifi commands:\
 show available wifi interfaces:\
@@ -346,28 +339,27 @@ and run <code class="highlighter-rouge">update-grub</code></p>
 <h2 id="solution-2-from-httpsbugslaunchpadnetubuntusourcegnome-power-managerbug923940">Solution-2 (From https://bugs.launchpad.net/ubuntu/+source/gnome-power-manager/+bug/923940):</h2>
 <p>As a temporary patch, you can try the following:</p>
 <ul>
-<li>Create a file (any name) under <code class="highlighter-rouge">/etc/pm/power.d</code> with the following content:</li>
-</ul>
-<figure class="highlight">
-    # Brightness adjustment
-    case $1 in
-            true)
+<li>
+<p>Create a file (any name) under <code class="highlighter-rouge">/etc/pm/power.d</code> with the following content:</p>
+<h1>Brightness adjustment</h1>
+<p>case $1 in
+        true)</p>
+<div class="highlight"><pre><span></span>            # 20% screen brightness on battery
+            echo 2 &gt; /sys/class/backlight/acpi_video0/brightness
+    ;;
+    false)
+            # 80% screen brightness on AC
+            echo 3 &gt; /sys/class/backlight/acpi_video0/brightness
+    ;;
+</pre></div>
 
-                    # 20% screen brightness on battery
-                    echo 2 > /sys/class/backlight/acpi_video0/brightness
-            ;;
-            false)
-                    # 80% screen brightness on AC
-                    echo 3 > /sys/class/backlight/acpi_video0/brightness
-            ;;
-    esac
 
-    exit 0
-
-</figure>
-
-<ul>
-<li>Make it executable by <code class="highlighter-rouge">chmod +x myscript</code> assuming “myscript” is the name of your file.</li>
+<p>esac</p>
+<p>exit 0</p>
+</li>
+<li>
+<p>Make it executable by <code class="highlighter-rouge">chmod +x myscript</code> assuming “myscript” is the name of your file.</p>
+</li>
 </ul>
 <p>Of course, you will need to reboot. This will adjust the brightness at 20 % when on battery and 80% when on AC power.</p>
 <p>Change grub boot order:</p>
@@ -393,22 +385,21 @@ options i915 modeset=0</p>
 <li>mv /root/xorg.conf.new /etc/X11/xorg.conf</li>
 </ul>
 <p>Local mirror of a web-site:</p>
-<figure class="highlight">
-    wget -mkp -np -nc -nd -E --continue http://www.brpreiss.com/books/opus7
-        -p = get page requisites (css, etc)
-        -k = convert links
-        -r = recursive   
-        -m = turn on options suitable for mirroring (such as -r)
-        -nc = no clobber
-        -nd = no directoriy hierarchy
-        -c = continue with partially downloaded
-        -w n = wait for n seconds between requests
-        -np = no parent
-        -E = rename to proper .html/.css extensions if the page isn't
-        --accept patternlist = accept only certain patterns (eg. Admin*)
-        --reject patternlist = opposite of accept
+<div class="highlight"><pre><span></span>wget -mkp -np -nc -nd -E --continue http://www.brpreiss.com/books/opus7
+    -p = get page requisites (css, etc)
+    -k = convert links
+    -r = recursive   
+    -m = turn on options suitable for mirroring (such as -r)
+    -nc = no clobber
+    -nd = no directoriy hierarchy
+    -c = continue with partially downloaded
+    -w n = wait for n seconds between requests
+    -np = no parent
+    -E = rename to proper .html/.css extensions if the page isn&#39;t
+    --accept patternlist = accept only certain patterns (eg. Admin*)
+    --reject patternlist = opposite of accept
+</pre></div>
 
-</figure>
 
 <p>Watch CPU Temperatures:</p>
 <ul>
@@ -501,7 +492,7 @@ options i915 modeset=0</p>
                 <div class="social">
                         <h2>social</h2>
                         <ul>
-                            <li><a href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
+                            <li><a href="https://prahladyeri.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
 
                             <li><a href="https://www.linkedin.com/in/prahlad-yeri-243a5316">Linkedin</a></li>
                             <li><a href="https://www.facebook.com/prahladyeri14">Facebook</a></li>

@@ -3,129 +3,212 @@
 <head>
         <meta charset="utf-8" />
         <title>Prahlad Yeri - Freelance Programmer - Python</title>
-        <link rel="stylesheet" href="/theme/css/main.css" />
-        <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Prahlad Yeri - Freelance Programmer Atom Feed" />
+        <link rel="stylesheet" href="https://prahladyeri.com/theme/css/main.css" />
+        <link href="https://prahladyeri.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Prahlad Yeri - Freelance Programmer Atom Feed" />
 </head>
 
 <body id="index" class="home">
         <header id="banner" class="body">
-                <h1><a href="/">Prahlad Yeri - Freelance Programmer </a></h1>
+                <h1><a href="https://prahladyeri.com/">Prahlad Yeri - Freelance Programmer </a></h1>
                 <nav><ul>
 				<li><a href="/">Home</a></li> <!--hard coded-->
-                    <li><a href="/about/">About</a></li>
-                    <li><a href="/projects/">Projects</a></li>
-                    <li><a href="/hire-me/">Hire Me</a></li>
+                    <li><a href="https://prahladyeri.com/about/">About</a></li>
+                    <li><a href="https://prahladyeri.com/projects/">Projects</a></li>
+                    <li><a href="https://prahladyeri.com/hire-me/">Hire Me</a></li>
+				<li><a href="https://github.com/prahladyeri/resmue">Resume</a></li> <!--hard coded-->
                 </ul></nav>
         </header><!-- /#banner -->
 
             <aside id="featured" class="body">
                 <article>
-                    <h1 class="entry-title"><a href="/blog/2016/12/how-to-create-google-drive-app-python-flask.html">How to create a Google Drive App in Flask</a></h1>
+                    <h1 class="entry-title"><a href="https://prahladyeri.com/blog/2017/06/flask-recipe-restful-crud-using-sqlalchemy.html">Flask Recipe - RESTful CRUD using sqlalchemy</a></h1>
 <footer class="post-info">
-        <abbr class="published" title="2016-12-29T04:21:00+05:30">
-                Published: Thu 29 December 2016
+        <abbr class="published" title="2017-06-25T04:21:00+05:30">
+                Published: Sun 25 June 2017
         </abbr>
 
         <address class="vcard author">
-                By                         <a class="url fn" href="/author/prahlad-yeri.html">Prahlad Yeri</a>
+                By                         <a class="url fn" href="https://prahladyeri.com/author/prahlad-yeri.html">Prahlad Yeri</a>
         </address>
-<p>In <a href="/category/python.html">Python</a>.</p>
-<p>tags: <a href="/tag/flask.html">Flask</a> <a href="/tag/google-drive.html">Google Drive</a> <a href="/tag/python.html">Python</a> </p>
-</footer><!-- /.post-info --><p>This is the first in a series of articles for web programmers that explain in detail about using the Google Drive API in your web applications to access files/folders on behalf of the users of your application. In my last project, I had to develop a python flask app for my users that required to access the files stored in their google drive account.<!--more--></p>
-<p>The major challenge for me was to authenticate to google and access the drive on the user’s behalf once they grant permission to my app. This method of authentication is called <a href="https://en.wikipedia.org/wiki/OAuth">OAuth</a> and is very much needed for implementing the drive api.</p>
-<p>However, a good documentation to implement this in a backend app, especially a python web-based app is very much lacking. The so called <a href="https://developers.google.com/drive/v3/web/quickstart/python">quickstart for drive api</a> shows some example code, but what I needed was a step-by-step tutorial of how to go about doing it. Since I couldn’t find any such tutorial online, I thought about writing one myself.</p>
-<h3>I: Register a google app by visiting the <a href="https://console.developers.google.com/">Google API console</a>:</h3>
-<p>The way the latest version (V3) of drive API works is only through OAuth. It means you cannot put a password or API key inside your code and access the drive files. You need to register your backend app and generate OAuth credentials for the app, so that it can access the drive on the user’s behalf once the user grants permission to the app. So the first step is going to the <a href="https://console.developers.google.com/">Google API console</a>, registering the app itself and generating OAuth credentials. The registration process is pretty straightforward, you just select “Create Project” from the dropdown and give a nice name for your project such as <code class="highlighter-rouge">Flask Drive Example App</code> in our case.</p>
-<p><img alt="Register Google App" src="/uploads/old/google-apis/drive_api_steps.png"></p>
-<h3 id="ii-configure-the-credentials-and-download-the-client_idjson-file">II: Configure the credentials and download the client_id.json file:</h3>
-<p>This is the credential file that validates to Google who you are (as a developer) and also your app that acts on your behalf. Download and save it as <code class="highlighter-rouge">client_id.json</code> in the same directory as the flask app.</p>
-<p><img alt="Configure Credentials" src="/uploads/old/google-apis/configuration_steps.png"></p>
-<h3>III: Write your back-end app:</h3>
-<p>The most important thing to know before building your app is to install these dependencies:</p>
-<div class="highlight"><pre><span></span>pip install flask google-api-python-client
+<p>In <a href="https://prahladyeri.com/category/python.html">Python</a>.</p>
+<p>tags: <a href="https://prahladyeri.com/tag/flask.html">Flask</a> <a href="https://prahladyeri.com/tag/python.html">Python</a> <a href="https://prahladyeri.com/tag/sqlalchemy.html">SQLAlchemy</a> </p>
+</footer><!-- /.post-info --><p>RESTful apps are a thing these days. When your application’s userbase gets quite large and the client could vary from a laptop to an android device to an iOS device, it pays to keep the backend code separate and use the server only for making RESTful calls using HTTP methods that pertain to basic OLTP transactions: SELECT, INSERT, UPDATE and DELETE.<!--more--></p>
+<p>Popular third-party apps like <a href="https://en.wikipedia.org/wiki/Firebase#Realtime_Database">Firebase</a> essentially provide you this same thing - A REST based front to a database that could be accessed online using simple HTTP methods. But in this tutorial, we will learn how to create such a backend ourselves using Python’s <code class="highlighter-rouge">flask</code> framework and <code class="highlighter-rouge">sqlalchemy</code>, a light-weight but powerful ORM library that can access ANY database using its flexible <em>sql expression language</em>.</p>
+<p><img alt="RESTful CRUD App" src="/uploads/old/restful-crud.png"></p>
+<p>Rather than using firebase, if you develop your own implementation of your back-end, not only will it help you learn and become a better programmer, but also give you a flexible solution that you can scale and change as per your needs. Its also much cheaper to host your own solution on Amazon EC2 (or Lambda) compared to other costlier alternatives.</p>
+<p>Contrary to popular thinking, its not very difficult to create a database agnostic backend such as the one represented in the above diagram. With a minimal and powerful web framework such as <code class="highlighter-rouge">flask</code>, combined with the power of <code class="highlighter-rouge">sqlalchemy</code>, you can get up and running within minutes. In fact, I’ve developed a prototype version called <a href="https://github.com/prahladyeri/tiddly">Tiddly</a> that essentially does the same thing as above using just 172 lines of Python code. You can refer to that github repository for reference as we proceed through this tutorial, or directly start using it. But make sure you install the following dependencies before running it:</p>
+<div class="highlight"><pre><span></span>pip install flask
+pip install sqlalchemy
 </pre></div>
 
 
-<p>You can replace flask with django, pylons or any other framework you use, but this tutorial and code example is based on flask. The principle of accessing the drive api should still apply, so you should be able to make use of this code.</p>
-<p>The first thing to do is create a flask object and handle the home page url. It could in fact be any other url in your app, but in this example, I’ve used the home page url (/) to do the OAuth authentication on behalf of the logged in user.</p>
-<div class="highlight"><pre><span></span>app = flask.Flask(__name__)
+<p>The first step towards creating the app is creating your database models. Once you’ve done the brainstorming and decided what tables and fields you are going to need, you can create a <code class="highlighter-rouge">models.py</code> source file with something like this:</p>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sqlalchemy</span>
+<span class="kn">from</span> <span class="nn">sqlalchemy</span> <span class="kn">import</span> <span class="n">create_engine</span>
+<span class="kn">from</span> <span class="nn">sqlalchemy</span> <span class="kn">import</span> <span class="n">Column</span><span class="p">,</span> <span class="n">String</span><span class="p">,</span> <span class="n">Integer</span>
+<span class="kn">from</span> <span class="nn">sqlalchemy.orm</span> <span class="kn">import</span> <span class="n">sessionmaker</span>
+<span class="kn">from</span> <span class="nn">sqlalchemy.ext.declarative</span> <span class="kn">import</span> <span class="n">declarative_base</span>
 
-@app.route(&#39;/&#39;)
-def index():
-    credentials = get_credentials()
-    if credentials == False:
-        return flask.redirect(flask.url_for(&#39;oauth2callback&#39;))
-    elif credentials.access_token_expired:
-        return flask.redirect(flask.url_for(&#39;oauth2callback&#39;))
-    else:
-        print(&#39;now calling fetch&#39;)
-        all_files = fetch(&quot;&#39;root&#39; in parents and mimeType = &#39;application/vnd.google-apps.folder&#39;&quot;, sort=&#39;modifiedTime desc&#39;)
-        s = &quot;&quot;
-        for file in all_files:
-            s += &quot;%s, %s&lt;br&gt;&quot; % (file[&#39;name&#39;],file[&#39;id&#39;])
-        return s
+<span class="c1">#TODO: Change as needed:</span>
+<span class="n">engine</span> <span class="o">=</span> <span class="n">create_engine</span><span class="p">(</span><span class="s2">&quot;sqlite:///tiddly.db&quot;</span><span class="p">,</span> <span class="n">echo</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+<span class="n">Base</span> <span class="o">=</span> <span class="n">declarative_base</span><span class="p">()</span>
+
+<span class="n">Session</span> <span class="o">=</span> <span class="n">sessionmaker</span><span class="p">(</span><span class="n">bind</span><span class="o">=</span><span class="n">engine</span><span class="p">)</span>
+<span class="n">dbsession</span> <span class="o">=</span> <span class="n">Session</span><span class="p">()</span>
+
+<span class="k">class</span> <span class="nc">User</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+    <span class="n">__tablename__</span> <span class="o">=</span> <span class="s2">&quot;user&quot;</span>
+    <span class="nb">id</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">Integer</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">email</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">String</span><span class="p">)</span>
+    <span class="n">password</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">String</span><span class="p">)</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">String</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">repr</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;&lt;User(name=</span><span class="si">%s</span><span class="s2">, email=</span><span class="si">%s</span><span class="s2">, )&gt;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">email</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">Dual</span><span class="p">(</span><span class="n">Base</span><span class="p">):</span>
+    <span class="n">__tablename__</span> <span class="o">=</span> <span class="s2">&quot;dual&quot;</span>
+    <span class="nb">id</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">Integer</span><span class="p">,</span> <span class="n">primary_key</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="n">text</span> <span class="o">=</span> <span class="n">Column</span><span class="p">(</span><span class="n">String</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">repr</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s2">&quot;&lt;Dual(id=</span><span class="si">%s</span><span class="s2">, text=</span><span class="si">%s</span><span class="s2">, )&gt;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="nb">id</span><span class="p">,</span> <span class="n">text</span><span class="p">)</span>
 </pre></div>
 
 
-<p>We first check whether we have the drive access credentials for the user locally stored in a file. This is done by the <code class="highlighter-rouge">get_credentials()</code> function that checks the local access token file credentials.json (not to be confused with client_id.json we downloaded earlier which is for developer credentials). Again, we are assuming a single user scenario here. If your drive app needs to authenticate with multiple users, you’ll have to store separate credentials.json for each logged-in user in the database, and access that through a session or something.</p>
-<p>Further, if credentials aren’t found locally or have expired, we direct them to <code class="highlighter-rouge">/oauth2callback</code>, so google will authenticate them and send us the token for accessing the drive, post which, we will put that token into the local file, credentials.json and redirect the user back to this index site. Finally, if the credentials are valid, we call the <code class="highlighter-rouge">fetch()</code> function that displays the list of all root folders in that user’s drive along with their IDs. Here is the code for <code class="highlighter-rouge">oauth2callback</code>:</p>
-<div class="highlight"><pre><span></span>@app.route(&#39;/oauth2callback&#39;)
-def oauth2callback():
-    flow = client.flow_from_clientsecrets(&#39;client_id.json&#39;,
-            scope=&#39;https://www.googleapis.com/auth/drive&#39;,
-            redirect_uri=flask.url_for(&#39;oauth2callback&#39;, _external=True)) # access drive api using developer credentials
-    flow.params[&#39;include_granted_scopes&#39;] = &#39;true&#39;
-    if &#39;code&#39; not in flask.request.args:
-        auth_uri = flow.step1_get_authorize_url()
-        return flask.redirect(auth_uri)
-    else:
-        auth_code = flask.request.args.get(&#39;code&#39;)
-        credentials = flow.step2_exchange(auth_code)
-        open(&#39;credentials.json&#39;,&#39;w&#39;).write(credentials.to_json()) # write access token to credentials.json locally
-        return flask.redirect(flask.url_for(&#39;index&#39;))
+<p>I’m using sqlite database for example here, but you can use any one of your choice. A <code class="highlighter-rouge">user</code> table is a pretty basic one in almost every app as it is used for authentication. Apart from that, I’ve also created a <code class="highlighter-rouge">dual</code> table just to play around with.</p>
+<p>After that, create the second file <code class="highlighter-rouge">app.py</code> that contains our application code. Define the following import statements along with your models as they will come very handy:</p>
+<div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">flask</span>
+<span class="kn">from</span> <span class="nn">flask</span> <span class="kn">import</span> <span class="n">request</span><span class="p">,</span> <span class="n">jsonify</span><span class="p">,</span> <span class="n">session</span>
+<span class="kn">import</span> <span class="nn">sqlalchemy</span>
+<span class="kn">from</span> <span class="nn">sqlalchemy</span> <span class="kn">import</span> <span class="n">inspect</span><span class="p">,</span> <span class="n">desc</span>
+<span class="kn">import</span> <span class="nn">json</span>
+<span class="kn">import</span> <span class="nn">models</span>
+<span class="kn">from</span> <span class="nn">models</span> <span class="kn">import</span> <span class="n">engine</span><span class="p">,</span> <span class="n">dbsession</span>
 </pre></div>
 
 
-<p>Once you have the credentials locally (in the form of <code class="highlighter-rouge">credentials.json</code>), you can just use it to access the drive API. Thus, the result of this whole exercise is that only on first page load is the user redirected to google site to authenticate themselves. Once the app has the access token (credentials.json), its no longer required, the result is displayed directly on the page from then on. If all goes well, you should be able to see a screen such as this when you test this example app for the first time:</p>
-<p><img alt="Google OAuth Screen" src="/uploads/old/google-apis/oauth_screen.png"></p>
-<p>I’ve also included the functions to download and upload files to the drive as they will be very useful:</p>
-<div class="highlight"><pre><span></span>def download_file(file_id, output_file):
-    credentials = get_credentials()
-    http = credentials.authorize(httplib2.Http())
-    service = discovery.build(&#39;drive&#39;, &#39;v3&#39;, http=http)
-    #file_id = &#39;0BwwA4oUTeiV1UVNwOHItT0xfa2M&#39;
-    request = service.files().export_media(fileId=file_id,mimeType=&#39;application/vnd.openxmlformats-officedocument.spreadsheetml.sheet&#39;)
-    #request = service.files().get_media(fileId=file_id)
+<p>Now, the only thing that remains to be done is the plumbing the <code class="highlighter-rouge">HTTP</code> methods to their respective database operations. You can either create a separate view function for each one or use a single one for all of them. In this example, I’m using a single function for simplicity.</p>
+<div class="highlight"><pre><span></span><span class="s s-Atom">@app</span><span class="p">.</span><span class="nf">route</span><span class="p">(</span><span class="s2">&quot;/&lt;table_name&gt;&quot;</span><span class="p">,</span> <span class="s s-Atom">methods</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;POST&quot;</span><span class="p">,</span> <span class="s2">&quot;PUT&quot;</span><span class="p">,</span> <span class="s2">&quot;DELETE&quot;</span><span class="p">,</span> <span class="s2">&quot;FETCH&quot;</span><span class="p">])</span>
+<span class="s s-Atom">def</span> <span class="nf">fetch</span><span class="p">(</span><span class="s s-Atom">table_name</span><span class="p">)</span><span class="s s-Atom">:</span>
+    <span class="nf">print</span><span class="p">(</span><span class="s2">&quot;verb: %s, tablename: %s&quot;</span> <span class="c1">% (request.method, table_name))</span>
+    <span class="s s-Atom">if</span> <span class="s s-Atom">request</span><span class="p">.</span><span class="s s-Atom">method</span> <span class="o">==</span> <span class="s2">&quot;POST&quot;</span> <span class="s s-Atom">or</span> <span class="s s-Atom">request</span><span class="p">.</span><span class="s s-Atom">method</span> <span class="o">==</span> <span class="s2">&quot;PUT&quot;</span><span class="s s-Atom">:</span>
+        <span class="s s-Atom">data</span> <span class="o">=</span> <span class="s s-Atom">request</span><span class="p">.</span><span class="nf">get_json</span><span class="p">(</span><span class="s s-Atom">force</span><span class="o">=</span><span class="nv">True</span><span class="p">)</span>
+        <span class="nf">print</span><span class="p">(</span><span class="s2">&quot;data:&quot;</span><span class="p">,</span> <span class="s s-Atom">data</span><span class="p">)</span>
+        <span class="nn">try</span><span class="p">:</span>
+            <span class="nv">TableClass</span> <span class="o">=</span> <span class="s s-Atom">models</span><span class="p">.</span><span class="nf">get_class_by_tablename</span><span class="p">(</span><span class="s s-Atom">table_name</span><span class="p">)</span>
+            <span class="s s-Atom">if</span> <span class="nv">TableClass</span> <span class="o">==</span> <span class="nv">None</span><span class="s s-Atom">:</span> <span class="s s-Atom">raise</span> <span class="nv">Exception</span><span class="p">(</span><span class="s2">&quot;Table not found: %s&quot;</span> <span class="c1">% table_name)</span>
+            <span class="s s-Atom">if</span> <span class="s s-Atom">request</span><span class="p">.</span><span class="s s-Atom">method</span> <span class="o">==</span> <span class="s2">&quot;POST&quot;</span><span class="s s-Atom">:</span> <span class="s s-Atom">#insert</span> <span class="s s-Atom">data</span>
+                <span class="s s-Atom">object</span> <span class="o">=</span> <span class="nv">TableClass</span><span class="p">(</span><span class="s s-Atom">**data</span><span class="p">)</span>
+                <span class="s s-Atom">dbsession</span><span class="p">.</span><span class="nf">add</span><span class="p">(</span><span class="s s-Atom">object</span><span class="p">)</span>
+                <span class="s s-Atom">dbsession</span><span class="p">.</span><span class="nf">commit</span><span class="p">()</span>
+            <span class="nn">else</span><span class="p">:</span> <span class="s s-Atom">#update</span> <span class="s s-Atom">data</span>
+                <span class="s s-Atom">object</span> <span class="o">=</span> <span class="s s-Atom">dbsession</span><span class="p">.</span><span class="nf">query</span><span class="p">(</span><span class="nv">TableClass</span><span class="p">).</span><span class="nf">filter_by</span><span class="p">(</span><span class="s s-Atom">**</span><span class="p">{</span><span class="s2">&quot;id&quot;</span><span class="s s-Atom">:id</span><span class="p">}).</span><span class="nf">first</span><span class="p">()</span>
+                <span class="s s-Atom">if</span> <span class="s s-Atom">object</span> <span class="o">==</span> <span class="nv">None</span><span class="s s-Atom">:</span> <span class="s s-Atom">raise</span> <span class="nv">Exception</span><span class="p">(</span><span class="s2">&quot;No data found.&quot;</span><span class="p">)</span>
+                <span class="s s-Atom">#object</span><span class="p">.</span><span class="nf">update</span><span class="p">(</span><span class="s s-Atom">**data</span><span class="p">)</span>
+                <span class="s s-Atom">for</span> <span class="s s-Atom">key</span> <span class="s s-Atom">in</span> <span class="s s-Atom">data</span><span class="p">.</span><span class="nf">keys</span><span class="p">()</span><span class="s s-Atom">:</span>
+                    <span class="nf">setattr</span><span class="p">(</span><span class="s s-Atom">object</span><span class="p">,</span> <span class="s s-Atom">key</span><span class="p">,</span> <span class="s s-Atom">data</span><span class="p">[</span><span class="s s-Atom">key</span><span class="p">])</span>
+                <span class="s s-Atom">#dbsession</span><span class="p">.</span><span class="nf">add</span><span class="p">(</span><span class="s s-Atom">object</span><span class="p">)</span>
+                <span class="s s-Atom">dbsession</span><span class="p">.</span><span class="nf">commit</span><span class="p">()</span>
+            <span class="s s-Atom">return</span> <span class="nf">jsonify</span><span class="p">({</span>
+                <span class="s2">&quot;status&quot;</span><span class="s s-Atom">:</span> <span class="s2">&quot;success&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;id&quot;</span><span class="s s-Atom">:</span> <span class="s s-Atom">object</span><span class="p">.</span><span class="s s-Atom">id</span><span class="p">,</span>
+                <span class="p">})</span>
+        <span class="s s-Atom">except</span> <span class="nv">Exception</span> <span class="s s-Atom">as</span> <span class="nn">e</span><span class="p">:</span>
+            <span class="s s-Atom">return</span> <span class="nf">jsonify</span><span class="p">({</span>
+                <span class="s2">&quot;status&quot;</span><span class="s s-Atom">:</span> <span class="s2">&quot;error&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;error&quot;</span><span class="s s-Atom">:</span> <span class="nf">str</span><span class="p">(</span><span class="s s-Atom">e</span><span class="p">),</span>
+                <span class="p">})</span>
+    <span class="s s-Atom">elif</span> <span class="s s-Atom">request</span><span class="p">.</span><span class="s s-Atom">method</span> <span class="o">==</span> <span class="s2">&quot;DELETE&quot;</span><span class="s s-Atom">:</span>
+        <span class="nn">try</span><span class="p">:</span>
+            <span class="nv">TableClass</span> <span class="o">=</span> <span class="s s-Atom">models</span><span class="p">.</span><span class="nf">get_class_by_tablename</span><span class="p">(</span><span class="s s-Atom">table_name</span><span class="p">)</span>
+            <span class="s s-Atom">if</span> <span class="nv">TableClass</span> <span class="o">==</span> <span class="nv">None</span><span class="s s-Atom">:</span> <span class="s s-Atom">raise</span> <span class="nv">Exception</span><span class="p">(</span><span class="s2">&quot;Table not found: %s&quot;</span> <span class="c1">% table_name)</span>
+            <span class="s s-Atom">object</span> <span class="o">=</span> <span class="s s-Atom">dbsession</span><span class="p">.</span><span class="nf">query</span><span class="p">(</span><span class="nv">TableClass</span><span class="p">).</span><span class="nf">filter_by</span><span class="p">(</span><span class="s s-Atom">**</span><span class="p">{</span><span class="s2">&quot;id&quot;</span><span class="s s-Atom">:id</span><span class="p">}).</span><span class="nf">first</span><span class="p">()</span>
+            <span class="s s-Atom">if</span> <span class="s s-Atom">object</span> <span class="o">==</span> <span class="nv">None</span><span class="s s-Atom">:</span> <span class="s s-Atom">raise</span> <span class="nv">Exception</span><span class="p">(</span><span class="s2">&quot;No data found.&quot;</span><span class="p">)</span>
+            <span class="s s-Atom">dbsession</span><span class="p">.</span><span class="nf">delete</span><span class="p">(</span><span class="s s-Atom">object</span><span class="p">)</span>
+            <span class="s s-Atom">dbsession</span><span class="p">.</span><span class="nf">commit</span><span class="p">()</span>
+            <span class="s s-Atom">return</span> <span class="nf">jsonify</span><span class="p">({</span>
+                <span class="s2">&quot;status&quot;</span><span class="s s-Atom">:</span> <span class="s2">&quot;success&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;id&quot;</span><span class="s s-Atom">:</span> <span class="s s-Atom">object</span><span class="p">.</span><span class="s s-Atom">id</span><span class="p">,</span>
+                <span class="p">})</span>
+        <span class="s s-Atom">except</span> <span class="nv">Exception</span> <span class="s s-Atom">as</span> <span class="nn">e</span><span class="p">:</span>
+            <span class="s s-Atom">return</span> <span class="nf">jsonify</span><span class="p">({</span>
+                <span class="s2">&quot;status&quot;</span><span class="s s-Atom">:</span> <span class="s2">&quot;error&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;error&quot;</span><span class="s s-Atom">:</span> <span class="nf">str</span><span class="p">(</span><span class="s s-Atom">e</span><span class="p">),</span>
+                <span class="p">})</span>
+    <span class="s s-Atom">elif</span> <span class="s s-Atom">request</span><span class="p">.</span><span class="s s-Atom">method</span> <span class="o">==</span> <span class="s2">&quot;FETCH&quot;</span><span class="s s-Atom">:</span>
+        <span class="nn">try</span><span class="p">:</span>
+            <span class="s s-Atom">data</span> <span class="o">=</span> <span class="s s-Atom">request</span><span class="p">.</span><span class="nf">get_json</span><span class="p">(</span><span class="s s-Atom">force</span><span class="o">=</span><span class="nv">True</span><span class="p">)</span>
+            <span class="s s-Atom">data</span> <span class="o">=</span> <span class="s s-Atom">json</span><span class="p">.</span><span class="nf">loads</span><span class="p">(</span><span class="s s-Atom">data</span><span class="p">)</span>
+            <span class="nf">print</span><span class="p">(</span><span class="s2">&quot;data: &quot;</span><span class="p">,</span> <span class="s s-Atom">data</span><span class="p">)</span>
+            <span class="nf">print</span><span class="p">(</span><span class="s2">&quot;data-type: &quot;</span><span class="p">,</span> <span class="nf">type</span><span class="p">(</span><span class="s s-Atom">data</span><span class="p">))</span>
+            <span class="nv">TableClass</span> <span class="o">=</span> <span class="s s-Atom">models</span><span class="p">.</span><span class="nf">get_class_by_tablename</span><span class="p">(</span><span class="s s-Atom">table_name</span><span class="p">)</span>
+            <span class="s s-Atom">if</span> <span class="nv">TableClass</span> <span class="o">==</span> <span class="nv">None</span><span class="s s-Atom">:</span> <span class="s s-Atom">raise</span> <span class="nv">Exception</span><span class="p">(</span><span class="s2">&quot;Table not found: %s&quot;</span> <span class="c1">% table_name)</span>
 
-    fh = open(output_file,&#39;wb&#39;) #io.BytesIO()
-    downloader = MediaIoBaseDownload(fh, request)
-    done = False
-    while done is False:
-        status, done = downloader.next_chunk()
-        #print (&quot;Download %d%%.&quot; % int(status.progress() * 100))
-    fh.close()
-    #return fh
-
-def update_file(file_id, local_file):
-    credentials = get_credentials()
-    http = credentials.authorize(httplib2.Http())
-    service = discovery.build(&#39;drive&#39;, &#39;v3&#39;, http=http)
-    # First retrieve the file from the API.
-    file = service.files().get(fileId=file_id).execute()
-    # File&#39;s new content.
-    media_body = MediaFileUpload(local_file, resumable=True)
-    # Send the request to the API.
-    updated_file = service.files().update(
-        fileId=file_id,
-        #body=file,
-        #newRevision=True,
-        media_body=media_body).execute()
+            <span class="s s-Atom">query</span> <span class="o">=</span> <span class="s s-Atom">dbsession</span><span class="p">.</span><span class="nf">query</span><span class="p">(</span><span class="nv">TableClass</span><span class="p">).</span><span class="nf">filter_by</span><span class="p">(</span><span class="s s-Atom">**data</span><span class="p">[</span><span class="s s-Atom">&#39;where&#39;</span><span class="p">])</span>
+            <span class="s s-Atom">if</span> <span class="s s-Atom">&#39;orderby&#39;</span> <span class="s s-Atom">in</span> <span class="nn">data</span><span class="p">:</span>
+                <span class="s s-Atom">for</span> <span class="s s-Atom">cname</span> <span class="s s-Atom">in</span> <span class="s s-Atom">data</span><span class="p">[</span><span class="s s-Atom">&#39;orderby&#39;</span><span class="p">].</span><span class="nf">split</span><span class="p">(</span><span class="s s-Atom">&#39;,&#39;</span><span class="p">)</span><span class="s s-Atom">:</span>
+                    <span class="s s-Atom">reverse</span> <span class="o">=</span> <span class="nv">False</span>
+                    <span class="s s-Atom">if</span> <span class="s s-Atom">cname</span><span class="p">.</span><span class="nf">endswith</span><span class="p">(</span><span class="s s-Atom">&#39; desc&#39;</span><span class="p">)</span><span class="s s-Atom">:</span>
+                        <span class="s s-Atom">reverse</span> <span class="o">=</span> <span class="nv">True</span>
+                        <span class="s s-Atom">cname</span> <span class="o">=</span> <span class="s s-Atom">cname</span><span class="p">[:-</span><span class="mi">5</span><span class="p">]</span>
+                    <span class="s s-Atom">elif</span> <span class="s s-Atom">cname</span><span class="p">.</span><span class="nf">endswith</span><span class="p">(</span><span class="s s-Atom">&#39; asc&#39;</span><span class="p">)</span><span class="s s-Atom">:</span>
+                        <span class="s s-Atom">cname</span> <span class="o">=</span> <span class="s s-Atom">cname</span><span class="p">[:-</span><span class="mi">4</span><span class="p">]</span>
+                    <span class="nf">print</span><span class="p">(</span><span class="s2">&quot;cname: &quot;</span><span class="p">,</span> <span class="s s-Atom">cname</span><span class="p">)</span>
+                    <span class="s s-Atom">column</span> <span class="o">=</span> <span class="nf">getattr</span><span class="p">(</span><span class="nv">TableClass</span><span class="p">,</span> <span class="s s-Atom">cname</span><span class="p">)</span>
+                    <span class="s s-Atom">if</span> <span class="nn">reverse</span><span class="p">:</span> <span class="s s-Atom">column</span> <span class="o">=</span> <span class="nf">desc</span><span class="p">(</span><span class="s s-Atom">column</span><span class="p">)</span>
+                    <span class="s s-Atom">query</span> <span class="o">=</span> <span class="s s-Atom">query</span><span class="p">.</span><span class="nf">order_by</span><span class="p">(</span><span class="s s-Atom">column</span><span class="p">)</span>
+            <span class="s s-Atom">if</span> <span class="s s-Atom">&#39;limit&#39;</span> <span class="s s-Atom">in</span> <span class="nn">data</span><span class="p">:</span>
+                <span class="s s-Atom">query</span> <span class="o">=</span> <span class="s s-Atom">query</span><span class="p">.</span><span class="nf">limit</span><span class="p">(</span><span class="s s-Atom">data</span><span class="p">[</span><span class="s s-Atom">&#39;limit&#39;</span><span class="p">])</span>
+                <span class="s s-Atom">query</span> <span class="o">=</span> <span class="s s-Atom">query</span><span class="p">.</span><span class="nf">offset</span><span class="p">(</span><span class="s s-Atom">data</span><span class="p">[</span><span class="s s-Atom">&#39;offset&#39;</span><span class="p">])</span>
+            <span class="s s-Atom">object</span> <span class="o">=</span> <span class="s s-Atom">query</span><span class="p">.</span><span class="nf">all</span><span class="p">()</span>
+            <span class="s s-Atom">data</span> <span class="o">=</span> <span class="p">[</span><span class="nf">object_as_dict</span><span class="p">(</span><span class="s s-Atom">t</span><span class="p">)</span> <span class="s s-Atom">for</span> <span class="s s-Atom">t</span> <span class="s s-Atom">in</span> <span class="s s-Atom">object</span><span class="p">]</span>
+            <span class="s s-Atom">return</span> <span class="nf">jsonify</span><span class="p">({</span>
+                <span class="s2">&quot;status&quot;</span><span class="s s-Atom">:</span> <span class="s2">&quot;success&quot;</span><span class="p">,</span> 
+                <span class="s2">&quot;data&quot;</span><span class="s s-Atom">:</span> <span class="s s-Atom">data</span>
+                <span class="p">})</span>
+        <span class="s s-Atom">except</span> <span class="nv">Exception</span> <span class="s s-Atom">as</span> <span class="nn">e</span><span class="p">:</span>
+            <span class="s s-Atom">return</span> <span class="nf">jsonify</span><span class="p">({</span>
+                <span class="s2">&quot;status&quot;</span><span class="s s-Atom">:</span> <span class="s2">&quot;error&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;error&quot;</span><span class="s s-Atom">:</span> <span class="nf">str</span><span class="p">(</span><span class="s s-Atom">e</span><span class="p">),</span>
+                <span class="p">})</span>
+    <span class="nn">else</span><span class="p">:</span>
+        <span class="s s-Atom">return</span> <span class="nf">jsonify</span><span class="p">({</span>
+            <span class="s2">&quot;status&quot;</span><span class="s s-Atom">:</span> <span class="s2">&quot;error&quot;</span><span class="p">,</span> <span class="s2">&quot;error&quot;</span><span class="s s-Atom">:</span> <span class="s2">&quot;Unrecognized verb.&quot;</span><span class="p">,</span>
+            <span class="p">})</span>
 </pre></div>
 
 
-<hr>
-<p>I’ll leave the more comprehensive use of these functions as an exercise to the reader who wants to develop a more fully featured app out of this. Click the below link to download the <code class="highlighter-rouge">flask_drive_example.py</code> script for this example implementation from the Github gist:</p>
-<p><a class="btn btn-md btn-success" href="https://gist.githubusercontent.com/prahladyeri/0b92b9ca837a0f5474c732876220db78"> flask_drive_example.py</a></p><p>There are <a href="/blog/2016/12/how-to-create-google-drive-app-python-flask.html#disqus_thread">comments</a>.</p>                </article>
+<p>I’ve used a non-standard HTTP method, <code class="highlighter-rouge">FETCH</code> for the <code class="highlighter-rouge">SELECT</code> action. That’s because if you use the <code class="highlighter-rouge">GET</code> method, you aren’t allowed to actually post data (as in actual posting, don’t confuse with <code class="highlighter-rouge">POST</code> method) as per the HTTP specification. The other methods, viz <code class="highlighter-rouge">POST</code>, <code class="highlighter-rouge">PUT</code> and <code class="highlighter-rouge">DELETE</code> are self-apparent and they stand for <code class="highlighter-rouge">INSERT</code>, <code class="highlighter-rouge">UPDATE</code> and <code class="highlighter-rouge">DELETE</code> actions respectively.</p>
+<p>As you can see, the app makes good use of the sql expression language of sqlalchemy to dynamically query any kind of data, not only using the usual <code class="highlighter-rouge">where</code> clause, but also using ordering and pagination (limit/offset) parameters:</p>
+<div class="highlight"><pre><span></span><span class="s s-Atom">if</span> <span class="s s-Atom">&#39;orderby&#39;</span> <span class="s s-Atom">in</span> <span class="nn">data</span><span class="p">:</span>
+    <span class="s s-Atom">for</span> <span class="s s-Atom">cname</span> <span class="s s-Atom">in</span> <span class="s s-Atom">data</span><span class="p">[</span><span class="s s-Atom">&#39;orderby&#39;</span><span class="p">].</span><span class="nf">split</span><span class="p">(</span><span class="s s-Atom">&#39;,&#39;</span><span class="p">)</span><span class="s s-Atom">:</span>
+        <span class="s s-Atom">reverse</span> <span class="o">=</span> <span class="nv">False</span>
+        <span class="s s-Atom">if</span> <span class="s s-Atom">cname</span><span class="p">.</span><span class="nf">endswith</span><span class="p">(</span><span class="s s-Atom">&#39; desc&#39;</span><span class="p">)</span><span class="s s-Atom">:</span>
+            <span class="s s-Atom">reverse</span> <span class="o">=</span> <span class="nv">True</span>
+            <span class="s s-Atom">cname</span> <span class="o">=</span> <span class="s s-Atom">cname</span><span class="p">[:-</span><span class="mi">5</span><span class="p">]</span>
+        <span class="s s-Atom">elif</span> <span class="s s-Atom">cname</span><span class="p">.</span><span class="nf">endswith</span><span class="p">(</span><span class="s s-Atom">&#39; asc&#39;</span><span class="p">)</span><span class="s s-Atom">:</span>
+            <span class="s s-Atom">cname</span> <span class="o">=</span> <span class="s s-Atom">cname</span><span class="p">[:-</span><span class="mi">4</span><span class="p">]</span>
+        <span class="nf">print</span><span class="p">(</span><span class="s2">&quot;cname: &quot;</span><span class="p">,</span> <span class="s s-Atom">cname</span><span class="p">)</span>
+        <span class="s s-Atom">column</span> <span class="o">=</span> <span class="nf">getattr</span><span class="p">(</span><span class="nv">TableClass</span><span class="p">,</span> <span class="s s-Atom">cname</span><span class="p">)</span>
+        <span class="s s-Atom">if</span> <span class="nn">reverse</span><span class="p">:</span> <span class="s s-Atom">column</span> <span class="o">=</span> <span class="nf">desc</span><span class="p">(</span><span class="s s-Atom">column</span><span class="p">)</span>
+        <span class="s s-Atom">query</span> <span class="o">=</span> <span class="s s-Atom">query</span><span class="p">.</span><span class="nf">order_by</span><span class="p">(</span><span class="s s-Atom">column</span><span class="p">)</span>
+<span class="s s-Atom">if</span> <span class="s s-Atom">&#39;limit&#39;</span> <span class="s s-Atom">in</span> <span class="nn">data</span><span class="p">:</span>
+    <span class="s s-Atom">query</span> <span class="o">=</span> <span class="s s-Atom">query</span><span class="p">.</span><span class="nf">limit</span><span class="p">(</span><span class="s s-Atom">data</span><span class="p">[</span><span class="s s-Atom">&#39;limit&#39;</span><span class="p">])</span>
+    <span class="s s-Atom">query</span> <span class="o">=</span> <span class="s s-Atom">query</span><span class="p">.</span><span class="nf">offset</span><span class="p">(</span><span class="s s-Atom">data</span><span class="p">[</span><span class="s s-Atom">&#39;offset&#39;</span><span class="p">])</span>
+</pre></div>
+
+
+<p>The front-end sends whatever it needs to the back-end using JSON format and the result is also in JSON. For example, the following JSON when posted to <code class="highlighter-rouge">/user</code> endpoint using <code class="highlighter-rouge">FETCH</code> method, returns the record from user table where <code class="highlighter-rouge">name</code> field matches <code class="highlighter-rouge">admin</code> and orders the results by email in descending order.</p>
+<div class="highlight"><pre><span></span>{&quot;where&quot;: {&quot;name&quot;:&quot;admin&quot;}, &quot;orderby&quot;: &quot;email desc&quot;}
+</pre></div>
+
+
+<p>Adding the <code class="highlighter-rouge">limit</code> and <code class="highlighter-rouge">offset</code> clauses to the same can help the front-end with pagination.</p>
+<div class="highlight"><pre><span></span>{&quot;where&quot;: {&quot;name&quot;:&quot;admin&quot;}, &quot;orderby&quot;: &quot;email desc&quot;, &quot;limit&quot;:2, &quot;offset&quot;: 2}
+</pre></div>
+
+
+<p>Its also pretty trivial to implement user authentication with this design. I haven’t done it in this example for simplicity, but you can find it in the <a href="https://github.com/prahladyeri/tiddly">github code</a>.</p>
+<p>All code in this tutorial and on github is <code class="highlighter-rouge">MIT</code> licensed and free to use. So, enjoy coding, build your own RESTful CRUD app, and let me know how it goes via comments below!</p><p>There are <a href="https://prahladyeri.com/blog/2017/06/flask-recipe-restful-crud-using-sqlalchemy.html#disqus_thread">comments</a>.</p>                </article>
             </aside><!-- /#featured -->
                 <section id="content" class="body">
                     <h1>Other articles</h1>
@@ -134,7 +217,29 @@ def update_file(file_id, local_file):
 
             <li><article class="hentry">
                 <header>
-                    <h1><a href="/blog/2015/07/sqlalchemy-hack-convert-dict.html" rel="bookmark"
+                    <h1><a href="https://prahladyeri.com/blog/2016/12/how-to-create-google-drive-app-python-flask.html" rel="bookmark"
+                           title="Permalink to How to create a Google Drive App in Flask">How to create a Google Drive App in Flask</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2016-12-29T04:21:00+05:30">
+                Published: Thu 29 December 2016
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="https://prahladyeri.com/author/prahlad-yeri.html">Prahlad Yeri</a>
+        </address>
+<p>In <a href="https://prahladyeri.com/category/python.html">Python</a>.</p>
+<p>tags: <a href="https://prahladyeri.com/tag/flask.html">Flask</a> <a href="https://prahladyeri.com/tag/google-drive.html">Google Drive</a> <a href="https://prahladyeri.com/tag/python.html">Python</a> </p>
+</footer><!-- /.post-info -->                <p>This is the first in a series of articles for web programmers that explain in detail about using the Google Drive API in your web applications to access files/folders on behalf of the users of your application. In my last project, I had to develop a python flask app …</p>
+                <a class="readmore" href="https://prahladyeri.com/blog/2016/12/how-to-create-google-drive-app-python-flask.html">read more</a>
+<p>There are <a href="https://prahladyeri.com/blog/2016/12/how-to-create-google-drive-app-python-flask.html#disqus_thread">comments</a>.</p>                </div><!-- /.entry-content -->
+            </article></li>
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="https://prahladyeri.com/blog/2015/07/sqlalchemy-hack-convert-dict.html" rel="bookmark"
                            title="Permalink to Sqlalchemy Hack - How to convert a table to dict on the fly">Sqlalchemy Hack - How to convert a table to dict on the fly</a></h1>
                 </header>
 
@@ -145,18 +250,18 @@ def update_file(file_id, local_file):
         </abbr>
 
         <address class="vcard author">
-                By                         <a class="url fn" href="/author/prahlad-yeri.html">Prahlad Yeri</a>
+                By                         <a class="url fn" href="https://prahladyeri.com/author/prahlad-yeri.html">Prahlad Yeri</a>
         </address>
-<p>In <a href="/category/python.html">Python</a>.</p>
-<p>tags: <a href="/tag/sqlalchemy.html">SQLAlchemy</a> <a href="/tag/python.html">Python</a> </p>
+<p>In <a href="https://prahladyeri.com/category/python.html">Python</a>.</p>
+<p>tags: <a href="https://prahladyeri.com/tag/sqlalchemy.html">SQLAlchemy</a> <a href="https://prahladyeri.com/tag/python.html">Python</a> </p>
 </footer><!-- /.post-info -->                <p>In on of my recent projects, I came across the need to develop a JSON based REST API to fetch data from the <code>sqlalchemy</code> objects. Now, the <code>Query</code> object is a great way to access data using the powerful <code>sqlalchemy orm</code>, but it doesn’t give any built-in way to …</p>
-                <a class="readmore" href="/blog/2015/07/sqlalchemy-hack-convert-dict.html">read more</a>
-<p>There are <a href="/blog/2015/07/sqlalchemy-hack-convert-dict.html#disqus_thread">comments</a>.</p>                </div><!-- /.entry-content -->
+                <a class="readmore" href="https://prahladyeri.com/blog/2015/07/sqlalchemy-hack-convert-dict.html">read more</a>
+<p>There are <a href="https://prahladyeri.com/blog/2015/07/sqlalchemy-hack-convert-dict.html#disqus_thread">comments</a>.</p>                </div><!-- /.entry-content -->
             </article></li>
 
             <li><article class="hentry">
                 <header>
-                    <h1><a href="/blog/2015/02/how-to-host-flask-app-openshift.html" rel="bookmark"
+                    <h1><a href="https://prahladyeri.com/blog/2015/02/how-to-host-flask-app-openshift.html" rel="bookmark"
                            title="Permalink to How to host a Flask app on Openshift">How to host a Flask app on Openshift</a></h1>
                 </header>
 
@@ -167,19 +272,42 @@ def update_file(file_id, local_file):
         </abbr>
 
         <address class="vcard author">
-                By                         <a class="url fn" href="/author/prahlad-yeri.html">Prahlad Yeri</a>
+                By                         <a class="url fn" href="https://prahladyeri.com/author/prahlad-yeri.html">Prahlad Yeri</a>
         </address>
-<p>In <a href="/category/python.html">Python</a>.</p>
-<p>tags: <a href="/tag/python.html">Python</a> <a href="/tag/flask.html">Flask</a> <a href="/tag/openshift.html">Openshift</a> </p>
+<p>In <a href="https://prahladyeri.com/category/python.html">Python</a>.</p>
+<p>tags: <a href="https://prahladyeri.com/tag/python.html">Python</a> <a href="https://prahladyeri.com/tag/flask.html">Flask</a> <a href="https://prahladyeri.com/tag/openshift.html">Openshift</a> </p>
 </footer><!-- /.post-info -->                <p><em>Note: This article may no longer be relevant as Red Hat has recently changed the openshift stack with docker and kubernetes.</em></p>
 <p><a href="https://www.openshift.com/">Openshift free tier</a> is an excellent way to host your python web app for staging or testing, and you can even host a low to medium traffic production site …</p>
-                <a class="readmore" href="/blog/2015/02/how-to-host-flask-app-openshift.html">read more</a>
-<p>There are <a href="/blog/2015/02/how-to-host-flask-app-openshift.html#disqus_thread">comments</a>.</p>                </div><!-- /.entry-content -->
+                <a class="readmore" href="https://prahladyeri.com/blog/2015/02/how-to-host-flask-app-openshift.html">read more</a>
+<p>There are <a href="https://prahladyeri.com/blog/2015/02/how-to-host-flask-app-openshift.html#disqus_thread">comments</a>.</p>                </div><!-- /.entry-content -->
             </article></li>
 
             <li><article class="hentry">
                 <header>
-                    <h1><a href="/blog/2013/12/how-to-create-a-python-app-in-google-app-engine.html" rel="bookmark"
+                    <h1><a href="https://prahladyeri.com/blog/2013/12/how-to-host-your-own-mail-server-using-google-appengine.html" rel="bookmark"
+                           title="Permalink to How to host your own mail server using Google appengine">How to host your own mail server using Google appengine</a></h1>
+                </header>
+
+                <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2013-12-30T21:23:00+05:30">
+                Published: Mon 30 December 2013
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="https://prahladyeri.com/author/prahlad-yeri.html">Prahlad Yeri</a>
+        </address>
+<p>In <a href="https://prahladyeri.com/category/python.html">Python</a>.</p>
+<p>tags: <a href="https://prahladyeri.com/tag/python.html">Python</a> <a href="https://prahladyeri.com/tag/google-app-engine.html">Google App Engine</a> </p>
+</footer><!-- /.post-info -->                <p>Google has an outstanding habit of bringing the power of elites to the masses. Firstly, they took over the world of smartphones with android, and now the buzzword everywhere is Google Appengine.<!--more--></p>
+<p>Once you get the basics of GAE and start looking beyond your first <a href="/blog/2013/12/how-to-create-a-pythonic-app-in-google-app-engine/" title="How to create a Python app in Google App Engine">HelloWorld</a> application, you will start …</p>
+                <a class="readmore" href="https://prahladyeri.com/blog/2013/12/how-to-host-your-own-mail-server-using-google-appengine.html">read more</a>
+<p>There are <a href="https://prahladyeri.com/blog/2013/12/how-to-host-your-own-mail-server-using-google-appengine.html#disqus_thread">comments</a>.</p>                </div><!-- /.entry-content -->
+            </article></li>
+
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="https://prahladyeri.com/blog/2013/12/how-to-create-a-python-app-in-google-app-engine.html" rel="bookmark"
                            title="Permalink to How to create a Python app in Google App Engine">How to create a Python app in Google App Engine</a></h1>
                 </header>
 
@@ -190,18 +318,18 @@ def update_file(file_id, local_file):
         </abbr>
 
         <address class="vcard author">
-                By                         <a class="url fn" href="/author/prahlad-yeri.html">Prahlad Yeri</a>
+                By                         <a class="url fn" href="https://prahladyeri.com/author/prahlad-yeri.html">Prahlad Yeri</a>
         </address>
-<p>In <a href="/category/python.html">Python</a>.</p>
-<p>tags: <a href="/tag/google-app-engine.html">Google App Engine</a> </p>
+<p>In <a href="https://prahladyeri.com/category/python.html">Python</a>.</p>
+<p>tags: <a href="https://prahladyeri.com/tag/google-app-engine.html">Google App Engine</a> </p>
 </footer><!-- /.post-info -->                <p>Whilst the <a href="https://developers.google.com/appengine/docs/python">official pythonic reference</a> for Google app engine is the way I learnt how to build my first GAE app, I found it a bit frustrating to go through <a href="https://developers.google.com/appengine/docs/python/#Python_Selecting_the_Python_runtime">each</a> and <a href="https://developers.google.com/appengine/docs/python/#Python_The_environment">every</a> link and understand large topics like caching and data stores in detail just to build a small …</p>
-                <a class="readmore" href="/blog/2013/12/how-to-create-a-python-app-in-google-app-engine.html">read more</a>
-<p>There are <a href="/blog/2013/12/how-to-create-a-python-app-in-google-app-engine.html#disqus_thread">comments</a>.</p>                </div><!-- /.entry-content -->
+                <a class="readmore" href="https://prahladyeri.com/blog/2013/12/how-to-create-a-python-app-in-google-app-engine.html">read more</a>
+<p>There are <a href="https://prahladyeri.com/blog/2013/12/how-to-create-a-python-app-in-google-app-engine.html#disqus_thread">comments</a>.</p>                </div><!-- /.entry-content -->
             </article></li>
 
             <li><article class="hentry">
                 <header>
-                    <h1><a href="/blog/2013/11/how-to-generate-pdf-in-python-for-google-app-engine.html" rel="bookmark"
+                    <h1><a href="https://prahladyeri.com/blog/2013/11/how-to-generate-pdf-in-python-for-google-app-engine.html" rel="bookmark"
                            title="Permalink to How to Generate PDFs in Python for Google App Engine">How to Generate PDFs in Python for Google App Engine</a></h1>
                 </header>
 
@@ -212,13 +340,13 @@ def update_file(file_id, local_file):
         </abbr>
 
         <address class="vcard author">
-                By                         <a class="url fn" href="/author/prahlad-yeri.html">Prahlad Yeri</a>
+                By                         <a class="url fn" href="https://prahladyeri.com/author/prahlad-yeri.html">Prahlad Yeri</a>
         </address>
-<p>In <a href="/category/python.html">Python</a>.</p>
-<p>tags: <a href="/tag/google-app-engine.html">Google App Engine</a> <a href="/tag/python.html">Python</a> </p>
+<p>In <a href="https://prahladyeri.com/category/python.html">Python</a>.</p>
+<p>tags: <a href="https://prahladyeri.com/tag/google-app-engine.html">Google App Engine</a> <a href="https://prahladyeri.com/tag/python.html">Python</a> </p>
 </footer><!-- /.post-info -->                <p>One of my last projects based on google app engine and python involved storing form data in GAE datastore and generating PDF documents that the user can download. Whilst data storing was the easier part as google's big data API it is pretty <a href="https://developers.google.com/appengine/docs/python/datastore/">well documented</a>, the trickier aspect was to …</p>
-                <a class="readmore" href="/blog/2013/11/how-to-generate-pdf-in-python-for-google-app-engine.html">read more</a>
-<p>There are <a href="/blog/2013/11/how-to-generate-pdf-in-python-for-google-app-engine.html#disqus_thread">comments</a>.</p>                </div><!-- /.entry-content -->
+                <a class="readmore" href="https://prahladyeri.com/blog/2013/11/how-to-generate-pdf-in-python-for-google-app-engine.html">read more</a>
+<p>There are <a href="https://prahladyeri.com/blog/2013/11/how-to-generate-pdf-in-python-for-google-app-engine.html#disqus_thread">comments</a>.</p>                </div><!-- /.entry-content -->
             </article></li>
                 </ol><!-- /#posts-list -->
                 </section><!-- /#content -->
@@ -237,7 +365,7 @@ def update_file(file_id, local_file):
                 <div class="social">
                         <h2>social</h2>
                         <ul>
-                            <li><a href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
+                            <li><a href="https://prahladyeri.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
 
                             <li><a href="https://www.linkedin.com/in/prahlad-yeri-243a5316">Linkedin</a></li>
                             <li><a href="https://www.facebook.com/prahladyeri14">Facebook</a></li>

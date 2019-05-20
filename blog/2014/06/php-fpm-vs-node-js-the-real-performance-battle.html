@@ -3,25 +3,26 @@
 <head>
         <meta charset="utf-8" />
         <title>PHP-FPM vs node.js - The REAL Performance Battle</title>
-        <link rel="stylesheet" href="/theme/css/main.css" />
-        <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Prahlad Yeri - Freelance Programmer Atom Feed" />
+        <link rel="stylesheet" href="https://prahladyeri.com/theme/css/main.css" />
+        <link href="https://prahladyeri.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Prahlad Yeri - Freelance Programmer Atom Feed" />
 </head>
 
 <body id="index" class="home">
         <header id="banner" class="body">
-                <h1><a href="/">Prahlad Yeri - Freelance Programmer </a></h1>
+                <h1><a href="https://prahladyeri.com/">Prahlad Yeri - Freelance Programmer </a></h1>
                 <nav><ul>
 				<li><a href="/">Home</a></li> <!--hard coded-->
-                    <li><a href="/about/">About</a></li>
-                    <li><a href="/projects/">Projects</a></li>
-                    <li><a href="/hire-me/">Hire Me</a></li>
+                    <li><a href="https://prahladyeri.com/about/">About</a></li>
+                    <li><a href="https://prahladyeri.com/projects/">Projects</a></li>
+                    <li><a href="https://prahladyeri.com/hire-me/">Hire Me</a></li>
+				<li><a href="https://github.com/prahladyeri/resmue">Resume</a></li> <!--hard coded-->
                 </ul></nav>
         </header><!-- /#banner -->
 <section id="content" class="body">
   <article>
     <header>
       <h1 class="entry-title">
-        <a href="/blog/2014/06/php-fpm-vs-node-js-the-real-performance-battle.html" rel="bookmark"
+        <a href="https://prahladyeri.com/blog/2014/06/php-fpm-vs-node-js-the-real-performance-battle.html" rel="bookmark"
            title="Permalink to PHP-FPM vs node.js - The REAL Performance Battle">PHP-FPM vs node.js - The REAL Performance Battle</a></h1>
 <a href="https://twitter.com/share" class="twitter-share-button" data-count="horizontal" data-via="prahladyeri">Tweet</a><script type="text/javascript" src="https://platform.twitter.com/widgets.js"></script>
     </header>
@@ -33,133 +34,128 @@
         </abbr>
 
         <address class="vcard author">
-                By                         <a class="url fn" href="/author/prahlad-yeri.html">Prahlad Yeri</a>
+                By                         <a class="url fn" href="https://prahladyeri.com/author/prahlad-yeri.html">Prahlad Yeri</a>
         </address>
-<p>In <a href="/category/uncategorized.html">Uncategorized</a>.</p>
-
+<p>In <a href="https://prahladyeri.com/category/php.html">PHP</a>.</p>
+<p>tags: <a href="https://prahladyeri.com/tag/php.html">PHP</a> <a href="https://prahladyeri.com/tag/javascript.html">JavaScript</a> <a href="https://prahladyeri.com/tag/node.html">Node</a> </p>
 </footer><!-- /.post-info -->      <p>Even after my last <a href="/blog/2014/06/php-vs-node-js-real-statistics.html">article</a> about PHP and node.js benchmarking, my search for the holy grail of performance truth still continues. However, I do understand now that pitting PHP running on apache against a stand-alone node was a bit unfair with PHP for it was limited by what the apache configuration could handle.<!--more--></p>
 <p><a href="/uploads/old/benchmark.png"><img alt="Benchmark" class="alignnone size-full wp-image-3082" height="622" src="/uploads/old/benchmark.png" width="1021"></a></p>
 <p>No, this time I went with nginx, a light and performance oriented server that was specifically designed to solve the <a href="https://en.wikipedia.org/wiki/C10k">C10K</a> problem from the ground-up. And who better than <a href="http://php-fpm.org/">PHP-FPM</a>, the enhanced Fastcgi process manager that implements asynchronous features (at least in theory) to take on <a href="http://nodejs.org/">node.js</a>. node.js is the one server that implements all its features primarily using callbacks in javascript, and thus drastically improvising performance by leveraging the benefits of <a href="https://en.wikipedia.org/wiki/Functional_programming">functional programming</a> (again, in theory).</p>
 <p>I used the same code I had used earlier but did a small improvement to it so that the random filenames generated for performing I/O are unique:</p>
-<figure class="highlight">
-    <?php 
-    //asyncdemo.php
-    $s=""; //generate a random string of 108KB and a random filename
-    $filename="";
-    //generate a random filename
-    do {
-        $fname = rand(1,99999).'.txt';
-    } while(file_exists($fname));
+<div class="highlight"><pre><span></span><span class="cp">&lt;?php</span> 
+<span class="c1">//asyncdemo.php</span>
+<span class="nv">$s</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">;</span> <span class="c1">//generate a random string of 108KB and a random filename</span>
+<span class="nv">$filename</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">;</span>
+<span class="c1">//generate a random filename</span>
+<span class="k">do</span> <span class="p">{</span>
+    <span class="nv">$fname</span> <span class="o">=</span> <span class="nb">rand</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">99999</span><span class="p">)</span><span class="o">.</span><span class="s1">&#39;.txt&#39;</span><span class="p">;</span>
+<span class="p">}</span> <span class="k">while</span><span class="p">(</span><span class="nb">file_exists</span><span class="p">(</span><span class="nv">$fname</span><span class="p">));</span>
 
-    //generate a random string of 108kb
-    for($i=0;$i<108000;$i++)
-    {
-        $n=rand(0,57)+65;
-        $s.=chr($n);
-    }
+<span class="c1">//generate a random string of 108kb</span>
+<span class="k">for</span><span class="p">(</span><span class="nv">$i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="nv">$i</span><span class="o">&lt;</span><span class="mi">108000</span><span class="p">;</span><span class="nv">$i</span><span class="o">++</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="nv">$n</span><span class="o">=</span><span class="nb">rand</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">57</span><span class="p">)</span><span class="o">+</span><span class="mi">65</span><span class="p">;</span>
+    <span class="nv">$s</span><span class="o">.=</span><span class="nb">chr</span><span class="p">(</span><span class="nv">$n</span><span class="p">);</span>
+<span class="p">}</span>
 
-    //write the string to disk
-    file_put_contents($fname,$s);
+<span class="c1">//write the string to disk</span>
+<span class="nb">file_put_contents</span><span class="p">(</span><span class="nv">$fname</span><span class="p">,</span><span class="nv">$s</span><span class="p">);</span>
 
-    //read the string back from disk
-    $result = file_get_contents($fname);
+<span class="c1">//read the string back from disk</span>
+<span class="nv">$result</span> <span class="o">=</span> <span class="nb">file_get_contents</span><span class="p">(</span><span class="nv">$fname</span><span class="p">);</span>
 
-    //write the string back on the response stream
-    echo $result;
+<span class="c1">//write the string back on the response stream</span>
+<span class="k">echo</span> <span class="nv">$result</span><span class="p">;</span>
+</pre></div>
 
-</figure>
 
 <p>And here is the Javascript version:</p>
-<figure class="highlight">
-    //server.js
-    var http = require('http');    
-    var server = http.createServer(handler);
-    var fs = require('fs');
+<div class="highlight"><pre><span></span><span class="c1">//server.js</span>
+<span class="kd">var</span> <span class="nx">http</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;http&#39;</span><span class="p">);</span>    
+<span class="kd">var</span> <span class="nx">server</span> <span class="o">=</span> <span class="nx">http</span><span class="p">.</span><span class="nx">createServer</span><span class="p">(</span><span class="nx">handler</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">fs</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;fs&#39;</span><span class="p">);</span>
 
-    function handler(request, response) {
-        response.writeHead(200, {'Content-Type': 'text/plain'});
+<span class="kd">function</span> <span class="nx">handler</span><span class="p">(</span><span class="nx">request</span><span class="p">,</span> <span class="nx">response</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">response</span><span class="p">.</span><span class="nx">writeHead</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;Content-Type&#39;</span><span class="o">:</span> <span class="s1">&#39;text/plain&#39;</span><span class="p">});</span>
 
-        //generate a random filename
-        do{fname = (1 + Math.floor(Math.random()*99999999))+'.txt';
-        } while(fs.existsSync(fname));
+    <span class="c1">//generate a random filename</span>
+    <span class="k">do</span><span class="p">{</span><span class="nx">fname</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nx">random</span><span class="p">()</span><span class="o">*</span><span class="mi">99999999</span><span class="p">))</span><span class="o">+</span><span class="s1">&#39;.txt&#39;</span><span class="p">;</span>
+    <span class="p">}</span> <span class="k">while</span><span class="p">(</span><span class="nx">fs</span><span class="p">.</span><span class="nx">existsSync</span><span class="p">(</span><span class="nx">fname</span><span class="p">));</span>
 
-        //generate a random string of 108kb
-        var payload="";
-        for(i=0;i&lt;108000;i++)
-        {
-            n=Math.floor(65 + (Math.random()*(122-65)) );
-            payload+=String.fromCharCode(n);
-        }
+    <span class="c1">//generate a random string of 108kb</span>
+    <span class="kd">var</span> <span class="nx">payload</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">;</span>
+    <span class="k">for</span><span class="p">(</span><span class="nx">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="nx">i</span><span class="o">&lt;</span><span class="mi">108000</span><span class="p">;</span><span class="nx">i</span><span class="o">++</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="nx">n</span><span class="o">=</span><span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="mi">65</span> <span class="o">+</span> <span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nx">random</span><span class="p">()</span><span class="o">*</span><span class="p">(</span><span class="mi">122</span><span class="o">-</span><span class="mi">65</span><span class="p">))</span> <span class="p">);</span>
+        <span class="nx">payload</span><span class="o">+=</span><span class="nb">String</span><span class="p">.</span><span class="nx">fromCharCode</span><span class="p">(</span><span class="nx">n</span><span class="p">);</span>
+    <span class="p">}</span>
 
-        //write the string to disk in async manner
-        fs.writeFile(fname, payload, function(err) {
-                if (err) console.log(err);
+    <span class="c1">//write the string to disk in async manner</span>
+    <span class="nx">fs</span><span class="p">.</span><span class="nx">writeFile</span><span class="p">(</span><span class="nx">fname</span><span class="p">,</span> <span class="nx">payload</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span>
 
-                //read the string back from disk in async manner
-                fs.readFile(fname, function (err, data) {
-                    if (err) console.log(err);
-                    response.end(data); //write the string back on the response stream
-                });  
-            }
-        );
-    }
+            <span class="c1">//read the string back from disk in async manner</span>
+            <span class="nx">fs</span><span class="p">.</span><span class="nx">readFile</span><span class="p">(</span><span class="nx">fname</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
+                <span class="k">if</span> <span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">err</span><span class="p">);</span>
+                <span class="nx">response</span><span class="p">.</span><span class="nx">end</span><span class="p">(</span><span class="nx">data</span><span class="p">);</span> <span class="c1">//write the string back on the response stream</span>
+            <span class="p">});</span>  
+        <span class="p">}</span>
+    <span class="p">);</span>
+<span class="p">}</span>
 
-    server.listen(8080);
-    console.log('Running on localhost:8080');
+<span class="nx">server</span><span class="p">.</span><span class="nx">listen</span><span class="p">(</span><span class="mi">8080</span><span class="p">);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Running on localhost:8080&#39;</span><span class="p">);</span>
+</pre></div>
 
-</figure>
 
 <p>So, what happens when we run a piece of web application code performing async I/O for two thousand times (with two hundred concurrent) using a tool like apache-bench? Who is faster - PHP-FPM or node.js? Here is the answer.</p>
 <p>So, moral of the story is that even the latest and greatest of PHP world falls behind node.js (though by a much smaller margin than before). Now, I do understand that PHP's market is very large, and with so many opensource CMSes like wordpress, mediawiki and drupal already powered by PHP, it is quite difficult to shake PHP's market share in the near future.</p>
 <p>On the other hand, with the performance advantage that node.js offers, its a very lucrative option for startups small businesses that don't have the funding to develop high-end enterprise apps in say, Java or SAP. More importantly, if tommorrow I were to given a task of developing a performance-driven app, is there one reason why I should not write it in node.js and go for PHP-FPM instead? Some food for thought. Comments are Welcome!</p>
-<figure class="highlight">
-    Summarized results:
-    PHP-FPM: 64.447 secondsnode.js: 42.441 seconds
+<div class="highlight"><pre><span></span>Summarized results:
+PHP-FPM: 64.447 secondsnode.js: 42.441 seconds
 
-    The Machine:
-    Intel Pentium Dual-Core 2.30GHz running Linux 3.2.0
+The Machine:
+Intel Pentium Dual-Core 2.30GHz running Linux 3.2.0
 
-    The Configurations:
-    PHP-FPM: PHP 5.4.23 (fpm-fcgi) (built: Jun 22 2014 14:51:15
-    NODE: node v0.10.28
+The Configurations:
+PHP-FPM: PHP 5.4.23 (fpm-fcgi) (built: Jun 22 2014 14:51:15
+NODE: node v0.10.28
 
-    Detailed Results:
-    --PHP-FPM-----
-    ab -c 200 -n 2000 http://localhost:8080/asyncdemo/asyncdemo.php
+Detailed Results:
+--PHP-FPM-----
+ab -c 200 -n 2000 http://localhost:8080/asyncdemo/asyncdemo.php
 
-    Concurrency Level:      200
-    Time taken for tests:   64.447 seconds
-    Complete requests:      2000
-    Failed requests:        6
-       (Connect: 0, Receive: 0, Length: 6, Exceptions: 0)
-    Write errors:           0
-    Non-2xx responses:      6
-    Total transferred:      215649378 bytes
-    HTML transferred:       215355222 bytes
-    Requests per second:    31.03 [#/sec] (mean)
-    Time per request:       6444.742 [ms] (mean)
-    Time per request:       32.224 [ms] (mean, across all concurrent requests)
-    Transfer rate:          3267.70 [Kbytes/sec] receive
-
-
-    --NODE-----
-    ab -c 200 -n 2000 http://localhost:8080/
-
-    Concurrency Level:      200
-    Time taken for tests:   42.441 seconds
-    Complete requests:      2000
-    Failed requests:        1
-       (Connect: 0, Receive: 0, Length: 1, Exceptions: 0)
-    Write errors:           0
-    Total transferred:      216155440 bytes
-    HTML transferred:       215953440 bytes
-    Requests per second:    47.12 [#/sec] (mean)
-    Time per request:       4244.115 [ms] (mean)
-    Time per request:       21.221 [ms] (mean, across all concurrent requests)
-    Transfer rate:          4973.69 [Kbytes/sec] received
+Concurrency Level:      200
+Time taken for tests:   64.447 seconds
+Complete requests:      2000
+Failed requests:        6
+   (Connect: 0, Receive: 0, Length: 6, Exceptions: 0)
+Write errors:           0
+Non-2xx responses:      6
+Total transferred:      215649378 bytes
+HTML transferred:       215355222 bytes
+Requests per second:    31.03 [#/sec] (mean)
+Time per request:       6444.742 [ms] (mean)
+Time per request:       32.224 [ms] (mean, across all concurrent requests)
+Transfer rate:          3267.70 [Kbytes/sec] receive
 
 
-</figure>
+--NODE-----
+ab -c 200 -n 2000 http://localhost:8080/
+
+Concurrency Level:      200
+Time taken for tests:   42.441 seconds
+Complete requests:      2000
+Failed requests:        1
+   (Connect: 0, Receive: 0, Length: 1, Exceptions: 0)
+Write errors:           0
+Total transferred:      216155440 bytes
+HTML transferred:       215953440 bytes
+Requests per second:    47.12 [#/sec] (mean)
+Time per request:       4244.115 [ms] (mean)
+Time per request:       21.221 [ms] (mean, across all concurrent requests)
+Transfer rate:          4973.69 [Kbytes/sec] received
+</pre></div>
     </div><!-- /.entry-content -->
 	
 	<!-- Start: Prahlad -->
@@ -177,6 +173,21 @@
 	<!--end: adsense-->
 	<!-- End: Prahlad -->
 
+    <div class="comments">
+      <h2>Comments !</h2>
+      <div id="disqus_thread"></div>
+      <script type="text/javascript">
+        var disqus_shortname = 'https://prahladyeri-blog.disqus.com';
+        var disqus_identifier = 'blog/2014/06/php-fpm-vs-node-js-the-real-performance-battle.html';
+        var disqus_url = 'https://prahladyeri.com/blog/2014/06/php-fpm-vs-node-js-the-real-performance-battle.html';
+        (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//https://prahladyeri-blog.disqus.com.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+      </script>
+      <noscript>Please enable JavaScript to view the comments.</noscript>
+    </div>
 
   </article>
 </section>
@@ -195,7 +206,7 @@
                 <div class="social">
                         <h2>social</h2>
                         <ul>
-                            <li><a href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
+                            <li><a href="https://prahladyeri.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
 
                             <li><a href="https://www.linkedin.com/in/prahlad-yeri-243a5316">Linkedin</a></li>
                             <li><a href="https://www.facebook.com/prahladyeri14">Facebook</a></li>

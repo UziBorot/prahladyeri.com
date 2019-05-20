@@ -3,25 +3,26 @@
 <head>
         <meta charset="utf-8" />
         <title>PHP vs node.js: The REAL statistics</title>
-        <link rel="stylesheet" href="/theme/css/main.css" />
-        <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Prahlad Yeri - Freelance Programmer Atom Feed" />
+        <link rel="stylesheet" href="https://prahladyeri.com/theme/css/main.css" />
+        <link href="https://prahladyeri.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Prahlad Yeri - Freelance Programmer Atom Feed" />
 </head>
 
 <body id="index" class="home">
         <header id="banner" class="body">
-                <h1><a href="/">Prahlad Yeri - Freelance Programmer </a></h1>
+                <h1><a href="https://prahladyeri.com/">Prahlad Yeri - Freelance Programmer </a></h1>
                 <nav><ul>
 				<li><a href="/">Home</a></li> <!--hard coded-->
-                    <li><a href="/about/">About</a></li>
-                    <li><a href="/projects/">Projects</a></li>
-                    <li><a href="/hire-me/">Hire Me</a></li>
+                    <li><a href="https://prahladyeri.com/about/">About</a></li>
+                    <li><a href="https://prahladyeri.com/projects/">Projects</a></li>
+                    <li><a href="https://prahladyeri.com/hire-me/">Hire Me</a></li>
+				<li><a href="https://github.com/prahladyeri/resmue">Resume</a></li> <!--hard coded-->
                 </ul></nav>
         </header><!-- /#banner -->
 <section id="content" class="body">
   <article>
     <header>
       <h1 class="entry-title">
-        <a href="/blog/2014/06/php-vs-node-js-real-statistics.html" rel="bookmark"
+        <a href="https://prahladyeri.com/blog/2014/06/php-vs-node-js-real-statistics.html" rel="bookmark"
            title="Permalink to PHP vs node.js: The REAL statistics">PHP vs node.js: The REAL statistics</a></h1>
 <a href="https://twitter.com/share" class="twitter-share-button" data-count="horizontal" data-via="prahladyeri">Tweet</a><script type="text/javascript" src="https://platform.twitter.com/widgets.js"></script>
     </header>
@@ -33,10 +34,10 @@
         </abbr>
 
         <address class="vcard author">
-                By                         <a class="url fn" href="/author/prahlad-yeri.html">Prahlad Yeri</a>
+                By                         <a class="url fn" href="https://prahladyeri.com/author/prahlad-yeri.html">Prahlad Yeri</a>
         </address>
-<p>In <a href="/category/php.html">PHP</a>.</p>
-<p>tags: <a href="/tag/php.html">PHP</a> <a href="/tag/javascript.html">JavaScript</a> <a href="/tag/node.html">Node</a> </p>
+<p>In <a href="https://prahladyeri.com/category/php.html">PHP</a>.</p>
+<p>tags: <a href="https://prahladyeri.com/tag/php.html">PHP</a> <a href="https://prahladyeri.com/tag/javascript.html">JavaScript</a> <a href="https://prahladyeri.com/tag/node.html">Node</a> </p>
 </footer><!-- /.post-info -->      <p>When it comes to web programming, I've always coded in ASP.NET or the LAMP technologies for most part of my life. Now, the new buzz in the city is <a href="https://en.wikipedia.org/wiki/Node.js">node.js</a>. It is a light-weight platform that runs javascript code on server-side and is said to improvise performance by using async I/O.<!--more--></p>
 <p>The <a href="http://notes.ericjiang.com/posts/751">theory</a> suggests that synchronous or blocking model of I/O works something like this:</p>
 <p><a href="/uploads/2014/06/nodejs-comp.png"><img alt="Blocking I/O" class="alignnone size-full wp-image-3070" height="354" src="/uploads/old/nodejs-comp.png" width="506"></a></p>
@@ -50,65 +51,63 @@
 4. Read the contents back from disk.\
 5. Return the string back on the response stream.</p>
 <p>This is the first script, index.php:</p>
-<figure class="highlight">
-    <?php
-    //index.php
-    $s=""; //generate a random string of 108KB and a random filename
-    $fname = chr(rand(0,57)+65).chr(rand(0,57)+65).chr(rand(0,57)+65).chr(rand(0,57)+65).'.txt';
-    for($i=0;$i&lt;108000;$i++)
-    {
-        $n=rand(0,57)+65;
-        $s = $s.chr($n);
-    }
+<div class="highlight"><pre><span></span><span class="cp">&lt;?php</span>
+<span class="c1">//index.php</span>
+<span class="nv">$s</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">;</span> <span class="c1">//generate a random string of 108KB and a random filename</span>
+<span class="nv">$fname</span> <span class="o">=</span> <span class="nb">chr</span><span class="p">(</span><span class="nb">rand</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">57</span><span class="p">)</span><span class="o">+</span><span class="mi">65</span><span class="p">)</span><span class="o">.</span><span class="nb">chr</span><span class="p">(</span><span class="nb">rand</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">57</span><span class="p">)</span><span class="o">+</span><span class="mi">65</span><span class="p">)</span><span class="o">.</span><span class="nb">chr</span><span class="p">(</span><span class="nb">rand</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">57</span><span class="p">)</span><span class="o">+</span><span class="mi">65</span><span class="p">)</span><span class="o">.</span><span class="nb">chr</span><span class="p">(</span><span class="nb">rand</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">57</span><span class="p">)</span><span class="o">+</span><span class="mi">65</span><span class="p">)</span><span class="o">.</span><span class="s1">&#39;.txt&#39;</span><span class="p">;</span>
+<span class="k">for</span><span class="p">(</span><span class="nv">$i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="nv">$i</span><span class="o">&lt;</span><span class="mi">108000</span><span class="p">;</span><span class="nv">$i</span><span class="o">++</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="nv">$n</span><span class="o">=</span><span class="nb">rand</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span><span class="mi">57</span><span class="p">)</span><span class="o">+</span><span class="mi">65</span><span class="p">;</span>
+    <span class="nv">$s</span> <span class="o">=</span> <span class="nv">$s</span><span class="o">.</span><span class="nb">chr</span><span class="p">(</span><span class="nv">$n</span><span class="p">);</span>
+<span class="p">}</span>
 
-    //write s to a file
-    file_put_contents($fname,$s);
-    $result = file_get_contents($fname);
-    echo $result;
+<span class="c1">//write s to a file</span>
+<span class="nb">file_put_contents</span><span class="p">(</span><span class="nv">$fname</span><span class="p">,</span><span class="nv">$s</span><span class="p">);</span>
+<span class="nv">$result</span> <span class="o">=</span> <span class="nb">file_get_contents</span><span class="p">(</span><span class="nv">$fname</span><span class="p">);</span>
+<span class="k">echo</span> <span class="nv">$result</span><span class="p">;</span>
+</pre></div>
 
-</figure>
 
 <p>And here is the second script, server.js:</p>
-<figure class="highlight">
-    //server.js
-    var http = require('http');    
-    var server = http.createServer(handler);
+<div class="highlight"><pre><span></span><span class="c1">//server.js</span>
+<span class="kd">var</span> <span class="nx">http</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;http&#39;</span><span class="p">);</span>    
+<span class="kd">var</span> <span class="nx">server</span> <span class="o">=</span> <span class="nx">http</span><span class="p">.</span><span class="nx">createServer</span><span class="p">(</span><span class="nx">handler</span><span class="p">);</span>
 
-    function handler(request, response) {
-        //console.log('request received!');
-        response.writeHead(200, {'Content-Type': 'text/plain'});
+<span class="kd">function</span> <span class="nx">handler</span><span class="p">(</span><span class="nx">request</span><span class="p">,</span> <span class="nx">response</span><span class="p">)</span> <span class="p">{</span>
+    <span class="c1">//console.log(&#39;request received!&#39;);</span>
+    <span class="nx">response</span><span class="p">.</span><span class="nx">writeHead</span><span class="p">(</span><span class="mi">200</span><span class="p">,</span> <span class="p">{</span><span class="s1">&#39;Content-Type&#39;</span><span class="o">:</span> <span class="s1">&#39;text/plain&#39;</span><span class="p">});</span>
 
-        s=""; //generate a random string of 108KB and a random filename
-        fname = String.fromCharCode(Math.floor(65 + (Math.random()*(122-65)) )) +
-            String.fromCharCode(Math.floor(65 + (Math.random()*(122-65)) )) +
-            String.fromCharCode(Math.floor(65 + (Math.random()*(122-65)) )) + 
-            String.fromCharCode(Math.floor(65 + (Math.random()*(122-65)) )) + ".txt";
+    <span class="nx">s</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">;</span> <span class="c1">//generate a random string of 108KB and a random filename</span>
+    <span class="nx">fname</span> <span class="o">=</span> <span class="nb">String</span><span class="p">.</span><span class="nx">fromCharCode</span><span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="mi">65</span> <span class="o">+</span> <span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nx">random</span><span class="p">()</span><span class="o">*</span><span class="p">(</span><span class="mi">122</span><span class="o">-</span><span class="mi">65</span><span class="p">))</span> <span class="p">))</span> <span class="o">+</span>
+        <span class="nb">String</span><span class="p">.</span><span class="nx">fromCharCode</span><span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="mi">65</span> <span class="o">+</span> <span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nx">random</span><span class="p">()</span><span class="o">*</span><span class="p">(</span><span class="mi">122</span><span class="o">-</span><span class="mi">65</span><span class="p">))</span> <span class="p">))</span> <span class="o">+</span>
+        <span class="nb">String</span><span class="p">.</span><span class="nx">fromCharCode</span><span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="mi">65</span> <span class="o">+</span> <span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nx">random</span><span class="p">()</span><span class="o">*</span><span class="p">(</span><span class="mi">122</span><span class="o">-</span><span class="mi">65</span><span class="p">))</span> <span class="p">))</span> <span class="o">+</span> 
+        <span class="nb">String</span><span class="p">.</span><span class="nx">fromCharCode</span><span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="mi">65</span> <span class="o">+</span> <span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nx">random</span><span class="p">()</span><span class="o">*</span><span class="p">(</span><span class="mi">122</span><span class="o">-</span><span class="mi">65</span><span class="p">))</span> <span class="p">))</span> <span class="o">+</span> <span class="s2">&quot;.txt&quot;</span><span class="p">;</span>
 
-        for(i=0;i&lt;108000;i++)
-        {
-            n=Math.floor(65 + (Math.random()*(122-65)) );
-            s+=String.fromCharCode(n);
-        }
+    <span class="k">for</span><span class="p">(</span><span class="nx">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span><span class="nx">i</span><span class="o">&lt;</span><span class="mi">108000</span><span class="p">;</span><span class="nx">i</span><span class="o">++</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="nx">n</span><span class="o">=</span><span class="nb">Math</span><span class="p">.</span><span class="nx">floor</span><span class="p">(</span><span class="mi">65</span> <span class="o">+</span> <span class="p">(</span><span class="nb">Math</span><span class="p">.</span><span class="nx">random</span><span class="p">()</span><span class="o">*</span><span class="p">(</span><span class="mi">122</span><span class="o">-</span><span class="mi">65</span><span class="p">))</span> <span class="p">);</span>
+        <span class="nx">s</span><span class="o">+=</span><span class="nb">String</span><span class="p">.</span><span class="nx">fromCharCode</span><span class="p">(</span><span class="nx">n</span><span class="p">);</span>
+    <span class="p">}</span>
 
-        //write s to a file
-        var fs = require('fs');
-        fs.writeFile(fname, s, function(err, fd) {
-                if (err) throw err;
-                //console.log("The file was saved!");
-                //read back from the file
-                fs.readFile(fname, function (err, data) {
-                    if (err) throw err;
-                    result = data;
-                    response.end(result);
-                });  
-            }
-        );
-    }
+    <span class="c1">//write s to a file</span>
+    <span class="kd">var</span> <span class="nx">fs</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;fs&#39;</span><span class="p">);</span>
+    <span class="nx">fs</span><span class="p">.</span><span class="nx">writeFile</span><span class="p">(</span><span class="nx">fname</span><span class="p">,</span> <span class="nx">s</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">fd</span><span class="p">)</span> <span class="p">{</span>
+            <span class="k">if</span> <span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="k">throw</span> <span class="nx">err</span><span class="p">;</span>
+            <span class="c1">//console.log(&quot;The file was saved!&quot;);</span>
+            <span class="c1">//read back from the file</span>
+            <span class="nx">fs</span><span class="p">.</span><span class="nx">readFile</span><span class="p">(</span><span class="nx">fname</span><span class="p">,</span> <span class="kd">function</span> <span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">data</span><span class="p">)</span> <span class="p">{</span>
+                <span class="k">if</span> <span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="k">throw</span> <span class="nx">err</span><span class="p">;</span>
+                <span class="nx">result</span> <span class="o">=</span> <span class="nx">data</span><span class="p">;</span>
+                <span class="nx">response</span><span class="p">.</span><span class="nx">end</span><span class="p">(</span><span class="nx">result</span><span class="p">);</span>
+            <span class="p">});</span>  
+        <span class="p">}</span>
+    <span class="p">);</span>
+<span class="p">}</span>
 
-    server.listen(8124);
-    console.log('Server running at http://127.0.0.1:8124/');
+<span class="nx">server</span><span class="p">.</span><span class="nx">listen</span><span class="p">(</span><span class="mi">8124</span><span class="p">);</span>
+<span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="s1">&#39;Server running at http://127.0.0.1:8124/&#39;</span><span class="p">);</span>
+</pre></div>
 
-</figure>
 
 <p>And then, I ran the apache benchmarking tool on both of them with 2000 requests (200 concurrent). When I saw the time stats of the result, I was astounded:</p>
 <div class="highlight"><pre><span></span>#PHP:
@@ -129,63 +128,62 @@ Complete requests:      2000
 <p>After reading some comments from the below section, I felt obliged to create a C#/mono version too. This, unfortunately, has turned out to be the slowest of the bunch (\~40 secs for 1 request). Either the Task library in mono is terribly implemented, or there is something terribly wrong with my <a href="http://pastebin.mozilla.org/5406784">code</a>. I'll fix it once I get some time and be back with my next post (maybe ASP.NET vs node.js vs PHP!).</p>
 <h2>Second Update</h2>
 <p>As for C#/ASP.NET, this is the most optimum version that I could manage. It still lags behind both PHP and node.js and most of the issued requests just get dropped. (And yes, I've tested it on both Linux/Mono and Windows-Server-2012/IIS environments). Maybe ASP.NET is inherently slower, so I'll have to change the terms of this benchmark to take it into comparison:</p>
-<figure class="highlight">
-    public class Handler : System.Web.IHttpHandler
-    {
-        private StringBuilder payload = null;
+<div class="highlight"><pre><span></span><span class="n">public</span> <span class="k">class</span> <span class="nl">Handler</span> <span class="p">:</span> <span class="n">System</span><span class="p">.</span><span class="n">Web</span><span class="p">.</span><span class="n">IHttpHandler</span>
+<span class="p">{</span>
+    <span class="n">private</span> <span class="n">StringBuilder</span> <span class="n">payload</span> <span class="o">=</span> <span class="n">null</span><span class="p">;</span>
 
-        private async void processAsync()
-        {
-            var r = new Random ();
+    <span class="n">private</span> <span class="n">async</span> <span class="kt">void</span> <span class="nf">processAsync</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="n">var</span> <span class="n">r</span> <span class="o">=</span> <span class="n">new</span> <span class="n">Random</span> <span class="p">();</span>
 
-            //generate a random string of 108kb
-            payload=new StringBuilder();
-            for (var i = 0; i &lt; 54000; i++)
-                payload.Append( (char)(r.Next(65,90)));
+        <span class="c1">//generate a random string of 108kb</span>
+        <span class="n">payload</span><span class="o">=</span><span class="n">new</span> <span class="n">StringBuilder</span><span class="p">();</span>
+        <span class="k">for</span> <span class="p">(</span><span class="n">var</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">54000</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span>
+            <span class="n">payload</span><span class="p">.</span><span class="n">Append</span><span class="p">(</span> <span class="p">(</span><span class="kt">char</span><span class="p">)(</span><span class="n">r</span><span class="p">.</span><span class="n">Next</span><span class="p">(</span><span class="mi">65</span><span class="p">,</span><span class="mi">90</span><span class="p">)));</span>
 
-            //create a unique file
-            var fname = "";
-            do{fname = @"c:\source\csharp\asyncdemo\" + r.Next (1, 99999999).ToString () + ".txt";
-            } while(File.Exists(fname));            
+        <span class="c1">//create a unique file</span>
+        <span class="n">var</span> <span class="n">fname</span> <span class="o">=</span> <span class="s">&quot;&quot;</span><span class="p">;</span>
+        <span class="k">do</span><span class="p">{</span><span class="n">fname</span> <span class="o">=</span> <span class="s">@&quot;c:\source\csharp</span><span class="se">\a</span><span class="s">syncdemo</span><span class="se">\&quot;</span><span class="s"> + r.Next (1, 99999999).ToString () + &quot;</span><span class="p">.</span><span class="n">txt</span><span class="s">&quot;;</span>
+        <span class="p">}</span> <span class="k">while</span><span class="p">(</span><span class="n">File</span><span class="p">.</span><span class="n">Exists</span><span class="p">(</span><span class="n">fname</span><span class="p">));</span>
 
-            //write the string to disk in async manner
-            using(FileStream fs = File.Open(fname,FileMode.CreateNew,FileAccess.ReadWrite))
-            {
-                var bytes=(new System.Text.ASCIIEncoding ()).GetBytes (payload.ToString());
-                await fs.WriteAsync (bytes,0,bytes.Length);
-                fs.Close ();
-            }
+        <span class="c1">//write the string to disk in async manner</span>
+        <span class="n">using</span><span class="p">(</span><span class="n">FileStream</span> <span class="n">fs</span> <span class="o">=</span> <span class="n">File</span><span class="p">.</span><span class="n">Open</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span><span class="n">FileMode</span><span class="p">.</span><span class="n">CreateNew</span><span class="p">,</span><span class="n">FileAccess</span><span class="p">.</span><span class="n">ReadWrite</span><span class="p">))</span>
+        <span class="p">{</span>
+            <span class="n">var</span> <span class="n">bytes</span><span class="o">=</span><span class="p">(</span><span class="n">new</span> <span class="n">System</span><span class="p">.</span><span class="n">Text</span><span class="p">.</span><span class="n">ASCIIEncoding</span> <span class="p">()).</span><span class="n">GetBytes</span> <span class="p">(</span><span class="n">payload</span><span class="p">.</span><span class="n">ToString</span><span class="p">());</span>
+            <span class="n">await</span> <span class="n">fs</span><span class="p">.</span><span class="n">WriteAsync</span> <span class="p">(</span><span class="n">bytes</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span><span class="n">bytes</span><span class="p">.</span><span class="n">Length</span><span class="p">);</span>
+            <span class="n">fs</span><span class="p">.</span><span class="n">Close</span> <span class="p">();</span>
+        <span class="p">}</span>
 
-            //read the string back from disk in async manner
-            payload = new StringBuilder ();
-            StreamReader sr = new StreamReader (fname);
-            payload.Append(await sr.ReadToEndAsync ());
-            sr.Close ();
-            //File.Delete (fname); //remove the file
-        }
+        <span class="c1">//read the string back from disk in async manner</span>
+        <span class="n">payload</span> <span class="o">=</span> <span class="n">new</span> <span class="n">StringBuilder</span> <span class="p">();</span>
+        <span class="n">StreamReader</span> <span class="n">sr</span> <span class="o">=</span> <span class="n">new</span> <span class="n">StreamReader</span> <span class="p">(</span><span class="n">fname</span><span class="p">);</span>
+        <span class="n">payload</span><span class="p">.</span><span class="n">Append</span><span class="p">(</span><span class="n">await</span> <span class="n">sr</span><span class="p">.</span><span class="n">ReadToEndAsync</span> <span class="p">());</span>
+        <span class="n">sr</span><span class="p">.</span><span class="n">Close</span> <span class="p">();</span>
+        <span class="c1">//File.Delete (fname); //remove the file</span>
+    <span class="p">}</span>
 
-        public void ProcessRequest (HttpContext context)
-        {
-            Task task = new Task(processAsync);
-            task.Start ();
-            task.Wait ();
+    <span class="n">public</span> <span class="kt">void</span> <span class="n">ProcessRequest</span> <span class="p">(</span><span class="n">HttpContext</span> <span class="n">context</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">Task</span> <span class="n">task</span> <span class="o">=</span> <span class="n">new</span> <span class="n">Task</span><span class="p">(</span><span class="n">processAsync</span><span class="p">);</span>
+        <span class="n">task</span><span class="p">.</span><span class="n">Start</span> <span class="p">();</span>
+        <span class="n">task</span><span class="p">.</span><span class="n">Wait</span> <span class="p">();</span>
 
-            //write the string back on the response stream
-            context.Response.ContentType = "text/plain";
-            context.Response.Write (payload.ToString());
-        }
+        <span class="c1">//write the string back on the response stream</span>
+        <span class="n">context</span><span class="p">.</span><span class="n">Response</span><span class="p">.</span><span class="n">ContentType</span> <span class="o">=</span> <span class="s">&quot;text/plain&quot;</span><span class="p">;</span>
+        <span class="n">context</span><span class="p">.</span><span class="n">Response</span><span class="p">.</span><span class="n">Write</span> <span class="p">(</span><span class="n">payload</span><span class="p">.</span><span class="n">ToString</span><span class="p">());</span>
+    <span class="p">}</span>
 
-        public bool IsReusable 
-        {
-            get {
-                return false;
-            }
-        }
-    }
+    <span class="n">public</span> <span class="kt">bool</span> <span class="n">IsReusable</span> 
+    <span class="p">{</span>
+        <span class="n">get</span> <span class="p">{</span>
+            <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+        <span class="p">}</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
 
-</figure>
 
-<p>References</p>
+<p><em>References:</em></p>
 <ol>
 <li><a href="https://en.wikipedia.org/wiki/Node.js">https://en.wikipedia.org/wiki/Node.js</a></li>
 <li><a href="http://notes.ericjiang.com/posts/751">http://notes.ericjiang.com/posts/751</a></li>
@@ -209,6 +207,21 @@ Complete requests:      2000
 	<!--end: adsense-->
 	<!-- End: Prahlad -->
 
+    <div class="comments">
+      <h2>Comments !</h2>
+      <div id="disqus_thread"></div>
+      <script type="text/javascript">
+        var disqus_shortname = 'https://prahladyeri-blog.disqus.com';
+        var disqus_identifier = 'blog/2014/06/php-vs-node-js-real-statistics.html';
+        var disqus_url = 'https://prahladyeri.com/blog/2014/06/php-vs-node-js-real-statistics.html';
+        (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//https://prahladyeri-blog.disqus.com.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+      </script>
+      <noscript>Please enable JavaScript to view the comments.</noscript>
+    </div>
 
   </article>
 </section>
@@ -227,7 +240,7 @@ Complete requests:      2000
                 <div class="social">
                         <h2>social</h2>
                         <ul>
-                            <li><a href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
+                            <li><a href="https://prahladyeri.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
 
                             <li><a href="https://www.linkedin.com/in/prahlad-yeri-243a5316">Linkedin</a></li>
                             <li><a href="https://www.facebook.com/prahladyeri14">Facebook</a></li>

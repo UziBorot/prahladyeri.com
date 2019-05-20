@@ -3,25 +3,26 @@
 <head>
         <meta charset="utf-8" />
         <title>9 Optimizations to make your Linux Desktop fly like a Rocket!</title>
-        <link rel="stylesheet" href="/theme/css/main.css" />
-        <link href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Prahlad Yeri - Freelance Programmer Atom Feed" />
+        <link rel="stylesheet" href="https://prahladyeri.com/theme/css/main.css" />
+        <link href="https://prahladyeri.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Prahlad Yeri - Freelance Programmer Atom Feed" />
 </head>
 
 <body id="index" class="home">
         <header id="banner" class="body">
-                <h1><a href="/">Prahlad Yeri - Freelance Programmer </a></h1>
+                <h1><a href="https://prahladyeri.com/">Prahlad Yeri - Freelance Programmer </a></h1>
                 <nav><ul>
 				<li><a href="/">Home</a></li> <!--hard coded-->
-                    <li><a href="/about/">About</a></li>
-                    <li><a href="/projects/">Projects</a></li>
-                    <li><a href="/hire-me/">Hire Me</a></li>
+                    <li><a href="https://prahladyeri.com/about/">About</a></li>
+                    <li><a href="https://prahladyeri.com/projects/">Projects</a></li>
+                    <li><a href="https://prahladyeri.com/hire-me/">Hire Me</a></li>
+				<li><a href="https://github.com/prahladyeri/resmue">Resume</a></li> <!--hard coded-->
                 </ul></nav>
         </header><!-- /#banner -->
 <section id="content" class="body">
   <article>
     <header>
       <h1 class="entry-title">
-        <a href="/blog/2014/06/9-optimizations-to-make-your-linux-desktop-fly-like-a-rocket.html" rel="bookmark"
+        <a href="https://prahladyeri.com/blog/2014/06/9-optimizations-to-make-your-linux-desktop-fly-like-a-rocket.html" rel="bookmark"
            title="Permalink to 9 Optimizations to make your Linux Desktop fly like a Rocket!">9 Optimizations to make your Linux Desktop fly like a Rocket!</a></h1>
 <a href="https://twitter.com/share" class="twitter-share-button" data-count="horizontal" data-via="prahladyeri">Tweet</a><script type="text/javascript" src="https://platform.twitter.com/widgets.js"></script>
     </header>
@@ -33,10 +34,10 @@
         </abbr>
 
         <address class="vcard author">
-                By                         <a class="url fn" href="/author/prahlad-yeri.html">Prahlad Yeri</a>
+                By                         <a class="url fn" href="https://prahladyeri.com/author/prahlad-yeri.html">Prahlad Yeri</a>
         </address>
-<p>In <a href="/category/linux.html">Linux</a>.</p>
-<p>tags: <a href="/tag/ubuntu.html">Ubuntu</a> </p>
+<p>In <a href="https://prahladyeri.com/category/linux.html">Linux</a>.</p>
+<p>tags: <a href="https://prahladyeri.com/tag/ubuntu.html">Ubuntu</a> </p>
 </footer><!-- /.post-info -->      <p>This article is the result of notes I've prepared during tweaking, twisting and optimizing ubuntu variants over the last few years. In case you use any other distro, some of these settings may not be applicable to you. For best results, these changes must be done on top of a fresh installation, otherwise chances of things breaking increase a bit. Each step is optional - In case of software removals, do it only if you are not going to use the concerned software. Be careful before making any changes and know exactly what and why you are doing that.<!--more--></p>
 <h3>#1 Optimize disk access with noatime:</h3>
 <p>Each file and folder on your linux system has a file-creation timestamp and a modification timestamp. Apart from that, linux tries to keep track of "access time" for each of these files. Now keeping track of the access time has its performace-cost, and if you want to remove this performance cost, you need to specify "noatime" attribute in the disk partition entries in your /etc/fstab file. Edit this file in your text-editor and set noatime as follows:</p>
@@ -131,6 +132,21 @@ apt-get remove avahi-daemon avahi-autoipd
 	<!--end: adsense-->
 	<!-- End: Prahlad -->
 
+    <div class="comments">
+      <h2>Comments !</h2>
+      <div id="disqus_thread"></div>
+      <script type="text/javascript">
+        var disqus_shortname = 'https://prahladyeri-blog.disqus.com';
+        var disqus_identifier = 'blog/2014/06/9-optimizations-to-make-your-linux-desktop-fly-like-a-rocket.html';
+        var disqus_url = 'https://prahladyeri.com/blog/2014/06/9-optimizations-to-make-your-linux-desktop-fly-like-a-rocket.html';
+        (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//https://prahladyeri-blog.disqus.com.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+      </script>
+      <noscript>Please enable JavaScript to view the comments.</noscript>
+    </div>
 
   </article>
 </section>
@@ -149,7 +165,7 @@ apt-get remove avahi-daemon avahi-autoipd
                 <div class="social">
                         <h2>social</h2>
                         <ul>
-                            <li><a href="/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
+                            <li><a href="https://prahladyeri.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
 
                             <li><a href="https://www.linkedin.com/in/prahlad-yeri-243a5316">Linkedin</a></li>
                             <li><a href="https://www.facebook.com/prahladyeri14">Facebook</a></li>

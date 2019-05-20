@@ -2,7 +2,7 @@
 <html lang="english">
 <head>
         <meta charset="utf-8" />
-        <title>How to create a custom email plugin for Wordpress</title>
+        <title>Prahlad Yeri - Freelance Programmer - Email</title>
         <link rel="stylesheet" href="https://prahladyeri.com/theme/css/main.css" />
         <link href="https://prahladyeri.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Prahlad Yeri - Freelance Programmer Atom Feed" />
 </head>
@@ -18,16 +18,10 @@
 				<li><a href="https://github.com/prahladyeri/resmue">Resume</a></li> <!--hard coded-->
                 </ul></nav>
         </header><!-- /#banner -->
-<section id="content" class="body">
-  <article>
-    <header>
-      <h1 class="entry-title">
-        <a href="https://prahladyeri.com/blog/2014/06/how-to-create-a-custom-email-plugin-for-wordpress.html" rel="bookmark"
-           title="Permalink to How to create a custom email plugin for Wordpress">How to create a custom email plugin for Wordpress</a></h1>
-<a href="https://twitter.com/share" class="twitter-share-button" data-count="horizontal" data-via="prahladyeri">Tweet</a><script type="text/javascript" src="https://platform.twitter.com/widgets.js"></script>
-    </header>
 
-    <div class="entry-content">
+            <aside id="featured" class="body">
+                <article>
+                    <h1 class="entry-title"><a href="https://prahladyeri.com/blog/2014/06/how-to-create-a-custom-email-plugin-for-wordpress.html">How to create a custom email plugin for Wordpress</a></h1>
 <footer class="post-info">
         <abbr class="published" title="2014-06-07T10:39:00+05:30">
                 Published: Sat 07 June 2014
@@ -38,7 +32,7 @@
         </address>
 <p>In <a href="https://prahladyeri.com/category/php.html">PHP</a>.</p>
 <p>tags: <a href="https://prahladyeri.com/tag/php.html">PHP</a> <a href="https://prahladyeri.com/tag/wordpress.html">Wordpress</a> <a href="https://prahladyeri.com/tag/email.html">Email</a> </p>
-</footer><!-- /.post-info -->      <p>Last week, I suddenly stopped receiving email notifications for my <a href="https://www.openshift.com/">openshift</a> hosted blog. I came to know after some <a href="http://stackoverflow.com/questions/17583205/sendmail-on-openshift-php-codeigniter/17598537#17598537">reading</a> that commonly used cloud hosts such as openshift, aws, etc. are usually blacklisted by most email servers, hence its not a good idea to use them to send mails.<!--more--></p>
+</footer><!-- /.post-info --><p>Last week, I suddenly stopped receiving email notifications for my <a href="https://www.openshift.com/">openshift</a> hosted blog. I came to know after some <a href="http://stackoverflow.com/questions/17583205/sendmail-on-openshift-php-codeigniter/17598537#17598537">reading</a> that commonly used cloud hosts such as openshift, aws, etc. are usually blacklisted by most email servers, hence its not a good idea to use them to send mails.<!--more--></p>
 <p>In any case, why should I depend on my hosting provider for email sending. Until now, I had never bothered about how mail sending worked in wordpress as it used to work out of the box. So last week, I pulled up my socks and decided to put my php <a href="http://en.wikipedia.org/wiki/Geany">IDE</a> and <a href="http://en.wikipedia.org/wiki/Xdebug">debugger</a> to some good work.</p>
 <p>I decided to use my <a href="https://sendgrid.com">sendgrid</a> account to send mails. All that`s needed now is calling the web service with the credentials they've provided. But how to integrate this with my wordpress blog?</p>
 <p>Once I located <strong><em>where</em></strong> the mail sending functionality is there in wordpress code, adding a new method was a piece of cake!! Turns out that wordpress, by default, just executes the "mail" command which is usually just a symlink on unix boxes actually pointing to <em>/usr/bin/sendmail</em> or something. I found it in a pluggable function <em>wp_mail()</em>. (see <em>/wp-includes/pluggable.php</em>). I also came to know from the codex that <a href="http://codex.wordpress.org/Pluggable_Functions">pluggable functions</a> can be easily overridden by plugins.</p>
@@ -146,42 +140,8 @@
 <li><a href="https://sendgrid.com">https://sendgrid.com</a></li>
 <li><a href="https://sendgrid.com/docs/">https://sendgrid.com/docs/</a></li>
 <li><a href="https://www.openshift.com/">https://www.openshift.com/</a></li>
-</ol>
-    </div><!-- /.entry-content -->
-	
-	<!-- Start: Prahlad -->
-	<!--start: adsense-->
-	<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
-	<!-- mainsite_responsive -->
-	<ins class="adsbygoogle"
-		 style="display:block"
-		 data-ad-client="ca-pub-0428291735937735"
-		 data-ad-slot="6897031752"
-		 data-ad-format="auto"></ins>
-	<script>
-	(adsbygoogle = window.adsbygoogle || []).push({});
-	</script>
-	<!--end: adsense-->
-	<!-- End: Prahlad -->
-
-    <div class="comments">
-      <h2>Comments !</h2>
-      <div id="disqus_thread"></div>
-      <script type="text/javascript">
-        var disqus_shortname = 'https://prahladyeri-blog.disqus.com';
-        var disqus_identifier = 'blog/2014/06/how-to-create-a-custom-email-plugin-for-wordpress.html';
-        var disqus_url = 'https://prahladyeri.com/blog/2014/06/how-to-create-a-custom-email-plugin-for-wordpress.html';
-        (function() {
-        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
-        dsq.src = '//https://prahladyeri-blog.disqus.com.disqus.com/embed.js';
-        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
-        })();
-      </script>
-      <noscript>Please enable JavaScript to view the comments.</noscript>
-    </div>
-
-  </article>
-</section>
+</ol><p>There are <a href="https://prahladyeri.com/blog/2014/06/how-to-create-a-custom-email-plugin-for-wordpress.html#disqus_thread">comments</a>.</p>                </article>
+            </aside><!-- /#featured -->
         <section id="extras" class="body">
                 <div class="blogroll">
                         <h2>links</h2>
