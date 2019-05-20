@@ -47,6 +47,7 @@ MakeFile&lt;/p&gt;
 &lt;li&gt;
 &lt;p&gt;The above command converts all your Wordpress posts (not comments) into markdown format and copies it to the content folder. Your old site is now imported to the pelcian system and is ready for generation!&lt;/p&gt;
 &lt;/li&gt;
+&lt;li&gt;Make some changes to the &lt;code&gt;pelicanconf.py&lt;/code&gt;. Set the attributes for &lt;code&gt;AUTHOR&lt;/code&gt; and &lt;code&gt;SITENAME&lt;/code&gt;. You may also want to set &lt;code&gt;PAGE_URL&lt;/code&gt;, &lt;code&gt;PAGE_URL_SAVE_AS&lt;/code&gt;, &lt;code&gt;ARTICLE_URL&lt;/code&gt; and &lt;code&gt;ARTICLE_URL_SAVE_AS&lt;/code&gt; to match your existing site's URL pattern.&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;To generate the new site, simply run:&lt;/p&gt;
 &lt;p&gt;pelican content&lt;/p&gt;
