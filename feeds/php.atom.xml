@@ -27,14 +27,17 @@
 &lt;li&gt;Create a new folder (such as &lt;code&gt;PRAHLADYERI.COM&lt;/code&gt;) for your new blog writing/publishing.&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Traverse to that folder through command line and run &lt;code&gt;pelican-quickstart&lt;/code&gt;. It'll ask some basic questions like your blog name, title, etc. You can leave most to their defaults. Once done, it'll create a folder structure like below:&lt;/p&gt;
-&lt;p&gt;d:\source\PRAHLADYERI.COM
-├───content                                          &lt;br&gt;
-│   ├───pages                                        &lt;br&gt;
-│   ├───uploads                                      &lt;br&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;d:\source\PRAHLADYERI.COM
+├───content                                            
+│   ├───pages                                          
+│   ├───uploads                                        
 │   │   ├───2016
 pelicanconf.py
 tasks.py
-MakeFile&lt;/p&gt;
+MakeFile
+&lt;/pre&gt;&lt;/div&gt;
+
+
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;&lt;code&gt;tasks.py&lt;/code&gt; and &lt;code&gt;MakeFile&lt;/code&gt; are something you can ignore unless you want to automate site generation. Now you can copy the &lt;code&gt;uploads&lt;/code&gt; folder brought from Wordpress inside the &lt;code&gt;content&lt;/code&gt; folder (its the place where your posts will now reside in either markdown (&lt;code&gt;.md&lt;/code&gt;) or reStructured Text (&lt;code&gt;.rst&lt;/code&gt;) formats).&lt;/p&gt;
@@ -42,7 +45,10 @@ MakeFile&lt;/p&gt;
 &lt;li&gt;Copy the XML file imported from Wordpress inside the main folder (&lt;code&gt;PRAHLADYERI.COM&lt;/code&gt; in my case).&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Now simply run &lt;code&gt;pelican-import&lt;/code&gt;:&lt;/p&gt;
-&lt;p&gt;pelican-import --wpfile -m markdown &lt;your-file.xml&gt;&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;pelican&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="o"&gt;--&lt;/span&gt;&lt;span class="n"&gt;wpfile&lt;/span&gt; &lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="n"&gt;m&lt;/span&gt; &lt;span class="n"&gt;markdown&lt;/span&gt; &lt;span class="o"&gt;&amp;lt;&lt;/span&gt;&lt;span class="n"&gt;your&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="nb"&gt;file&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;xml&lt;/span&gt;&lt;span class="o"&gt;&amp;gt;&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+
+
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;The above command converts all your Wordpress posts (not comments) into markdown format and copies it to the content folder. Your old site is now imported to the pelcian system and is ready for generation!&lt;/p&gt;
@@ -50,11 +56,17 @@ MakeFile&lt;/p&gt;
 &lt;li&gt;Make some changes to the &lt;code&gt;pelicanconf.py&lt;/code&gt;. Set the attributes for &lt;code&gt;AUTHOR&lt;/code&gt; and &lt;code&gt;SITENAME&lt;/code&gt;. You may also want to set &lt;code&gt;PAGE_URL&lt;/code&gt;, &lt;code&gt;PAGE_URL_SAVE_AS&lt;/code&gt;, &lt;code&gt;ARTICLE_URL&lt;/code&gt; and &lt;code&gt;ARTICLE_URL_SAVE_AS&lt;/code&gt; to match your existing site's URL pattern.&lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;To generate the new site, simply run:&lt;/p&gt;
-&lt;p&gt;pelican content&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;pelican content
+&lt;/pre&gt;&lt;/div&gt;
+
+
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;This will generate a folder called &lt;code&gt;output&lt;/code&gt; which you can directly serve through github pages! You can also go to the output folder and test it locally by running this command and checking in your browser:&lt;/p&gt;
-&lt;p&gt;python -m http.server&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;python -m http.server
+&lt;/pre&gt;&lt;/div&gt;
+
+
 &lt;/li&gt;
 &lt;/ol&gt;
 &lt;p&gt;This is the very simplest of use-cases, of course. For other advanced things like changing the theme templates and CSS, migrating to &lt;a href="https://disqus.com"&gt;disqus comments&lt;/a&gt;, etc., I'll make another post later. If you are in a hurry, then you can refer the &lt;a href="https://docs.getpelican.com/"&gt;official pelican docs&lt;/a&gt; which has all these details and a lot of other useful information.&lt;/p&gt;</content><category term="Wordpress"></category><category term="PHP"></category><category term="Python"></category></entry><entry><title>WordPress DIY: Adding Syntax Highlighting to your WordPress Blog Without using an External Plugin</title><link href="https://prahladyeri.com/blog/2018/07/wordpress-diy-adding-syntax-highlighting-to-your-wordpress-blog-without-using-an-external-plugin.html" rel="alternate"></link><published>2018-07-10T12:47:00+05:30</published><updated>2018-07-10T12:47:00+05:30</updated><author><name>Prahlad Yeri</name></author><id>tag:prahladyeri.com,2018-07-10:/blog/2018/07/wordpress-diy-adding-syntax-highlighting-to-your-wordpress-blog-without-using-an-external-plugin.html</id><summary type="html">&lt;p&gt;Just as my other articles in &lt;a href="https://prahladyeri.com/blog/tag/wordpress+diy"&gt;WordPress DIY&lt;/a&gt; series, this one also focuses on doing everything yourself by writing the code rather than using any external dependencies. There are two popular open source implementations of Syntax Highlighting JavaScript libraries: &lt;a href="https://github.com/google/code-prettify"&gt;Google's Prettify&lt;/a&gt; and &lt;a href="http://alexgorbatchev.com/SyntaxHighlighter/"&gt;Alex Gorbatchev's Syntax Highlighter&lt;/a&gt;, and in this article …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Just as my other articles in &lt;a href="https://prahladyeri.com/blog/tag/wordpress+diy"&gt;WordPress DIY&lt;/a&gt; series, this one also focuses on doing everything yourself by writing the code rather than using any external dependencies. There are two popular open source implementations of Syntax Highlighting JavaScript libraries: &lt;a href="https://github.com/google/code-prettify"&gt;Google's Prettify&lt;/a&gt; and &lt;a href="http://alexgorbatchev.com/SyntaxHighlighter/"&gt;Alex Gorbatchev's Syntax Highlighter&lt;/a&gt;, and in this article, we will use the former.&lt;!--more--&gt; Writing your own plugin for syntax highlighting is very straightforward if you know what you are doing. Just create a file named &lt;strong&gt;/wp-content/plugins/wp-prettify.php&lt;/strong&gt; in your WordPress installation and add the below code to it:&lt;/p&gt;
