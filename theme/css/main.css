@@ -463,3 +463,8 @@ article div.entry-content img,
 {
 	max-width: 750px;
 }
+
+.about-image {
+	border-radius: 50px;
+	/*border: 1px solid black;*/
+}
