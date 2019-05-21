@@ -16,7 +16,7 @@
 &lt;/li&gt;
 &lt;li&gt;
 &lt;p&gt;Install additional packages for importing the Wordpress XML:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;pip&lt;/span&gt; &lt;span class="n"&gt;install&lt;/span&gt; &lt;span class="n"&gt;pelican&lt;/span&gt;&lt;span class="o"&gt;-&lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;BeautifulSoup4&lt;/span&gt; &lt;span class="nn"&gt;lxml&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;pip install BeautifulSoup4 lxml
 &lt;/pre&gt;&lt;/div&gt;
 
 
