@@ -18,17 +18,28 @@
         <header id="banner" class="body">
                 <h1><a href="https://prahladyeri.com/">Prahlad Yeri - Freelance Programmer </a></h1>
                 <nav><ul>
-				<li><a href="/">Home</a></li> <!--hard coded-->
-                    <li><a href="https://prahladyeri.com/about/">About</a></li>
-                    <li><a href="https://prahladyeri.com/projects/">Projects</a></li>
-                    <li><a href="https://prahladyeri.com/hire-me/">Hire Me</a></li>
+				 <!--Start: hard coded-->
+				<li tag="tag/ubuntu.html" ><a href="/">Home</a></li>
+				<li tag="tag/ubuntu.html" ><a href="/blog/">Blog</a></li>
+				<li tag="tag/ubuntu.html" ><a href="/projects/">Projects</a></li> 
+				<li tag="tag/ubuntu.html" ><a href="/hire-me/">Hire Me</a></li> 
+				<!--End: hard coded-->				
+                    <!--li><a href="https://prahladyeri.com/">About</a></li-->
+                    <!--li><a href="https://prahladyeri.com/projects/">Projects</a></li-->
+                    <!--li><a href="https://prahladyeri.com/hire-me/">Hire Me</a></li-->
 				<li><a href="https://github.com/prahladyeri/resume">Resume</a></li> <!--hard coded-->
                 </ul></nav>
         </header><!-- /#banner -->
 
-            <aside id="featured" class="body">
-                <article>
-                    <h1 class="entry-title"><a href="https://prahladyeri.com/blog/2018/07/how-to-make-your-xubuntu-desktop-look-and-behave-like-ubuntu-mate.html">How to make your Xubuntu 16.04 Desktop look and behave like Ubuntu-MATE</a></h1>
+                <section id="content" class="body">
+                    <ol id="posts-list" class="hfeed" start="9">
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="https://prahladyeri.com/blog/2018/07/how-to-make-your-xubuntu-desktop-look-and-behave-like-ubuntu-mate.html" rel="bookmark"
+                           title="Permalink to How to make your Xubuntu 16.04 Desktop look and behave like Ubuntu-MATE">How to make your Xubuntu 16.04 Desktop look and behave like Ubuntu-MATE</a></h1>
+                </header>
+
+                <div class="entry-content">
 <footer class="post-info">
         <abbr class="published" title="2018-07-18T19:40:00+05:30">
                 Published: Wed 18 July 2018
@@ -39,40 +50,10 @@
         </address>
 <p>In <a href="https://prahladyeri.com/category/linux.html">Linux</a>.</p>
 <p>tags: <a href="https://prahladyeri.com/tag/linux.html">Linux</a> <a href="https://prahladyeri.com/tag/ubuntu.html">Ubuntu</a> <a href="https://prahladyeri.com/tag/ubuntu-mate.html">Ubuntu-MATE</a> <a href="https://prahladyeri.com/tag/xubuntu.html">Xubuntu</a> </p>
-</footer><!-- /.post-info --><p>Xubuntu is one of the most popular among the "lighter" distros as it hardly consumes 200MB when idle and even older machines are able to run with acceptable performance. Ubuntu-MATE which is based on MATE Desktop (a GNOME-2 fork) is also a similar competing distro though its debatable whether its as light as Xubuntu in terms of resource consumption.<!--more--></p>
-<p><img alt="Xubuntu Desktop which looks like Ubuntu-MATE" src="/uploads/2018/07/ubuntu-mate_lookalike.png"></p>
-<p><strong>Xubuntu Desktop which looks like Ubuntu-MATE</strong></p>
-<p>Making a switch from Xubuntu to Ubuntu-MATE totally makes sense if you have any particular reason for it, but I've observed that many people make that switch only because they like the astonishing looks of Ubuntu-MATE which are admittedly and relatively better compared to XFCE. For whatever reason (such as familiarity) if you want to just stay on Xubuntu but still want to have the "look and feel" of Ubuntu-MATE, its very easy to achieve that, you just have to follow this brief process described in this article.</p>
-<p><strong>Step-1: Download the Ambiance theme for XFCE from <a href="https://www.xfce-look.org/p/1016446/">here</a> and extract them to your \~/.themes/ folder.</strong></p>
-<p>Whilst the official Ubuntu packages <strong>mate-themes</strong> and <strong>ubuntu-mate-themes</strong> also come with a version of Ambiance theme, the window title background didn't turn dark when I applied it for some reason. You can still have those packages installed if you want, but the one in your \~/.themes/ folder will override any installed themes.</p>
-<p><strong>Step-2: Apply Ambiance GTK theme.</strong></p>
-<p>Head over to Appearance applet in your XFCE Settings Manager and switch the GTK theme to <strong>Ambiance</strong> which you should now see after performing step-1:</p>
-<p><img alt="Settings Manager->Appearance" src="/uploads/2018/07/SM_appearance.png"></p>
-<p><strong>Settings Manager->Appearance</strong></p>
-<p><strong>Step-3: Apply Ambiance Window Manager theme.</strong></p>
-<p>The next step is to do the same for Window Manager theme. Head over to Window Manager applet and make the switch there too:</p>
-<p><img alt="Settings Manager->Window Manager" src="/uploads/2018/07/SM_window_manager.png"></p>
-<p><strong>Settings Manager->Window Manager</strong></p>
-<p><strong>Step-4: Install Ubuntu-MATE icons.</strong></p>
-<p>This is for adding those green MATE icons. Just run this command to install the official package:</p>
-<div class="highlight"><pre><span></span>sudo apt install ubuntu-mate-icon-themes
-</pre></div>
-
-
-<p>Again open the Appearance applet but this time click the <strong>Icons</strong> tab on the top, and just select <strong>Ambiance-MATE</strong> from there:</p>
-<p><img alt="Settings Manager->Appearance (Icons Tab)" src="/uploads/2018/07/SM_appearance_icons.png"></p>
-<p><strong>Settings Manager->Appearance (Icons Tab)</strong></p>
-<p>Optionally, you can also click the <strong>Fonts</strong> tab and change the font to Ubuntu or one of its derivatives to get that Ubuntu-MATE feel!</p>
-<p><strong>Step-5: Use the magic switch: XFCE Panel Switch.</strong></p>
-<p>The <strong>XFCE Panel Switch</strong> is a wonderful tool that drastically alters the layout of your XFCE Desktop, just search for "XFCE Panel Switch" in your whisker menu or find it under <strong>Settings</strong> in your regular menu. Start that tool and you'll be able to switch to any desired desktop layout (choose "GNOME 2" for the looks of Ubuntu-MATE and click "Apply" icon which is the first in the bottom list of small icons):</p>
-<p><img alt="XFCE Panel Switch" src="/uploads/2018/07/xfce-panel-switch.png"></p>
-<p><strong>XFCE Panel Switch</strong></p>
-<p>Once you do that, you should be able to get a perfect Ubuntu-MATE look alike such as the one shown on the top screen. Finally and optionally, you can also install the official package <strong>ubuntu-mate-wallpapers</strong> if you like their wallpapers too.</p><p>There are <a href="https://prahladyeri.com/blog/2018/07/how-to-make-your-xubuntu-desktop-look-and-behave-like-ubuntu-mate.html#disqus_thread">comments</a>.</p>                </article>
-            </aside><!-- /#featured -->
-                <section id="content" class="body">
-                    <h1>Other articles</h1>
-                    <hr />
-                    <ol id="posts-list" class="hfeed">
+</footer><!-- /.post-info -->                <p>Xubuntu is one of the most popular among the "lighter" distros as it hardly consumes 200MB when idle and even older machines are able to run with acceptable performance. Ubuntu-MATE which is based on MATE Desktop (a GNOME-2 fork) is also a similar competing distro though its debatable whether its …</p>
+                <a class="readmore" href="https://prahladyeri.com/blog/2018/07/how-to-make-your-xubuntu-desktop-look-and-behave-like-ubuntu-mate.html">read more</a>
+<p>There are <a href="https://prahladyeri.com/blog/2018/07/how-to-make-your-xubuntu-desktop-look-and-behave-like-ubuntu-mate.html#disqus_thread">comments</a>.</p>                </div><!-- /.entry-content -->
+            </article></li>
 
             <li><article class="hentry">
                 <header>

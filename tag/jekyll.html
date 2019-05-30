@@ -18,17 +18,28 @@
         <header id="banner" class="body">
                 <h1><a href="https://prahladyeri.com/">Prahlad Yeri - Freelance Programmer </a></h1>
                 <nav><ul>
-				<li><a href="/">Home</a></li> <!--hard coded-->
-                    <li><a href="https://prahladyeri.com/about/">About</a></li>
-                    <li><a href="https://prahladyeri.com/projects/">Projects</a></li>
-                    <li><a href="https://prahladyeri.com/hire-me/">Hire Me</a></li>
+				 <!--Start: hard coded-->
+				<li tag="tag/jekyll.html" ><a href="/">Home</a></li>
+				<li tag="tag/jekyll.html" ><a href="/blog/">Blog</a></li>
+				<li tag="tag/jekyll.html" ><a href="/projects/">Projects</a></li> 
+				<li tag="tag/jekyll.html" ><a href="/hire-me/">Hire Me</a></li> 
+				<!--End: hard coded-->				
+                    <!--li><a href="https://prahladyeri.com/">About</a></li-->
+                    <!--li><a href="https://prahladyeri.com/projects/">Projects</a></li-->
+                    <!--li><a href="https://prahladyeri.com/hire-me/">Hire Me</a></li-->
 				<li><a href="https://github.com/prahladyeri/resume">Resume</a></li> <!--hard coded-->
                 </ul></nav>
         </header><!-- /#banner -->
 
-            <aside id="featured" class="body">
-                <article>
-                    <h1 class="entry-title"><a href="https://prahladyeri.com/blog/2015/02/farewell-wordpress-hello-jekyll.html">Farewell Wordpress, Hello Jekyll!</a></h1>
+                <section id="content" class="body">
+                    <ol id="posts-list" class="hfeed" start="9">
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="https://prahladyeri.com/blog/2015/02/farewell-wordpress-hello-jekyll.html" rel="bookmark"
+                           title="Permalink to Farewell Wordpress, Hello Jekyll!">Farewell Wordpress, Hello Jekyll!</a></h1>
+                </header>
+
+                <div class="entry-content">
 <footer class="post-info">
         <abbr class="published" title="2015-02-04T18:30:00+05:30">
                 Published: Wed 04 February 2015
@@ -39,59 +50,10 @@
         </address>
 <p>In <a href="https://prahladyeri.com/category/php.html">PHP</a>.</p>
 <p>tags: <a href="https://prahladyeri.com/tag/php.html">PHP</a> <a href="https://prahladyeri.com/tag/wordpress.html">Wordpress</a> <a href="https://prahladyeri.com/tag/jekyll.html">Jekyll</a> </p>
-</footer><!-- /.post-info --><p>Here I am, signing off from a <em>self-hosted, over-bloated <a href="http://www.wordpress.org">Wordpress</a></em> site and finding a welcome change in <a href="http://jekyllrb.com/">Jekyll</a>, a blog-aware static site generator. There is nothing new about this, several well-known bloggers have already migrated to Jekyll in the last few years including <a href="http://rsms.me/">Rasmus Andersson</a>, <a href="http://quaran.to/">Nick Quaranto</a> and <a href="http://rogchap.com/">Roger Chapman</a>. Ever since Tom Preston Werner invented this thing in 2008 and published his infamous article about <a href="http://tom.preston-werner.com/2008/11/17/blogging-like-a-hacker.html">Blogging Like a Hacker</a>, it has become the <em>Go-to thing</em> for those of us who favour on-line publishing above everything else.<!--more--></p>
-<p>And that’s for many good reasons, the most important being a major issue with Wordpress design - <em>Of what use is an RDBMS database like mysql in a weblog?</em>. I think this question should have been asked the day Wordpress was invented. However, since there weren’t too many alternatives in those days and <code class="highlighter-rouge">php</code> hosting was <em>way too easy</em>, most ignored this factor.</p>
-<h3>Save me a ton of money</h3>
-<p>Jekyll generates static sites made of pure HTML/CSS. A static site is a website whose content stays static (<em>unchanged by any user-input</em>) on the server-side (though dynamic functionality can be provided on the client-side using javascript). What this means is that you are not only done away with the hassle of hosting your own database, but also avoid <em>costly monthly fees</em> going to your Web Hosting Providers. That’s because unlike a <code class="highlighter-rouge">php</code> hosted dynamic site, a static site is much much faster and cheaper. In fact, <a href="https://github.com/jekyll/jekyll/wiki/Sites">Github pages</a> provides you free static web hosting without any bandwidth or space restrictions!</p>
-<h3>How do I implement this?</h3>
-<p>The <em>References</em> section at the bottom contains a couple of links to detailed migration guides if you intend to go this route. As any seasoned <code class="highlighter-rouge">php</code> programmer would tell you, programming in a language like <code class="highlighter-rouge">php</code> isn’t everyone’s cup of tea. While you don’t have to do any programming for hosting a static site, you should still know about a few things in order to implement a static site:</p>
-<ul>
-<li><a href="http://jekyllrb.com/">Jekyll</a>: Jekyll is a command line tool written in <code class="highlighter-rouge">ruby</code> language to generate blog-aware static sites (like the one you are presently viewing). Visit the link to find docs that explain what Jekyll is, how to install ruby and jekyll on your system and publish your posts.</li>
-<li><a href="http://daringfireball.net/projects/markdown/syntax">Markdown</a>: <code class="highlighter-rouge">Markdown</code> is a beautiful language crafted specially with on-line publishers in mind. Jekyll posts written in <code class="highlighter-rouge">Markdown</code> syntax are saved with the extension of <code class="highlighter-rouge">.md</code>. While you can write posts in plain old html syntax too, knowing markdown comes very handy and saves time.</li>
-</ul>
-<p>For instance, when I write:</p>
-<div class="highlight"><pre><span></span>[Jekyll](http://jekyllrb.com/)
-</pre></div>
-
-
-<p>It becomes:</p>
-<p><a href="http://jekyllrb.com/">Jekyll</a></p>
-<p>Making lists, headings, etc. is as easy. For instance,</p>
-<div class="highlight"><pre><span></span>### Three hashes means H3
-#### Four hashes means H4
-1. This is list-item1
-2. This is list-item2
-</pre></div>
-
-
-<p>becomes:</p>
-<h3>Three hashes means H3</h3>
-<h4>Four hashes means H4</h4>
-<ol>
-<li>This is list-item1</li>
-<li>
-<p>This is list-item2</p>
-</li>
-<li>
-<p><a href="https://disqus.com/">Disqus</a>: Perhaps the only feature for which most bloggers need a dynamic site is that of posting comments. Thanks to services like disqus, bloggers can now leave the hassle of maintaining their own database for storing their readers’ comments. Disqus does this for them. Read on the link to find out how to implement it on your Jekyll blog.</p>
-</li>
-<li><a href="https://github.com/jekyll/jekyll/wiki/Sites">Github pages</a>: Github pages is literally a boon for us bloggers. I’m aware of no other static web hosting service that lets you host unlimited content with practically unlimited bandwidth!</li>
-<li><a href="https://www.google.com/analytics">Google Analytics</a>: This is an invaluable service from Google used for tracking the web traffic on your blog or website. And not just hit-counts, you get to know what kinds of visitors come to your site based on demographic stats like location, age-group, gender, likes/dislikes, etc. All you have to do is put a bunch of code that analytics site provides you in your jekyll default template. Even when I was on Wordpress, I was using Google Analytics instead of the various stats plugins that come with Wordpress.</li>
-</ol>
-<h3>Outcome</h3>
-<p>Jekyll feels so good that I can’t recommend you enough of it! If you are presently using a self-hosted wordpress site and want to migrate to Jekyll and Github-pages, just go ahead and do it without any second thoughts. And after that, please let me know about your migration experience through <code class="highlighter-rouge">disqus</code> comments below this post!</p>
-<p><em>Reference:</em></p>
-<ul>
-<li><a href="http://hadihariri.com/2013/12/24/migrating-from-wordpress-to-jekyll/">Wordpress to Jekyll - Migration guide</a></li>
-<li><a href="http://paulstamatiou.com/how-to-wordpress-to-jekyll/">Wordpress to Jekyll - How to</a></li>
-<li><a href="https://github.com/jekyll/jekyll/wiki/Sites">Jekyll, A blog aware static site generator</a></li>
-<li><a href="http://tom.preston-werner.com/2008/11/17/blogging-like-a-hacker.html">Blogging Like a Hacker</a></li>
-<li><a href="http://en.wikipedia.org/wiki/Jekyll_%28software%29">Jekyll, Wikipedia</a></li>
-<li><a href="https://github.com/jekyll/jekyll/wiki/Sites">Github pages</a></li>
-<li><a href="https://help.github.com/articles/setting-up-a-custom-domain-with-github-pages/">How to set up a custom domain with Github pages</a></li>
-<li><a href="http://joshualande.com/jekyll-github-pages-poole/">Poole - A minimalistic Jekyll theme</a></li>
-</ul><p>There are <a href="https://prahladyeri.com/blog/2015/02/farewell-wordpress-hello-jekyll.html#disqus_thread">comments</a>.</p>                </article>
-            </aside><!-- /#featured -->
+</footer><!-- /.post-info -->                <p>Here I am, signing off from a <em>self-hosted, over-bloated <a href="http://www.wordpress.org">Wordpress</a></em> site and finding a welcome change in <a href="http://jekyllrb.com/">Jekyll</a>, a blog-aware static site generator. There is nothing new about this, several well-known bloggers have already migrated to Jekyll in the last few years including <a href="http://rsms.me/">Rasmus Andersson</a>, <a href="http://quaran.to/">Nick Quaranto</a> and <a href="http://rogchap.com/">Roger Chapman …</a></p>
+                <a class="readmore" href="https://prahladyeri.com/blog/2015/02/farewell-wordpress-hello-jekyll.html">read more</a>
+<p>There are <a href="https://prahladyeri.com/blog/2015/02/farewell-wordpress-hello-jekyll.html#disqus_thread">comments</a>.</p>                </div><!-- /.entry-content -->
+            </article></li>
         <section id="extras" class="body">
                 <div class="blogroll">
                         <h2>links</h2>

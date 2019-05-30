@@ -18,17 +18,28 @@
         <header id="banner" class="body">
                 <h1><a href="https://prahladyeri.com/">Prahlad Yeri - Freelance Programmer </a></h1>
                 <nav><ul>
-				<li><a href="/">Home</a></li> <!--hard coded-->
-                    <li><a href="https://prahladyeri.com/about/">About</a></li>
-                    <li><a href="https://prahladyeri.com/projects/">Projects</a></li>
-                    <li><a href="https://prahladyeri.com/hire-me/">Hire Me</a></li>
+				 <!--Start: hard coded-->
+				<li tag="tag/google-app-engine.html" ><a href="/">Home</a></li>
+				<li tag="tag/google-app-engine.html" ><a href="/blog/">Blog</a></li>
+				<li tag="tag/google-app-engine.html" ><a href="/projects/">Projects</a></li> 
+				<li tag="tag/google-app-engine.html" ><a href="/hire-me/">Hire Me</a></li> 
+				<!--End: hard coded-->				
+                    <!--li><a href="https://prahladyeri.com/">About</a></li-->
+                    <!--li><a href="https://prahladyeri.com/projects/">Projects</a></li-->
+                    <!--li><a href="https://prahladyeri.com/hire-me/">Hire Me</a></li-->
 				<li><a href="https://github.com/prahladyeri/resume">Resume</a></li> <!--hard coded-->
                 </ul></nav>
         </header><!-- /#banner -->
 
-            <aside id="featured" class="body">
-                <article>
-                    <h1 class="entry-title"><a href="https://prahladyeri.com/blog/2014/01/google-appengine-tip-how-to-clear-appcfg-credential-cache.html">Google appengine tip: How to clear appcfg credential cache</a></h1>
+                <section id="content" class="body">
+                    <ol id="posts-list" class="hfeed" start="9">
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="https://prahladyeri.com/blog/2014/01/google-appengine-tip-how-to-clear-appcfg-credential-cache.html" rel="bookmark"
+                           title="Permalink to Google appengine tip: How to clear appcfg credential cache">Google appengine tip: How to clear appcfg credential cache</a></h1>
+                </header>
+
+                <div class="entry-content">
 <footer class="post-info">
         <abbr class="published" title="2014-01-19T23:19:00+05:30">
                 Published: Sun 19 January 2014
@@ -39,27 +50,12 @@
         </address>
 <p>In <a href="https://prahladyeri.com/category/web-development.html">Web Development</a>.</p>
 <p>tags: <a href="https://prahladyeri.com/tag/google-app-engine.html">Google App Engine</a> </p>
-</footer><!-- /.post-info --><p>Many a times, it so happens that you need to work with multiple credentials while uploading/downloading apps on Google appengine. In such a scenario, it becomes difficult to switch credentials instantly.<!--more--></p>
+</footer><!-- /.post-info -->                <p>Many a times, it so happens that you need to work with multiple credentials while uploading/downloading apps on Google appengine. In such a scenario, it becomes difficult to switch credentials instantly.<!--more--></p>
 <p><a href="/uploads/old/gae_new_Logo.png"><img alt="gae_new_Logo" class="alignnone size-full wp-image-1382" height="48" src="/uploads/old/gae_new_Logo.png" width="54"></a></p>
-<p>For instance, you have just uploaded an app using appcfg.py with your google credentials and they are still stored in the cache. So when you want to upload a new app, it won't ask you for email/password and still try to retrieve old credentials automatically ignoring any command-line parameters you have given! Thus, you keep scratching your head as to why you are getting a permission-denied error while uploading/downloading the app!</p>
-<p>The only way out here is clearing the credential cache of appcfg. On Linux systems, these are stored in a file called:</p>
-<div class="highlight"><pre><span></span>/home/username/.appcfg_cookies
-</pre></div>
-
-
-<p>On Windows based systems, these are typically stored in:</p>
-<div class="highlight"><pre><span></span>C:\Users\username\.appcfg_cookies
-</pre></div>
-
-
-<p>Just delete this file and you are done! Next time, appcfg.py will ask you for a fresh google email and password, thus enabling you to upload/download your app.</p>
-<p><em>References:</em></p>
-<p><a href="http://stackoverflow.com/questions/5149914/how-to-save-my-user-account-and-password-in-google-app-engine-launcher">http://stackoverflow.com/questions/5149914/how-to-save-my-user-account-and-password-in-google-app-engine-launcher</a></p><p>There are <a href="https://prahladyeri.com/blog/2014/01/google-appengine-tip-how-to-clear-appcfg-credential-cache.html#disqus_thread">comments</a>.</p>                </article>
-            </aside><!-- /#featured -->
-                <section id="content" class="body">
-                    <h1>Other articles</h1>
-                    <hr />
-                    <ol id="posts-list" class="hfeed">
+<p>For instance, you have just uploaded an app using appcfg.py with your google credentials and they are …</p>
+                <a class="readmore" href="https://prahladyeri.com/blog/2014/01/google-appengine-tip-how-to-clear-appcfg-credential-cache.html">read more</a>
+<p>There are <a href="https://prahladyeri.com/blog/2014/01/google-appengine-tip-how-to-clear-appcfg-credential-cache.html#disqus_thread">comments</a>.</p>                </div><!-- /.entry-content -->
+            </article></li>
 
             <li><article class="hentry">
                 <header>

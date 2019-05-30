@@ -18,17 +18,28 @@
         <header id="banner" class="body">
                 <h1><a href="https://prahladyeri.com/">Prahlad Yeri - Freelance Programmer </a></h1>
                 <nav><ul>
-				<li><a href="/">Home</a></li> <!--hard coded-->
-                    <li><a href="https://prahladyeri.com/about/">About</a></li>
-                    <li><a href="https://prahladyeri.com/projects/">Projects</a></li>
-                    <li><a href="https://prahladyeri.com/hire-me/">Hire Me</a></li>
+				 <!--Start: hard coded-->
+				<li tag="tag/java.html" ><a href="/">Home</a></li>
+				<li tag="tag/java.html" ><a href="/blog/">Blog</a></li>
+				<li tag="tag/java.html" ><a href="/projects/">Projects</a></li> 
+				<li tag="tag/java.html" ><a href="/hire-me/">Hire Me</a></li> 
+				<!--End: hard coded-->				
+                    <!--li><a href="https://prahladyeri.com/">About</a></li-->
+                    <!--li><a href="https://prahladyeri.com/projects/">Projects</a></li-->
+                    <!--li><a href="https://prahladyeri.com/hire-me/">Hire Me</a></li-->
 				<li><a href="https://github.com/prahladyeri/resume">Resume</a></li> <!--hard coded-->
                 </ul></nav>
         </header><!-- /#banner -->
 
-            <aside id="featured" class="body">
-                <article>
-                    <h1 class="entry-title"><a href="https://prahladyeri.com/blog/2015/12/eclipse-mars-not-ready-for-linux.html">Eclipse Mars - Not ready for Linux Yet</a></h1>
+                <section id="content" class="body">
+                    <ol id="posts-list" class="hfeed" start="9">
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="https://prahladyeri.com/blog/2015/12/eclipse-mars-not-ready-for-linux.html" rel="bookmark"
+                           title="Permalink to Eclipse Mars - Not ready for Linux Yet">Eclipse Mars - Not ready for Linux Yet</a></h1>
+                </header>
+
+                <div class="entry-content">
 <footer class="post-info">
         <abbr class="published" title="2015-12-30T22:36:00+05:30">
                 Published: Wed 30 December 2015
@@ -39,22 +50,10 @@
         </address>
 <p>In <a href="https://prahladyeri.com/category/java-technology.html">Java, Technology</a>.</p>
 <p>tags: <a href="https://prahladyeri.com/tag/eclipse.html">Eclipse</a> <a href="https://prahladyeri.com/tag/java.html">Java</a> </p>
-</footer><!-- /.post-info --><p>So after hearing about all the hype and praises about this Eclipse new release called <a href="https://projects.eclipse.org/releases/mars">Mars</a>, I decided to give it a try on my Ubuntu laptop yesterday. Since I already use <code class="highlighter-rouge">Kepler</code> the older version, I was looking for some big positives like performance improvements (most often talked about by a lot of Eclipse fans lately).<!--more--></p>
-<p><img alt="Eclipse Red Logo" src="/uploads/old/eclipse-red.png"></p>
-<p>When I started this new <code class="highlighter-rouge">eclipse</code> on ubuntu, I first had a faint hope that it was running faster (maybe a trick of the mind instilled by the new red logo!). But the true test of any software is how it performs under REAL world conditions. Alas! As I had expected, I was only to be disappointed on the performance front. Unless there is a drastic change in underlying core components such as a code refactoring or an improvement of graphic toolkit/library, the “performance” can only get worse, not better. After I created a simple <em>HelloADT</em> project, here is what happened when I clicked on an Android Activity layout screen:</p>
-<p><img alt="Eclipse Mars" src="/uploads/old/Eclipse_Mars.png"></p>
-<p>And this is a modern <em>Intel core i3</em> machine we are talking about with 4 GB RAM, not some old device. Just after this disaster of an IDE happened, I started my good old <code class="highlighter-rouge">kepler</code> version and opened the same ADT project which ran without any problems:</p>
-<p><img alt="Eclipse Kepler" src="/uploads/old/Eclipse_Kepler.png"></p>
-<p>It was good that I had kept my kepler installation folder intact, so I was able to revert. So moral of the story is:</p>
-<ol>
-<li>Take all claims about this “big improvement” with a pinch of salt, especially if it is a Java based software.</li>
-<li>Wait for <code class="highlighter-rouge">Eclipse mars</code> to get more stable before using it for production work.</li>
-</ol><p>There are <a href="https://prahladyeri.com/blog/2015/12/eclipse-mars-not-ready-for-linux.html#disqus_thread">comments</a>.</p>                </article>
-            </aside><!-- /#featured -->
-                <section id="content" class="body">
-                    <h1>Other articles</h1>
-                    <hr />
-                    <ol id="posts-list" class="hfeed">
+</footer><!-- /.post-info -->                <p>So after hearing about all the hype and praises about this Eclipse new release called <a href="https://projects.eclipse.org/releases/mars">Mars</a>, I decided to give it a try on my Ubuntu laptop yesterday. Since I already use <code class="highlighter-rouge">Kepler</code> the older version, I was looking for some big positives like performance improvements (most often talked about …</p>
+                <a class="readmore" href="https://prahladyeri.com/blog/2015/12/eclipse-mars-not-ready-for-linux.html">read more</a>
+<p>There are <a href="https://prahladyeri.com/blog/2015/12/eclipse-mars-not-ready-for-linux.html#disqus_thread">comments</a>.</p>                </div><!-- /.entry-content -->
+            </article></li>
 
             <li><article class="hentry">
                 <header>

@@ -18,17 +18,28 @@
         <header id="banner" class="body">
                 <h1><a href="https://prahladyeri.com/">Prahlad Yeri - Freelance Programmer </a></h1>
                 <nav><ul>
-				<li><a href="/">Home</a></li> <!--hard coded-->
-                    <li><a href="https://prahladyeri.com/about/">About</a></li>
-                    <li><a href="https://prahladyeri.com/projects/">Projects</a></li>
-                    <li><a href="https://prahladyeri.com/hire-me/">Hire Me</a></li>
+				 <!--Start: hard coded-->
+				<li tag="tag/wordpress.html" ><a href="/">Home</a></li>
+				<li tag="tag/wordpress.html" ><a href="/blog/">Blog</a></li>
+				<li tag="tag/wordpress.html" ><a href="/projects/">Projects</a></li> 
+				<li tag="tag/wordpress.html" ><a href="/hire-me/">Hire Me</a></li> 
+				<!--End: hard coded-->				
+                    <!--li><a href="https://prahladyeri.com/">About</a></li-->
+                    <!--li><a href="https://prahladyeri.com/projects/">Projects</a></li-->
+                    <!--li><a href="https://prahladyeri.com/hire-me/">Hire Me</a></li-->
 				<li><a href="https://github.com/prahladyeri/resume">Resume</a></li> <!--hard coded-->
                 </ul></nav>
         </header><!-- /#banner -->
 
-            <aside id="featured" class="body">
-                <article>
-                    <h1 class="entry-title"><a href="https://prahladyeri.com/blog/2019/05/wordpress-to-pelican-in-24-hours.html">Wordpress to Pelican in 24 Hours</a></h1>
+                <section id="content" class="body">
+                    <ol id="posts-list" class="hfeed" start="9">
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="https://prahladyeri.com/blog/2019/05/wordpress-to-pelican-in-24-hours.html" rel="bookmark"
+                           title="Permalink to Wordpress to Pelican in 24 Hours">Wordpress to Pelican in 24 Hours</a></h1>
+                </header>
+
+                <div class="entry-content">
 <footer class="post-info">
         <abbr class="published" title="2019-05-21T00:58:00+05:30">
                 Published: Tue 21 May 2019
@@ -39,82 +50,10 @@
         </address>
 <p>In <a href="https://prahladyeri.com/category/php.html">PHP</a>.</p>
 <p>tags: <a href="https://prahladyeri.com/tag/wordpress.html">Wordpress</a> <a href="https://prahladyeri.com/tag/php.html">PHP</a> <a href="https://prahladyeri.com/tag/python.html">Python</a> </p>
-</footer><!-- /.post-info --><p>Today, I finished migration of my blog <a href="https://prahladyeri.com">https://prahladyeri.com</a> from a self-hosted Wordpress site to a statically hosted Github Pages site. For the static site generator, instead of choosing Jekyll which is a hot favorite of rubyists, I went for <a href="https://github.com/getpelican/pelican/">Pelican</a> instead as I figured my Python skills might be somewhat useful in dealing with that.</p>
-<p>Having used Jekyll earlier, I felt that Pelican is pretty much the same thing. There is a configuration file in which you define your site parameters, a folder hierarchy for defining your posts and pages, and a bunch of templates (<code>pelican theme</code>) to make some serious customizations.</p>
-<p>In this post, I'll briefly go through the migration process:</p>
-<p><img alt="Laptop" src="/uploads/cover.jpg"></p>
-<ol>
-<li>Run the standard Wordpress import tool and backup all your posts and comments. Its better if you disable comments on your site (or maybe even take it down entirely for maintenance until the migration is complete).</li>
-<li>Copy the <code>uploads</code> containing your images through FTP/SFTP.</li>
-<li>Install Python on your machine if not already.</li>
-<li>
-<p>Install the Pelican and Markdown packages:</p>
-<div class="highlight"><pre><span></span>pip install pelican markdown
-</pre></div>
-
-
-</li>
-<li>
-<p>Install additional packages for importing the Wordpress XML:</p>
-<div class="highlight"><pre><span></span>pip install BeautifulSoup4 lxml
-</pre></div>
-
-
-</li>
-<li>
-<p>Install <code>pandoc</code> as its needed for <code>markdown-xml</code> conversion during the Wordpress import. Instructions for installing it for your OS can be found <a href="https://pandoc.org/">here</a>.</p>
-</li>
-<li>Create a new folder (such as <code>PRAHLADYERI.COM</code>) for your new blog writing/publishing.</li>
-<li>
-<p>Traverse to that folder through command line and run <code>pelican-quickstart</code>. It'll ask some basic questions like your blog name, title, etc. You can leave most to their defaults. Once done, it'll create a folder structure like below:</p>
-<div class="highlight"><pre><span></span>d:\source\PRAHLADYERI.COM
-├───content                                            
-│   ├───pages                                          
-│   ├───uploads                                        
-│   │   ├───2016
-pelicanconf.py
-tasks.py
-MakeFile
-</pre></div>
-
-
-</li>
-<li>
-<p><code>tasks.py</code> and <code>MakeFile</code> are something you can ignore unless you want to automate site generation. Now you can copy the <code>uploads</code> folder brought from Wordpress inside the <code>content</code> folder (its the place where your posts will now reside in either markdown (<code>.md</code>) or reStructured Text (<code>.rst</code>) formats).</p>
-</li>
-<li>Copy the XML file imported from Wordpress inside the main folder (<code>PRAHLADYERI.COM</code> in my case).</li>
-<li>
-<p>Now simply run <code>pelican-import</code>:</p>
-<div class="highlight"><pre><span></span><span class="n">pelican</span><span class="o">-</span><span class="kn">import</span> <span class="o">--</span><span class="n">wpfile</span> <span class="o">-</span><span class="n">m</span> <span class="n">markdown</span> <span class="o">&lt;</span><span class="n">your</span><span class="o">-</span><span class="nb">file</span><span class="o">.</span><span class="n">xml</span><span class="o">&gt;</span>
-</pre></div>
-
-
-</li>
-<li>
-<p>The above command converts all your Wordpress posts (not comments) into markdown format and copies it to the content folder. Your old site is now imported to the pelcian system and is ready for generation!</p>
-</li>
-<li>Make some changes to the <code>pelicanconf.py</code>. Set the attributes for <code>AUTHOR</code> and <code>SITENAME</code>. You may also want to set <code>PAGE_URL</code>, <code>PAGE_URL_SAVE_AS</code>, <code>ARTICLE_URL</code> and <code>ARTICLE_URL_SAVE_AS</code> to match your existing site's URL pattern.</li>
-<li>
-<p>To generate the new site, simply run:</p>
-<div class="highlight"><pre><span></span>pelican content
-</pre></div>
-
-
-</li>
-<li>
-<p>This will generate a folder called <code>output</code> which you can directly serve through github pages! You can also go to the output folder and test it locally by running this command and checking in your browser:</p>
-<div class="highlight"><pre><span></span>python -m http.server
-</pre></div>
-
-
-</li>
-</ol>
-<p>This is the very simplest of use-cases, of course. For other advanced things like changing the theme templates and CSS, migrating to <a href="https://disqus.com">disqus comments</a>, etc., I'll make another post later. If you are in a hurry, then you can refer the <a href="https://docs.getpelican.com/">official pelican docs</a> which has all these details and a lot of other useful information.</p><p>There are <a href="https://prahladyeri.com/blog/2019/05/wordpress-to-pelican-in-24-hours.html#disqus_thread">comments</a>.</p>                </article>
-            </aside><!-- /#featured -->
-                <section id="content" class="body">
-                    <h1>Other articles</h1>
-                    <hr />
-                    <ol id="posts-list" class="hfeed">
+</footer><!-- /.post-info -->                <p>Today, I finished migration of my blog <a href="https://prahladyeri.com">https://prahladyeri.com</a> from a self-hosted Wordpress site to a statically hosted Github Pages site. For the static site generator, instead of choosing Jekyll which is a hot favorite of rubyists, I went for <a href="https://github.com/getpelican/pelican/">Pelican</a> instead as I figured my Python skills might …</p>
+                <a class="readmore" href="https://prahladyeri.com/blog/2019/05/wordpress-to-pelican-in-24-hours.html">read more</a>
+<p>There are <a href="https://prahladyeri.com/blog/2019/05/wordpress-to-pelican-in-24-hours.html#disqus_thread">comments</a>.</p>                </div><!-- /.entry-content -->
+            </article></li>
 
             <li><article class="hentry">
                 <header>

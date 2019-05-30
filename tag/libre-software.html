@@ -18,17 +18,28 @@
         <header id="banner" class="body">
                 <h1><a href="https://prahladyeri.com/">Prahlad Yeri - Freelance Programmer </a></h1>
                 <nav><ul>
-				<li><a href="/">Home</a></li> <!--hard coded-->
-                    <li><a href="https://prahladyeri.com/about/">About</a></li>
-                    <li><a href="https://prahladyeri.com/projects/">Projects</a></li>
-                    <li><a href="https://prahladyeri.com/hire-me/">Hire Me</a></li>
+				 <!--Start: hard coded-->
+				<li tag="tag/libre-software.html" ><a href="/">Home</a></li>
+				<li tag="tag/libre-software.html" ><a href="/blog/">Blog</a></li>
+				<li tag="tag/libre-software.html" ><a href="/projects/">Projects</a></li> 
+				<li tag="tag/libre-software.html" ><a href="/hire-me/">Hire Me</a></li> 
+				<!--End: hard coded-->				
+                    <!--li><a href="https://prahladyeri.com/">About</a></li-->
+                    <!--li><a href="https://prahladyeri.com/projects/">Projects</a></li-->
+                    <!--li><a href="https://prahladyeri.com/hire-me/">Hire Me</a></li-->
 				<li><a href="https://github.com/prahladyeri/resume">Resume</a></li> <!--hard coded-->
                 </ul></nav>
         </header><!-- /#banner -->
 
-            <aside id="featured" class="body">
-                <article>
-                    <h1 class="entry-title"><a href="https://prahladyeri.com/blog/2018/07/open-source-vs-free-software-is-a-bit-like-socialist-vs-communist.html">Open Source vs Free Software is a bit like Socialist vs Communist</a></h1>
+                <section id="content" class="body">
+                    <ol id="posts-list" class="hfeed" start="9">
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="https://prahladyeri.com/blog/2018/07/open-source-vs-free-software-is-a-bit-like-socialist-vs-communist.html" rel="bookmark"
+                           title="Permalink to Open Source vs Free Software is a bit like Socialist vs Communist">Open Source vs Free Software is a bit like Socialist vs Communist</a></h1>
+                </header>
+
+                <div class="entry-content">
 <footer class="post-info">
         <abbr class="published" title="2018-07-03T16:57:00+05:30">
                 Published: Tue 03 July 2018
@@ -39,29 +50,10 @@
         </address>
 <p>In <a href="https://prahladyeri.com/category/open-source.html">Open Source</a>.</p>
 <p>tags: <a href="https://prahladyeri.com/tag/libre-software.html">Libre Software</a> <a href="https://prahladyeri.com/tag/open-source.html">Open Source</a> </p>
-</footer><!-- /.post-info --><p>Socialism and Communism have a lot in common, both ideologies aim to bring an equilibrium and welfare in the society by removing the income inequality between the rich and the poor. However, how they both go about doing their business is what makes the difference between sky and earth. Whilst Communism does advocate the use of <strong>force</strong> to achieve its aim, Socialism does not and that's the major difference of spirit between them. If you remove this force element, you'll in fact find that they are both pretty much the same thing with only technical differences here and there.<!--more--></p>
-<p><img alt="pexels-photo-273691" class="alignnone wp-image-903 size-medium" height="199" src="/uploads/2018/07/pexels-photo-273691-300x199.jpeg" width="300"></p>
-<p>Coming to the world of software, its a similar case when it comes to GPL (free software or copyleft) and non-GPL (open source or liberal) variety of FOSS licenses. The <a href="https://www.gnu.org/licenses/old-licenses/gpl-2.0.txt">GNU GPL</a> forces their ideology upon the user of the software by expressly restricting him/her to the kind of use cases permitted on the said software:</p>
-<div class="highlight"><pre><span></span>&gt;&gt; To protect your rights, we need to make restrictions that forbid
-anyone to deny you these rights or to ask you to surrender the rights.
-These restrictions translate to certain responsibilities for you if you
-distribute copies of the software, or if you modify it.
-</pre></div>
-
-
-<p>This restriction or force factor is what makes GPL or LGPL less desirable than the other more liberal (also called "open source") licenses, just as the communist ideology is less desirable than socialist ideology by most people.</p>
-<p>On the other hand, consider a liberal open source license such as the <a href="https://opensource.org/licenses/MIT">MIT license</a>. This license doesn't force anything on how the software may be used by the user (except that the license header itself carrying the name of the author should be passed around with any distributed copies):</p>
-<div class="highlight"><pre><span></span>Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the &quot;Software&quot;), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
-
-The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-</pre></div>
-
-
-<p>They may use it in any kind of use cases they please, even include it in a closed source or proprietary software if they want. Similar is the case with other open source licenses such as the <a href="https://opensource.org/licenses/BSD-3-Clause">BSD Modified license</a>or the <a href="https://opensource.org/licenses/Apache-2.0">Apache 2 license</a>. None of these licenses force their users into any kind of restrictions, which is probably why they are more popular and used than the copyleft variety of licenses today.</p>
-<p>Finally, coming to the point of contrast between the copyleft and open source licenses, you'll find that they are all ultimately trying to achieve more or less the same goal, though some would strive for an excellence methodology in software development while others would term it as a struggle for users' freedom depending on what viewpoint you choose to look at it.</p>
-<p>Now, the reasons for GPL restrictions and <a href="https://www.fsf.org/">their ideology</a> are quite understandable, but the way they go about implementing it is certainly not ideal from a practical standpoint. <a href="https://stallman.org/">Stallman's approach</a> of making copyleft software unusable when linked with non-GPL or proprietary code is like a child's tit-for-tat attitude. Just as proprietary software companies won't let you use their software without a license and make it unapproachable to those who don't have it, Stallman wants to make the GPL world unapproachable to the proprietary companies by making this restriction on mixing GPL with proprietary code. In a perfect world (consisting of mostly power users who would rather visit support forums and do their own builds than use proprietary software), this may have worked wonders to Stallman's cause, but unfortunately we don't live in such a perfect world!</p>
-<p>On the other hand, the open source or liberal licenses that don't put any restrictions on its usage serve the purpose of everyone and so everyone is happy and thrives in this world. Power users are happy because they no longer have to use privacy invasive and/or bloated proprietary software as they can compile their own builds or even visit support forums or issue trackers of various open source projects if required. On the other hand, proprietary software companies are also happy as they get to use the fruits (source code) of open source contributors without spending anything on their part. Of course, taking the moral cognizance of these fruits, many of them also do tend to contribute back by either financially supporting other open source projects or releasing their in-house developed source code as open source to the world at large. There are several examples of these such as Microsoft's <a href="https://code.visualstudio.com/">Visual Studio Code</a>, Adobe's code editor called <a href="http://brackets.io/">Brackets.io</a>, Apple's <a href="https://developer.apple.com/swift/">Swift</a>, etc. Now, consider that in a Richard Stallman's "pureland GPL" world, we wouldn't have all these contributions back from the proprietary companies!</p><p>There are <a href="https://prahladyeri.com/blog/2018/07/open-source-vs-free-software-is-a-bit-like-socialist-vs-communist.html#disqus_thread">comments</a>.</p>                </article>
-            </aside><!-- /#featured -->
+</footer><!-- /.post-info -->                <p>Socialism and Communism have a lot in common, both ideologies aim to bring an equilibrium and welfare in the society by removing the income inequality between the rich and the poor. However, how they both go about doing their business is what makes the difference between sky and earth. Whilst …</p>
+                <a class="readmore" href="https://prahladyeri.com/blog/2018/07/open-source-vs-free-software-is-a-bit-like-socialist-vs-communist.html">read more</a>
+<p>There are <a href="https://prahladyeri.com/blog/2018/07/open-source-vs-free-software-is-a-bit-like-socialist-vs-communist.html#disqus_thread">comments</a>.</p>                </div><!-- /.entry-content -->
+            </article></li>
         <section id="extras" class="body">
                 <div class="blogroll">
                         <h2>links</h2>

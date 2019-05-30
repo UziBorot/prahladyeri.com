@@ -18,17 +18,28 @@
         <header id="banner" class="body">
                 <h1><a href="https://prahladyeri.com/">Prahlad Yeri - Freelance Programmer </a></h1>
                 <nav><ul>
-				<li><a href="/">Home</a></li> <!--hard coded-->
-                    <li><a href="https://prahladyeri.com/about/">About</a></li>
-                    <li><a href="https://prahladyeri.com/projects/">Projects</a></li>
-                    <li><a href="https://prahladyeri.com/hire-me/">Hire Me</a></li>
+				 <!--Start: hard coded-->
+				<li tag="tag/lxde.html" ><a href="/">Home</a></li>
+				<li tag="tag/lxde.html" ><a href="/blog/">Blog</a></li>
+				<li tag="tag/lxde.html" ><a href="/projects/">Projects</a></li> 
+				<li tag="tag/lxde.html" ><a href="/hire-me/">Hire Me</a></li> 
+				<!--End: hard coded-->				
+                    <!--li><a href="https://prahladyeri.com/">About</a></li-->
+                    <!--li><a href="https://prahladyeri.com/projects/">Projects</a></li-->
+                    <!--li><a href="https://prahladyeri.com/hire-me/">Hire Me</a></li-->
 				<li><a href="https://github.com/prahladyeri/resume">Resume</a></li> <!--hard coded-->
                 </ul></nav>
         </header><!-- /#banner -->
 
-            <aside id="featured" class="body">
-                <article>
-                    <h1 class="entry-title"><a href="https://prahladyeri.com/blog/2017/07/install-debian-lxde-on-tablet.html">How to install Debian+LXDE on ANY Android Tablet</a></h1>
+                <section id="content" class="body">
+                    <ol id="posts-list" class="hfeed" start="9">
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="https://prahladyeri.com/blog/2017/07/install-debian-lxde-on-tablet.html" rel="bookmark"
+                           title="Permalink to How to install Debian+LXDE on ANY Android Tablet">How to install Debian+LXDE on ANY Android Tablet</a></h1>
+                </header>
+
+                <div class="entry-content">
 <footer class="post-info">
         <abbr class="published" title="2017-07-05T04:21:00+05:30">
                 Published: Wed 05 July 2017
@@ -39,39 +50,10 @@
         </address>
 <p>In <a href="https://prahladyeri.com/category/linux-technology.html">Linux, Technology</a>.</p>
 <p>tags: <a href="https://prahladyeri.com/tag/android.html">Android</a> <a href="https://prahladyeri.com/tag/debian.html">Debian</a> <a href="https://prahladyeri.com/tag/lxde.html">LXDE</a> </p>
-</footer><!-- /.post-info --><p>Running a linux distro on android devices is a hot topic these days, and why not? After all, android is already based on linux kernel, but a pretty much locked-down and dumbed-down version of it. The OEM doesn’t give you root and in most cases, not even an open source bootloader or kernel.<!--more--></p>
-<p>That way, its good for maybe the most average user who doesn’t care about the OS and just want to use their phones. But for a power user, that’s not enough.</p>
-<p><a href="/uploads/2017/07/debian_xfce_tablet.jpg"><img alt="Debian (LXDE) running on Xiaomi MiPad" class="size-full wp-image-553" src="/uploads/2017/07/debian_xfce_tablet.jpg"></a> <strong>Debian (LXDE) running on Xiaomi MiPad Tablet</strong></p>
-<p>The so called apps available in the Play Store don’t allow you to utilize the full power of your linux device. A power user always wants to have the power of a full linux distro (such as Debian or Ubuntu or Fedora) on his/her device.</p>
-<p>For a long time, I researched for the best way to install a linux distro on a tablet, preferably one that didn’t involve rooting or partitioning the device. The <a href="https://wiki.debian.org/ChrootOnAndroid">debian guide</a> lists down several methods and apps to do this such as Linux Deploy, GNURoot, Termux, etc. Out of them, the least risky and one that supports most android devices (including my KitKat tablet) is <a href="https://play.google.com/store/apps/details?id=com.gnuroot.debian">GNURoot-Debian</a>.</p>
-<p>Once you install this app on your tablet, it creates a self-contained <code class="highlighter-rouge">chroot</code> install of debian using a tool called <a href="https://wiki.archlinux.org/index.php/Proot">Proot</a>. Once that is done, all you need to do is open up the app terminal and just start using it:</p>
-<div class="highlight"><pre><span></span>apt-get update
-apt-get install tmux vim gcc python python3 python3-pip
-</pre></div>
-
-
-<p>Of course, these are just some of the packages that I’ve installed, you can do whatever you want with your linux installation. The only limitation is regarding multiple user logins. By default, the app will login you as <code class="highlighter-rouge">root</code> and while you can create additional users using <code class="highlighter-rouge">useradd</code> command, don’t expect things like <code class="highlighter-rouge">setuid</code> and <code class="highlighter-rouge">setgid</code> to work. The only way to switch user is using the <code class="highlighter-rouge">su - yourLogin</code> command (whilst the <code class="highlighter-rouge">login</code> command should work too in theory, I’m having a few problems with it presently, it might need some fixing in /etc/pam.d/* configuration files).</p>
-<p>Further, if you have good amount of RAM on your tablet, you may consider using a desktop environment along with your headless installation (LXDE is recommended as it performs best on minimal resources). In order to do that, you’ll need two things:</p>
-<ol>
-<li><a href="https://play.google.com/store/apps/details?id=x.org.server&amp;hl=en">XServer-XSDL app</a></li>
-<li>LXDE/XFCE desktop installed.</li>
-</ol>
-<p>The former is used to interact with the headless XServer installation of your debian and provide you a graphical desktop environment. For the latter, you’ll have to just <code class="highlighter-rouge">apt-get install lxde</code> (or lxde-core depending on your choice). Then, in order to use the desktop any time on your tablet:</p>
-<p>1) Open XServer-XSDL app, follow the instructions until you reach a blue screen.</p>
-<p>2) Go to the debian installation and run:\
-export DISPLAY=:0 PULSE_SERVER=tcp:127.0.0.1:4712\
-startlxde &amp;</p>
-<p>3) Go back to XServer-XSDL app to interact with the desktop.</p>
-<p>If all goes well, you should be able to see an lxde desktop like the one shown in the above screen. Coupled with the keyboard case and a bunch of great linux apps (such as vim, emacs, geany, inkscape, eclipse, etc.), you should be able to convert your mobile tablet into a great development machine on wheels.</p>
-<p>References:</p>
-<ul>
-<li><a href="https://www.xda-developers.com/guide-installing-and-running-a-gnulinux-environment-on-any-android-device/">https://www.xda-developers.com/guide-installing-and-running-a-gnulinux-environment-on-any-android-device/</a></li>
-<li><a href="https://wiki.debian.org/ChrootOnAndroid">https://wiki.debian.org/ChrootOnAndroid</a></li>
-<li><a href="https://play.google.com/store/apps/details?id=com.gnuroot.debian">https://play.google.com/store/apps/details?id=com.gnuroot.debian</a></li>
-<li><a href="https://play.google.com/store/apps/details?id=x.org.server&amp;hl=en">https://play.google.com/store/apps/details?id=x.org.server&amp;hl=en</a></li>
-<li><a href="https://wiki.archlinux.org/index.php/Proot">https://wiki.archlinux.org/index.php/Proot</a></li>
-</ul><p>There are <a href="https://prahladyeri.com/blog/2017/07/install-debian-lxde-on-tablet.html#disqus_thread">comments</a>.</p>                </article>
-            </aside><!-- /#featured -->
+</footer><!-- /.post-info -->                <p>Running a linux distro on android devices is a hot topic these days, and why not? After all, android is already based on linux kernel, but a pretty much locked-down and dumbed-down version of it. The OEM doesn’t give you root and in most cases, not even an open …</p>
+                <a class="readmore" href="https://prahladyeri.com/blog/2017/07/install-debian-lxde-on-tablet.html">read more</a>
+<p>There are <a href="https://prahladyeri.com/blog/2017/07/install-debian-lxde-on-tablet.html#disqus_thread">comments</a>.</p>                </div><!-- /.entry-content -->
+            </article></li>
         <section id="extras" class="body">
                 <div class="blogroll">
                         <h2>links</h2>

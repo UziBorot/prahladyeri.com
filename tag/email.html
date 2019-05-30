@@ -18,17 +18,28 @@
         <header id="banner" class="body">
                 <h1><a href="https://prahladyeri.com/">Prahlad Yeri - Freelance Programmer </a></h1>
                 <nav><ul>
-				<li><a href="/">Home</a></li> <!--hard coded-->
-                    <li><a href="https://prahladyeri.com/about/">About</a></li>
-                    <li><a href="https://prahladyeri.com/projects/">Projects</a></li>
-                    <li><a href="https://prahladyeri.com/hire-me/">Hire Me</a></li>
+				 <!--Start: hard coded-->
+				<li tag="tag/email.html" ><a href="/">Home</a></li>
+				<li tag="tag/email.html" ><a href="/blog/">Blog</a></li>
+				<li tag="tag/email.html" ><a href="/projects/">Projects</a></li> 
+				<li tag="tag/email.html" ><a href="/hire-me/">Hire Me</a></li> 
+				<!--End: hard coded-->				
+                    <!--li><a href="https://prahladyeri.com/">About</a></li-->
+                    <!--li><a href="https://prahladyeri.com/projects/">Projects</a></li-->
+                    <!--li><a href="https://prahladyeri.com/hire-me/">Hire Me</a></li-->
 				<li><a href="https://github.com/prahladyeri/resume">Resume</a></li> <!--hard coded-->
                 </ul></nav>
         </header><!-- /#banner -->
 
-            <aside id="featured" class="body">
-                <article>
-                    <h1 class="entry-title"><a href="https://prahladyeri.com/blog/2014/06/how-to-create-a-custom-email-plugin-for-wordpress.html">How to create a custom email plugin for Wordpress</a></h1>
+                <section id="content" class="body">
+                    <ol id="posts-list" class="hfeed" start="9">
+            <li><article class="hentry">
+                <header>
+                    <h1><a href="https://prahladyeri.com/blog/2014/06/how-to-create-a-custom-email-plugin-for-wordpress.html" rel="bookmark"
+                           title="Permalink to How to create a custom email plugin for Wordpress">How to create a custom email plugin for Wordpress</a></h1>
+                </header>
+
+                <div class="entry-content">
 <footer class="post-info">
         <abbr class="published" title="2014-06-07T10:39:00+05:30">
                 Published: Sat 07 June 2014
@@ -39,116 +50,11 @@
         </address>
 <p>In <a href="https://prahladyeri.com/category/php.html">PHP</a>.</p>
 <p>tags: <a href="https://prahladyeri.com/tag/php.html">PHP</a> <a href="https://prahladyeri.com/tag/wordpress.html">Wordpress</a> <a href="https://prahladyeri.com/tag/email.html">Email</a> </p>
-</footer><!-- /.post-info --><p>Last week, I suddenly stopped receiving email notifications for my <a href="https://www.openshift.com/">openshift</a> hosted blog. I came to know after some <a href="http://stackoverflow.com/questions/17583205/sendmail-on-openshift-php-codeigniter/17598537#17598537">reading</a> that commonly used cloud hosts such as openshift, aws, etc. are usually blacklisted by most email servers, hence its not a good idea to use them to send mails.<!--more--></p>
-<p>In any case, why should I depend on my hosting provider for email sending. Until now, I had never bothered about how mail sending worked in wordpress as it used to work out of the box. So last week, I pulled up my socks and decided to put my php <a href="http://en.wikipedia.org/wiki/Geany">IDE</a> and <a href="http://en.wikipedia.org/wiki/Xdebug">debugger</a> to some good work.</p>
-<p>I decided to use my <a href="https://sendgrid.com">sendgrid</a> account to send mails. All that`s needed now is calling the web service with the credentials they've provided. But how to integrate this with my wordpress blog?</p>
-<p>Once I located <strong><em>where</em></strong> the mail sending functionality is there in wordpress code, adding a new method was a piece of cake!! Turns out that wordpress, by default, just executes the "mail" command which is usually just a symlink on unix boxes actually pointing to <em>/usr/bin/sendmail</em> or something. I found it in a pluggable function <em>wp_mail()</em>. (see <em>/wp-includes/pluggable.php</em>). I also came to know from the codex that <a href="http://codex.wordpress.org/Pluggable_Functions">pluggable functions</a> can be easily overridden by plugins.</p>
-<p>Now all I had to do was write a small plugin in the /wp-content/plugins/sendgrid/ folder and override this wp_mail() function with whatever I want.</p>
-<p>Lo and behold! I started receiving notifications for all comments and contact forms filled, by just writing this one plugin. I found the process so simple and easy to integrate with wordpress that I couldn't help sharing with you. Here are the two php snippets that you need to place in /wp-content/plugins/<em>your-plugin-name</em>/ and activate it. <em>Wordpress</em> will do the rest!</p>
-<p>(First one is the main plugin php file that displays the plugin in your admin menu and overrides the wp_mail function. The second php file contains the actual custom function that sends email via sendgrid.)</p>
-<p><em>wp-content/plugins/sendgrid/myplugin.php:</em></p>
-<div class="highlight"><pre><span></span><span class="o">&lt;?</span><span class="nx">php</span> <span class="cm">/**</span>
-<span class="cm"> * Plugin Name: Sendgrid Plugin</span>
-<span class="cm"> * Plugin URI:  http://www.prahladyeri.com</span>
-<span class="cm"> * Description: Mail sending using Sendgrid Web API</span>
-<span class="cm"> * Version:     0.1</span>
-<span class="cm"> * Author:      Prahlad Yeri</span>
-<span class="cm"> * Author URI:  http://www.prahladyeri.com</span>
-<span class="cm"> * License:     MIT</span>
-<span class="cm"> */</span>
-
-<span class="c1">//namespace MailDemo;</span>
-<span class="nx">require_once</span><span class="p">(</span><span class="s1">&#39;sendgrid.php&#39;</span><span class="p">);</span>
-
-<span class="nx">add_action</span><span class="p">(</span> <span class="s1">&#39;init&#39;</span><span class="p">,</span> <span class="s1">&#39;plugin_init&#39;</span> <span class="p">);</span>
-
-<span class="cm">/**</span>
-<span class="cm"> * Plugin Name: Prahlad&#39;s mail</span>
-<span class="cm"> * Description: Alternative way to send a mail</span>
-<span class="cm"> */</span>
-<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">function_exists</span><span class="p">(</span><span class="s1">&#39;wp_mail&#39;</span><span class="p">))</span> 
-<span class="p">{</span>
-    <span class="kd">function</span> <span class="nx">wp_mail</span><span class="p">(</span><span class="nx">$to</span><span class="p">,</span> <span class="nx">$subject</span><span class="p">,</span> <span class="nx">$message</span><span class="p">,</span> <span class="nx">$headers</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="nx">$attachments</span> <span class="o">=</span> <span class="nx">array</span><span class="p">())</span>
-    <span class="p">{</span>
-        <span class="nx">$sto</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span><span class="p">;</span>
-        <span class="k">if</span> <span class="p">(</span><span class="nx">is_array</span><span class="p">(</span><span class="nx">$to</span><span class="p">))</span>
-        <span class="p">{</span>
-            <span class="nx">$sto</span> <span class="o">=</span> <span class="nx">implode</span><span class="p">(</span><span class="s1">&#39;,&#39;</span><span class="p">,</span><span class="nx">$to</span><span class="p">);</span>
-        <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
-            <span class="nx">$sto</span> <span class="o">=</span> <span class="nx">$to</span><span class="p">;</span>
-        <span class="p">}</span>
-        <span class="nx">sendgridmail</span><span class="p">(</span><span class="s1">&#39;wpadmin@mywebsite.com&#39;</span><span class="p">,</span> <span class="nx">$sto</span><span class="p">,</span> <span class="nx">$subject</span><span class="p">,</span> <span class="nx">$message</span><span class="p">,</span> <span class="nx">$headers</span><span class="p">);</span>
-    <span class="p">}</span>
-<span class="p">}</span>
-
-<span class="kd">function</span> <span class="nx">plugin_init</span><span class="p">()</span>
-<span class="p">{</span>
-<span class="p">}</span>
-</pre></div>
-
-
-<p><em>wp-content/plugins/sendgrid/sendgrid.php:</em></p>
-<div class="highlight"><pre><span></span><span class="o">&lt;?</span><span class="nx">php</span> <span class="c1">//wp-content/plugins/sendgrid/sendgrid.php</span>
-<span class="kd">function</span> <span class="nx">sendgridmail</span><span class="p">(</span><span class="nx">$from</span><span class="p">,</span> <span class="nx">$to</span><span class="p">,</span> <span class="nx">$subject</span><span class="p">,</span> <span class="nx">$message</span><span class="p">,</span> <span class="nx">$headers</span><span class="p">)</span> <span class="p">{</span>        
-<span class="nx">$url</span> <span class="o">=</span> <span class="s1">&#39;https://api.sendgrid.com/&#39;</span><span class="p">;</span>
-<span class="nx">$user</span><span class="o">=</span><span class="s1">&#39;your-sendgrid-username&#39;</span><span class="p">;</span>   
-<span class="nx">$pass</span><span class="o">=</span><span class="s1">&#39;your-sendgrid-password&#39;</span><span class="p">;</span>
-
-<span class="nx">$params</span> <span class="o">=</span> <span class="nx">array</span><span class="p">(</span>       
-<span class="s1">&#39;api_user&#39;</span>  <span class="o">?&gt;</span> <span class="nx">$user</span><span class="p">,</span>
-        <span class="s1">&#39;api_key&#39;</span>   <span class="o">=&gt;</span> <span class="nx">$pass</span><span class="p">,</span>
-        <span class="s1">&#39;to&#39;</span>        <span class="o">=&gt;</span> <span class="nx">$to</span><span class="p">,</span>
-        <span class="s1">&#39;subject&#39;</span>   <span class="o">=&gt;</span> <span class="nx">$subject</span><span class="p">,</span>
-        <span class="s1">&#39;html&#39;</span>      <span class="o">=&gt;</span> <span class="s1">&#39;&#39;</span><span class="p">,</span>
-        <span class="s1">&#39;text&#39;</span>      <span class="o">=&gt;</span> <span class="nx">$message</span><span class="p">,</span>
-        <span class="s1">&#39;from&#39;</span>      <span class="o">=&gt;</span> <span class="nx">$from</span><span class="p">,</span>
-      <span class="p">);</span>
-
-
-    <span class="nx">$request</span> <span class="o">=</span>  <span class="nx">$url</span><span class="p">.</span><span class="s1">&#39;api/mail.send.json&#39;</span><span class="p">;</span>
-
-    <span class="c1">// Generate curl request</span>
-    <span class="nx">$session</span> <span class="o">=</span> <span class="nx">curl_init</span><span class="p">(</span><span class="nx">$request</span><span class="p">);</span>
-    <span class="c1">// Tell curl to use HTTP POST</span>
-    <span class="nx">curl_setopt</span> <span class="p">(</span><span class="nx">$session</span><span class="p">,</span> <span class="nx">CURLOPT_POST</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
-    <span class="c1">// Tell curl that this is the body of the POST</span>
-    <span class="nx">curl_setopt</span> <span class="p">(</span><span class="nx">$session</span><span class="p">,</span> <span class="nx">CURLOPT_POSTFIELDS</span><span class="p">,</span> <span class="nx">$params</span><span class="p">);</span>
-    <span class="c1">// Tell curl not to return headers, but do return the response</span>
-    <span class="nx">curl_setopt</span><span class="p">(</span><span class="nx">$session</span><span class="p">,</span> <span class="nx">CURLOPT_HEADER</span><span class="p">,</span> <span class="kc">false</span><span class="p">);</span>
-    <span class="nx">curl_setopt</span><span class="p">(</span><span class="nx">$session</span><span class="p">,</span> <span class="nx">CURLOPT_RETURNTRANSFER</span><span class="p">,</span> <span class="kc">true</span><span class="p">);</span>
-
-    <span class="nx">print_r</span><span class="p">(</span><span class="s1">&#39;obtaining the response&#39;</span><span class="p">);</span>
-    <span class="c1">// obtain response</span>
-    <span class="nx">$response</span> <span class="o">=</span> <span class="nx">curl_exec</span><span class="p">(</span><span class="nx">$session</span><span class="p">);</span>
-    <span class="nx">print_r</span><span class="p">(</span><span class="s1">&#39;closing curl session&#39;</span><span class="p">);</span>
-    <span class="nx">curl_close</span><span class="p">(</span><span class="nx">$session</span><span class="p">);</span>
-
-    <span class="c1">// print everything out</span>
-    <span class="c1">//print_r($response);</span>
-<span class="p">}</span>
-
-<span class="c1">//only for testing:</span>
-<span class="cm">/*$to      = &#39;prahladyeri@yahoo.com&#39;;</span>
-<span class="cm">$subject = &#39;Testemail&#39;;</span>
-<span class="cm">$message = &#39;It works!!&#39;;</span>
-<span class="cm">echo &#39;To is: &#39; + $to;</span>
-<span class="cm">#wp_mail($to, $subject, $message, array() );</span>
-<span class="cm">sendgridmail($to, $subject, $message, array());</span>
-<span class="cm">print_r(&#39;Just sent!&#39;);*/</span>
-</pre></div>
-
-
-<p><em>References:</em></p>
-<ol>
-<li><a href="http://codex.wordpress.org/Pluggable_Functions">http://codex.wordpress.org/Pluggable_Functions</a></li>
-<li><a href="http://codex.wordpress.org/Pluggable_Functions">http://stackoverflow.com/questions/17583205/sendmail-on-openshift-php-codeigniter/17598537#17598537</a></li>
-<li><a href="http://en.wikipedia.org/wiki/Geany">http://en.wikipedia.org/wiki/Geany</a></li>
-<li><a href="http://en.wikipedia.org/wiki/Xdebug">http://en.wikipedia.org/wiki/Xdebug</a></li>
-<li><a href="https://sendgrid.com">https://sendgrid.com</a></li>
-<li><a href="https://sendgrid.com/docs/">https://sendgrid.com/docs/</a></li>
-<li><a href="https://www.openshift.com/">https://www.openshift.com/</a></li>
-</ol><p>There are <a href="https://prahladyeri.com/blog/2014/06/how-to-create-a-custom-email-plugin-for-wordpress.html#disqus_thread">comments</a>.</p>                </article>
-            </aside><!-- /#featured -->
+</footer><!-- /.post-info -->                <p>Last week, I suddenly stopped receiving email notifications for my <a href="https://www.openshift.com/">openshift</a> hosted blog. I came to know after some <a href="http://stackoverflow.com/questions/17583205/sendmail-on-openshift-php-codeigniter/17598537#17598537">reading</a> that commonly used cloud hosts such as openshift, aws, etc. are usually blacklisted by most email servers, hence its not a good idea to use them to send mails.<!--more--></p>
+<p>In …</p>
+                <a class="readmore" href="https://prahladyeri.com/blog/2014/06/how-to-create-a-custom-email-plugin-for-wordpress.html">read more</a>
+<p>There are <a href="https://prahladyeri.com/blog/2014/06/how-to-create-a-custom-email-plugin-for-wordpress.html#disqus_thread">comments</a>.</p>                </div><!-- /.entry-content -->
+            </article></li>
         <section id="extras" class="body">
                 <div class="blogroll">
                         <h2>links</h2>
