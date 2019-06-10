@@ -52,7 +52,6 @@
 <p>In <a href="https://prahladyeri.com/category/python.html">Python</a>.</p>
 <p>tags: <a href="https://prahladyeri.com/tag/pip.html">PIP</a> <a href="https://prahladyeri.com/tag/security.html">Security</a> </p>
 </footer><!-- /.post-info -->      <p>A few days ago, I made <a href="https://dev.to/prahladyeri/why-doesn-t-the-python-package-manager-pip-have-package-signing-13ll">this DEV.to post</a> about how Python's PIP lacks GPG package signing. Well, it turns out that I'm wrong! It does have a package signing process after all, only its one of the most manual, archaic and cumbersome security practices I've seen till date.<!--more--></p>
-<p><img alt="Laptop" src="/uploads/laptop1.jpeg"></p>
 <p>I came to know about this when I landed on <a href="https://kushaldas.in/posts/pypi-and-gpg-signed-packages.html">this blog post</a> by a core python developer yesterday. To test package signing in the way described, I created a test package called <a href="https://github.com/prahladyeri/siterank">siterank</a>, a small script to fetch alexa ranking of given websites.</p>
 <p>Firstly, its essential that you use only <a href="https://github.com/pypa/twine">twine</a> to upload a signed package to PyPi because only twine has that feature. Secondly, their documentation seems to be outdated because some arguments don't seem to work. For example, the <code>--sign</code> argument for specifying signed files explicitly didn't work for me:</p>
 <div class="highlight"><pre><span></span>-s, --sign            Sign files to upload using GPG
