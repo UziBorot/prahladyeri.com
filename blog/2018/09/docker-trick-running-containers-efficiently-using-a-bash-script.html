@@ -71,17 +71,7 @@ f7261ea890ce
 
 
 <p>Of course, you can automate this whole process by writing a single bash script called <em>start_container:</em></p>
-<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
- 2
- 3
- 4
- 5
- 6
- 7
- 8
- 9
-10
-11</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
+<div class="highlight"><pre><span></span><span class="ch">#!/bin/bash</span>
 <span class="nv">imgname</span><span class="o">=</span><span class="s2">&quot;prahladyeri/testimage:latest&quot;</span>
 <span class="nv">imgid</span><span class="o">=</span><span class="k">$(</span>docker ps -a -f <span class="s2">&quot;ancestor=</span><span class="nv">$imgname</span><span class="s2">&quot;</span> -q -l<span class="k">)</span>
 
@@ -93,7 +83,7 @@ f7261ea890ce
   docker start -i <span class="k">$(</span>docker ps -a -f <span class="s2">&quot;ancestor=</span><span class="nv">$imgname</span><span class="s2">&quot;</span> -q -l<span class="k">)</span>
 <span class="k">fi</span>
 </pre></div>
-</td></tr></table>
+
 
 <p>Just replace the \$<em>imgname</em> variable with that of your own image name, and pass any arguments you want (for example, <strong><em>-e AWS_KEY_ID</em></strong>) to the container on line 7. This script will start a new container only if none are found already, otherwise, it will just restart an existing one!</p>
 <p>Hope you find this useful.</p>

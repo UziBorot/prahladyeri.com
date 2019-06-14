@@ -48,17 +48,7 @@ f7261ea890ce
 
 
 &lt;p&gt;Of course, you can automate this whole process by writing a single bash script called &lt;em&gt;start_container:&lt;/em&gt;&lt;/p&gt;
-&lt;table class="highlighttable"&gt;&lt;tr&gt;&lt;td class="linenos"&gt;&lt;div class="linenodiv"&gt;&lt;pre&gt; 1
- 2
- 3
- 4
- 5
- 6
- 7
- 8
- 9
-10
-11&lt;/pre&gt;&lt;/div&gt;&lt;/td&gt;&lt;td class="code"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="ch"&gt;#!/bin/bash&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="ch"&gt;#!/bin/bash&lt;/span&gt;
 &lt;span class="nv"&gt;imgname&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;prahladyeri/testimage:latest&amp;quot;&lt;/span&gt;
 &lt;span class="nv"&gt;imgid&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="k"&gt;$(&lt;/span&gt;docker ps -a -f &lt;span class="s2"&gt;&amp;quot;ancestor=&lt;/span&gt;&lt;span class="nv"&gt;$imgname&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt; -q -l&lt;span class="k"&gt;)&lt;/span&gt;
 
@@ -70,7 +60,7 @@ f7261ea890ce
   docker start -i &lt;span class="k"&gt;$(&lt;/span&gt;docker ps -a -f &lt;span class="s2"&gt;&amp;quot;ancestor=&lt;/span&gt;&lt;span class="nv"&gt;$imgname&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt; -q -l&lt;span class="k"&gt;)&lt;/span&gt;
 &lt;span class="k"&gt;fi&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
-&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+
 
 &lt;p&gt;Just replace the \$&lt;em&gt;imgname&lt;/em&gt; variable with that of your own image name, and pass any arguments you want (for example, &lt;strong&gt;&lt;em&gt;-e AWS_KEY_ID&lt;/em&gt;&lt;/strong&gt;) to the container on line 7. This script will start a new container only if none are found already, otherwise, it will just restart an existing one!&lt;/p&gt;
 &lt;p&gt;Hope you find this useful.&lt;/p&gt;</content><category term="Docker"></category><category term="Linux"></category></entry><entry><title>Docker is the best thing to happen to Linux since the GNU bread</title><link href="https://prahladyeri.com/blog/2018/09/docker-is-the-best-thing-to-happen-to-linux-since-the-gnu-bread.html" rel="alternate"></link><published>2018-09-13T09:00:00+05:30</published><updated>2018-09-13T09:00:00+05:30</updated><author><name>Prahlad Yeri</name></author><id>tag:prahladyeri.com,2018-09-13:/blog/2018/09/docker-is-the-best-thing-to-happen-to-linux-since-the-gnu-bread.html</id><summary type="html">&lt;p&gt;It has become an oft-repeated cliche now that docker has become the latest buzzword, both in DevOps circles as well as the open source community. But being the ever cynic and contrarian, I wasn't quite convinced of its merits and until quite recently, I thought it was just another hype …&lt;/p&gt;</summary><content type="html">&lt;p&gt;It has become an oft-repeated cliche now that docker has become the latest buzzword, both in DevOps circles as well as the open source community. But being the ever cynic and contrarian, I wasn't quite convinced of its merits and until quite recently, I thought it was just another hype that will come and go like all other things.&lt;!--more--&gt;&lt;/p&gt;

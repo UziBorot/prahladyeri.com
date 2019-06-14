@@ -103,18 +103,7 @@ wsgi/static..   =&gt; your static folders viz css, img, fonts, et al. go here.
 
 
 <p>Now, create a text file named <code>application</code> in the wsgi/ folder with the following contents:</p>
-<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre> 1
- 2
- 3
- 4
- 5
- 6
- 7
- 8
- 9
-10
-11
-12</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/python</span>
+<div class="highlight"><pre><span></span><span class="ch">#!/usr/bin/python</span>
 <span class="kn">import</span> <span class="nn">os</span>
 
 <span class="n">virtenv</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;OPENSHIFT_PYTHON_DIR&#39;</span><span class="p">]</span> <span class="o">+</span> <span class="s1">&#39;/virtenv/&#39;</span>
@@ -125,9 +114,9 @@ wsgi/static..   =&gt; your static folders viz css, img, fonts, et al. go here.
 <span class="k">except</span> <span class="ne">IOError</span><span class="p">:</span>
     <span class="k">pass</span>
 
-<span class="kn">from</span> <span class="nn">myFlaskApp</span> <span class="kn">import</span> <span class="n">app</span> <span class="k">as</span> <span class="n">application</span>
+<span class="kn">from</span> <span class="nn">myFlaskApp</span> <span class="kn">import</span> <span class="n">app</span> <span class="k">as</span> <span class="n">application</span>       
 </pre></div>
-</td></tr></table>
+
 
 <p>This is a configuration file that tells openshift where your Flask app script resides. Now create a python file called myFlaskApp.py, this will be your HelloWorld script:</p>
 <div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">flask</span>

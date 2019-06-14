@@ -33,7 +33,7 @@ refs
 
 &lt;p&gt;Now visit the &lt;code&gt;.git&lt;/code&gt; folder just generated and navigate to the hooks folder. There will be a bunch of scripts with &lt;code&gt;.sample&lt;/code&gt; extension (which means they are all disabled). The one we are interested in is &lt;code&gt;commit-msg&lt;/code&gt;. This is the hook that fires just before your commit is made and thus allows you to reject the commit by throwing an error if the message isn't in proper format.&lt;/p&gt;
 &lt;p&gt;Create a new script in this directory named &lt;code&gt;commit-msg&lt;/code&gt; and add the below code (you'll need python installed) to it using your favorite editor (mine is notepad++!):&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;C&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="c1"&gt;#35;!/usr/bin/env python&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="ch"&gt;#!/usr/bin/env python&lt;/span&gt;
 &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;re&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="nn"&gt;sys&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="nn"&gt;os&lt;/span&gt;
 
 &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;main&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
@@ -209,17 +209,7 @@ f7261ea890ce
 
 
 &lt;p&gt;Of course, you can automate this whole process by writing a single bash script called &lt;em&gt;start_container:&lt;/em&gt;&lt;/p&gt;
-&lt;table class="highlighttable"&gt;&lt;tr&gt;&lt;td class="linenos"&gt;&lt;div class="linenodiv"&gt;&lt;pre&gt; 1
- 2
- 3
- 4
- 5
- 6
- 7
- 8
- 9
-10
-11&lt;/pre&gt;&lt;/div&gt;&lt;/td&gt;&lt;td class="code"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="ch"&gt;#!/bin/bash&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="ch"&gt;#!/bin/bash&lt;/span&gt;
 &lt;span class="nv"&gt;imgname&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;prahladyeri/testimage:latest&amp;quot;&lt;/span&gt;
 &lt;span class="nv"&gt;imgid&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="k"&gt;$(&lt;/span&gt;docker ps -a -f &lt;span class="s2"&gt;&amp;quot;ancestor=&lt;/span&gt;&lt;span class="nv"&gt;$imgname&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt; -q -l&lt;span class="k"&gt;)&lt;/span&gt;
 
@@ -231,7 +221,7 @@ f7261ea890ce
   docker start -i &lt;span class="k"&gt;$(&lt;/span&gt;docker ps -a -f &lt;span class="s2"&gt;&amp;quot;ancestor=&lt;/span&gt;&lt;span class="nv"&gt;$imgname&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt; -q -l&lt;span class="k"&gt;)&lt;/span&gt;
 &lt;span class="k"&gt;fi&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
-&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+
 
 &lt;p&gt;Just replace the \$&lt;em&gt;imgname&lt;/em&gt; variable with that of your own image name, and pass any arguments you want (for example, &lt;strong&gt;&lt;em&gt;-e AWS_KEY_ID&lt;/em&gt;&lt;/strong&gt;) to the container on line 7. This script will start a new container only if none are found already, otherwise, it will just restart an existing one!&lt;/p&gt;
 &lt;p&gt;Hope you find this useful.&lt;/p&gt;</content><category term="Docker"></category><category term="Linux"></category></entry><entry><title>Docker is the best thing to happen to Linux since the GNU bread</title><link href="https://prahladyeri.com/blog/2018/09/docker-is-the-best-thing-to-happen-to-linux-since-the-gnu-bread.html" rel="alternate"></link><published>2018-09-13T09:00:00+05:30</published><updated>2018-09-13T09:00:00+05:30</updated><author><name>Prahlad Yeri</name></author><id>tag:prahladyeri.com,2018-09-13:/blog/2018/09/docker-is-the-best-thing-to-happen-to-linux-since-the-gnu-bread.html</id><summary type="html">&lt;p&gt;It has become an oft-repeated cliche now that docker has become the latest buzzword, both in DevOps circles as well as the open source community. But being the ever cynic and contrarian, I wasn't quite convinced of its merits and until quite recently, I thought it was just another hype …&lt;/p&gt;</summary><content type="html">&lt;p&gt;It has become an oft-repeated cliche now that docker has become the latest buzzword, both in DevOps circles as well as the open source community. But being the ever cynic and contrarian, I wasn't quite convinced of its merits and until quite recently, I thought it was just another hype that will come and go like all other things.&lt;!--more--&gt;&lt;/p&gt;
@@ -1111,36 +1101,36 @@ rsync -va ~/firefox-backup.tar.gz &amp;quot;$folder_name/home/firefox-backup.tar
 
 
 &lt;p&gt;Below is a typical example of how you might implement a script to automate backup of your home folder and set this as a cron job to run say weekly or fortnightly:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt; #!/bin/sh
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="ch"&gt;#!/bin/sh&lt;/span&gt;
 
-if [ -d &amp;quot;/media/prahlad/DATA128&amp;quot; ]; then
- device_name=&amp;quot;DATA128&amp;quot;
- folder_name=&amp;quot;/media/prahlad/DATA128&amp;quot;
-elif [ -d &amp;quot;/media/prahlad/extHD&amp;quot; ]; then
- device_name=&amp;quot;extHD&amp;quot;
- folder_name=&amp;quot;/media/prahlad/extHD&amp;quot;
-else
- echo &amp;quot;No Drive Found&amp;quot;
- exit
-fi
+&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt; -d &lt;span class="s2"&gt;&amp;quot;/media/prahlad/DATA128&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;then&lt;/span&gt;
+ &lt;span class="nv"&gt;device_name&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;DATA128&amp;quot;&lt;/span&gt;
+ &lt;span class="nv"&gt;folder_name&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;/media/prahlad/DATA128&amp;quot;&lt;/span&gt;
+&lt;span class="k"&gt;elif&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt; -d &lt;span class="s2"&gt;&amp;quot;/media/prahlad/extHD&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;then&lt;/span&gt;
+ &lt;span class="nv"&gt;device_name&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;extHD&amp;quot;&lt;/span&gt;
+ &lt;span class="nv"&gt;folder_name&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;/media/prahlad/extHD&amp;quot;&lt;/span&gt;
+&lt;span class="k"&gt;else&lt;/span&gt;
+ &lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;No Drive Found&amp;quot;&lt;/span&gt;
+ &lt;span class="nb"&gt;exit&lt;/span&gt;
+&lt;span class="k"&gt;fi&lt;/span&gt;
 
-echo &amp;quot;Device: $device_name&amp;quot;
-echo &amp;quot;Folder: $folder_name&amp;quot;
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Device: &lt;/span&gt;&lt;span class="nv"&gt;$device_name&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Folder: &lt;/span&gt;&lt;span class="nv"&gt;$folder_name&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;
 
-#start copying
+&lt;span class="c1"&gt;#start copying &lt;/span&gt;
 
-#home
-rsync -va ~/.bashrc &amp;quot;$folder_name/home/&amp;quot; --delete
-rsync -va ~/.profile &amp;quot;$folder_name/home/&amp;quot; --delete
-rsync -va ~/Downloads/ &amp;quot;$folder_name/home/Downloads/&amp;quot; --delete
-rsync -va ~/Documents/ &amp;quot;$folder_name/home/Documents/&amp;quot; --delete
-rsync -va ~/Pictures/ &amp;quot;$folder_name/home/Pictures/&amp;quot; --delete
-rsync -va ~/.ssh/ &amp;quot;$folder_name/home/.ssh/&amp;quot; --delete
-rsync -va ~/.gnupg/ &amp;quot;$folder_name/home/.gnupg/&amp;quot; --delete
-rsync -va ~/.thunderbird/ &amp;quot;$folder_name/home/.thunderbird/&amp;quot; --delete
-rsync -va ~/.mozilla/ &amp;quot;$folder_name/home/.mozilla/&amp;quot; --delete
+&lt;span class="c1"&gt;#home&lt;/span&gt;
+rsync -va ~/.bashrc &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$folder_name&lt;/span&gt;&lt;span class="s2"&gt;/home/&amp;quot;&lt;/span&gt; --delete
+rsync -va ~/.profile &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$folder_name&lt;/span&gt;&lt;span class="s2"&gt;/home/&amp;quot;&lt;/span&gt; --delete
+rsync -va ~/Downloads/ &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$folder_name&lt;/span&gt;&lt;span class="s2"&gt;/home/Downloads/&amp;quot;&lt;/span&gt; --delete
+rsync -va ~/Documents/ &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$folder_name&lt;/span&gt;&lt;span class="s2"&gt;/home/Documents/&amp;quot;&lt;/span&gt; --delete
+rsync -va ~/Pictures/ &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$folder_name&lt;/span&gt;&lt;span class="s2"&gt;/home/Pictures/&amp;quot;&lt;/span&gt; --delete
+rsync -va ~/.ssh/ &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$folder_name&lt;/span&gt;&lt;span class="s2"&gt;/home/.ssh/&amp;quot;&lt;/span&gt; --delete
+rsync -va ~/.gnupg/ &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$folder_name&lt;/span&gt;&lt;span class="s2"&gt;/home/.gnupg/&amp;quot;&lt;/span&gt; --delete
+rsync -va ~/.thunderbird/ &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$folder_name&lt;/span&gt;&lt;span class="s2"&gt;/home/.thunderbird/&amp;quot;&lt;/span&gt; --delete
+rsync -va ~/.mozilla/ &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$folder_name&lt;/span&gt;&lt;span class="s2"&gt;/home/.mozilla/&amp;quot;&lt;/span&gt; --delete
 
-echo &amp;quot;Done&amp;quot;
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Done&amp;quot;&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 
@@ -2818,18 +2808,7 @@ wsgi/static..   =&amp;gt; your static folders viz css, img, fonts, et al. go her
 
 
 &lt;p&gt;Now, create a text file named &lt;code&gt;application&lt;/code&gt; in the wsgi/ folder with the following contents:&lt;/p&gt;
-&lt;table class="highlighttable"&gt;&lt;tr&gt;&lt;td class="linenos"&gt;&lt;div class="linenodiv"&gt;&lt;pre&gt; 1
- 2
- 3
- 4
- 5
- 6
- 7
- 8
- 9
-10
-11
-12&lt;/pre&gt;&lt;/div&gt;&lt;/td&gt;&lt;td class="code"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="ch"&gt;#!/usr/bin/python&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="ch"&gt;#!/usr/bin/python&lt;/span&gt;
 &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;os&lt;/span&gt;
 
 &lt;span class="n"&gt;virtenv&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;os&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;environ&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;OPENSHIFT_PYTHON_DIR&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt; &lt;span class="o"&gt;+&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;/virtenv/&amp;#39;&lt;/span&gt;
@@ -2840,9 +2819,9 @@ wsgi/static..   =&amp;gt; your static folders viz css, img, fonts, et al. go her
 &lt;span class="k"&gt;except&lt;/span&gt; &lt;span class="ne"&gt;IOError&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
     &lt;span class="k"&gt;pass&lt;/span&gt;
 
-&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;myFlaskApp&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;app&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="n"&gt;application&lt;/span&gt;
+&lt;span class="kn"&gt;from&lt;/span&gt; &lt;span class="nn"&gt;myFlaskApp&lt;/span&gt; &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="n"&gt;app&lt;/span&gt; &lt;span class="k"&gt;as&lt;/span&gt; &lt;span class="n"&gt;application&lt;/span&gt;       
 &lt;/pre&gt;&lt;/div&gt;
-&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+
 
 &lt;p&gt;This is a configuration file that tells openshift where your Flask app script resides. Now create a python file called myFlaskApp.py, this will be your HelloWorld script:&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;flask&lt;/span&gt;

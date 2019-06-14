@@ -33,7 +33,7 @@ refs
 
 &lt;p&gt;Now visit the &lt;code&gt;.git&lt;/code&gt; folder just generated and navigate to the hooks folder. There will be a bunch of scripts with &lt;code&gt;.sample&lt;/code&gt; extension (which means they are all disabled). The one we are interested in is &lt;code&gt;commit-msg&lt;/code&gt;. This is the hook that fires just before your commit is made and thus allows you to reject the commit by throwing an error if the message isn't in proper format.&lt;/p&gt;
 &lt;p&gt;Create a new script in this directory named &lt;code&gt;commit-msg&lt;/code&gt; and add the below code (you'll need python installed) to it using your favorite editor (mine is notepad++!):&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="n"&gt;C&lt;/span&gt;&lt;span class="o"&gt;&amp;amp;&lt;/span&gt;&lt;span class="c1"&gt;#35;!/usr/bin/env python&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="ch"&gt;#!/usr/bin/env python&lt;/span&gt;
 &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;re&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="nn"&gt;sys&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="nn"&gt;os&lt;/span&gt;
 
 &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;main&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
@@ -255,36 +255,36 @@ rsync -va ~/firefox-backup.tar.gz &amp;quot;$folder_name/home/firefox-backup.tar
 
 
 &lt;p&gt;Below is a typical example of how you might implement a script to automate backup of your home folder and set this as a cron job to run say weekly or fortnightly:&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt; #!/bin/sh
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="ch"&gt;#!/bin/sh&lt;/span&gt;
 
-if [ -d &amp;quot;/media/prahlad/DATA128&amp;quot; ]; then
- device_name=&amp;quot;DATA128&amp;quot;
- folder_name=&amp;quot;/media/prahlad/DATA128&amp;quot;
-elif [ -d &amp;quot;/media/prahlad/extHD&amp;quot; ]; then
- device_name=&amp;quot;extHD&amp;quot;
- folder_name=&amp;quot;/media/prahlad/extHD&amp;quot;
-else
- echo &amp;quot;No Drive Found&amp;quot;
- exit
-fi
+&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt; -d &lt;span class="s2"&gt;&amp;quot;/media/prahlad/DATA128&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;then&lt;/span&gt;
+ &lt;span class="nv"&gt;device_name&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;DATA128&amp;quot;&lt;/span&gt;
+ &lt;span class="nv"&gt;folder_name&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;/media/prahlad/DATA128&amp;quot;&lt;/span&gt;
+&lt;span class="k"&gt;elif&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt; -d &lt;span class="s2"&gt;&amp;quot;/media/prahlad/extHD&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;then&lt;/span&gt;
+ &lt;span class="nv"&gt;device_name&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;extHD&amp;quot;&lt;/span&gt;
+ &lt;span class="nv"&gt;folder_name&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;/media/prahlad/extHD&amp;quot;&lt;/span&gt;
+&lt;span class="k"&gt;else&lt;/span&gt;
+ &lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;No Drive Found&amp;quot;&lt;/span&gt;
+ &lt;span class="nb"&gt;exit&lt;/span&gt;
+&lt;span class="k"&gt;fi&lt;/span&gt;
 
-echo &amp;quot;Device: $device_name&amp;quot;
-echo &amp;quot;Folder: $folder_name&amp;quot;
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Device: &lt;/span&gt;&lt;span class="nv"&gt;$device_name&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Folder: &lt;/span&gt;&lt;span class="nv"&gt;$folder_name&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;
 
-#start copying
+&lt;span class="c1"&gt;#start copying &lt;/span&gt;
 
-#home
-rsync -va ~/.bashrc &amp;quot;$folder_name/home/&amp;quot; --delete
-rsync -va ~/.profile &amp;quot;$folder_name/home/&amp;quot; --delete
-rsync -va ~/Downloads/ &amp;quot;$folder_name/home/Downloads/&amp;quot; --delete
-rsync -va ~/Documents/ &amp;quot;$folder_name/home/Documents/&amp;quot; --delete
-rsync -va ~/Pictures/ &amp;quot;$folder_name/home/Pictures/&amp;quot; --delete
-rsync -va ~/.ssh/ &amp;quot;$folder_name/home/.ssh/&amp;quot; --delete
-rsync -va ~/.gnupg/ &amp;quot;$folder_name/home/.gnupg/&amp;quot; --delete
-rsync -va ~/.thunderbird/ &amp;quot;$folder_name/home/.thunderbird/&amp;quot; --delete
-rsync -va ~/.mozilla/ &amp;quot;$folder_name/home/.mozilla/&amp;quot; --delete
+&lt;span class="c1"&gt;#home&lt;/span&gt;
+rsync -va ~/.bashrc &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$folder_name&lt;/span&gt;&lt;span class="s2"&gt;/home/&amp;quot;&lt;/span&gt; --delete
+rsync -va ~/.profile &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$folder_name&lt;/span&gt;&lt;span class="s2"&gt;/home/&amp;quot;&lt;/span&gt; --delete
+rsync -va ~/Downloads/ &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$folder_name&lt;/span&gt;&lt;span class="s2"&gt;/home/Downloads/&amp;quot;&lt;/span&gt; --delete
+rsync -va ~/Documents/ &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$folder_name&lt;/span&gt;&lt;span class="s2"&gt;/home/Documents/&amp;quot;&lt;/span&gt; --delete
+rsync -va ~/Pictures/ &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$folder_name&lt;/span&gt;&lt;span class="s2"&gt;/home/Pictures/&amp;quot;&lt;/span&gt; --delete
+rsync -va ~/.ssh/ &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$folder_name&lt;/span&gt;&lt;span class="s2"&gt;/home/.ssh/&amp;quot;&lt;/span&gt; --delete
+rsync -va ~/.gnupg/ &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$folder_name&lt;/span&gt;&lt;span class="s2"&gt;/home/.gnupg/&amp;quot;&lt;/span&gt; --delete
+rsync -va ~/.thunderbird/ &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$folder_name&lt;/span&gt;&lt;span class="s2"&gt;/home/.thunderbird/&amp;quot;&lt;/span&gt; --delete
+rsync -va ~/.mozilla/ &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$folder_name&lt;/span&gt;&lt;span class="s2"&gt;/home/.mozilla/&amp;quot;&lt;/span&gt; --delete
 
-echo &amp;quot;Done&amp;quot;
+&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Done&amp;quot;&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
 
 

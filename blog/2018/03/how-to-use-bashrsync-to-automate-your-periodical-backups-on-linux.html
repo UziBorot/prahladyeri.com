@@ -86,36 +86,36 @@ rsync -va ~/firefox-backup.tar.gz &quot;$folder_name/home/firefox-backup.tar.gz&
 
 
 <p>Below is a typical example of how you might implement a script to automate backup of your home folder and set this as a cron job to run say weekly or fortnightly:</p>
-<div class="highlight"><pre><span></span> #!/bin/sh
+<div class="highlight"><pre><span></span><span class="ch">#!/bin/sh</span>
 
-if [ -d &quot;/media/prahlad/DATA128&quot; ]; then
- device_name=&quot;DATA128&quot;
- folder_name=&quot;/media/prahlad/DATA128&quot;
-elif [ -d &quot;/media/prahlad/extHD&quot; ]; then
- device_name=&quot;extHD&quot;
- folder_name=&quot;/media/prahlad/extHD&quot;
-else
- echo &quot;No Drive Found&quot;
- exit
-fi
+<span class="k">if</span> <span class="o">[</span> -d <span class="s2">&quot;/media/prahlad/DATA128&quot;</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+ <span class="nv">device_name</span><span class="o">=</span><span class="s2">&quot;DATA128&quot;</span>
+ <span class="nv">folder_name</span><span class="o">=</span><span class="s2">&quot;/media/prahlad/DATA128&quot;</span>
+<span class="k">elif</span> <span class="o">[</span> -d <span class="s2">&quot;/media/prahlad/extHD&quot;</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+ <span class="nv">device_name</span><span class="o">=</span><span class="s2">&quot;extHD&quot;</span>
+ <span class="nv">folder_name</span><span class="o">=</span><span class="s2">&quot;/media/prahlad/extHD&quot;</span>
+<span class="k">else</span>
+ <span class="nb">echo</span> <span class="s2">&quot;No Drive Found&quot;</span>
+ <span class="nb">exit</span>
+<span class="k">fi</span>
 
-echo &quot;Device: $device_name&quot;
-echo &quot;Folder: $folder_name&quot;
+<span class="nb">echo</span> <span class="s2">&quot;Device: </span><span class="nv">$device_name</span><span class="s2">&quot;</span>
+<span class="nb">echo</span> <span class="s2">&quot;Folder: </span><span class="nv">$folder_name</span><span class="s2">&quot;</span>
 
-#start copying
+<span class="c1">#start copying </span>
 
-#home
-rsync -va ~/.bashrc &quot;$folder_name/home/&quot; --delete
-rsync -va ~/.profile &quot;$folder_name/home/&quot; --delete
-rsync -va ~/Downloads/ &quot;$folder_name/home/Downloads/&quot; --delete
-rsync -va ~/Documents/ &quot;$folder_name/home/Documents/&quot; --delete
-rsync -va ~/Pictures/ &quot;$folder_name/home/Pictures/&quot; --delete
-rsync -va ~/.ssh/ &quot;$folder_name/home/.ssh/&quot; --delete
-rsync -va ~/.gnupg/ &quot;$folder_name/home/.gnupg/&quot; --delete
-rsync -va ~/.thunderbird/ &quot;$folder_name/home/.thunderbird/&quot; --delete
-rsync -va ~/.mozilla/ &quot;$folder_name/home/.mozilla/&quot; --delete
+<span class="c1">#home</span>
+rsync -va ~/.bashrc <span class="s2">&quot;</span><span class="nv">$folder_name</span><span class="s2">/home/&quot;</span> --delete
+rsync -va ~/.profile <span class="s2">&quot;</span><span class="nv">$folder_name</span><span class="s2">/home/&quot;</span> --delete
+rsync -va ~/Downloads/ <span class="s2">&quot;</span><span class="nv">$folder_name</span><span class="s2">/home/Downloads/&quot;</span> --delete
+rsync -va ~/Documents/ <span class="s2">&quot;</span><span class="nv">$folder_name</span><span class="s2">/home/Documents/&quot;</span> --delete
+rsync -va ~/Pictures/ <span class="s2">&quot;</span><span class="nv">$folder_name</span><span class="s2">/home/Pictures/&quot;</span> --delete
+rsync -va ~/.ssh/ <span class="s2">&quot;</span><span class="nv">$folder_name</span><span class="s2">/home/.ssh/&quot;</span> --delete
+rsync -va ~/.gnupg/ <span class="s2">&quot;</span><span class="nv">$folder_name</span><span class="s2">/home/.gnupg/&quot;</span> --delete
+rsync -va ~/.thunderbird/ <span class="s2">&quot;</span><span class="nv">$folder_name</span><span class="s2">/home/.thunderbird/&quot;</span> --delete
+rsync -va ~/.mozilla/ <span class="s2">&quot;</span><span class="nv">$folder_name</span><span class="s2">/home/.mozilla/&quot;</span> --delete
 
-echo &quot;Done&quot;
+<span class="nb">echo</span> <span class="s2">&quot;Done&quot;</span>
 </pre></div>
 
 
