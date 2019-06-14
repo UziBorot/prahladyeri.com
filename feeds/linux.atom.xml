@@ -255,67 +255,38 @@ rsync -va ~/firefox-backup.tar.gz &amp;quot;$folder_name/home/firefox-backup.tar
 
 
 &lt;p&gt;Below is a typical example of how you might implement a script to automate backup of your home folder and set this as a cron job to run say weekly or fortnightly:&lt;/p&gt;
-&lt;table class="highlighttable"&gt;&lt;tr&gt;&lt;td class="linenos"&gt;&lt;div class="linenodiv"&gt;&lt;pre&gt; 1
- 2
- 3
- 4
- 5
- 6
- 7
- 8
- 9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
-21
-22
-23
-24
-25
-26
-27
-28
-29
-30&lt;/pre&gt;&lt;/div&gt;&lt;/td&gt;&lt;td class="code"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="ch"&gt;#!/bin/sh&lt;/span&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt; #!/bin/sh
 
-&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt; -d &lt;span class="s2"&gt;&amp;quot;/media/prahlad/DATA128&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;then&lt;/span&gt;
- &lt;span class="nv"&gt;device_name&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;DATA128&amp;quot;&lt;/span&gt;
- &lt;span class="nv"&gt;folder_name&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;/media/prahlad/DATA128&amp;quot;&lt;/span&gt;
-&lt;span class="k"&gt;elif&lt;/span&gt; &lt;span class="o"&gt;[&lt;/span&gt; -d &lt;span class="s2"&gt;&amp;quot;/media/prahlad/extHD&amp;quot;&lt;/span&gt; &lt;span class="o"&gt;]&lt;/span&gt;&lt;span class="p"&gt;;&lt;/span&gt; &lt;span class="k"&gt;then&lt;/span&gt;
- &lt;span class="nv"&gt;device_name&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;extHD&amp;quot;&lt;/span&gt;
- &lt;span class="nv"&gt;folder_name&lt;/span&gt;&lt;span class="o"&gt;=&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;/media/prahlad/extHD&amp;quot;&lt;/span&gt;
-&lt;span class="k"&gt;else&lt;/span&gt;
- &lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;No Drive Found&amp;quot;&lt;/span&gt;
- &lt;span class="nb"&gt;exit&lt;/span&gt;
-&lt;span class="k"&gt;fi&lt;/span&gt;
+if [ -d &amp;quot;/media/prahlad/DATA128&amp;quot; ]; then
+ device_name=&amp;quot;DATA128&amp;quot;
+ folder_name=&amp;quot;/media/prahlad/DATA128&amp;quot;
+elif [ -d &amp;quot;/media/prahlad/extHD&amp;quot; ]; then
+ device_name=&amp;quot;extHD&amp;quot;
+ folder_name=&amp;quot;/media/prahlad/extHD&amp;quot;
+else
+ echo &amp;quot;No Drive Found&amp;quot;
+ exit
+fi
 
-&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Device: &lt;/span&gt;&lt;span class="nv"&gt;$device_name&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;
-&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Folder: &lt;/span&gt;&lt;span class="nv"&gt;$folder_name&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;
+echo &amp;quot;Device: $device_name&amp;quot;
+echo &amp;quot;Folder: $folder_name&amp;quot;
 
-&lt;span class="c1"&gt;#start copying&lt;/span&gt;
+#start copying
 
-&lt;span class="c1"&gt;#home&lt;/span&gt;
-rsync -va ~/.bashrc &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$folder_name&lt;/span&gt;&lt;span class="s2"&gt;/home/&amp;quot;&lt;/span&gt; --delete
-rsync -va ~/.profile &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$folder_name&lt;/span&gt;&lt;span class="s2"&gt;/home/&amp;quot;&lt;/span&gt; --delete
-rsync -va ~/Downloads/ &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$folder_name&lt;/span&gt;&lt;span class="s2"&gt;/home/Downloads/&amp;quot;&lt;/span&gt; --delete
-rsync -va ~/Documents/ &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$folder_name&lt;/span&gt;&lt;span class="s2"&gt;/home/Documents/&amp;quot;&lt;/span&gt; --delete
-rsync -va ~/Pictures/ &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$folder_name&lt;/span&gt;&lt;span class="s2"&gt;/home/Pictures/&amp;quot;&lt;/span&gt; --delete
-rsync -va ~/.ssh/ &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$folder_name&lt;/span&gt;&lt;span class="s2"&gt;/home/.ssh/&amp;quot;&lt;/span&gt; --delete
-rsync -va ~/.gnupg/ &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$folder_name&lt;/span&gt;&lt;span class="s2"&gt;/home/.gnupg/&amp;quot;&lt;/span&gt; --delete
-rsync -va ~/.thunderbird/ &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$folder_name&lt;/span&gt;&lt;span class="s2"&gt;/home/.thunderbird/&amp;quot;&lt;/span&gt; --delete
-rsync -va ~/.mozilla/ &lt;span class="s2"&gt;&amp;quot;&lt;/span&gt;&lt;span class="nv"&gt;$folder_name&lt;/span&gt;&lt;span class="s2"&gt;/home/.mozilla/&amp;quot;&lt;/span&gt; --delete
+#home
+rsync -va ~/.bashrc &amp;quot;$folder_name/home/&amp;quot; --delete
+rsync -va ~/.profile &amp;quot;$folder_name/home/&amp;quot; --delete
+rsync -va ~/Downloads/ &amp;quot;$folder_name/home/Downloads/&amp;quot; --delete
+rsync -va ~/Documents/ &amp;quot;$folder_name/home/Documents/&amp;quot; --delete
+rsync -va ~/Pictures/ &amp;quot;$folder_name/home/Pictures/&amp;quot; --delete
+rsync -va ~/.ssh/ &amp;quot;$folder_name/home/.ssh/&amp;quot; --delete
+rsync -va ~/.gnupg/ &amp;quot;$folder_name/home/.gnupg/&amp;quot; --delete
+rsync -va ~/.thunderbird/ &amp;quot;$folder_name/home/.thunderbird/&amp;quot; --delete
+rsync -va ~/.mozilla/ &amp;quot;$folder_name/home/.mozilla/&amp;quot; --delete
 
-&lt;span class="nb"&gt;echo&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;Done&amp;quot;&lt;/span&gt;
+echo &amp;quot;Done&amp;quot;
 &lt;/pre&gt;&lt;/div&gt;
-&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+
 
 &lt;p&gt;You can customize the above script by adding custom actions or if conditions to skip or include specific folders based on the device label. If you know of any other techniques for backup automation on linux, then please let us know through comments.&lt;/p&gt;</content><category term="Backup"></category><category term="Linux"></category><category term="Ubuntu"></category></entry><entry><title>Tux Drive - A Command Line Tool to Access Google Drive from Linux</title><link href="https://prahladyeri.com/blog/2017/09/introducing-tuxdrive-a-command-line-tool-to-access-google-drive-from-linux.html" rel="alternate"></link><published>2017-09-20T00:03:00+05:30</published><updated>2017-09-20T00:03:00+05:30</updated><author><name>Prahlad Yeri</name></author><id>tag:prahladyeri.com,2017-09-20:/blog/2017/09/introducing-tuxdrive-a-command-line-tool-to-access-google-drive-from-linux.html</id><summary type="html">&lt;p&gt;One of the most boring things we need to perform in life is using the &lt;a href="https://drive.google.com/drive/"&gt;Google Drive&lt;/a&gt;. On one hand, so useful is this tool provided by Google (so many cloud GBs for free, yay!) but on the other hand, the web interface to access those files is not quite …&lt;/p&gt;</summary><content type="html">&lt;p&gt;One of the most boring things we need to perform in life is using the &lt;a href="https://drive.google.com/drive/"&gt;Google Drive&lt;/a&gt;. On one hand, so useful is this tool provided by Google (so many cloud GBs for free, yay!) but on the other hand, the web interface to access those files is not quite as intuitive, especially so for power users, and certainly so for linux users!&lt;!--more--&gt;&lt;/p&gt;
 &lt;p&gt;Unlike the good old FTP/SFTP where you could just run some geeky commands in a terminal (or use a super-intuitive GUI like FileZilla to just drag and drop files), the Google Drive web interface results in a crippled work flow. To top it, we don't even have a desktop client like the Windows folks do.&lt;/p&gt;
