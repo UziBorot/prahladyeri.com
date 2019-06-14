@@ -1,5 +1,88 @@
 <?xml version="1.0" encoding="utf-8"?>
-<feed xmlns="http://www.w3.org/2005/Atom"><title>Prahlad Yeri - Freelance Programmer - Linux</title><link href="https://prahladyeri.com/" rel="alternate"></link><link href="https://prahladyeri.com/feeds/linux.atom.xml" rel="self"></link><id>https://prahladyeri.com/</id><updated>2018-09-11T09:44:00+05:30</updated><entry><title>Performing A Little Usability Tweak On The XFCE Window Recycler in Greybird Theme</title><link href="https://prahladyeri.com/blog/2018/09/performing-a-little-usability-tweak-on-the-xfce-window-recycler-in-greybird-theme.html" rel="alternate"></link><published>2018-09-11T09:44:00+05:30</published><updated>2018-09-11T09:44:00+05:30</updated><author><name>Prahlad Yeri</name></author><id>tag:prahladyeri.com,2018-09-11:/blog/2018/09/performing-a-little-usability-tweak-on-the-xfce-window-recycler-in-greybird-theme.html</id><summary type="html">&lt;p&gt;Xubuntu is my favorite distro, hands down and the default Greybird theme is just wonderful! There used to be a time when I liked Ubuntu-MATE too, but not so much since they took the road to GTK+3! Coming back to the topic, XFCE works great but it has a …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Xubuntu is my favorite distro, hands down and the default Greybird theme is just wonderful! There used to be a time when I liked Ubuntu-MATE too, but not so much since they took the road to GTK+3! Coming back to the topic, XFCE works great but it has a small usability issue in the default Greybird theme which annoys most power users.&lt;!--more--&gt;&lt;/p&gt;
+<feed xmlns="http://www.w3.org/2005/Atom"><title>Prahlad Yeri - Freelance Programmer - Linux</title><link href="https://prahladyeri.com/" rel="alternate"></link><link href="https://prahladyeri.com/feeds/linux.atom.xml" rel="self"></link><id>https://prahladyeri.com/</id><updated>2019-06-14T11:58:00+05:30</updated><entry><title>How To Enforce Conventional Commit Messages Using GIT Hooks</title><link href="https://prahladyeri.com/blog/2019/06/how-to-enforce-conventional-commit-messages-using-git-hooks.html" rel="alternate"></link><published>2019-06-14T11:58:00+05:30</published><updated>2019-06-14T11:58:00+05:30</updated><author><name>Prahlad Yeri</name></author><id>tag:prahladyeri.com,2019-06-14:/blog/2019/06/how-to-enforce-conventional-commit-messages-using-git-hooks.html</id><summary type="html">&lt;p&gt;&lt;a href="https://www.conventionalcommits.org/en/v1.0.0-beta.4/"&gt;Conventional git commit messages&lt;/a&gt; are not just nice to have but great to have. In fact, once you get to know them, you'll start feeling that they are essential in any serious programming project. Consider the difference between following two commig messages for instance:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;git commit -m &amp;quot;added social login …&lt;/pre&gt;&lt;/div&gt;</summary><content type="html">&lt;p&gt;&lt;a href="https://www.conventionalcommits.org/en/v1.0.0-beta.4/"&gt;Conventional git commit messages&lt;/a&gt; are not just nice to have but great to have. In fact, once you get to know them, you'll start feeling that they are essential in any serious programming project. Consider the difference between following two commig messages for instance:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;git commit -m &amp;quot;added social login feature for authentication using twitter&amp;quot;
+git commit -m &amp;quot;feat(authentication): added social login using twitter&amp;quot;
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;The second one is not only more readable but it also follows standards which makes it easier to integrate with build tools such as Travis CI and Appveyor. Not just that, you can easily automate &lt;code&gt;CHANGELOG&lt;/code&gt; generation when your &lt;code&gt;git log&lt;/code&gt; looks like this:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&amp;gt; git log --oneline
+61c8ca9 (HEAD -&amp;gt; master) fix: navbar not responsive on mobile
+479c48b test: prepared test cases for user authentication
+a992020 chore: moved to semantic versioning
+b818120 fix: button click even handler firing twice
+c6e9a97 fix: login page css
+dfdc715 feat(authentication): added social login using twitter
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;All in all, I like conventional commit messages so much that I don't want to keep it optional but make it the default way of life. How do I do it? The answer is simple: &lt;em&gt;git hooks&lt;/em&gt;.&lt;/p&gt;
+&lt;p&gt;You don't need to be a git ninja or expert to work with hooks. Suffice it to know that inside your special git repository folder (named &lt;code&gt;.git&lt;/code&gt;), there are some other special folders:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;logs
+hooks
+objects
+refs
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;The one we are interested in is &lt;code&gt;hooks&lt;/code&gt;. To get the hang of it, create a test project on your machine and initialize an empty git repository by running:&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;git init .
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Now visit the &lt;code&gt;.git&lt;/code&gt; folder just generated and navigate to the hooks folder. There will be a bunch of scripts with &lt;code&gt;.sample&lt;/code&gt; extension (which means they are all disabled). The one we are interested in is &lt;code&gt;commit-msg&lt;/code&gt;. This is the hook that fires just before your commit is made and thus allows you to reject the commit by throwing an error if the message isn't in proper format.&lt;/p&gt;
+&lt;p&gt;Create a new script in this directory named &lt;code&gt;commit-msg&lt;/code&gt; and add the below code (you'll need python installed) to it using your favorite editor (mine is notepad++!):&lt;/p&gt;
+&lt;table class="highlighttable"&gt;&lt;tr&gt;&lt;td class="linenos"&gt;&lt;div class="linenodiv"&gt;&lt;pre&gt; 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14&lt;/pre&gt;&lt;/div&gt;&lt;/td&gt;&lt;td class="code"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="ch"&gt;#!/usr/bin/env python&lt;/span&gt;
+&lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;re&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="nn"&gt;sys&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="nn"&gt;os&lt;/span&gt;
+
+&lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;main&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
+    &lt;span class="c1"&gt;# example:&lt;/span&gt;
+    &lt;span class="c1"&gt;# feat(apikey): added the ability to add api key to configuration&lt;/span&gt;
+    &lt;span class="n"&gt;pattern&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="sa"&gt;r&lt;/span&gt;&lt;span class="s1"&gt;&amp;#39;(build|ci|docs|feat|fix|perf|refactor|style|test|chore|revert)(\([\w\-]+\))?:\s.*&amp;#39;&lt;/span&gt;
+    &lt;span class="n"&gt;filename&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;sys&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;argv&lt;/span&gt;&lt;span class="p"&gt;[&lt;/span&gt;&lt;span class="mi"&gt;1&lt;/span&gt;&lt;span class="p"&gt;]&lt;/span&gt;
+    &lt;span class="n"&gt;ss&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="nb"&gt;open&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;filename&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="s1"&gt;&amp;#39;r&amp;#39;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;read&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+    &lt;span class="n"&gt;m&lt;/span&gt; &lt;span class="o"&gt;=&lt;/span&gt; &lt;span class="n"&gt;re&lt;/span&gt;&lt;span class="o"&gt;.&lt;/span&gt;&lt;span class="n"&gt;match&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="n"&gt;pattern&lt;/span&gt;&lt;span class="p"&gt;,&lt;/span&gt; &lt;span class="n"&gt;ss&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+    &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="n"&gt;m&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="bp"&gt;None&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt; &lt;span class="k"&gt;raise&lt;/span&gt; &lt;span class="ne"&gt;Exception&lt;/span&gt;&lt;span class="p"&gt;(&lt;/span&gt;&lt;span class="s2"&gt;&amp;quot;conventional commit validation failed&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;)&lt;/span&gt;
+
+&lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="vm"&gt;__name__&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;__main__&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
+    &lt;span class="n"&gt;main&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
+&lt;/pre&gt;&lt;/div&gt;
+&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
+
+&lt;p&gt;Save the script and make it executable (by running &lt;code&gt;chmod u+x commit-msg&lt;/code&gt; on linux, not required on windows). Now head back to your source code folder where you initialized the git repo and create a source file just for testing. Then, &lt;code&gt;git add&lt;/code&gt; and try to commit just for testing using a non-conventional message. If all goes well, it should fail like this!&lt;/p&gt;
+&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&amp;gt; git commit -m &amp;quot;added a new feature for xyz&amp;quot;
+Traceback (most recent call last):
+  File &amp;quot;C:/Users/localadmin/Documents/scripts/check_commit.py&amp;quot;, line 14, in &amp;lt;module&amp;gt;
+    main()
+  File &amp;quot;C:/Users/localadmin/Documents/scripts/check_commit.py&amp;quot;, line 11, in main
+    if m == None: raise Exception(&amp;quot;conventional commit validation failed&amp;quot;)
+Exception: conventional commit validation failed
+&lt;/pre&gt;&lt;/div&gt;
+
+
+&lt;p&gt;Now test with a valid commit message and it should work!&lt;/p&gt;
+&lt;p&gt;Once you practice this a few times and get a hang over it, you'll then want to make this behavior default for whatever projects you start using &lt;code&gt;git init&lt;/code&gt; in future, isn't it? Sure, you can do that by creating a global git commit hook template but that will be a post for another day. First things first!&lt;/p&gt;
+&lt;p&gt;References:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;&lt;a href="https://www.conventionalcommits.org/en/v1.0.0-beta.4/"&gt;https://www.conventionalcommits.org/en/v1.0.0-beta.4/&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://stackoverflow.com/questions/3523534/good-ways-to-manage-a-changelog-using-git"&gt;https://stackoverflow.com/questions/3523534/good-ways-to-manage-a-changelog-using-git&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://stackoverflow.com/questions/37699261/how-to-validate-and-display-error-for-git-commit-message"&gt;https://stackoverflow.com/questions/37699261/how-to-validate-and-display-error-for-git-commit-message&lt;/a&gt;&lt;/li&gt;
+&lt;li&gt;&lt;a href="https://coderwall.com/p/jp7d5q/create-a-global-git-commit-hook"&gt;https://coderwall.com/p/jp7d5q/create-a-global-git-commit-hook&lt;/a&gt;&lt;/li&gt;
+&lt;/ul&gt;</content><category term="Git"></category><category term="Open Source"></category></entry><entry><title>Performing A Little Usability Tweak On The XFCE Window Recycler in Greybird Theme</title><link href="https://prahladyeri.com/blog/2018/09/performing-a-little-usability-tweak-on-the-xfce-window-recycler-in-greybird-theme.html" rel="alternate"></link><published>2018-09-11T09:44:00+05:30</published><updated>2018-09-11T09:44:00+05:30</updated><author><name>Prahlad Yeri</name></author><id>tag:prahladyeri.com,2018-09-11:/blog/2018/09/performing-a-little-usability-tweak-on-the-xfce-window-recycler-in-greybird-theme.html</id><summary type="html">&lt;p&gt;Xubuntu is my favorite distro, hands down and the default Greybird theme is just wonderful! There used to be a time when I liked Ubuntu-MATE too, but not so much since they took the road to GTK+3! Coming back to the topic, XFCE works great but it has a …&lt;/p&gt;</summary><content type="html">&lt;p&gt;Xubuntu is my favorite distro, hands down and the default Greybird theme is just wonderful! There used to be a time when I liked Ubuntu-MATE too, but not so much since they took the road to GTK+3! Coming back to the topic, XFCE works great but it has a small usability issue in the default Greybird theme which annoys most power users.&lt;!--more--&gt;&lt;/p&gt;
 &lt;p&gt;ALT+TAB is the usual way to recycle window icons on any DE, and the "tab" key determines the currently focused window. Now, one of the Greybird theme developers decided in his profound wisdom that a mouse move over the cycling dialog can cause a window focus too. Since the mouse cursor occupies a central position most of the time, it automatically causes an item in the cycling dialog to be selected which is not intended at all! While this could be a great "feature" for those users who like juggling with their mouse while pressing the ALT+TAB keys, I hardly think any power user would like to do that. For most users, this could be easily a cause of annoyance or frustration since they have to move the mouse out of the dialog's range to ensure that it doesn't interfere with their selection again.&lt;/p&gt;
 &lt;p&gt;&lt;img alt="XFCE Alt+Tab Cycling Dialog" src="/uploads/2018/09/alt-tab-cycling.png"&gt;&lt;/p&gt;
 &lt;p&gt;As you can see, the blue background represents the selected/active window. Now, imagine intending to select the firefox window by pressing ALT+TAB, but terminal window gets selected instead since the mouse happens to be placed there! Astonishingly, however, I couldn't find any discussions or issues raised regarding this anywhere on the internet except &lt;a href="https://forum.xfce.org/viewtopic.php?id=9585"&gt;this one thread on XFCE forums&lt;/a&gt;. After making some tweaks to their code, I was able to come up with my own version which resolves this issue:&lt;/p&gt;
