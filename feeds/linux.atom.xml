@@ -33,7 +33,20 @@ refs
 
 &lt;p&gt;Now visit the &lt;code&gt;.git&lt;/code&gt; folder just generated and navigate to the hooks folder. There will be a bunch of scripts with &lt;code&gt;.sample&lt;/code&gt; extension (which means they are all disabled). The one we are interested in is &lt;code&gt;commit-msg&lt;/code&gt;. This is the hook that fires just before your commit is made and thus allows you to reject the commit by throwing an error if the message isn't in proper format.&lt;/p&gt;
 &lt;p&gt;Create a new script in this directory named &lt;code&gt;commit-msg&lt;/code&gt; and add the below code (you'll need python installed) to it using your favorite editor (mine is notepad++!):&lt;/p&gt;
-&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;\&lt;span class="c1"&gt;#!/usr/bin/env python&lt;/span&gt;
+&lt;table class="highlighttable"&gt;&lt;tr&gt;&lt;td class="linenos"&gt;&lt;div class="linenodiv"&gt;&lt;pre&gt; 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14&lt;/pre&gt;&lt;/div&gt;&lt;/td&gt;&lt;td class="code"&gt;&lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&lt;span class="ch"&gt;#!/usr/bin/env python&lt;/span&gt;
 &lt;span class="kn"&gt;import&lt;/span&gt; &lt;span class="nn"&gt;re&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="nn"&gt;sys&lt;/span&gt;&lt;span class="o"&gt;,&lt;/span&gt; &lt;span class="nn"&gt;os&lt;/span&gt;
 
 &lt;span class="k"&gt;def&lt;/span&gt; &lt;span class="nf"&gt;main&lt;/span&gt;&lt;span class="p"&gt;():&lt;/span&gt;
@@ -48,7 +61,7 @@ refs
 &lt;span class="k"&gt;if&lt;/span&gt; &lt;span class="vm"&gt;__name__&lt;/span&gt; &lt;span class="o"&gt;==&lt;/span&gt; &lt;span class="s2"&gt;&amp;quot;__main__&amp;quot;&lt;/span&gt;&lt;span class="p"&gt;:&lt;/span&gt;
     &lt;span class="n"&gt;main&lt;/span&gt;&lt;span class="p"&gt;()&lt;/span&gt;
 &lt;/pre&gt;&lt;/div&gt;
-
+&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;
 
 &lt;p&gt;Save the script and make it executable (by running &lt;code&gt;chmod u+x commit-msg&lt;/code&gt; on linux, not required on windows). Now head back to your source code folder where you initialized the git repo and create a source file just for testing. Then, &lt;code&gt;git add&lt;/code&gt; and try to commit just for testing using a non-conventional message. If all goes well, it should fail like this!&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&amp;gt; git commit -m &amp;quot;added a new feature for xyz&amp;quot;
