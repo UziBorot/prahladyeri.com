@@ -114,6 +114,12 @@ Exception: conventional commit validation failed
 
 <p>Now test with a valid commit message and it should work!</p>
 <p>Once you practice this a few times and get a hang over it, you'll then want to make this behavior default for whatever projects you start using <code>git init</code> in future, isn't it? Sure, you can do that by creating a global git commit hook template but that will be a post for another day. First things first!</p>
+<p><strong>Edit</strong></p>
+<p>For those really interested in enforcing and automating this thing, I've just published a python package called <a href="https://github.com/prahladyeri/enforce-git-message">enforce-git-message</a>. All you need to do is install that python package and it'll automatically copy the above script to your <code>~/.git-templates</code> directory and also set the value for <code>git config init.templatedir</code>.</p>
+<div class="highlight"><pre><span></span>pip install enforce-git-message
+</pre></div>
+
+
 <p>References:</p>
 <ul>
 <li><a href="https://www.conventionalcommits.org/en/v1.0.0-beta.4/">https://www.conventionalcommits.org/en/v1.0.0-beta.4/</a></li>
