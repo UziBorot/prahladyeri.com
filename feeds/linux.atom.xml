@@ -53,15 +53,15 @@ refs
 &lt;p&gt;Save the script and make it executable (by running &lt;code&gt;chmod u+x commit-msg&lt;/code&gt; on linux, not required on windows). Now head back to your source code folder where you initialized the git repo and create a source file just for testing. Then, &lt;code&gt;git add&lt;/code&gt; and try to commit just for testing using a non-conventional message. If all goes well, it should fail like this!&lt;/p&gt;
 &lt;div class="highlight"&gt;&lt;pre&gt;&lt;span&gt;&lt;/span&gt;&amp;gt; git commit -m &amp;quot;added a new feature for xyz&amp;quot;
 Traceback (most recent call last):
-  File &amp;quot;C:/Users/prahlad/Documents/scripts/check_commit.py&amp;quot;, line 14, in &amp;lt;module&amp;gt;
+  File &amp;quot;C:/Users/prahlad/Documents/scripts/check_commit.py&amp;quot;, line 22, in &amp;lt;module&amp;gt;
     main()
-  File &amp;quot;C:/Users/prahlad/Documents/scripts/check_commit.py&amp;quot;, line 11, in main
+  File &amp;quot;C:/Users/prahlad/Documents/scripts/check_commit.py&amp;quot;, line 19, in main
     if m == None: raise Exception(&amp;quot;conventional commit validation failed&amp;quot;)
-Exception: conventional commit validation failed
+Exception: conventional commit validation failed    
+Now test with a valid commit message and it should work!
 &lt;/pre&gt;&lt;/div&gt;
 
 
-&lt;p&gt;Now test with a valid commit message and it should work!&lt;/p&gt;
 &lt;p&gt;Once you practice this a few times and get a hang over it, you'll then want to make this behavior default for whatever projects you start using &lt;code&gt;git init&lt;/code&gt; in future, isn't it? Sure, you can do that by creating a global git commit hook template but that will be a post for another day. First things first!&lt;/p&gt;
 &lt;p&gt;&lt;strong&gt;Edit&lt;/strong&gt;&lt;/p&gt;
 &lt;p&gt;For those really interested in enforcing and automating this thing, I've just published a python package called &lt;a href="https://github.com/prahladyeri/enforce-git-message"&gt;enforce-git-message&lt;/a&gt;. All you need to do is install that python package and it'll automatically copy the above script to your &lt;code&gt;~/.git-templates&lt;/code&gt; directory and also set the value for &lt;code&gt;git config init.templatedir&lt;/code&gt;.&lt;/p&gt;
