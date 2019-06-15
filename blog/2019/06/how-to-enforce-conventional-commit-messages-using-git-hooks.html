@@ -104,9 +104,9 @@ refs
 <p>Save the script and make it executable (by running <code>chmod u+x commit-msg</code> on linux, not required on windows). Now head back to your source code folder where you initialized the git repo and create a source file just for testing. Then, <code>git add</code> and try to commit just for testing using a non-conventional message. If all goes well, it should fail like this!</p>
 <div class="highlight"><pre><span></span>&gt; git commit -m &quot;added a new feature for xyz&quot;
 Traceback (most recent call last):
-  File &quot;C:/Users/localadmin/Documents/scripts/check_commit.py&quot;, line 14, in &lt;module&gt;
+  File &quot;C:/Users/prahlad/Documents/scripts/check_commit.py&quot;, line 14, in &lt;module&gt;
     main()
-  File &quot;C:/Users/localadmin/Documents/scripts/check_commit.py&quot;, line 11, in main
+  File &quot;C:/Users/prahlad/Documents/scripts/check_commit.py&quot;, line 11, in main
     if m == None: raise Exception(&quot;conventional commit validation failed&quot;)
 Exception: conventional commit validation failed
 </pre></div>
