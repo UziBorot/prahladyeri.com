@@ -51,7 +51,7 @@
         </address>
 <p>In <a href="https://prahladyeri.com/category/python.html">Python</a>.</p>
 <p>tags: <a href="https://prahladyeri.com/tag/open-source.html">Open Source</a> <a href="https://prahladyeri.com/tag/configuration.html">Configuration</a> </p>
-</footer><!-- /.post-info -->      <p>I maintain several <a href="https://github.com/prahladyeri">python projects</a> on github and some of them like <a href="https://github.com/prahladyeri/vtscan">VTScan</a> has a need for user configuration. Now python has a plethora of <a href="https://martin-thoma.com/configuration-files-in-python/">ways and standards</a> for <em>parsing</em> of configuration files like <code>json</code>, <code>*.ini files</code>, etc., there is no standard about where to save them on the user's machine post installation.</p>
+</footer><!-- /.post-info -->      <p>I maintain several <a href="https://github.com/prahladyeri">python projects</a> on github and some of them like <a href="https://github.com/prahladyeri/vtscan">VTScan</a> has a need for user configuration. Now python has a plethora of <a href="https://martin-thoma.com/configuration-files-in-python/">ways and standards</a> for <em>parsing</em> of configuration files like json, *.ini files, etc., there is no standard about where to save them on the user's machine post installation.</p>
 <p><img alt="code-unix" src="/uploads/code-unix.jpeg"></p>
 <p>One method used by many coders is to save it to the "app path" or the location where your python package itself is installed. On windows machines, this happens to be something like this:</p>
 <div class="highlight"><pre><span></span>C:\Users\&lt;username&gt;\AppData\Local\Programs\Python\Python36-32\Lib\distutils\&lt;package_name&gt;
@@ -63,8 +63,8 @@
 </pre></div>
 
 
-<p>The linux standard way of storing config files for users is <code>~/.app-name</code> and even <code>~/.config/app-name</code> where the tilde (~) represents the user's home directory (which typically expands to <code>/home/username/</code>). This is the way I like the most as its readable and accessible to both apps and humans! There is also the <code>/etc/app-name</code> location on linux but that's for apps installed with root privileges but as typical python devs, we don't need to worry about that. If your app requires root, most probably you won't be using pip/pypi in the first place but choose a proper linux packaging system like apt/dnf/pacman instead.</p>
-<p>But storing your configuration files to that location through <code>setup.py</code> upon installation isn't easy! In fact, you'll have to import the <code>install</code> class from <code>setuptools.command.install</code> and subclass it to override the post installation process if you wish to go that route!</p>
+<p>The linux standard way of storing config files for users is ~/.app-name and even ~/.config/app-name where the tilde (~) represents the user's home directory (which typically expands to /home/username/). This is the way I like the most as its readable and accessible to both apps and humans! There is also the /etc/app-name location on linux but that's for apps installed with root privileges but as typical python devs, we don't need to worry about that. If your app requires root, most probably you won't be using pip/pypi in the first place but choose a proper linux packaging system like apt/dnf/pacman instead.</p>
+<p>But storing your configuration files to that location through setup.py upon installation isn't easy! In fact, you'll have to import the install class from setuptools.command.install and subclass it to override the post installation process if you wish to go that route!</p>
 <div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">setuptools.command.install</span> <span class="kn">import</span> <span class="n">install</span>
 
 <span class="k">class</span> <span class="nc">PostInstallCommand</span><span class="p">(</span><span class="n">install</span><span class="p">):</span>
@@ -80,8 +80,8 @@
 </pre></div>
 
 
-<p>However, you can create certain conventions like keeping a standard name (like <code>cfg.json</code>) for all your configurations and storing them to a standard location like <code>~/.config/app-name</code> as the above code does.</p>
-<p>Another thing to take care is that the way to include this configuration file in your setup file is to include it in <code>MANIFEST.in</code> and that thing doesn't read anything from outside the app's source directory! You can't assign it a path like ~/.config/pkg_name/cfg.json, so you'll have to manually copy cfg.json to your source directory in order to build your package. Then you can set it <a href="https://github.com/prahladyeri/gar-cron/blob/master/MANIFEST.in">like this in MANIFEST.in</a>:</p>
+<p>However, you can create certain conventions like keeping a standard name (like cfg.json) for all your configurations and storing them to a standard location like ~/.config/app-name as the above code does.</p>
+<p>Another thing to take care is that the way to include this configuration file in your setup file is to include it in MANIFEST.in and that thing doesn't read anything from outside the app's source directory! You can't assign it a path like ~/.config/pkg_name/cfg.json, so you'll have to manually copy cfg.json to your source directory in order to build your package. Then you can set it <a href="https://github.com/prahladyeri/gar-cron/blob/master/MANIFEST.in">like this in MANIFEST.in</a>:</p>
 <div class="highlight"><pre><span></span>include gar_cron/cfg.json
 </pre></div>
 
