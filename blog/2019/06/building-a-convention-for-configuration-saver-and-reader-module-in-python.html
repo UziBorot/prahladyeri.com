@@ -58,7 +58,7 @@
 </pre></div>
 
 
-<p>This approach has several problems. First, its a location for storing programs and shouldn't be mixed with data or configuration. Secondly, if your user uninstalls your program in future or even upgrades it (which is a very common scenario), this entire location will simply vanish along with your user's configuration data! When you upgrade a package like this, pip first removes the old package first and then starts to install the new one:</p>
+<p>This approach has several problems. First, its a location for storing programs and shouldn't be mixed with data or configuration. Secondly, if your user uninstalls your program in future or even upgrades it (which is a very common scenario), this entire location will simply vanish along with your user's configuration data! When you upgrade a package like this, pip first removes the old package and then starts to install the new one:</p>
 <div class="highlight"><pre><span></span>pip install --upgrade package_name
 </pre></div>
 
