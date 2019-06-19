@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="english">
+<head>
+        <meta charset="utf-8" />
+        <title>Building a convention for configuration saver and reader module in Python</title>
+        <link rel="stylesheet" href="https://prahladyeri.com/theme/css/main.css" />
+        <link href="https://prahladyeri.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate" title="Prahlad Yeri - Freelance Programmer Atom Feed" />
+		
+	<meta name="twitter:card" content="summary" />
+	 <meta name="twitter:site" content="@prahladyeri" />
+	 <meta name="twitter:creator" value="@prahladyeri" />
+		<meta name="twitter:url" content="https://prahladyeri.com/blog/2019/06/building-a-convention-for-configuration-saver-and-reader-module-in-python.html" />
+	 	 <meta name="twitter:title" content="Building a convention for configuration saver and reader module in Python" />
+		<meta name="twitter:description" content="I maintain several python projects on github and some of them like VTScan has a need for user configuration. Now while python has a plethora of ways and standards for parsing of configuration files like json, *.ini files, etc., there is no standard about where to save them on the …" />		
+			<meta name="twitter:image" content="https://prahladyeri.com/uploads/cover.jpg" />
+</head>
+
+<body id="index" class="home">
+        <header id="banner" class="body">
+                <h1><a href="https://prahladyeri.com/">Prahlad Yeri - Freelance Programmer </a></h1>
+                <nav><ul>
+				 <!--Start: hard coded-->
+				<li ><a href="/">Home</a></li>
+				<li  class="active"><a href="/blog/">Blog</a></li>
+				<li ><a href="/projects/">Projects</a></li> 
+				<li ><a href="/hire-me/">Hire Me</a></li> 
+				<!--End: hard coded-->				
+                    <!--li><a href="https://prahladyeri.com/">About</a></li-->
+                    <!--li><a href="https://prahladyeri.com/projects/">Projects</a></li-->
+                    <!--li><a href="https://prahladyeri.com/hire-me/">Hire Me</a></li-->
+				<li><a href="https://github.com/prahladyeri/resume">Resume</a></li> <!--hard coded-->
+                </ul></nav>
+        </header><!-- /#banner -->
+<section id="content" class="body">
+  <article>
+    <header>
+      <h1 class="entry-title">
+        <a href="https://prahladyeri.com/blog/2019/06/building-a-convention-for-configuration-saver-and-reader-module-in-python.html" rel="bookmark"
+           title="Permalink to Building a convention for configuration saver and reader module in Python">Building a convention for configuration saver and reader module in Python</a></h1>
+<a href="https://twitter.com/share" class="twitter-share-button" data-count="horizontal" data-via="prahladyeri">Tweet</a><script type="text/javascript" src="https://platform.twitter.com/widgets.js"></script>
+    </header>
+
+    <div class="entry-content">
+<footer class="post-info">
+        <abbr class="published" title="2019-06-19T10:35:00+05:30">
+                Published: Wed 19 June 2019
+        </abbr>
+
+        <address class="vcard author">
+                By                         <a class="url fn" href="https://prahladyeri.com/">Prahlad Yeri</a>
+        </address>
+<p>In <a href="https://prahladyeri.com/category/python.html">Python</a>.</p>
+<p>tags: <a href="https://prahladyeri.com/tag/open-source.html">Open Source</a> <a href="https://prahladyeri.com/tag/configuration.html">Configuration</a> </p>
+</footer><!-- /.post-info -->      <p>I maintain several <a href="https://github.com/prahladyeri">python projects</a> on github and some of them like <a href="https://github.com/prahladyeri/vtscan">VTScan</a> has a need for user configuration. Now while python has a plethora of <a href="https://martin-thoma.com/configuration-files-in-python/">ways and standards</a> for <em>parsing</em> of configuration files like <code>json</code>, <code>*.ini files</code>, etc., there is no standard about where to save them on the user's machine post installation.</p>
+<p><img alt="code-unix" src="/uploads/code-unix.jpg"></p>
+<p>One method used by many coders is to save it to the "app path" or the location where your python package itself is installed. On windows machines, this happens to be something like this:</p>
+<div class="highlight"><pre><span></span>C:\Users\&lt;username&gt;\AppData\Local\Programs\Python\Python36-32\Lib\distutils\&lt;package_name&gt;
+</pre></div>
+
+
+<p>This approach has several problems. First is that its a location for storing programs and shouldn't be mixed with data or configuration. Secondly, if your user uninstalls your program in future or even upgrades it (which should be a very common scenario), this entire location will simply vanish along with your user's configuration data! When you upgrade a package like this, pip first removes the old package first and then starts to install the new one, that's why:</p>
+<div class="highlight"><pre><span></span>pip install --upgrade package_name
+</pre></div>
+
+
+<p>The linux standard way of storing config files for users is <code>~/.app-name</code> and even <code>~/.config/app-name</code> where the tilde (~) represents the user's home directory (which typically expands to <code>/home/username</code>). This is the way I like the most as its readable and accessible to both apps and humans! There is also the <code>/etc/app-name</code> location on linux but that's for apps installed with root privileges and as typical python devs, we don't need to worry about that. If an app requires root, most probably you won't be using <code>pip</code> in the first place but choose a proper linux packaging system like apt/dnf/pacman instead.</p>
+<p>But storing your configuration files to that location through <code>setup.py</code> upon installation isn't easy! In fact, you'll have to import the <code>install</code> class from <code>setuptools.command.install</code> and subclass it to override the post-install process if you want to do that!</p>
+<div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">setuptools.command.install</span> <span class="kn">import</span> <span class="n">install</span>
+
+<span class="k">class</span> <span class="nc">PostInstallCommand</span><span class="p">(</span><span class="n">install</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Post-installation for installation mode.&quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">install</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="n">fpath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">install_lib</span><span class="p">,</span> <span class="n">pkg_name</span><span class="p">)</span>
+        <span class="n">fpath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">fpath</span><span class="p">,</span> <span class="s2">&quot;cfg.json&quot;</span><span class="p">)</span>
+        <span class="n">cfg_dir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="s2">&quot;~&quot;</span><span class="p">),</span> <span class="s2">&quot;.config/</span><span class="si">%s</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="n">pkg_name</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">cfg_dir</span><span class="p">):</span> <span class="n">os</span><span class="o">.</span><span class="n">makedirs</span><span class="p">(</span><span class="n">cfg_dir</span><span class="p">)</span>
+        <span class="n">tpath</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">cfg_dir</span><span class="p">,</span> <span class="s2">&quot;cfg.json&quot;</span><span class="p">)</span>
+        <span class="n">shutil</span><span class="o">.</span><span class="n">move</span><span class="p">(</span><span class="n">fpath</span><span class="p">,</span> <span class="n">tpath</span><span class="p">)</span>
+</pre></div>
+
+
+<p>However, you can create certain conventions like keeping a standard name (like <code>cfg.json</code>) for all your configurations and storing them to a standard location like <code>~/.config/app-name</code> as the above code does.</p>
+<p>Another thing to take care is that the way to include this configuration file in your setup file is to include it in <code>MANIFEST.in</code> and that thing doesn't read anything from outside the app's source directory! You can't assign it a path like ~/.config/pkg_name/cfg.json, so you'll have to copy cfg.json to your source directory to bulid your package. Then you can set it <a href="https://github.com/prahladyeri/gar-cron/blob/master/MANIFEST.in">like this in MANIFEST.in</a>:</p>
+<div class="highlight"><pre><span></span>include gar_cron/cfg.json
+</pre></div>
+
+
+<p>Of course, I can't automate the whole thing and turn this into fully pluggable library because things like above are app specific and each dev has to do it for her setup process specifically. But other things I can do like saving and retrieving data from this standard location:</p>
+<div class="highlight"><pre><span></span>def save(pkg_name, cfgobject, cfgpath=None):
+    if cfgpath == None:
+        cfgpath = os.path.expanduser(&quot;~/.config/%s&quot; % pkg_name)
+    if not os.path.isdir(cfgpath):
+        os.makedirs(cfgpath)
+    cfgpath = os.path.join(cfgpath,  &quot;cfg.json&quot;)
+    ss = json.dumps(cfgobject)
+    open(cfgpath, &#39;w&#39;).write(ss)
+    return True
+
+
+def get(pkg_name , cfgpath=None):
+    if cfgpath == None:
+        cfgpath = os.path.expanduser(&quot;~/.config/%s&quot; % pkg_name)
+    if not os.path.isdir(cfgpath):
+        os.makedirs(cfgpath)
+        return None
+    cfgpath = os.path.join(cfgpath,  &quot;cfg.json&quot;)
+    if not os.path.isfile(cfgpath):
+        return None
+    ss = open(cfgpath).read()
+    return json.loads(ss)
+</pre></div>
+
+
+<p>The first function allows you to save your config object (typically a python dict) to this standard location by serializing it to json and writing it to <code>cfg.json</code>. You can also override the <code>cfgpath</code> argument to store it in a non-standard location but you shouldn't do that unless there is any specific reason.</p>
+<p>The second function similarly fetches your config data by reading and deserializing the cfg.json file. Finally, I've also written a <code>get_from_cmd()</code> function which comes very helpful in getting the config directly from the user through command line by passing it a predefined list of config keys:</p>
+<div class="highlight"><pre><span></span>def get_from_cmd(pkg_name, keys):
+    print(&quot;Configuration Saver version %s\n&quot; % cfgsaver.__version__)
+    obj = {}
+    for key in keys:
+        try: 
+            obj[key] = input(&quot;Enter %s: &quot; % key)
+        except KeyboardInterrupt as ex:
+            return None
+    save(pkg_name, obj)
+    return obj
+
+config_keys = [&#39;github_username&#39;, &#39;alert_email&#39;]
+config = cfgsaver.get_from_cmd(pkg_name, config_keys)
+</pre></div>
+
+
+<p>If you want to implement this whole functionality right away, I've written a library called <a href="https://github.com/prahladyeri/cfgsaver">cfgsaver</a> which you can install and get started!</p>
+<div class="highlight"><pre><span></span>pip install cfgsaver
+</pre></div>
+
+
+<p>The <a href="https://github.com/prahladyeri/cfgsaver">project README</a> also has special instructions for the specific problems - setting up the MANIFEST.in and customizing the setup.py script. You may also fork or copy this library and create your own version that adapts to your own build process.</p>
+<p>Finally, you can keep using a non-standard method of dealing with config files too but that path is riddled with agony and headaches. Besides, if every dev starts following a standard way of saving config files, the world will be so much a better place to live, both for humans and the apps!</p>
+    </div><!-- /.entry-content -->
+	
+	<!-- Start: Prahlad -->
+	<!--start: adsense-->
+	<script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+	<!-- mainsite_responsive -->
+	<ins class="adsbygoogle"
+		 style="display:block"
+		 data-ad-client="ca-pub-0428291735937735"
+		 data-ad-slot="6897031752"
+		 data-ad-format="auto"></ins>
+	<script>
+	(adsbygoogle = window.adsbygoogle || []).push({});
+	</script>
+	<!--end: adsense-->
+	<!-- End: Prahlad -->
+
+    <div class="comments">
+      <h2>Comments !</h2>
+      <div id="disqus_thread"></div>
+		<script>
+		/**
+		*  RECOMMENDED CONFIGURATION VARIABLES: EDIT AND UNCOMMENT THE SECTION BELOW TO INSERT DYNAMIC VALUES FROM YOUR PLATFORM OR CMS.
+		*  LEARN WHY DEFINING THESE VARIABLES IS IMPORTANT: https://disqus.com/admin/universalcode/#configuration-variables*/
+		
+		/*var disqus_config = function () {
+			this.page.url = 'https://prahladyeri.com/blog/2019/06/building-a-convention-for-configuration-saver-and-reader-module-in-python.html';  // Replace PAGE_URL with your page's canonical URL variable
+			this.page.identifier = 'blog/2019/06/building-a-convention-for-configuration-saver-and-reader-module-in-python.html'; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+		};
+		(function() { // DON'T EDIT BELOW THIS LINE
+		var d = document, s = d.createElement('script');
+		s.src = 'https://prahladyeri-blog.disqus.com/embed.js';
+		s.setAttribute('data-timestamp', +new Date());
+		(d.head || d.body).appendChild(s);
+		})();*/
+		</script>	  
+	  
+      <script type="text/javascript">
+        var disqus_shortname = 'prahladyeri-blog';
+        var disqus_identifier = 'blog/2019/06/building-a-convention-for-configuration-saver-and-reader-module-in-python.html';
+        var disqus_url = 'https://prahladyeri.com/blog/2019/06/building-a-convention-for-configuration-saver-and-reader-module-in-python.html';
+        (function() {
+        var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+        dsq.src = '//prahladyeri-blog.disqus.com/embed.js';
+        (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+        })();
+      </script>
+      <noscript>Please enable JavaScript to view the comments.</noscript>
+    </div>
+
+  </article>
+</section>
+        <section id="extras" class="body">
+                <div class="blogroll">
+                        <h2>links</h2>
+                        <ul>
+                            <li><a href="mailto:prahladyeri@yahoo.com">Email</a></li>
+                            <li><a href="https://github.com/prahladyeri/">Github</a></li>
+                            <li><a href="https://stackoverflow.com/users/849365/prahlad-yeri/">StackOverflow</a></li>
+                            <li><a href="https://www.quora.com/profile/Prahlad-Yeri">Quora</a></li>
+                            <li><a href="https://mastodon.social/@prahladyeri">Mastodon.Social</a></li>
+                            <li><a href="https://www.blogger.com/profile/12769325975373447545">Blogger</a></li>
+                        </ul>
+                </div><!-- /.blogroll -->
+                <div class="social">
+                        <h2>social</h2>
+                        <ul>
+                            <li><a href="https://prahladyeri.com/feeds/all.atom.xml" type="application/atom+xml" rel="alternate">atom feed</a></li>
+
+                            <li><a href="https://www.linkedin.com/in/prahlad-yeri-243a5316">Linkedin</a></li>
+                            <li><a href="https://www.facebook.com/prahladyeri14">Facebook</a></li>
+                            <li><a href="https://twitter.com/prahladyeri">Twitter</a></li>
+                        </ul>
+                </div><!-- /.social -->
+        </section><!-- /#extras -->
+
+        <footer id="contentinfo" class="body">
+                <address id="about" class="vcard body">
+                Copyright (c) 2013-2019 <a href="/">Prahlad Yeri</a>.
+				<br>
+				This work is licensed under a <a href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.
+                </address><!-- /#about -->
+        </footer><!-- /#contentinfo -->
+
+    <script type="text/javascript">
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+    (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+    m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-6808883-5', 'auto');
+    ga('send', 'pageview');
+    </script>
+<script type="text/javascript">
+    var disqus_shortname = 'prahladyeri-blog';
+    (function () {
+        var s = document.createElement('script'); s.async = true;
+        s.type = 'text/javascript';
+        s.src = 'https://' + disqus_shortname + '.disqus.com/count.js';
+        (document.getElementsByTagName('HEAD')[0] || document.getElementsByTagName('BODY')[0]).appendChild(s);
+    }());
+</script>
+</body>
+</html>
