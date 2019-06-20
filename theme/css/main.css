@@ -456,6 +456,15 @@ li:last-child .hentry, #content > .hentry {border: 0; margin: 0;}
 	
 /* added by Prahlad */
 
+
+img#githubProjects {
+    background-image: url(/uploads/octocat.png);
+    background-repeat: no-repeat;
+	width: 70px;
+	height: 70px;
+	border-radius: 50%;
+}
+
 article.hentry div.entry-content {
 	min-height: 100px;
 }
